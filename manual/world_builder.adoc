@@ -44,15 +44,15 @@ Each floor is composed of a group of layers. The group has an integer property n
 |===
 | Name | Type | Value of `kind`
 
-| Ground | Tile layer | `groundTile`
+| Ground | Tile layer | `ground_tile`
 
-| Low Tiles | Tile layer | `lowTiles`
+| Low Tiles | Tile layer | `low_tiles`
 
-| Low Sprites | Object layer | `lowSprites`
+| Low Sprites | Object layer | `low_sprites`
 
-| High Tiles | Tile layer | `highTiles`
+| High Tiles | Tile layer | `high_tiles`
 
-| High Sprites | Object layer | `highSprites`
+| High Sprites | Object layer | `high_sprites`
 |===
 
 
