@@ -97,7 +97,7 @@ These layers are dedicated to large items that can not be represented with a sin
 
 ==== Sprite layers
 
-These layers contains all the small items that are spread all around the world. If the item has an upper part that can cover the hero, then it must go in the "High Sprites" layer. Otherwise, it goes in  the "Low Sprites" layer.
+These layers contain all the small items that are spread all around the world. If the item has an upper part that can cover the hero, then it must go in the "High Sprites" layer. Otherwise, it goes in  the "Low Sprites" layer.
 
 Each sprite in the tileset can have a string property named `shape` that is the collision shape of the sprite. The shapes are assumed to be centered in the tile. If the `shape` property is not present, no collision shape is defined for this tile.
 
@@ -204,7 +204,7 @@ In this section, all the files are plain https://www.json.org/[JSON] files.
 [[scripts]]
 == Scripts
 
-Scripts are written in the http://wren.io/[Wren] language. They are loaded at startup. They contains classes with static functions only.
+Scripts are written in the http://wren.io/[Wren] language. They are loaded at startup. They contain classes with static functions only.
 
 === `World` script
 
