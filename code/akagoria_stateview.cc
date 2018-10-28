@@ -58,20 +58,6 @@ namespace {
     }
   }
 
-  const char *getHeroOperation(akgr::HeroOperation op) {
-    switch (op) {
-      case akgr::HeroOperation::Walk:
-        return "Walk";
-      case akgr::HeroOperation::Talk:
-        return "Talk";
-      case akgr::HeroOperation::Save:
-        return "Save";
-    }
-
-    assert(false);
-    return "???";
-  }
-
   const char *getLinearMove(gf::LinearMove move) {
     switch (move) {
       case gf::LinearMove::None:
@@ -103,7 +89,7 @@ namespace {
   void viewHeroState(const akgr::HeroState& state) {
     viewNewSection("Hero");
 
-    fmt::print("\top: {}, move: {} {}\n", getHeroOperation(state.operation), getLinearMove(state.move.linear), getAngularMove(state.move.angular));
+    fmt::print("\tmove: {} {}\n", getLinearMove(state.move.linear), getAngularMove(state.move.angular));
     fmt::print("\trequirements:");
 
     for (auto id : state.requirements) {
@@ -122,7 +108,24 @@ namespace {
     fmt::print("\tphysics: {} {:.0f}°\n", state.physics.location, gf::radiansToDegrees(state.physics.angle));
   }
 
+  const char *getWorldOperation(akgr::WorldOperation op) {
+    switch (op) {
+      case akgr::WorldOperation::Walk:
+        return "Walk";
+      case akgr::WorldOperation::Talk:
+        return "Talk";
+      case akgr::WorldOperation::Save:
+        return "Save";
+    }
+
+    assert(false);
+    return "???";
+  }
+
   void viewState(const akgr::WorldState& state) {
+    viewNewSection("STATE");
+    fmt::print("operation: {}\n", getWorldOperation(state.operation));
+
 //     viewPhysicsState(state.physics);
     viewNotificationsState(state.notifications);
     viewCharactersState(state.characters);

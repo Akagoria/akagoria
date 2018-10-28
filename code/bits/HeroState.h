@@ -31,12 +31,6 @@
 
 namespace akgr {
 
-  enum class HeroOperation : uint8_t {
-    Walk,
-    Talk,
-    Save,
-  };
-
   struct HeroMove {
     gf::LinearMove linear = gf::LinearMove::None;
     gf::AngularMove angular = gf::AngularMove::None;
@@ -48,7 +42,6 @@ namespace akgr {
   }
 
   struct HeroState {
-    HeroOperation operation = HeroOperation::Walk;
     HeroMove move;
 
     std::set<gf::Id> requirements;
@@ -59,10 +52,9 @@ namespace akgr {
 
   template<typename Archive>
   Archive& operator|(Archive& ar, HeroState& state) {
-    return ar | state.operation | state.move | state.requirements | state.attributes | state.dialog | state.physics;
+    return ar | state.move | state.requirements | state.attributes | state.dialog | state.physics;
   }
 
 }
-
 
 #endif // AKGR_HERO_STATE_H

@@ -34,7 +34,14 @@ namespace akgr {
 
   struct WorldData;
 
+  enum class WorldOperation : uint8_t {
+    Walk,
+    Talk,
+    Save,
+  };
+
   struct WorldState {
+    WorldOperation operation;
     PhysicsState physics;
     std::vector<NotificationState> notifications;
     std::vector<CharacterState> characters;
@@ -48,7 +55,7 @@ namespace akgr {
 
   template<typename Archive>
   Archive& operator|(Archive& ar, WorldState& state) {
-    return ar /* | state.physics */ | state.notifications | state.characters | state.hero;
+    return ar /* | state.physics */ | state.operation | state.notifications | state.characters | state.hero;
   }
 
 }

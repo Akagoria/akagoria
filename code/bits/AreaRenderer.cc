@@ -43,7 +43,7 @@ namespace akgr {
   }
 
   void AreaRenderer::render(gf::RenderTarget& target, const gf::RenderStates& states) {
-    if (m_state.hero.operation != HeroOperation::Walk) {
+    if (m_state.operation != WorldOperation::Walk) {
       return;
     }
 

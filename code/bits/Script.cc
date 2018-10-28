@@ -349,10 +349,10 @@ namespace akgr {
   void Script::startDialog(WrenVM* vm) {
     const char *dialogId = wrenGetSlotString(vm, 1);
 
-    auto& hero = getState(vm).hero;
-    hero.operation = HeroOperation::Talk;
+    auto& state = getState(vm);
+    state.operation = WorldOperation::Talk;
 
-    auto& dialog = hero.dialog;
+    auto& dialog = state.hero.dialog;
     dialog.ref.id = gf::hash(dialogId);
     dialog.ref.bind(getData(vm).dialogs);
     checkRef(dialog.ref.data, dialogId);

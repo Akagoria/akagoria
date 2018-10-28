@@ -50,8 +50,12 @@ namespace akgr {
   void WorldDriver::processCommands() {
     auto& hero = m_state.hero;
 
-    switch (hero.operation) {
-      case HeroOperation::Walk:
+    auto squareDistanceToHero = [&hero](gf::Vector2f other) {
+      return gf::squareDistance(hero.physics.location.position, other);
+    };
+
+    switch (m_state.operation) {
+      case WorldOperation::Walk:
         if (m_commands.right.isActive()) {
           hero.move.angular = gf::AngularMove::Right;
         } else if (m_commands.left.isActive()) {
@@ -80,8 +84,8 @@ namespace akgr {
               continue;
             }
 
-            if (gf::squareDistance(character.physics.location.position, hero.physics.location.position) < gf::square(DialogDistance)) {
-              hero.operation = HeroOperation::Talk;
+            if (squareDistanceToHero(character.physics.location.position) < gf::square(DialogDistance)) {
+              m_state.operation = WorldOperation::Talk;
 
               hero.dialog.ref.id = character.dialog;
               hero.dialog.ref.bind(m_data.dialogs);
@@ -101,7 +105,7 @@ namespace akgr {
               continue;
             }
 
-            if (gf::squareDistance(shrine.location. position, hero.physics.location.position) < gf::square(ShrineDistance)) {
+            if (squareDistanceToHero(shrine.location.position) < gf::square(ShrineDistance)) {
               switch (shrine.type) {
                 case ShrineType::Moli:
                   gf::Log::info("Moli Shrine!\n");
@@ -113,7 +117,7 @@ namespace akgr {
                   gf::Log::info("Sewi Shrine!\n");
                   break;
                 case ShrineType::Tomo:
-                  hero.operation = HeroOperation::Save;
+                  m_state.operation = WorldOperation::Save;
                   break;
               }
 
@@ -124,7 +128,7 @@ namespace akgr {
         }
         break;
 
-      case HeroOperation::Talk:
+      case WorldOperation::Talk:
         hero.move.angular = gf::AngularMove::None;
         hero.move.linear = gf::LinearMove::None;
 
@@ -136,7 +140,7 @@ namespace akgr {
 
           if (dialog.currentLine >= dialog.ref.data->content.size()) {
             // end of the dialog
-            hero.operation = HeroOperation::Walk;
+            m_state.operation = WorldOperation::Walk;
 
             std::string name = dialog.ref.data->name;
             dialog.ref.data = nullptr;
@@ -149,7 +153,7 @@ namespace akgr {
 
         break;
 
-      case HeroOperation::Save:
+      case WorldOperation::Save:
         hero.move.angular = gf::AngularMove::None;
         hero.move.linear = gf::LinearMove::None;
 
@@ -160,7 +164,7 @@ namespace akgr {
         }
 
         if (m_commands.use.isActive()) {
-          hero.operation = HeroOperation::Walk;
+          m_state.operation = WorldOperation::Walk;
 
           if (m_scenery.selector.choice == SlotSelectorScenery::Back) {
             m_scenery.selector.choice = 0;
@@ -187,4 +191,3 @@ namespace akgr {
   }
 
 }
-

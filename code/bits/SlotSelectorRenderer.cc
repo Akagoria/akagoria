@@ -147,7 +147,7 @@ namespace akgr {
   }
 
   bool WorldSlotSelectorRenderer::isDisplayed() const {
-    return m_state.hero.operation == HeroOperation::Save;
+    return m_state.operation == WorldOperation::Save;
   }
 
 }
