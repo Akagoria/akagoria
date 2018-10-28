@@ -1,0 +1,782 @@
+/*
+ * Akagoria, the revenge of Kalista
+ * a single-player RPG in an open world with a top-down view.
+ *
+ * Copyright (c) 2013-2018, Julien Bernard
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
+#include <cinttypes>
+
+#include <gf/Clock.h>
+#include <gf/Math.h>
+#include <gf/Path.h>
+#include <gf/Tmx.h>
+#include <gf/Transform.h>
+
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/classification.hpp> // for is_any_of
+
+#include <nlohmann/json.hpp>
+
+#include "bits/WorldData.h"
+
+
+namespace {
+
+  struct Segment {
+    gf::Vector2i p1;
+    gf::Vector2i p2;
+
+    void reverse() {
+      std::swap(p1, p2);
+    }
+  };
+
+  bool operator<(const Segment& lhs, const Segment& rhs) {
+    return std::tie(lhs.p1.x, lhs.p1.y, lhs.p2.x, lhs.p2.y) < std::tie(rhs.p1.x, rhs.p1.y, rhs.p2.x, rhs.p2.y);
+  }
+
+  template<typename Iterator>
+  Iterator findNextSegment(Iterator begin, Iterator end, gf::Vector2i endPoint, bool& needReverse) {
+    for (auto it = begin; it != end; ++it) {
+      if (it->p1 == endPoint) {
+        needReverse = false;
+        return it;
+      }
+
+      if (it->p2 == endPoint) {
+        needReverse = true;
+        return it;
+      }
+    }
+
+    return end;
+  }
+
+  std::vector<akgr::Collision> computeAutoCollision(const std::vector<Segment>& segments, int32_t currentFloor, int& currentCount) {
+    // not optimized at all
+    std::vector<akgr::Collision> collisions;
+    std::set<Segment> remaining(segments.begin(), segments.end());
+
+    for (auto it = remaining.begin(); it != remaining.end(); /* not here */) {
+      // start a new line
+      gf::Polyline polyline(gf::Polyline::Loop);
+
+      Segment first = *it;
+      polyline.addPoint(first.p1);
+
+      gf::Vector2i endPoint = first.p2;
+
+      for (;;) {
+        polyline.addPoint(endPoint);
+
+        bool needReverse;
+        auto next = findNextSegment(std::next(it), remaining.end(), endPoint, needReverse);
+
+        if (next == remaining.end()) {
+          // the line is a chain
+          polyline.setType(gf::Polyline::Chain);
+          break;
+        }
+
+        Segment chosen = *next;
+        remaining.erase(next);
+
+        if (needReverse) {
+          chosen.reverse();
+        }
+
+        assert(chosen.p1 == endPoint);
+        endPoint = chosen.p2;
+
+        if (endPoint == first.p1) {
+          // the line is a loop
+          break;
+        }
+      }
+
+      auto prev = it++;
+      remaining.erase(prev);
+
+      polyline.simplify();
+
+      akgr::Collision collision;
+      collision.name = "Auto-collision #" + std::to_string(currentCount++);
+      collision.location.floor = currentFloor;
+      collision.location.position = gf::Vector2f(0, 0);
+      collision.line = std::move(polyline);
+      collisions.push_back(std::move(collision));
+    }
+
+    return collisions;
+  }
+
+  gf::Vector2i computeEndPoint(char c, gf::Vector2u tileSize) {
+    switch (c) {
+      case 'U':
+        return gf::Vector2i(tileSize.width / 2, 0);
+      case 'R':
+        return gf::Vector2i(tileSize.width, tileSize.height / 2);
+      case 'D':
+        return gf::Vector2i(tileSize.width / 2, tileSize.height);
+      case 'L':
+        return gf::Vector2i(0, tileSize.height / 2);
+      default:
+        assert(false);
+        break;
+    }
+
+    return { 0, 0 };
+  }
+
+
+  /*
+   * tmx file
+   */
+
+  constexpr int32_t InvalidFloor = INT32_MAX;
+  constexpr uint32_t InvalidTilesetId = UINT32_MAX;
+
+  gf::Polyline tmxObjectToPolyline(const gf::TmxObject& object) {
+    if (object.kind == gf::TmxObject::Polyline) {
+      auto& polyline = static_cast<const gf::TmxPolyline&>(object);
+      return gf::Polyline(polyline.points, gf::Polyline::Chain);
+    }
+
+    if (object.kind == gf::TmxObject::Polygon) {
+      auto& polygon = static_cast<const gf::TmxPolygon&>(object);
+      return gf::Polyline(polygon.points, gf::Polyline::Loop);
+    }
+
+    if (object.kind == gf::TmxObject::Rectangle) {
+      auto& rectangle = static_cast<const gf::TmxRectangle&>(object);
+      gf::Vector2f size = rectangle.size;
+
+      gf::Polyline polyline(gf::Polyline::Loop);
+      polyline.addPoint({ 0.0f,       0.0f });
+      polyline.addPoint({ size.width, 0.0f });
+      polyline.addPoint({ size.width, size.height });
+      polyline.addPoint({ 0.0f,       size.height });
+
+      return polyline;
+    }
+
+    gf::Log::error("Object kind not supported for polyline: %i\n", static_cast<int>(object.kind));
+    return gf::Polyline();
+  }
+
+  gf::Polygon tmxObjectToPolygon(const gf::TmxObject& object) {
+    if (object.kind == gf::TmxObject::Polygon) {
+      auto& polygon = static_cast<const gf::TmxPolygon&>(object);
+      return gf::Polygon(polygon.points);
+    }
+
+    if (object.kind == gf::TmxObject::Rectangle) {
+      auto& rectangle = static_cast<const gf::TmxRectangle&>(object);
+      gf::Vector2f size = rectangle.size;
+
+      gf::Polygon polygon;
+      polygon.addPoint({ 0.0f,       0.0f });
+      polygon.addPoint({ size.width, 0.0f });
+      polygon.addPoint({ size.width, size.height });
+      polygon.addPoint({ 0.0f,       size.height });
+
+      return polygon;
+    }
+
+    gf::Log::error("Object kind not supported for polygon: %i\n", static_cast<int>(object.kind));
+    return gf::Polygon();
+  }
+
+  struct MapCompiler : public gf::TmxVisitor {
+    MapCompiler(akgr::WorldData& d)
+    : currentFloor(InvalidFloor)
+    , currentTilesetId(0)
+    , data(d)
+    {
+
+    }
+
+    void makeTextureLayer(akgr::TextureLayer& textureLayer, const gf::TmxLayers& map, const gf::TmxTileLayer& tileLayer) {
+      assert(textureLayer.name.empty());
+      textureLayer.name = tileLayer.name;
+      textureLayer.tilesetId = InvalidTilesetId;
+
+      gf::Array2D<int16_t, uint32_t> tiles(map.mapSize, -1);
+
+      unsigned k = 0;
+
+      for (auto& cell : tileLayer.cells) {
+        unsigned i = k % map.mapSize.width;
+        unsigned j = k / map.mapSize.width;
+        assert(j < map.mapSize.height);
+
+        unsigned gid = cell.gid;
+
+        if (gid != 0) {
+          auto tileset = map.getTileSetFromGID(gid);
+          assert(tileset);
+          assert(tileset->image);
+
+          gid = gid - tileset->firstGid;
+          tiles({ i, j }) = static_cast<int16_t>(gid);
+
+          auto tilesetId = getTilesetId(tileset->image->source, tileset->spacing, tileset->margin);
+
+          if (textureLayer.tilesetId == InvalidTilesetId) {
+            textureLayer.tilesetId = tilesetId;
+          } else {
+            assert(textureLayer.tilesetId == tilesetId);
+          }
+
+          auto tile = tileset->getTile(gid);
+          assert(tile);
+
+          int fenceCount = tile->properties.getIntProperty("fence_count", 0);
+
+          if (fenceCount > 0) {
+            gf::Vector2i base(i, j);
+
+            for (int i = 0; i < fenceCount; ++i) {
+              auto fence = tile->properties.getStringProperty("fence" + std::to_string(i), "");
+              assert(!fence.empty());
+              assert(fence.size() == 2);
+
+              Segment segment;
+              segment.p1 = base * map.tileSize + computeEndPoint(fence[0], map.tileSize);
+              segment.p2 = base * map.tileSize + computeEndPoint(fence[1], map.tileSize);
+
+              fences.push_back(segment);
+            }
+          }
+        }
+
+        k++;
+      }
+
+      textureLayer.tiles = std::move(tiles);
+    }
+
+    virtual void visitTileLayer(const gf::TmxLayers& map, const gf::TmxTileLayer& layer) override {
+      assert(currentFloor != InvalidFloor);
+
+      std::string kind = layer.properties.getStringProperty("kind", "");
+
+      if (kind.empty()) {
+        gf::Log::error("Missing kind in a tile layer: '%s'\n", layer.name.c_str());
+        return;
+      }
+
+      gf::Log::debug("New layer: '%s' (%s)\n", layer.name.c_str(), kind.c_str());
+
+      if (kind == "ground_tiles") {
+        makeTextureLayer(currentFloorData.groundTiles, map, layer);
+        return;
+      }
+
+      if (kind == "low_tiles") {
+        makeTextureLayer(currentFloorData.lowTiles, map, layer);
+        return;
+      }
+
+      if (kind == "high_tiles") {
+        makeTextureLayer(currentFloorData.highTiles, map, layer);
+        return;
+      }
+
+      gf::Log::error("Unknown kind in a tile layer: '%s'\n", kind.c_str());
+    }
+
+    akgr::ShrineType getShrineType(const std::string& type) {
+      if (type == "moli") {
+        return akgr::ShrineType::Moli;
+      }
+
+      if (type == "pona") {
+        return akgr::ShrineType::Pona;
+      }
+
+      if (type == "sewi") {
+        return akgr::ShrineType::Sewi;
+      }
+
+      if (type == "tomo") {
+        return akgr::ShrineType::Tomo;
+      }
+
+      assert(false);
+      return akgr::ShrineType::Pona;
+    }
+
+    void makeSpriteLayer(akgr::SpriteLayer& spriteLayer, const gf::TmxLayers& map, const gf::TmxObjectLayer& objectLayer) {
+      assert(spriteLayer.name.empty());
+      spriteLayer.name = objectLayer.name;
+
+      for (auto& object : objectLayer.objects) {
+        assert(object->kind == gf::TmxObject::Tile);
+
+        auto tile = static_cast<gf::TmxTileObject *>(object.get());
+
+        akgr::Sprite sprite;
+        sprite.name = tile->name;
+
+        auto tileset = map.getTileSetFromGID(tile->gid);
+        assert(tileset);
+        assert(tileset->image);
+
+        // compute texture rect
+        auto lid = tile->gid - tileset->firstGid;
+        sprite.subTexture = tileset->getSubTexture(lid, tileset->image->size);
+
+        // get texture path
+        sprite.tilesetId = getTilesetId(tileset->image->source, tileset->spacing, tileset->margin);
+
+        sprite.position = tile->position;
+        sprite.rotation = tile->rotation;
+
+        spriteLayer.sprites.push_back(std::move(sprite));
+
+        /*
+         * special kinds
+         */
+
+        auto tilesetTile = tileset->getTile(lid);
+        std::string type = tilesetTile->type;
+
+        if (type == "shrine") {
+          gf::Vector2f size = sprite.subTexture.getSize();
+          gf::Vector2f center = tile->position + size / 2 - gf::Vector2f(0, size.height);
+          gf::Vector2f bottomLeft = tile->position;
+
+          std::string shrineType = tilesetTile->properties.getStringProperty("shrine_type", "");
+
+          akgr::ShrineData shrine;
+          shrine.type = getShrineType(shrineType);
+          shrine.location.position = gf::transform(gf::rotation(gf::degreesToRadians(sprite.rotation), bottomLeft), center);
+          shrine.location.floor = currentFloor;
+          data.shrines.push_back(std::move(shrine));
+        }
+
+        /*
+         * physics
+         */
+
+        std::string shapeType = tilesetTile->properties.getStringProperty("shape", "");
+
+        if (shapeType.empty()) {
+          continue;
+        }
+
+        gf::Matrix3f rot = gf::rotation(gf::degreesToRadians(tile->rotation), tile->position);
+        gf::Vector2f center = tile->position;
+        center.x += sprite.subTexture.width * 0.5f;
+        center.y -= sprite.subTexture.height * 0.5f;
+        center = gf::transform(rot, center);
+
+        if (shapeType == "circle") {
+          double radius =  tilesetTile->properties.getFloatProperty("shape_radius", -1.0);
+          assert(radius > 0.0);
+
+          akgr::PhysicsShape shape;
+          shape.name = tilesetTile->type;
+          shape.location.position = center;
+          shape.location.floor = currentFloor;
+          shape.type = akgr::PhysicsShapeType::Circle;
+          shape.circle.radius = static_cast<float>(radius);
+
+          data.physics.shapes.push_back(shape);
+        }
+
+      }
+    }
+
+    virtual void visitObjectLayer(const gf::TmxLayers& map, const gf::TmxObjectLayer& layer) override {
+      assert(currentFloor != InvalidFloor);
+
+      std::string kind = layer.properties.getStringProperty("kind", "");
+
+      if (kind.empty()) {
+        gf::Log::error("Missing kind in an object layer: '%s'\n", layer.name.c_str());
+        return;
+      }
+
+      if (kind == "zones") {
+        for (auto& object : layer.objects) {
+          akgr::Zone zone;
+          zone.name = object->name;
+          zone.location.position = object->position;
+          zone.location.floor = currentFloor;
+          zone.polygon = tmxObjectToPolygon(*object);
+
+          if (!zone.polygon.isConvex()) {
+            gf::Log::error("Polygon not convex in a zone object: '%s'\n", zone.name.c_str());
+            continue;
+          }
+
+          zone.message = object->properties.getStringProperty("message", "");
+
+          if (zone.message.empty()) {
+            gf::Log::error("Missing message in a zone object: '%s'\n", zone.name.c_str());
+            continue;
+          }
+
+          std::string requirements = object->properties.getStringProperty("requirements", "");
+          std::vector<std::string> requirementList;
+          boost::algorithm::split(requirementList, requirements, boost::algorithm::is_any_of(","), boost::algorithm::token_compress_on);
+
+          zone.requirements.clear();
+
+          for (auto& requirementString : requirementList) {
+            if (requirementString.empty()) {
+              continue;
+            }
+
+            zone.requirements.insert(gf::hash(requirementString));
+          }
+
+          data.physics.zones.push_back(std::move(zone));
+        }
+
+        return;
+      }
+
+      if (kind == "collisions") {
+        for (auto& object : layer.objects) {
+          akgr::Collision collision;
+          collision.name = object->name;
+          collision.location.position = object->position;
+          collision.location.floor = currentFloor;
+          collision.line = tmxObjectToPolyline(*object);
+
+          data.physics.collisions.push_back(std::move(collision));
+        }
+
+        return;
+      }
+
+      if (kind == "areas") {
+        for (auto& object : layer.objects) {
+          if (object->kind != gf::TmxObject::Ellipse && object->kind != gf::TmxObject::Point) {
+            gf::Log::error("Wrong kind of objects for areas, must be a point or an ellipse: '%s'\n", object->name.c_str());
+            continue;
+          }
+
+          akgr::AreaData areaData;
+          areaData.name = object->name;
+          areaData.position.center = object->position;
+          areaData.position.radius = 0.0f;
+
+          data.areas.insert({ gf::hash(areaData.name), std::move(areaData) });
+        }
+
+        return;
+      }
+
+      if (kind == "locations") {
+        for (auto& object : layer.objects) {
+          if (object->kind != gf::TmxObject::Ellipse && object->kind != gf::TmxObject::Point) {
+            gf::Log::error("Wrong kind of objects for locations, must be a point or an ellipse: '%s'\n", object->name.c_str());
+            continue;
+          }
+
+          akgr::LocationData locationData;
+          locationData.name = object->name;
+          locationData.location.position = object->position;
+          locationData.location.floor = currentFloor;
+
+          data.locations.insert({ gf::hash(locationData.name), std::move(locationData) });
+        }
+
+        return;
+      }
+
+      gf::Log::debug("New layer: '%s' (%s)\n", layer.name.c_str(), kind.c_str());
+
+      if (kind == "low_sprites") {
+        makeSpriteLayer(currentFloorData.lowSprites, map, layer);
+        return;
+      }
+
+      if (kind == "high_sprites") {
+        makeSpriteLayer(currentFloorData.highSprites, map, layer);
+        return;
+      }
+
+      gf::Log::error("Unknown kind in a sprite layer: '%s'\n", kind.c_str());
+    }
+
+    virtual void visitGroupLayer(const gf::TmxLayers& map, const gf::TmxGroupLayer& layer) override {
+      assert(currentFloor == InvalidFloor);
+
+      currentFloor = layer.properties.getIntProperty("floor", InvalidFloor);
+      assert(currentFloor != InvalidFloor);
+
+      auto& floors = data.map.floors;
+
+      if (floors.empty()) {
+        assert(data.map.floorMin == InvalidFloor && data.map.floorMax == InvalidFloor);
+        data.map.floorMin = data.map.floorMax = currentFloor;
+        floors.push_back(akgr::Floor{});
+      } else {
+        if (currentFloor < data.map.floorMin) {
+          floors.insert(floors.begin(), data.map.floorMin - currentFloor, akgr::Floor{});
+          data.map.floorMin = currentFloor;
+        }
+
+        if (currentFloor > data.map.floorMax) {
+          floors.insert(floors.end(), currentFloor - data.map.floorMax, akgr::Floor{});
+          data.map.floorMax = currentFloor;
+        }
+      }
+
+      currentFloorData = { };
+      fences.clear();
+
+      for (auto& sublayer : layer.layers) {
+        sublayer->accept(map, *this);
+      }
+
+      auto collisions = computeAutoCollision(fences, currentFloor, currentAutoCount);
+      data.physics.collisions.insert(data.physics.collisions.end(), collisions.begin(), collisions.end());
+
+      data.map[currentFloor] = std::move(currentFloorData);
+      currentFloor = InvalidFloor;
+    }
+
+    int32_t currentFloor;
+    akgr::Floor currentFloorData;
+
+    std::vector<Segment> fences;
+    int currentAutoCount = 0;
+
+    uint32_t currentTilesetId;
+    std::map<gf::Path, uint32_t> reverseTilesetId;
+
+    akgr::WorldData& data;
+
+
+    uint32_t getTilesetId(const gf::Path& path, uint32_t spacing, uint32_t margin) {
+      auto it = reverseTilesetId.find(path);
+
+      if (it == reverseTilesetId.end()) {
+        assert(data.map.tilesets.size() == currentTilesetId);
+
+        akgr::Tileset tileset;
+        tileset.path = path;
+        tileset.spacing = spacing;
+        tileset.margin = margin;
+
+        data.map.tilesets.push_back(std::move(tileset));
+
+        auto id = currentTilesetId++;
+        reverseTilesetId.insert({ path, id });
+        return id;
+      }
+
+      return it->second;
+    }
+
+  };
+
+  void compileTmxMap(const gf::Path& inputDirectory, akgr::WorldData& data) {
+
+    gf::Path mapFile = inputDirectory / "akagoria.tmx";
+
+    gf::TmxLayers layers;
+
+    if (!layers.loadFromFile(mapFile)) {
+      gf::Log::error("Map '%s' does not exist!`\n", mapFile.string().c_str());
+      return;
+    }
+
+    data.map.floorMin = data.map.floorMax = InvalidFloor;
+    MapCompiler compiler(data);
+    layers.visitLayers(compiler);
+
+    data.map.mapSize = layers.mapSize;
+    data.map.tileSize = layers.tileSize;
+
+    for (auto& tileset : data.map.tilesets) {
+      tileset.path = boost::filesystem::relative(tileset.path, inputDirectory);
+    }
+  }
+
+  /*
+   * json files
+   */
+
+  akgr::DialogData::Type getDialogType(const std::string& type) {
+    if (type == "Simple") {
+      return akgr::DialogData::Simple;
+    }
+
+    if (type == "Quest") {
+      return akgr::DialogData::Quest;
+    }
+
+    if (type == "Story") {
+      return akgr::DialogData::Story;
+    }
+
+    assert(false);
+    return akgr::DialogData::Simple;
+  }
+
+  void compileJsonDialogs(const gf::Path& inputDirectory, akgr::WorldData& data) {
+    gf::Path filename = inputDirectory / "dialogs.json";
+    std::ifstream ifs(filename.string());
+
+    const auto j = nlohmann::json::parse(ifs);
+
+    for (auto kv : j.items()) {
+      akgr::DialogData dialog;
+      dialog.name = kv.key();
+
+      auto value = kv.value();
+      dialog.type = getDialogType(value["type"].get<std::string>());
+
+      for (auto item : value["content"]) {
+        akgr::DialogData::Line line;
+        line.speaker = item["speaker"].get<std::string>();
+        line.words = item["words"].get<std::string>();
+        dialog.content.push_back(std::move(line));
+      }
+
+      data.dialogs.emplace(gf::hash(dialog.name), std::move(dialog));
+    }
+  }
+
+  void compileJsonNotifications(const gf::Path& inputDirectory, akgr::WorldData& data) {
+    gf::Path filename = inputDirectory / "notifications.json";
+    std::ifstream ifs(filename.string());
+
+    const auto j = nlohmann::json::parse(ifs);
+
+    for (auto kv : j.items()) {
+      akgr::NotificationData notification;
+      notification.name = kv.key();
+
+      auto value = kv.value();
+      notification.message = value["message"].get<std::string>();
+      notification.duration = gf::seconds(value["duration"].get<float>());
+
+      data.notifications.emplace(gf::hash(notification.name), std::move(notification));
+    }
+  }
+
+  void compileJsonCharacters(const gf::Path& inputDirectory, akgr::WorldData& data) {
+    gf::Path filename = inputDirectory / "characters.json";
+    std::ifstream ifs(filename.string());
+
+    const auto j = nlohmann::json::parse(ifs);
+
+    for (auto kv : j.items()) {
+      akgr::CharacterData character;
+      character.name = kv.key();
+
+      auto value = kv.value();
+      character.size.width = value["size"]["width"].get<float>();
+      character.size.height = value["size"]["height"].get<float>();
+
+      data.characters.emplace(gf::hash(character.name), std::move(character));
+    }
+  }
+
+  void compileJsonUI(const gf::Path& inputDirectory, akgr::WorldData& data) {
+    gf::Path filename = inputDirectory / "ui.json";
+    std::ifstream ifs(filename.string());
+
+    const auto j = nlohmann::json::parse(ifs);
+
+    for (auto kv : j.items()) {
+      akgr::UIData ui;
+      ui.name = kv.key();
+
+      auto value = kv.value();
+      ui.message = value.get<std::string>();
+
+      data.ui.emplace(gf::hash(ui.name), std::move(ui));
+    }
+  }
+
+
+  void postProcessAreas(std::map<gf::Id, akgr::AreaData>& map) {
+    for (auto& kv : map) {
+      gf::Id currentId = kv.first;
+      akgr::AreaData& currentArea = kv.second;
+
+      auto min = std::min_element(map.begin(), map.end(), [currentId, &currentArea](const auto& lhs, const auto& rhs) {
+        if (lhs.first == currentId) {
+          return false;
+        }
+
+        if (rhs.first == currentId) {
+          return true;
+        }
+
+        return gf::squareDistance(currentArea.position.center, lhs.second.position.center) < gf::squareDistance(currentArea.position.center, rhs.second.position.center);
+      });
+
+      currentArea.position.radius = gf::squareDistance(currentArea.position.center, min->second.position.center) / 2;
+    }
+  }
+
+}
+
+
+
+int main(int argc, char *argv[]) {
+  if (argc != 3) {
+    std::printf("Usage: akagoria_datacompile <dir> <file>\n");
+    return EXIT_FAILURE;
+  }
+
+  std::printf("Reading akagoria raw data from '%s' and saving to '%s'\n", argv[1], argv[2]);
+  gf::Path inputDirectory(argv[1]);
+  gf::Path outputFile(argv[2]);
+
+  akgr::WorldData data;
+
+  gf::Clock clock;
+
+  compileTmxMap(inputDirectory, data);
+
+  gf::Path databaseDirectory = inputDirectory / "database";
+
+  compileJsonDialogs(databaseDirectory, data);
+  compileJsonNotifications(databaseDirectory, data);
+  compileJsonCharacters(databaseDirectory, data);
+  compileJsonUI(databaseDirectory, data);
+
+  // post-process
+
+  postProcessAreas(data.areas);
+
+  auto duration = clock.getElapsedTime();
+  std::printf("Data successfully compiled in %g s\n", duration.asSeconds());
+
+  data.saveToFile(outputFile);
+
+
+  auto size = boost::filesystem::file_size(outputFile);
+  double sizeInKib = size / 1024.0;
+  double sizeInMib = sizeInKib / 1024.0;
+  std::printf("Archive size: %" PRIuMAX " bytes, %.2f KiB, %.2f MiB\n", size, sizeInKib, sizeInMib);
+
+  return 0;
+}
