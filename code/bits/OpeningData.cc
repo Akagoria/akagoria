@@ -17,18 +17,33 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_VERSION_H
-#define AKGR_VERSION_H
+#include "OpeningData.h"
 
-#include <cstdint>
+#include <gf/Serialization.h>
+#include <gf/SerializationOps.h>
+#include <gf/Streams.h>
+
+#include "Version.h"
 
 namespace akgr {
 
-  constexpr uint16_t DataVersion = 1;
-  constexpr uint16_t StateVersion = 1;
-  constexpr uint16_t MetaVersion = 1;
-  constexpr uint16_t OpeningVersion = 1;
+  bool OpeningData::loadFromFile(const gf::Path& filename) {
+    gf::FileInputStream file(filename);
+    gf::CompressedInputStream compressed(file);
+    gf::Deserializer ar(compressed);
+
+    ar | *this;
+    return true;
+  }
+
+  bool OpeningData::saveToFile(const gf::Path& filename) {
+    gf::FileOutputStream file(filename);
+    gf::CompressedOutputStream compressed(file);
+    gf::Serializer ar(compressed, OpeningVersion);
+
+    ar | *this;
+    return true;
+  }
 
 }
 
-#endif // AKGR_VERSION_H

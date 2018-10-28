@@ -17,18 +17,30 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_VERSION_H
-#define AKGR_VERSION_H
+#ifndef AKGR_OPENING_DATA_H
+#define AKGR_OPENING_DATA_H
 
-#include <cstdint>
+#include <map>
+
+#include <gf/Id.h>
+#include <gf/Path.h>
+
+#include "UIData.h"
 
 namespace akgr {
 
-  constexpr uint16_t DataVersion = 1;
-  constexpr uint16_t StateVersion = 1;
-  constexpr uint16_t MetaVersion = 1;
-  constexpr uint16_t OpeningVersion = 1;
+  struct OpeningData {
+    std::map<gf::Id, UIData> ui;
+
+    bool loadFromFile(const gf::Path& filename);
+    bool saveToFile(const gf::Path& filename);
+  };
+
+  template<typename Archive>
+  Archive& operator|(Archive& ar, OpeningData& data) {
+    return ar | data.ui;
+  }
 
 }
 
-#endif // AKGR_VERSION_H
+#endif // AKGR_OPENING_DATA_H

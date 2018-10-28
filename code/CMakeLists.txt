@@ -42,6 +42,7 @@ add_executable(akagoria
   bits/MapRenderer.cc
   bits/MiniMapRenderer.cc
   bits/NotificationRenderer.cc
+  bits/OpeningData.cc
   bits/OpeningDriver.cc
   bits/OpeningProcessor.cc
   bits/PhysicsRuntime.cc
@@ -86,6 +87,7 @@ add_subdirectory(vendor/fmt EXCLUDE_FROM_ALL)
 add_executable(akagoria_datacompile
   akagoria_datacompile.cc
   bits/WorldData.cc
+  bits/OpeningData.cc
 )
 
 target_include_directories(akagoria_datacompile

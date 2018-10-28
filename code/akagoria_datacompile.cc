@@ -34,7 +34,7 @@
 #include <nlohmann/json.hpp>
 
 #include "bits/WorldData.h"
-
+#include "bits/OpeningData.h"
 
 namespace {
 
@@ -637,8 +637,7 @@ namespace {
     return akgr::DialogData::Simple;
   }
 
-  void compileJsonDialogs(const gf::Path& inputDirectory, akgr::WorldData& data) {
-    gf::Path filename = inputDirectory / "dialogs.json";
+  void compileJsonDialogs(const gf::Path& filename, std::map<gf::Id, akgr::DialogData>& data) {
     std::ifstream ifs(filename.string());
 
     const auto j = nlohmann::json::parse(ifs);
@@ -657,12 +656,11 @@ namespace {
         dialog.content.push_back(std::move(line));
       }
 
-      data.dialogs.emplace(gf::hash(dialog.name), std::move(dialog));
+      data.emplace(gf::hash(dialog.name), std::move(dialog));
     }
   }
 
-  void compileJsonNotifications(const gf::Path& inputDirectory, akgr::WorldData& data) {
-    gf::Path filename = inputDirectory / "notifications.json";
+  void compileJsonNotifications(const gf::Path& filename, std::map<gf::Id, akgr::NotificationData>& data) {
     std::ifstream ifs(filename.string());
 
     const auto j = nlohmann::json::parse(ifs);
@@ -675,12 +673,11 @@ namespace {
       notification.message = value["message"].get<std::string>();
       notification.duration = gf::seconds(value["duration"].get<float>());
 
-      data.notifications.emplace(gf::hash(notification.name), std::move(notification));
+      data.emplace(gf::hash(notification.name), std::move(notification));
     }
   }
 
-  void compileJsonCharacters(const gf::Path& inputDirectory, akgr::WorldData& data) {
-    gf::Path filename = inputDirectory / "characters.json";
+  void compileJsonCharacters(const gf::Path& filename, std::map<gf::Id, akgr::CharacterData>& data) {
     std::ifstream ifs(filename.string());
 
     const auto j = nlohmann::json::parse(ifs);
@@ -693,12 +690,11 @@ namespace {
       character.size.width = value["size"]["width"].get<float>();
       character.size.height = value["size"]["height"].get<float>();
 
-      data.characters.emplace(gf::hash(character.name), std::move(character));
+      data.emplace(gf::hash(character.name), std::move(character));
     }
   }
 
-  void compileJsonUI(const gf::Path& inputDirectory, akgr::WorldData& data) {
-    gf::Path filename = inputDirectory / "ui.json";
+  void compileJsonUI(const gf::Path& filename, std::map<gf::Id, akgr::UIData>& data) {
     std::ifstream ifs(filename.string());
 
     const auto j = nlohmann::json::parse(ifs);
@@ -710,7 +706,7 @@ namespace {
       auto value = kv.value();
       ui.message = value.get<std::string>();
 
-      data.ui.emplace(gf::hash(ui.name), std::move(ui));
+      data.emplace(gf::hash(ui.name), std::move(ui));
     }
   }
 
@@ -742,38 +738,63 @@ namespace {
 
 int main(int argc, char *argv[]) {
   if (argc != 3) {
-    std::printf("Usage: akagoria_datacompile <dir> <file>\n");
+    std::printf("Usage: akagoria_datacompile <inputDir> <outputDir>\n");
     return EXIT_FAILURE;
   }
 
   std::printf("Reading akagoria raw data from '%s' and saving to '%s'\n", argv[1], argv[2]);
-  gf::Path inputDirectory(argv[1]);
-  gf::Path outputFile(argv[2]);
 
-  akgr::WorldData data;
+  gf::Path inputDirectory(argv[1]);
+
+  if (!boost::filesystem::is_directory(inputDirectory)) {
+    std::fprintf(stderr, "Input directory is not a directory: '%s'\n", argv[1]);
+    return EXIT_FAILURE;
+  }
+
+  gf::Path outputDirectory(argv[2]);
+
+  if (!boost::filesystem::is_directory(outputDirectory)) {
+    std::fprintf(stderr, "Output directory is not a directory: '%s'\n", argv[2]);
+    return EXIT_FAILURE;
+  }
 
   gf::Clock clock;
 
-  compileTmxMap(inputDirectory, data);
+  // world
+
+  akgr::WorldData worldData;
+
+  compileTmxMap(inputDirectory, worldData);
 
   gf::Path databaseDirectory = inputDirectory / "database";
 
-  compileJsonDialogs(databaseDirectory, data);
-  compileJsonNotifications(databaseDirectory, data);
-  compileJsonCharacters(databaseDirectory, data);
-  compileJsonUI(databaseDirectory, data);
+  compileJsonDialogs(databaseDirectory / "dialogs.json", worldData.dialogs);
+  compileJsonNotifications(databaseDirectory / "notifications.json", worldData.notifications);
+  compileJsonCharacters(databaseDirectory / "characters.json", worldData.characters);
+  compileJsonUI(databaseDirectory / "ui.json", worldData.ui);
 
-  // post-process
+  postProcessAreas(worldData.areas);
 
-  postProcessAreas(data.areas);
+  gf::Path worldOutputFile = outputDirectory / "akagoria.dat";
+  worldData.saveToFile(worldOutputFile);
+
+
+  // openig
+
+  akgr::OpeningData openingData;
+
+  compileJsonUI(databaseDirectory / "ui-opening.json", openingData.ui);
+
+  gf::Path openingOutputFile = outputDirectory / "opening.dat";
+  openingData.saveToFile(openingOutputFile);
+
+
+  // end
 
   auto duration = clock.getElapsedTime();
   std::printf("Data successfully compiled in %g s\n", duration.asSeconds());
 
-  data.saveToFile(outputFile);
-
-
-  auto size = boost::filesystem::file_size(outputFile);
+  auto size = boost::filesystem::file_size(worldOutputFile);
   double sizeInKib = size / 1024.0;
   double sizeInMib = sizeInKib / 1024.0;
   std::printf("Archive size: %" PRIuMAX " bytes, %.2f KiB, %.2f MiB\n", size, sizeInKib, sizeInMib);
