@@ -1,0 +1,18 @@
+= Akagoria developper documentation
+Julien Bernard <julien.bernard@univ-fcomte.fr>
+v0.5
+:toc:
+:homepage: https://akagoria.github.io/
+:stem: latexmath
+:source-highlighter: coderay
+:xrefstyle: full
+
+Welcome to the Akagoria developper documentation.
+
+== Engine developpers
+
+NOTE: Nothing yet
+
+== Content developpers
+
+- link:world_builder.html[Akagoria world builder manual]
