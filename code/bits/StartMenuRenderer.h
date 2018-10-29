@@ -23,17 +23,19 @@
 #include <gf/Entity.h>
 
 #include "Display.h"
+#include "OpeningData.h"
 #include "OpeningScenery.h"
 
 namespace akgr {
 
   class StartMenuRenderer : public gf::Entity {
   public:
-    StartMenuRenderer(const OpeningScenery& scenery, const Display& display);
+    StartMenuRenderer(const OpeningData& data, const OpeningScenery& scenery, const Display& display);
 
     virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
 
   private:
+    const OpeningData& m_data;
     const OpeningScenery& m_scenery;
     const Display& m_display;
   };

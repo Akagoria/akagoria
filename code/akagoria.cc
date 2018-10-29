@@ -145,6 +145,12 @@ int main() {
    * opening
    */
 
+  akgr::OpeningData openingData;
+
+  if (!openingData.loadFromFile(resources.getAbsolutePath("opening.dat"))) {
+    return EXIT_FAILURE;
+  }
+
   akgr::OpeningScenery openingScenery;
 
   // entities
@@ -154,7 +160,7 @@ int main() {
   akgr::LogoRenderer logo(openingScenery, resources);
   openingEntities.addEntity(logo);
 
-  akgr::StartMenuRenderer startMenu(openingScenery, display);
+  akgr::StartMenuRenderer startMenu(openingData, openingScenery, display);
   openingEntities.addEntity(startMenu);
 
   akgr::OpeningSlotSelectorRenderer openingSlotLoader(openingScenery, display);

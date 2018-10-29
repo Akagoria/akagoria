@@ -21,6 +21,10 @@
 
 #include <gf/VectorOps.h>
 
+#include "Helpers.h"
+
+using namespace gf::literals;
+
 namespace akgr {
 
   namespace {
@@ -40,8 +44,9 @@ namespace akgr {
 
   }
 
-  StartMenuRenderer::StartMenuRenderer(const OpeningScenery& scenery, const Display& display)
+  StartMenuRenderer::StartMenuRenderer(const OpeningData& data, const OpeningScenery& scenery, const Display& display)
   : gf::Entity(10)
+  , m_data(data)
   , m_scenery(scenery)
   , m_display(display)
   {
@@ -58,15 +63,15 @@ namespace akgr {
     gf::Vector2f position = StartMenuPosition + StartMenuItemPosition;
     position.y += StartMenuItemSpacing;
 
-    m_display.renderText(target, states, { position, StartMenuItemSize }, StartMenuCharacterSize, "Start an adventure");
+    m_display.renderText(target, states, { position, StartMenuItemSize }, StartMenuCharacterSize, getUIMessage(m_data.ui, "MenuStart"_id));
 
     position.y += StartMenuItemSize.height + StartMenuItemSpacing;
 
-    m_display.renderText(target, states, { position, StartMenuItemSize }, StartMenuCharacterSize, "Load an adventure");
+    m_display.renderText(target, states, { position, StartMenuItemSize }, StartMenuCharacterSize, getUIMessage(m_data.ui, "MenuLoad"_id));
 
     position.y += StartMenuItemSize.height + StartMenuItemSpacing;
 
-    m_display.renderText(target, states, { position, StartMenuItemSize }, StartMenuCharacterSize, "Quit");
+    m_display.renderText(target, states, { position, StartMenuItemSize }, StartMenuCharacterSize, getUIMessage(m_data.ui, "MenuQuit"_id));
 
     gf::Vector2f arrowPosition = StartMenuPosition + StartMenuArrowPosition;
     arrowPosition.y += StartMenuArrowGap * m_scenery.menu.choice;
