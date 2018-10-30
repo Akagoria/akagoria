@@ -4,7 +4,6 @@ set(AKAGORIA_DATABASE_FILES
   raw/database/dialogs.json
   raw/database/notifications.json
   raw/database/ui.json
-  raw/database/ui-opening.json
 )
 
 set(AKAGORIA_MAP_FILES
@@ -14,7 +13,7 @@ set(AKAGORIA_MAP_FILES
 add_custom_command(
   OUTPUT
     "${CMAKE_CURRENT_BINARY_DIR}/akagoria.dat"
-    "${CMAKE_CURRENT_BINARY_DIR}/opening.dat"
+    "${CMAKE_CURRENT_BINARY_DIR}/ui.dat"
   DEPENDS
     akagoria_datacompile
     ${AKAGORIA_DATABASE_FILES}
@@ -47,6 +46,6 @@ install(
 install(
   FILES
     "${CMAKE_CURRENT_BINARY_DIR}/akagoria.dat"
-    "${CMAKE_CURRENT_BINARY_DIR}/opening.dat"
+    "${CMAKE_CURRENT_BINARY_DIR}/ui.dat"
   DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/games/akagoria"
 )

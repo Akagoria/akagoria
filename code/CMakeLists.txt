@@ -37,13 +37,11 @@ add_executable(akagoria
   bits/Commands.cc
   bits/Display.cc
   bits/DialogRenderer.cc
-  bits/Helpers.cc
   bits/HeroRenderer.cc
   bits/LogoRenderer.cc
   bits/MapRenderer.cc
   bits/MiniMapRenderer.cc
   bits/NotificationRenderer.cc
-  bits/OpeningData.cc
   bits/OpeningDriver.cc
   bits/OpeningProcessor.cc
   bits/PhysicsRuntime.cc
@@ -53,6 +51,7 @@ add_executable(akagoria
   bits/SlotSelectorRenderer.cc
   bits/SlotSelectorScenery.cc
   bits/StartMenuRenderer.cc
+  bits/UIData.cc
   bits/WorldData.cc
   bits/WorldDriver.cc
   bits/WorldProcessor.cc
@@ -88,7 +87,7 @@ add_subdirectory(vendor/fmt EXCLUDE_FROM_ALL)
 add_executable(akagoria_datacompile
   akagoria_datacompile.cc
   bits/WorldData.cc
-  bits/OpeningData.cc
+  bits/UIData.cc
 )
 
 target_include_directories(akagoria_datacompile

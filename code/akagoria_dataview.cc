@@ -228,16 +228,6 @@ namespace {
     }
   }
 
-  void viewUIData(const std::map<gf::Id, akgr::UIData>& data) {
-    viewNewSection("UI");
-    fmt::print("Number of UI messages: {}\n", data.size());
-
-    for (auto& item : data) {
-      auto& ui = item.second;
-      fmt::print("\t{}: '{}': '{}'\n", Id{item.first}, ui.name, ui.message);
-    }
-  }
-
   void viewData(const akgr::WorldData& data) {
     viewMapData(data.map);
     viewPhysicsData(data.physics);
@@ -247,9 +237,7 @@ namespace {
     viewDialogData(data.dialogs);
     viewNotificationData(data.notifications);
     viewCharacterData(data.characters);
-    viewUIData(data.ui);
   }
-
 
 }
 

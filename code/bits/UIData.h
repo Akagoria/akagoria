@@ -20,18 +20,36 @@
 #ifndef AKGR_UI_DATA_H
 #define AKGR_UI_DATA_H
 
+#include <map>
 #include <string>
+
+#include <gf/Id.h>
+#include <gf/Path.h>
 
 namespace akgr {
 
-  struct UIData {
+  struct UIMessageData {
     std::string name;
     std::string message;
   };
 
   template<typename Archive>
-  Archive& operator|(Archive& ar, UIData& data) {
+  Archive& operator|(Archive& ar, UIMessageData& data) {
     return ar | data.name | data.message;
+  }
+
+  struct UIData {
+    std::map<gf::Id, UIMessageData> messages;
+
+    bool loadFromFile(const gf::Path& filename);
+    bool saveToFile(const gf::Path& filename);
+
+    std::string getUIMessage(gf::Id id) const;
+  };
+
+  template<typename Archive>
+  Archive& operator|(Archive& ar, UIData& data) {
+    return ar | data.messages;
   }
 
 }

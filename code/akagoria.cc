@@ -57,6 +57,7 @@
 #include "bits/SlotSelectorRenderer.h"
 #include "bits/StartMenuRenderer.h"
 #include "bits/PhysicsRuntime.h"
+#include "bits/UIData.h"
 #include "bits/WorldData.h"
 #include "bits/WorldDriver.h"
 #include "bits/WorldProcessor.h"
@@ -145,9 +146,9 @@ int main() {
    * opening
    */
 
-  akgr::OpeningData openingData;
+  akgr::UIData uiData;
 
-  if (!openingData.loadFromFile(resources.getAbsolutePath("opening.dat"))) {
+  if (!uiData.loadFromFile(resources.getAbsolutePath("ui.dat"))) {
     return EXIT_FAILURE;
   }
 
@@ -160,7 +161,7 @@ int main() {
   akgr::LogoRenderer logo(openingScenery, resources);
   openingEntities.addEntity(logo);
 
-  akgr::StartMenuRenderer startMenu(openingData, openingScenery, display);
+  akgr::StartMenuRenderer startMenu(uiData, openingScenery, display);
   openingEntities.addEntity(startMenu);
 
   akgr::OpeningSlotSelectorRenderer openingSlotLoader(openingScenery, display);

@@ -34,7 +34,7 @@
 #include <nlohmann/json.hpp>
 
 #include "bits/WorldData.h"
-#include "bits/OpeningData.h"
+#include "bits/UIData.h"
 
 namespace {
 
@@ -694,13 +694,13 @@ namespace {
     }
   }
 
-  void compileJsonUI(const gf::Path& filename, std::map<gf::Id, akgr::UIData>& data) {
+  void compileJsonUI(const gf::Path& filename, std::map<gf::Id, akgr::UIMessageData>& data) {
     std::ifstream ifs(filename.string());
 
     const auto j = nlohmann::json::parse(ifs);
 
     for (auto kv : j.items()) {
-      akgr::UIData ui;
+      akgr::UIMessageData ui;
       ui.name = kv.key();
 
       auto value = kv.value();
@@ -771,7 +771,6 @@ int main(int argc, char *argv[]) {
   compileJsonDialogs(databaseDirectory / "dialogs.json", worldData.dialogs);
   compileJsonNotifications(databaseDirectory / "notifications.json", worldData.notifications);
   compileJsonCharacters(databaseDirectory / "characters.json", worldData.characters);
-  compileJsonUI(databaseDirectory / "ui.json", worldData.ui);
 
   postProcessAreas(worldData.areas);
 
@@ -779,14 +778,14 @@ int main(int argc, char *argv[]) {
   worldData.saveToFile(worldOutputFile);
 
 
-  // openig
+  // ui
 
-  akgr::OpeningData openingData;
+  akgr::UIData uiData;
 
-  compileJsonUI(databaseDirectory / "ui-opening.json", openingData.ui);
+  compileJsonUI(databaseDirectory / "ui.json", uiData.messages);
 
-  gf::Path openingOutputFile = outputDirectory / "opening.dat";
-  openingData.saveToFile(openingOutputFile);
+  gf::Path uiOutputFile = outputDirectory / "ui.dat";
+  uiData.saveToFile(uiOutputFile);
 
 
   // end

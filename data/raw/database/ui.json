@@ -1,3 +1,11 @@
 {
+  "SplashSubTitle": "The revenge of Kalista",
+  "SplashLoading": "Loading...",
+
+  "MenuStart": "Start an adventure",
+  "MenuLoad": "Load an adventure",
+  "MenuQuit": "Quit",
+  "MenuBack": "Back",
+
   "End": "The end"
 }

@@ -27,7 +27,7 @@ namespace akgr {
   constexpr uint16_t DataVersion = 1;
   constexpr uint16_t StateVersion = 1;
   constexpr uint16_t MetaVersion = 1;
-  constexpr uint16_t OpeningVersion = 1;
+  constexpr uint16_t UIVersion = 1;
 
 }
 
