@@ -19,6 +19,7 @@
  */
 #include "LogoRenderer.h"
 
+#include <gf/Color.h>
 #include <gf/Coordinates.h>
 #include <gf/RenderTarget.h>
 #include <gf/Shapes.h>
@@ -30,7 +31,7 @@ namespace akgr {
 
   namespace {
 
-    constexpr float LogoHeight = 359.0f;
+    constexpr float LogoHeight = 347.0f;
 
     constexpr float RelativeLineHeight = 0.005;
     constexpr float RelativePaddingAroundLine = 0.01f + RelativeLineHeight / 2;
@@ -53,6 +54,7 @@ namespace akgr {
     float height = coords.getRelativeSize({ 0.0f, 0.5f }).height;
 
     gf::Sprite logo(m_texture);
+    logo.setColor(gf::Color::Gray(0.8f));
     logo.scale(height / LogoHeight);
     logo.setPosition(coords.getCenter());
     logo.setAnchor(gf::Anchor::Center);
