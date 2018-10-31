@@ -29,10 +29,13 @@ namespace akgr {
   namespace {
     int getPriorityFromPlaneForSprites(Plane plane) {
       switch (plane) {
-        case Plane::Low:
-          return -5;
         case Plane::High:
           return +15;
+        case Plane::Low:
+          return -5;
+        case Plane::Ground:
+          assert(false);
+          break;
       }
 
       assert(false);
@@ -41,10 +44,12 @@ namespace akgr {
 
     int getPriorityFromPlaneForTiles(Plane plane) {
       switch (plane) {
-        case Plane::Low:
-          return -10;
         case Plane::High:
           return +10;
+        case Plane::Low:
+          return -10;
+        case Plane::Ground:
+          return -15;
       }
 
       assert(false);
@@ -53,96 +58,31 @@ namespace akgr {
   }
 
   /*
-   * MapGroundRenderer
-   */
-
-  MapGroundRenderer::MapGroundRenderer(const WorldData& data, const WorldState& state, gf::ResourceManager& resources)
-  : gf::Entity(-15)
-  , m_data(data)
-  , m_state(state)
-  {
-    for (auto& floor : data.map.floors) {
-      const TextureLayer& textureLayer = floor.groundTiles;
-
-      if (textureLayer.tiles.isEmpty()) {
-        m_layers.push_back(gf::TileLayer({ 0u, 0u }));
-      } else {
-        assert(data.map.mapSize == textureLayer.tiles.getSize());
-        gf::TileLayer layer(data.map.mapSize);
-        layer.setTileSize(data.map.tileSize);
-
-        for (auto pos : textureLayer.tiles.getPositionRange()) {
-          layer.setTile(pos, textureLayer.tiles(pos));
-        }
-
-        const Tileset& tileset = data.map.tilesets[textureLayer.tilesetId];
-
-        layer.setMargin(tileset.margin);
-        layer.setSpacing(tileset.spacing);
-
-        gf::Texture& texture = resources.getTexture(tileset.path);
-        texture.setSmooth(false);
-        texture.generateMipmap();
-        layer.setTexture(texture);
-
-        m_layers.push_back(std::move(layer));
-      }
-    }
-  }
-
-  void MapGroundRenderer::render(gf::RenderTarget& target, const gf::RenderStates& states) {
-    int32_t index = m_state.hero.physics.location.floor - m_data.map.floorMin;
-
-    if (!(0 <= index && static_cast<std::size_t>(index) <= m_layers.size())) {
-      gf::Log::debug("Floor: %" PRIi32 ", FloorMin: %" PRIi32 " Index: %" PRIi32 "\n", m_state.hero.physics.location.floor, m_data.map.floorMin, index);
-    }
-
-    assert(0 <= index && static_cast<std::size_t>(index) <= m_layers.size());
-    target.draw(m_layers[index], states);
-  }
-
-
-  /*
    * MapTileRenderer
    */
 
-  MapTileRenderer::MapTileRenderer(Plane plane, const WorldData& data, const WorldState& state, gf::ResourceManager& resources)
+  MapTileRenderer::MapTileRenderer(Plane plane, const WorldData& data, const WorldState& state, MapTileScenery& scenery)
   : gf::Entity(getPriorityFromPlaneForTiles(plane))
   , m_data(data)
   , m_state(state)
+  , m_scenery(scenery)
   {
-    for (auto& floor : data.map.floors) {
-      const TextureLayer& textureLayer = plane == Plane::Low ? floor.lowTiles : floor.highTiles;
 
-      if (textureLayer.tiles.isEmpty()) {
-        m_layers.push_back(gf::TileLayer({ 0u, 0u }));
-      } else {
-        assert(data.map.mapSize == textureLayer.tiles.getSize());
-        gf::TileLayer layer(data.map.mapSize);
-        layer.setTileSize(data.map.tileSize);
-
-        for (auto pos : textureLayer.tiles.getPositionRange()) {
-          layer.setTile(pos, textureLayer.tiles(pos));
-        }
-
-        const Tileset& tileset = data.map.tilesets[textureLayer.tilesetId];
-
-        layer.setMargin(tileset.margin);
-        layer.setSpacing(tileset.spacing);
-
-        gf::Texture& texture = resources.getTexture(tileset.path);
-        texture.setSmooth();
-        layer.setTexture(texture);
-
-        m_layers.push_back(std::move(layer));
-      }
-    }
   }
 
   void MapTileRenderer::render(gf::RenderTarget& target, const gf::RenderStates& states) {
     int32_t index = m_state.hero.physics.location.floor - m_data.map.floorMin;
-    assert(0 <= index && static_cast<std::size_t>(index) <= m_layers.size());
-    target.draw(m_layers[index], states);
+
+    if (!(0 <= index && static_cast<std::size_t>(index) <= m_scenery.layers.size())) {
+      gf::Log::debug("Floor: %" PRIi32 ", FloorMin: %" PRIi32 " Index: %" PRIi32 "\n", m_state.hero.physics.location.floor, m_data.map.floorMin, index);
+    }
+
+    assert(0 <= index && static_cast<std::size_t>(index) <= m_scenery.layers.size());
+    auto& layer = m_scenery.layers[index];
+
+    if (layer.hasTexture()) {
+      target.draw(layer, states);
+    }
   }
 
 
@@ -150,41 +90,23 @@ namespace akgr {
    * MapSpriteRenderer
    */
 
-  MapSpriteRenderer::MapSpriteRenderer(Plane plane, const WorldData& data, const WorldState& state, gf::ResourceManager& resources)
+  MapSpriteRenderer::MapSpriteRenderer(Plane plane, const WorldData& data, const WorldState& state, MapSpriteScenery& scenery)
   : gf::Entity(getPriorityFromPlaneForSprites(plane))
   , m_data(data)
   , m_state(state)
+  , m_scenery(scenery)
   {
-    for (auto& floor : data.map.floors) {
-      const SpriteLayer& layer = plane == Plane::Low ? floor.lowSprites : floor.highSprites;
-
-      std::vector<gf::Sprite> sprites;
-
-      for (auto& raw : layer.sprites) {
-        const akgr::Tileset& tileset = data.map.tilesets[raw.tilesetId];
-        const gf::Texture& texture = resources.getTexture(tileset.path);
-        gf::RectF textureRect = texture.computeTextureCoords(raw.subTexture);
-
-        gf::Sprite sprite(texture, textureRect);
-        sprite.setPosition(raw.position);
-        sprite.setRotation(gf::degreesToRadians(raw.rotation));
-        sprite.setAnchor(gf::Anchor::BottomLeft); // see http://docs.mapeditor.org/en/stable/reference/tmx-map-format/#object
-
-        sprites.push_back(sprite);
-      }
-
-      m_layers.push_back(std::move(sprites));
-    }
 
   }
 
   void MapSpriteRenderer::render(gf::RenderTarget& target, const gf::RenderStates& states) {
     int32_t index = m_state.hero.physics.location.floor - m_data.map.floorMin;
-    assert(0 <= index && static_cast<std::size_t>(index) <= m_layers.size());
+    assert(0 <= index && static_cast<std::size_t>(index) <= m_scenery.layers.size());
 
-    auto& sprites = m_layers[index];
+    auto& sprites = m_scenery.layers[index];
 
     for (auto& sprite : sprites) {
+      assert(sprite.hasTexture());
       target.draw(sprite, states);
     }
   }

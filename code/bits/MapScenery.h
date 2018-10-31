@@ -17,36 +17,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_WORLD_SCENERY_H
-#define AKGR_WORLD_SCENERY_H
+#ifndef AKGR_MAP_SCENERY_H
+#define AKGR_MAP_SCENERY_H
 
 #include <vector>
 
-#include <gf/Random.h>
-#include <gf/ResourceManager.h>
-
-#include "AreaScenery.h"
-#include "MapScenery.h"
-#include "ShrineScenery.h"
-#include "SlotSelectorScenery.h"
+#include <gf/Sprite.h>
+#include <gf/TileLayer.h>
 
 namespace akgr {
-  struct WorldData;
 
-  struct WorldScenery {
-    WorldScenery() {
-      selector.load();
-    }
+  struct MapTileScenery {
+    std::vector<gf::TileLayer> layers;
+  };
 
-    MapScenery map;
-    SlotSelectorScenery selector;
-    AreaScenery area;
-    std::vector<ShrineScenery> shrines;
+  struct MapSpriteScenery {
+    std::vector<std::vector<gf::Sprite>> layers;
+  };
 
-    void bind(const WorldData& data, gf::ResourceManager& resources, gf::Random& random);
+  struct MapScenery {
+    MapTileScenery groundTiles;
+    MapTileScenery lowTiles;
+    MapSpriteScenery lowSprites;
+    MapTileScenery highTiles;
+    MapSpriteScenery highSprites;
   };
 
 }
 
-
-#endif // AKGR_WORLD_SCENERY_H
+#endif // AKGR_MAP_SCENERY_H

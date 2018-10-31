@@ -73,6 +73,11 @@ namespace {
     Saved,
   };
 
+  constexpr const char *PreloadedTexture[] = {
+    "tilesets/biomes.png",
+    "tilesets/sprites-128.png"
+  };
+
 }
 
 int main() {
@@ -142,6 +147,12 @@ int main() {
   gf::ActionContainer gameActions;
   akgr::Commands commands(gameActions);
 
+  // preload textures
+
+  for (auto path : PreloadedTexture) {
+    resources.getTexture(path);
+  }
+
   /*
    * opening
    */
@@ -191,7 +202,7 @@ int main() {
     }
 
     worldState.bind(worldData);
-    worldScenery.bind(worldData, random);
+    worldScenery.bind(worldData, resources, random);
     script.initialize();
 
     if (choice == AdventureChoice::New) {
@@ -293,19 +304,19 @@ int main() {
 
   gf::EntityContainer mainEntities;
 
-  akgr::MapGroundRenderer mapGround(worldData, worldState, resources);
+  akgr::MapTileRenderer mapGround(akgr::Plane::Ground, worldData, worldState, worldScenery.map.groundTiles);
   mainEntities.addEntity(mapGround);
 
-  akgr::MapTileRenderer mapLowTile(akgr::Plane::Low, worldData, worldState, resources);
+  akgr::MapTileRenderer mapLowTile(akgr::Plane::Low, worldData, worldState, worldScenery.map.lowTiles);
   mainEntities.addEntity(mapLowTile);
 
-  akgr::MapSpriteRenderer mapLowSprite(akgr::Plane::Low, worldData, worldState, resources);
+  akgr::MapSpriteRenderer mapLowSprite(akgr::Plane::Low, worldData, worldState, worldScenery.map.lowSprites);
   mainEntities.addEntity(mapLowSprite);
 
-  akgr::MapTileRenderer mapHighTile(akgr::Plane::High, worldData, worldState, resources);
+  akgr::MapTileRenderer mapHighTile(akgr::Plane::High, worldData, worldState, worldScenery.map.highTiles);
   mainEntities.addEntity(mapHighTile);
 
-  akgr::MapSpriteRenderer mapHighSprite(akgr::Plane::High, worldData, worldState, resources);
+  akgr::MapSpriteRenderer mapHighSprite(akgr::Plane::High, worldData, worldState, worldScenery.map.highSprites);
   mainEntities.addEntity(mapHighSprite);
 
   akgr::HeroRenderer hero(worldState, resources);

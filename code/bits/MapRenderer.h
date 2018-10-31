@@ -23,60 +23,43 @@
 #include <vector>
 
 #include <gf/Entity.h>
-#include <gf/ResourceManager.h>
-#include <gf/Sprite.h>
-#include <gf/TileLayer.h>
 
 #include "WorldData.h"
 #include "WorldState.h"
+#include "WorldScenery.h"
 
 namespace akgr {
 
-  enum Plane {
+  enum class Plane {
     High,
     Low,
+    Ground,
   };
-
-  class MapGroundRenderer : public gf::Entity {
-  public:
-    MapGroundRenderer(const WorldData& data, const WorldState& state, gf::ResourceManager& resources);
-
-    virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
-
-  private:
-    const WorldData& m_data;
-    const WorldState& m_state;
-
-    std::vector<gf::TileLayer> m_layers;
-  };
-
 
   class MapTileRenderer : public gf::Entity {
   public:
-    MapTileRenderer(Plane plane, const WorldData& data, const WorldState& state, gf::ResourceManager& resources);
+    MapTileRenderer(Plane plane, const WorldData& data, const WorldState& state, MapTileScenery& scenery);
 
     virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
 
   private:
     const WorldData& m_data;
     const WorldState& m_state;
-
-    std::vector<gf::TileLayer> m_layers;
+    MapTileScenery& m_scenery;
   };
 
 
   class MapSpriteRenderer : public gf::Entity {
   public:
 
-    MapSpriteRenderer(Plane plane, const WorldData& data, const WorldState& state, gf::ResourceManager& resources);
+    MapSpriteRenderer(Plane plane, const WorldData& data, const WorldState& state, MapSpriteScenery& scenery);
 
     virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
 
   private:
     const WorldData& m_data;
     const WorldState& m_state;
-
-    std::vector<std::vector<gf::Sprite>> m_layers;
+    MapSpriteScenery& m_scenery;
   };
 
 

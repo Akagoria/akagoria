@@ -28,10 +28,65 @@ namespace akgr {
     constexpr std::size_t ShrineParticleCount = 20;
     constexpr float ShrineParticleMinRadius = 30.0f;
 
+    gf::TileLayer bindTextureLayer(const MapData& map, const TextureLayer& textureLayer, gf::ResourceManager& resources) {
+      if (textureLayer.tiles.isEmpty()) {
+        return gf::TileLayer({ 0u, 0u });
+      }
+
+      assert(map.mapSize == textureLayer.tiles.getSize());
+      gf::TileLayer layer(map.mapSize);
+      layer.setTileSize(map.tileSize);
+
+      for (auto pos : textureLayer.tiles.getPositionRange()) {
+        layer.setTile(pos, textureLayer.tiles(pos));
+      }
+
+      const Tileset& tileset = map.tilesets[textureLayer.tilesetId];
+
+      layer.setMargin(tileset.margin);
+      layer.setSpacing(tileset.spacing);
+
+      gf::Texture& texture = resources.getTexture(tileset.path);
+      texture.setSmooth(false);
+      texture.generateMipmap();
+      layer.setTexture(texture);
+      assert(layer.hasTexture());
+
+      return layer;
+    }
+
+    std::vector<gf::Sprite> bindSpriteLayer(const MapData& map, const SpriteLayer& layer, gf::ResourceManager& resources) {
+      std::vector<gf::Sprite> sprites;
+
+      for (auto& raw : layer.sprites) {
+        const Tileset& tileset = map.tilesets[raw.tilesetId];
+        const gf::Texture& texture = resources.getTexture(tileset.path);
+        gf::RectF textureRect = texture.computeTextureCoords(raw.subTexture);
+
+        gf::Sprite sprite(texture, textureRect);
+        sprite.setPosition(raw.position);
+        sprite.setRotation(gf::degreesToRadians(raw.rotation));
+        sprite.setAnchor(gf::Anchor::BottomLeft); // see http://docs.mapeditor.org/en/stable/reference/tmx-map-format/#object
+
+        sprites.push_back(sprite);
+      }
+
+      return sprites;
+    }
 
   }
 
-  void WorldScenery::bind(const WorldData& data, gf::Random& random) {
+  void WorldScenery::bind(const WorldData& data, gf::ResourceManager& resources, gf::Random& random) {
+    // map
+
+    for (auto& floor : data.map.floors) {
+      map.groundTiles.layers.push_back(bindTextureLayer(data.map, floor.groundTiles, resources));
+      map.lowTiles.layers.push_back(bindTextureLayer(data.map, floor.lowTiles, resources));
+      map.lowSprites.layers.push_back(bindSpriteLayer(data.map, floor.lowSprites, resources));
+      map.highTiles.layers.push_back(bindTextureLayer(data.map, floor.highTiles, resources));
+      map.highSprites.layers.push_back(bindSpriteLayer(data.map, floor.highSprites, resources));
+    }
+
     // shrines
 
     for (auto& shrine : data.shrines) {
