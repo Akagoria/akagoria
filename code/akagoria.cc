@@ -169,7 +169,7 @@ int main() {
 
   gf::EntityContainer openingEntities;
 
-  akgr::LogoRenderer logo(openingScenery, resources);
+  akgr::LogoRenderer logo(openingScenery, uiData, resources);
   openingEntities.addEntity(logo);
 
   akgr::StartMenuRenderer startMenu(uiData, openingScenery, display);
@@ -209,7 +209,7 @@ int main() {
       script.start();
     }
 
-//     std::this_thread::sleep_for(std::chrono::seconds(1)); // TODO: remove this in the future
+    std::this_thread::sleep_for(std::chrono::milliseconds(500)); // TODO: remove this in the future
 
     auto loadingTime = loadingClock.getElapsedTime();
     gf::Log::info("Game loaded in %d ms\n", loadingTime.asMilliseconds());

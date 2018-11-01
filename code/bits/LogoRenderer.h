@@ -24,17 +24,19 @@
 #include <gf/ResourceManager.h>
 
 #include "OpeningScenery.h"
+#include "UIData.h"
 
 namespace akgr {
 
   class LogoRenderer : public gf::Entity {
   public:
-    LogoRenderer(const OpeningScenery& scenery, gf::ResourceManager& resources);
+    LogoRenderer(const OpeningScenery& scenery, const UIData& data, gf::ResourceManager& resources);
 
     virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
 
   private:
     const OpeningScenery& m_scenery;
+    const UIData& m_data;
     const gf::Texture& m_texture;
     gf::Font& m_mainFont;
     gf::Font& m_additionalFont;

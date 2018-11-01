@@ -21,11 +21,14 @@
 
 #include <gf/Color.h>
 #include <gf/Coordinates.h>
+#include <gf/Id.h>
 #include <gf/RenderTarget.h>
 #include <gf/Shapes.h>
 #include <gf/Sprite.h>
 #include <gf/Text.h>
 #include <gf/VectorOps.h>
+
+using namespace gf::literals;
 
 namespace akgr {
 
@@ -38,8 +41,9 @@ namespace akgr {
 
   }
 
-  LogoRenderer::LogoRenderer(const OpeningScenery& scenery, gf::ResourceManager& resources)
+  LogoRenderer::LogoRenderer(const OpeningScenery& scenery, const UIData& data, gf::ResourceManager& resources)
   : m_scenery(scenery)
+  , m_data(data)
   , m_texture(resources.getTexture("logo.png"))
   , m_mainFont(resources.getFont("fonts/Philosopher-Regular.ttf"))
   , m_additionalFont(resources.getFont("fonts/sawarabi-mincho-medium.ttf"))
@@ -89,7 +93,7 @@ namespace akgr {
     unsigned subtitlecharacterSize = coords.getRelativeCharacterSize(0.06f);
     gf::Vector2f subtitlePosition = coords.getRelativePoint({ 0.5f, 0.65f });
 
-    gf::Text subtitleText("The revenge of Kalista", m_subtitleFont, subtitlecharacterSize);
+    gf::Text subtitleText(m_data.getUIMessage("SplashSubTitle"_id), m_subtitleFont, subtitlecharacterSize);
 //     subtitleText.setLetterSpacing(1.5f);
     subtitleText.setPosition(subtitlePosition);
     subtitleText.setAnchor(gf::Anchor::Center);
@@ -99,7 +103,7 @@ namespace akgr {
       unsigned loadingCharacterSize = coords.getRelativeCharacterSize(0.05f);
       gf::Vector2f loadingPosition = coords.getRelativePoint({ 0.5f, 0.85f });
 
-      gf::Text loadingText("Loading...", m_mainFont, loadingCharacterSize);
+      gf::Text loadingText(m_data.getUIMessage("SplashLoading"_id), m_mainFont, loadingCharacterSize);
       loadingText.setLetterSpacing(1.5f);
       loadingText.setPosition(loadingPosition);
       loadingText.setAnchor(gf::Anchor::Center);
