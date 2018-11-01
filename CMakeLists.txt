@@ -21,6 +21,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/extras/cmake")
 find_package(gf REQUIRED)
 find_package(Boost REQUIRED COMPONENTS locale)
 find_package(Box2D REQUIRED)
+find_package(L10N)
 
 if(MSVC)
   message(STATUS "Using MSVC compiler")
@@ -53,9 +54,3 @@ endif()
 
 add_subdirectory(code)
 add_subdirectory(data)
-
-# find_package(L10N)
-#
-# if(L10N_FOUND)
-#   add_subdirectory(data/akagoria/l10n)
-# endif()

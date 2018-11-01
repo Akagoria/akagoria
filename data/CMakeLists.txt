@@ -14,6 +14,7 @@ add_custom_command(
   OUTPUT
     "${CMAKE_CURRENT_BINARY_DIR}/akagoria.dat"
     "${CMAKE_CURRENT_BINARY_DIR}/ui.dat"
+    "${CMAKE_CURRENT_BINARY_DIR}/strings.cc"
   DEPENDS
     akagoria_datacompile
     ${AKAGORIA_DATABASE_FILES}
@@ -27,6 +28,8 @@ add_custom_target(akagoria.dat
   DEPENDS
     "${CMAKE_CURRENT_BINARY_DIR}/akagoria.dat"
 )
+
+add_subdirectory(raw/i18n)
 
 install(
   DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/akagoria"

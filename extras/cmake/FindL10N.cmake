@@ -22,7 +22,7 @@ function(GETTEXT_XGETTEXT domain)
   if (parsed_FILES)
     add_custom_command(
       OUTPUT "${potFile}"
-      COMMAND ${GETTEXT_XGETTEXT_EXECUTABLE} --default-domain=${domain} --output=${potFile} --language=C --extract-all --sort-by-file ${parsed_FILES}
+      COMMAND ${GETTEXT_XGETTEXT_EXECUTABLE} --no-location --default-domain=${domain} --output=${potFile} --language=C --extract-all --sort-by-file ${parsed_FILES}
       WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
       DEPENDS ${parsed_FILES}
     )
@@ -80,7 +80,7 @@ function(GETTEXT_FMT domain)
     add_custom_command(
       OUTPUT "${gmoFile}"
       COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} -o ${gmoFile} ${poFile}
-      DEPENDS ${lang}
+      DEPENDS ${lang} ${poFile}
     )
 
     if(parsed_INSTALL_DESTINATION)

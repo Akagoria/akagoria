@@ -97,6 +97,7 @@ target_include_directories(akagoria_datacompile
 
 target_link_libraries(akagoria_datacompile
   gf::gf0
+  ${Boost_LIBRARIES}
 )
 
 

@@ -21,6 +21,8 @@
 
 #include <cinttypes>
 
+#include <boost/locale.hpp>
+
 #include <gf/Log.h>
 #include <gf/Serialization.h>
 #include <gf/SerializationOps.h>
@@ -56,7 +58,7 @@ namespace akgr {
       return "";
     }
 
-    return it->second.message; // TODO: add l10n
+    return boost::locale::gettext(it->second.message.c_str());
   }
 
 }
