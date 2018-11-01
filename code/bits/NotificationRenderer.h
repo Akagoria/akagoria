@@ -23,17 +23,19 @@
 #include <gf/Entity.h>
 
 #include "Display.h"
+#include "UIData.h"
 #include "WorldState.h"
 
 namespace akgr {
 
   class NotificationRenderer : public gf::Entity {
   public:
-    NotificationRenderer(const WorldState& state, const Display& display);
+    NotificationRenderer(const UIData& data, const WorldState& state, const Display& display);
 
     virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
 
   private:
+    const UIData& m_data;
     const WorldState& m_state;
     const Display& m_display;
   };

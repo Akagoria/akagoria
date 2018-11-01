@@ -19,6 +19,8 @@
  */
 #include "NotificationRenderer.h"
 
+#include <boost/locale.hpp>
+
 #include <gf/Log.h>
 
 namespace akgr {
@@ -31,8 +33,9 @@ namespace akgr {
 
   } // anonymous namespace
 
-  NotificationRenderer::NotificationRenderer(const WorldState& state, const Display& display)
+  NotificationRenderer::NotificationRenderer(const UIData& data, const WorldState& state, const Display& display)
   : gf::Entity(50)
+  , m_data(data)
   , m_state(state)
   , m_display(display)
   {
@@ -45,7 +48,7 @@ namespace akgr {
     }
 
     auto& notification = m_state.notifications.front();
-    m_display.renderTextBox(target, states, { NotificationPosition, NotificationSize }, NotificationCharacterSize, notification.ref.data->message, gf::Alignment::Center);
+    m_display.renderTextBox(target, states, { NotificationPosition, NotificationSize }, NotificationCharacterSize, boost::locale::gettext(notification.ref.data->message.c_str()), gf::Alignment::Center);
   }
 
 }

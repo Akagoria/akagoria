@@ -334,7 +334,7 @@ int main() {
 
   gf::EntityContainer hudEntities;
 
-  akgr::NotificationRenderer notifications(worldState, display);
+  akgr::NotificationRenderer notifications(uiData, worldState, display);
   hudEntities.addEntity(notifications);
 
   akgr::DialogRenderer dialog(worldState, display);
