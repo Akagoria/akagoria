@@ -19,6 +19,8 @@
  */
 #include "AreaRenderer.h"
 
+#include <boost/locale.hpp>
+
 #include <gf/Color.h>
 #include <gf/Coordinates.h>
 #include <gf/RenderTarget.h>
@@ -57,7 +59,7 @@ namespace akgr {
     unsigned characterSize = coords.getRelativeCharacterSize(AreaCharacterSize);
     float thickness = coords.getRelativeSize({ 0.0f, 0.001f }).height;
 
-    gf::Text text(m_scenery.area.current->name, m_font, characterSize);
+    gf::Text text(boost::locale::gettext(m_scenery.area.current->name.c_str()), m_font, characterSize);
     text.setColor(gf::Color::White);
     text.setOutlineColor(gf::Color::Black);
     text.setOutlineThickness(thickness);

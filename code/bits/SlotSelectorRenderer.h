@@ -25,6 +25,7 @@
 #include "Display.h"
 #include "OpeningScenery.h"
 #include "SlotSelectorScenery.h"
+#include "UIData.h"
 #include "WorldScenery.h"
 #include "WorldState.h"
 
@@ -32,7 +33,7 @@ namespace akgr {
 
   class SlotSelectorRenderer : public gf::Entity {
   public:
-    SlotSelectorRenderer(const SlotSelectorScenery& scenery, const Display& display);
+    SlotSelectorRenderer(const UIData& data, const SlotSelectorScenery& scenery, const Display& display);
     virtual ~SlotSelectorRenderer();
 
     virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
@@ -40,13 +41,14 @@ namespace akgr {
     virtual bool isDisplayed() const = 0;
 
   private:
+    const UIData& m_data;
     const SlotSelectorScenery& m_scenery;
     const Display& m_display;
   };
 
   class OpeningSlotSelectorRenderer : public SlotSelectorRenderer {
   public:
-    OpeningSlotSelectorRenderer(const OpeningScenery& scenery, const Display& display);
+    OpeningSlotSelectorRenderer(const UIData& data, const OpeningScenery& scenery, const Display& display);
 
     virtual bool isDisplayed() const override;
 
@@ -56,7 +58,7 @@ namespace akgr {
 
   class WorldSlotSelectorRenderer : public SlotSelectorRenderer {
   public:
-    WorldSlotSelectorRenderer(const WorldState& state, const WorldScenery& scenery, const Display& display);
+    WorldSlotSelectorRenderer(const UIData& data, const WorldState& state, const WorldScenery& scenery, const Display& display);
 
     virtual bool isDisplayed() const override;
 

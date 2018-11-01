@@ -32,10 +32,10 @@ namespace akgr {
     constexpr float StartMenuCharacterSize = 0.03f;
 
     constexpr gf::Vector2f StartMenuItemPosition(0.03f, 0.0f); // first, relative to menu position
-    constexpr gf::Vector2f StartMenuItemSize(0.22f, 0.04f);
+    constexpr gf::Vector2f StartMenuItemSize(0.25f, 0.04f);
     constexpr float StartMenuItemSpacing = 0.007f;
 
-    constexpr gf::Vector2f StartMenuSize(0.25f, 3 * StartMenuItemSize.y + 4 * StartMenuItemSpacing);
+    constexpr gf::Vector2f StartMenuSize(StartMenuItemPosition.x + StartMenuItemSize.x, 3 * StartMenuItemSize.y + 4 * StartMenuItemSpacing);
 
     constexpr gf::Vector2f StartMenuArrowPosition(0.015f, StartMenuItemSize.y / 2); // first, relative to menu position
     constexpr float StartMenuArrowGap = StartMenuItemSpacing + StartMenuItemSize.y;

@@ -175,7 +175,7 @@ int main() {
   akgr::StartMenuRenderer startMenu(uiData, openingScenery, display);
   openingEntities.addEntity(startMenu);
 
-  akgr::OpeningSlotSelectorRenderer openingSlotLoader(openingScenery, display);
+  akgr::OpeningSlotSelectorRenderer openingSlotLoader(uiData, openingScenery, display);
   openingEntities.addEntity(openingSlotLoader);
 
   // (empty) world
@@ -343,7 +343,7 @@ int main() {
   akgr::AttributesRenderer attributes(worldState, resources);
   hudEntities.addEntity(attributes);
 
-  akgr::WorldSlotSelectorRenderer worldSlotSaver(worldState, worldScenery, display);
+  akgr::WorldSlotSelectorRenderer worldSlotSaver(uiData, worldState, worldScenery, display);
   hudEntities.addEntity(worldSlotSaver);
 
   akgr::MiniMapRenderer miniMap(worldState);

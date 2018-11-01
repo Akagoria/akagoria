@@ -23,7 +23,12 @@
 #include <array>
 #include <string>
 
+#include <boost/locale.hpp>
+
+#include <gf/Id.h>
 #include <gf/VectorOps.h>
+
+using namespace gf::literals;
 
 namespace akgr {
 
@@ -49,7 +54,7 @@ namespace akgr {
 
     std::string getSlotInfo(const Slot& slot, int index) {
       if (!slot.active) {
-        return "(empty)";
+        return "Slot #" + std::to_string(index) + "\n---\n---";
       }
 
       std::string str;
@@ -62,7 +67,7 @@ namespace akgr {
 
       str += '\n';
 
-      str += slot.meta.area + '\n';
+      str += boost::locale::gettext(slot.meta.area.c_str()) + '\n';
 
       static constexpr std::size_t TimeInfoSize = 1024;
 
@@ -75,8 +80,9 @@ namespace akgr {
 
   }
 
-  SlotSelectorRenderer::SlotSelectorRenderer(const SlotSelectorScenery& scenery, const Display& display)
-  : m_scenery(scenery)
+  SlotSelectorRenderer::SlotSelectorRenderer(const UIData& data, const SlotSelectorScenery& scenery, const Display& display)
+  : m_data(data)
+  , m_scenery(scenery)
   , m_display(display)
   {
 
@@ -114,7 +120,7 @@ namespace akgr {
 
     position.y += SlotSize.height + 2 * SlotSpacing;
 
-    m_display.renderText(target, states, { position, SlotSize }, SelectorCharacterSize, "Back");
+    m_display.renderText(target, states, { position, SlotSize }, SelectorCharacterSize, m_data.getUIMessage("MenuBack"_id));
 
     gf::Vector2f arrowPosition = SelectorPosition + SelectorArrowPosition;
 
@@ -128,8 +134,8 @@ namespace akgr {
   }
 
 
-  OpeningSlotSelectorRenderer::OpeningSlotSelectorRenderer(const OpeningScenery& scenery, const Display& display)
-  : SlotSelectorRenderer(scenery.selector, display)
+  OpeningSlotSelectorRenderer::OpeningSlotSelectorRenderer(const UIData& data, const OpeningScenery& scenery, const Display& display)
+  : SlotSelectorRenderer(data, scenery.selector, display)
   , m_scenery(scenery)
   {
 
@@ -139,8 +145,8 @@ namespace akgr {
     return m_scenery.operation == OpeningOperation::Select;
   }
 
-  WorldSlotSelectorRenderer::WorldSlotSelectorRenderer(const WorldState& state, const WorldScenery& scenery, const Display& display)
-  : SlotSelectorRenderer(scenery.selector, display)
+  WorldSlotSelectorRenderer::WorldSlotSelectorRenderer(const UIData& data, const WorldState& state, const WorldScenery& scenery, const Display& display)
+  : SlotSelectorRenderer(data, scenery.selector, display)
   , m_state(state)
   {
 

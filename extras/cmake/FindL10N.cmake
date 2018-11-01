@@ -47,7 +47,7 @@ function(GETTEXT_MERGE potFile)
     set(poFile "${CMAKE_CURRENT_SOURCE_DIR}/${lang}.po")
 
     add_custom_target(${lang}
-      COMMAND ${GETTEXT_MSGMERGE_EXECUTABLE} --update --backup=none --quiet --sort-by-file ${poFile} ${potFile}
+      COMMAND ${GETTEXT_MSGMERGE_EXECUTABLE} --no-location --update --backup=none --quiet ${poFile} ${potFile}
       WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
       DEPENDS ${potFile}
     )

@@ -19,6 +19,8 @@
  */
 #include "DialogRenderer.h"
 
+#include <boost/locale.hpp>
+
 #include <gf/Log.h>
 
 namespace akgr {
@@ -54,8 +56,8 @@ namespace akgr {
     assert(dialog.currentLine < dialog.ref.data->content.size());
     auto& line = dialog.ref.data->content[dialog.currentLine];
 
-    m_display.renderTextBox(target, states, { SpeakerPosition, SpeakerSize }, SpeakerCharacterSize, line.speaker, gf::Alignment::Left);
-    m_display.renderTextBox(target, states, { WordsPosition, WordsSize }, WordsCharacterSize, line.words, gf::Alignment::Left);
+    m_display.renderTextBox(target, states, { SpeakerPosition, SpeakerSize }, SpeakerCharacterSize, boost::locale::gettext(line.speaker.c_str()), gf::Alignment::Left);
+    m_display.renderTextBox(target, states, { WordsPosition, WordsSize }, WordsCharacterSize, boost::locale::gettext(line.words.c_str()), gf::Alignment::Left);
   }
 
 }

@@ -1,80 +1,3 @@
-msgid "The revenge of Kalista"
-msgstr "La revanche de Kalista"
-
-msgid "Loading..."
-msgstr "Chargement..."
-
-msgid "Start an adventure"
-msgstr "Démarrer une aventure"
-
-msgid "Quit"
-msgstr "Quitter"
-
-msgid "Load an adventure"
-msgstr "Charger une aventure"
-
-msgid "Back"
-msgstr ""
-
-msgid "The end"
-msgstr ""
-
-msgid "Welcome to Akagoria!"
-msgstr ""
-
-msgid "A Pona Shrine gives you some health"
-msgstr ""
-
-msgid "Go south, you will find a lovely place called Arabband."
-msgstr ""
-
-msgid ""
-"Where do I have to go to find the village?\n"
-"I do not remember what you told me."
-msgstr ""
-
-msgid ""
-"Ho really?\n"
-"(Gniak! Gniark!)\n"
-"Thanks for the advice. Goodbye!"
-msgstr ""
-
-msgid ""
-"Hummm... Yes!\n"
-"You seem to be lost, you should be carefull!\n"
-"It is said that an evil sorceress is haunting the woods..."
-msgstr ""
-
-msgid "Shagir"
-msgstr ""
-
-msgid ""
-"Hi! Can you help me?\n"
-"I am looking for a village nearby.\n"
-"Am I in the right direction?"
-msgstr ""
-
-msgid ""
-"I think there is a village not so far from here.\n"
-"I can see some smoke in the south...\n"
-"Let's go!"
-msgstr ""
-
-msgid ""
-"Ouch! What a terrible headache!\n"
-"Where am I? Why am I here?\n"
-"I am sooo hungry, I must find something to eat..."
-msgstr ""
-
-msgid "Kalista"
-msgstr ""
-
-msgid "Plains of the South"
-msgstr ""
-
-msgid "Rocky Moutains"
-msgstr ""
-
 # Akagoria, the revenge of Kalista
 # a single-player RPG in an open world with a top-down view.
 # Copyright (c) 2013-2018, Julien Bernard
@@ -86,10 +9,104 @@ msgid ""
 msgstr ""
 "Project-Id-Version: akagoria\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-01 12:11+0100\n"
+"POT-Creation-Date: 2018-11-01 12:22+0100\n"
 "PO-Revision-Date: 2018-11-01 12:11+0100\n"
 "Last-Translator: Julien Bernard <julien.bernard@univ-fcomte.fr>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+msgid "Rocky Moutains"
+msgstr "Montagnes Rocheuses"
+
+msgid "Plains of the South"
+msgstr "Plaines du Sud"
+
+msgid "Kalista"
+msgstr ""
+
+msgid ""
+"Ouch! What a terrible headache!\n"
+"Where am I? Why am I here?\n"
+"I am sooo hungry, I must find something to eat..."
+msgstr ""
+"Aïe ! Quel horrible mal de tête !\n"
+"Où suis-je ? Pourquoi suis-je ici ?\n"
+"J'ai teeellement faim, je dois trouver à manger..."
+
+msgid ""
+"I think there is a village not so far from here.\n"
+"I can see some smoke in the south...\n"
+"Let's go!"
+msgstr ""
+"Je pense qu'il y a un village non loin d'ici.\n"
+"Je peux voir de la fumée au sud...\n"
+"Allons-y !"
+
+msgid ""
+"Hi! Can you help me?\n"
+"I am looking for a village nearby.\n"
+"Am I in the right direction?"
+msgstr ""
+"Bonjour ! Pouvez-vous m'aider ?\n"
+"Je recherche un village non loin.\n"
+"Suis-je dans la bonne direction ?"
+
+msgid "Shagir"
+msgstr ""
+
+msgid ""
+"Hummm... Yes!\n"
+"You seem to be lost, you should be carefull!\n"
+"It is said that an evil sorceress is haunting the woods..."
+msgstr ""
+"Hummm... Oui !\n"
+"Vous semblez être perdue, vous devriez faire attention !\n"
+"On dit qu'une sorcière maléfique hante ces bois..."
+
+msgid ""
+"Ho really?\n"
+"(Gniak! Gniark!)\n"
+"Thanks for the advice. Goodbye!"
+msgstr ""
+"Ho vraiment?\n"
+"(Niark, Niark !)\n"
+"Merci pour le conseil. Au revoir !"
+
+msgid ""
+"Where do I have to go to find the village?\n"
+"I do not remember what you told me."
+msgstr ""
+"Où dois-je aller pour trouver le village ?\n"
+"Je ne me souviens plus de ce que vous m'avez dit."
+
+msgid "Go south, you will find a lovely place called Arabband."
+msgstr "Allez au sud, vous trouverez un charmant village appelé Arabband."
+
+msgid "A Pona Shrine gives you some health"
+msgstr ""
+
+msgid "Welcome to Akagoria!"
+msgstr "Bienvenue à Akagoria !"
+
+msgid "The end"
+msgstr "Fin"
+
+msgid "Back"
+msgstr "Retour"
+
+msgid "Load an adventure"
+msgstr "Charger une aventure"
+
+msgid "Quit"
+msgstr "Quitter"
+
+msgid "Start an adventure"
+msgstr "Démarrer une aventure"
+
+msgid "Loading..."
+msgstr "Chargement..."
+
+msgid "The revenge of Kalista"
+msgstr "La revanche de Kalista"
