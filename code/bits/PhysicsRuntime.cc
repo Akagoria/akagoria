@@ -214,4 +214,7 @@ namespace akgr {
     m_debug.addTransform(toVec(xf.p), toVec(xf.q.GetXAxis()), toVec(xf.q.GetYAxis()));
   }
 
+  void PhysicsDraw::DrawPoint(const b2Vec2& p, float32 size, const b2Color& color) {
+
+  }
 }
