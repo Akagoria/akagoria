@@ -46,9 +46,9 @@ namespace akgr {
       layer.setMargin(tileset.margin);
       layer.setSpacing(tileset.spacing);
 
-      gf::Texture& texture = resources.getTexture(tileset.path);
-      texture.setSmooth(false);
-      texture.generateMipmap();
+      const gf::Texture& texture = resources.getTexture(tileset.path);
+      // texture.setSmooth(false);
+      // texture.generateMipmap();
       layer.setTexture(texture);
       assert(layer.hasTexture());
 
@@ -95,7 +95,7 @@ namespace akgr {
 
       for (std::size_t i = 0; i < ShrineParticleCount; ++i) {
         ShrineParticle particle;
-        particle.velocity = random.computeUniformFloat(0.5 * gf::Pi, 1.5 * gf::Pi);
+        particle.velocity = random.computeUniformFloat(0.5f * gf::Pi, 1.5f * gf::Pi);
         particle.amplitude = ShrineParticleMinRadius;
         particle.theta = random.computeUniformFloat(0.0f, 2 * gf::Pi);
         particle.n = random.computeUniformFloat(1.0f, 3.0f);
