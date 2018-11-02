@@ -93,7 +93,6 @@ int main() {
 //   gf::Log::setLevel(gf::Log::Info);
 
   gf::Log::info("Locale is: %s\n", std::locale("").name().c_str());
-
   gf::Random random;
 
   // initialization
@@ -103,6 +102,8 @@ int main() {
   window.setFramerateLimit(59);
 
   gf::RenderWindow renderer(window);
+
+  // resources
 
   gf::ResourceManager resources;
   resources.addSearchDir(AKAGORIA_DATADIR);
