@@ -1,0 +1,96 @@
+= Akagoria engine design
+Julien Bernard <julien.bernard@univ-fcomte.fr>
+v0.5
+:toc:
+:homepage: https://akagoria.github.io/
+:stem: latexmath
+:source-highlighter: coderay
+:xrefstyle: full
+
+This document provides an overview of the https://github.com/Akagoria/akagoria[source code of Akagoria].
+
+[[world]]
+== World
+
+The design of the world of Akagoria is a variation of the https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller[model-view-controller pattern].
+
+=== Global classes
+
+==== Model
+
+The model is the central part of the design. It is split in three different parts:
+
+- `WorldData` is the pure data of the world. It is defined in files as explained in the link:world_builder.html[world builder manual]. This part of the model contains all the data that do not change in instances of the world. It is serialized in `akagoria.dat`. It is loaded at the start of the game and do not change afterwards. Examples: map, dialogs, notifications, etc.
+- `WorldState` is the state of the world. Simply said, it represents all that has to be saved to be able to recover the exact same world at the start of the game. The state is serialized to form a https://en.wikipedia.org/wiki/Saved_game[game save]. Example: hero and characters position, attributes, etc.
+- `WorldScenery` is the part of the model that can be reconstructed at the start of the game from the data and the state of the world, and that do not need to be stored. Examples: sprites, animations, menus, etc.
+
+
+==== Controller
+
+The controller handles the evolution of the world, either because of a user input, or by a classical update.
+
+- `WorldDriver` takes care of the commands of the user. It checks for new commands and modifies the model accordingly. It also calls the script in case of a special event.
+- `WorldProcessor` updates the world on a timely basis. Especially, it updates the physics simulation, animations and particles.
+- `Script` handles the script, it loads the script at the start of the game and binds the relevant functions from and to the script. Then, it is responsible of updating the model when a function is called.
+
+
+==== View
+
+The view is composed of several specialized classes. There is not a single central class like for the model or the controller. Each part in the world can define a `Renderer` (in fact a `gf::Entity` that only redefines the `render` method). A renderer may have access to the whole model in order to properly display the relevant informations.
+
+
+=== Parts
+
+Each part in the world can contribute to the world data, the world state, the world scenery or the world view. Here is a list of the current parts and their contributions.
+
+.Existing parts for World
+[cols="<,^,^,^,^"]
+|===
+| Part | Data | State | Scenery | Renderer
+
+| Area | ✓ | | ✓ | ✓
+
+| Attributes | | ✓ | | ✓
+
+| Character | ✓ | ✓ | | ✓
+
+| Dialog | ✓ | ✓ | | ✓
+
+| Hero | | ✓ | | ✓
+
+| Location | ✓ | | |
+
+| Map | ✓ | | ✓ | ✓
+
+| MiniMap | | | | ✓
+
+| Notification | ✓ | ✓ | | ✓
+
+| Physics | ✓ | ✓ | |
+
+| Shrine | ✓ | | ✓ | ✓
+
+| SlotSelector | | | ✓ | ✓
+|===
+
+
+== Opening
+
+The opening scene is what happens before the real game is launched. Its design is a simplification of <<world>>. Obviously, there is no data and no state.
+
+.Existing parts for Opening
+[cols="<,^,^,<"]
+|===
+| Part | Scenery | Renderer | Comment
+
+| Logo | | ✓ | Splash screen
+
+| SlotSelector | ✓ | ✓ |
+
+| StartMenu | ✓ | ✓ |
+|===
+
+
+== UI
+
+The UI strings are serialized in a different file, `ui.dat`, in order to be available since the beginning without having to load the whole world. They are common to the world and to the opening.

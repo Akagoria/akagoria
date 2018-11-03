@@ -1,4 +1,4 @@
-= Akagoria developper documentation
+= Akagoria developer documentation
 Julien Bernard <julien.bernard@univ-fcomte.fr>
 v0.5
 :toc:
@@ -7,12 +7,17 @@ v0.5
 :source-highlighter: coderay
 :xrefstyle: full
 
-Welcome to the Akagoria developper documentation.
+Welcome to the Akagoria developer documentation.
 
-== Engine developpers
+== Engine developers
 
-NOTE: Nothing yet
+- link:engine_design.html[Akagoria engine design]
 
-== Content developpers
+== Content developers
 
 - link:world_builder.html[Akagoria world builder manual]
+
+== External links
+
+- https://github.com/Akagoria/akagoria[Github repository]
+- https://akagoria.org/[Public website]
