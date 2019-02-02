@@ -96,9 +96,6 @@ int main() {
 
   gf::Random random;
 
-  gf::ResourceManager resources;
-  resources.addSearchDir(AKAGORIA_DATADIR);
-
   // initialization
 
   gf::Window window("Akagoria, the revenge of Kalista", ScreenSize); //, ~gf::WindowHints::Resizable);
@@ -106,6 +103,9 @@ int main() {
   window.setFramerateLimit(59);
 
   gf::RenderWindow renderer(window);
+
+  gf::ResourceManager resources;
+  resources.addSearchDir(AKAGORIA_DATADIR);
 
   akgr::Display display(resources);
 
