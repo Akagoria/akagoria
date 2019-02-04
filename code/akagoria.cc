@@ -75,7 +75,8 @@ namespace {
 
   constexpr const char *PreloadedTexture[] = {
     "tilesets/biomes.png",
-    "tilesets/sprites-128.png"
+    "tilesets/sprites-128.png",
+    "tilesets/sprites-256.png"
   };
 
 }

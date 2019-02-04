@@ -357,6 +357,11 @@ namespace {
          */
 
         auto tilesetTile = tileset->getTile(lid);
+
+        if (tilesetTile == nullptr) {
+          continue;
+        }
+
         std::string type = tilesetTile->type;
 
         if (type == "shrine") {

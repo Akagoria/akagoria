@@ -25,7 +25,9 @@ namespace akgr {
 
   namespace {
 
-    static gf::Time AreaUpdatePeriod = gf::seconds(1);
+    static constexpr gf::Time AreaUpdatePeriod = gf::seconds(1);
+    static constexpr gf::Time HPUpdatePeriod = gf::seconds(11);
+    static constexpr gf::Time MPUpdatePeriod = gf::seconds(29);
 
     void updateAttribute(Attribute& attr, gf::Time time, gf::Time period) {
       attr.period += time;
@@ -115,13 +117,10 @@ namespace akgr {
 
     // hero (again)
 
-    static constexpr gf::Time PeriodForHP = gf::seconds(11);
-    static constexpr gf::Time PeriodForMP = gf::seconds(29);
-
     hero.physics.pullLocation();
 
-    updateAttribute(hero.attributes.hp, time, PeriodForHP);
-    updateAttribute(hero.attributes.mp, time, PeriodForMP);
+    updateAttribute(hero.attributes.hp, time, HPUpdatePeriod);
+    updateAttribute(hero.attributes.mp, time, MPUpdatePeriod);
 
     // ...
 
