@@ -128,3 +128,15 @@ target_link_libraries(akagoria_stateview
   ${BOX2D_LIBRARIES}
   fmt-header-only
 )
+
+
+add_executable(akagoria_uimessagesview
+  akagoria_uimessagesview.cc
+  bits/UIData.cc
+)
+
+target_link_libraries(akagoria_uimessagesview
+  gf::gf0
+  fmt-header-only
+  ${Boost_LIBRARIES}
+)
