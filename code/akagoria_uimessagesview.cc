@@ -21,13 +21,18 @@
 #include <cstdio>
 #include <cstdlib>
 
+#include <boost/locale.hpp>
+
 #include <gf/Clock.h>
 #include <gf/Path.h>
 
 #include <fmt/core.h>
+#include <fmt/ostream.h>
 
 #include "bits/Fmt.h"
 #include "bits/UIData.h"
+
+#include "config.h"
 
 namespace {
   void viewNewSection(const char *section) {
@@ -40,7 +45,7 @@ namespace {
 
     for (auto& item : data) {
       auto& ui = item.second;
-      fmt::print("\t{}: '{}': '{}'\n", Id{item.first}, ui.name, ui.message);
+      fmt::print("\t{}: '{}': '{}' ('{}')\n", Id{item.first}, ui.name, akgr::escapeString(ui.message), akgr::escapeString(boost::locale::gettext(ui.message.c_str())));
     }
   }
 
@@ -55,6 +60,11 @@ int main(int argc, char *argv[]) {
     fmt::print("Usage: alagoria_uimessagesview <file>\n");
     return EXIT_FAILURE;
   }
+
+  boost::locale::generator localeGenerator;
+  localeGenerator.add_messages_path(AKAGORIA_LOCALEDIR);
+  localeGenerator.add_messages_domain("akagoria");
+  std::locale::global(localeGenerator(""));
 
   fmt::print("Loading akagoria ui messages from '{}'...\n", argv[1]);
   gf::Path inputFile(argv[1]);

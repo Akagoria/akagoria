@@ -86,8 +86,8 @@ add_subdirectory(vendor/fmt EXCLUDE_FROM_ALL)
 
 add_executable(akagoria_datacompile
   akagoria_datacompile.cc
-  bits/WorldData.cc
   bits/UIData.cc
+  bits/WorldData.cc
 )
 
 target_include_directories(akagoria_datacompile
@@ -103,6 +103,7 @@ target_link_libraries(akagoria_datacompile
 
 add_executable(akagoria_dataview
   akagoria_dataview.cc
+  bits/Fmt.cc
   bits/WorldData.cc
 )
 
@@ -114,6 +115,7 @@ target_link_libraries(akagoria_dataview
 
 add_executable(akagoria_stateview
   akagoria_stateview.cc
+  bits/Fmt.cc
   bits/PhysicsState.cc
   bits/WorldState.cc
 )
@@ -132,7 +134,13 @@ target_link_libraries(akagoria_stateview
 
 add_executable(akagoria_uimessagesview
   akagoria_uimessagesview.cc
+  bits/Fmt.cc
   bits/UIData.cc
+)
+
+target_include_directories(akagoria_uimessagesview
+  PRIVATE
+    ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 target_link_libraries(akagoria_uimessagesview

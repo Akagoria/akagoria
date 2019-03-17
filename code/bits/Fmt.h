@@ -89,7 +89,11 @@ namespace fmt {
     }
   };
 
+}
 
+namespace akgr {
+
+  std::string escapeString(const std::string& in);
 
 }
 
