@@ -23,8 +23,9 @@
 
 namespace akgr {
 
-  OpeningDriver::OpeningDriver(OpeningScenery& scenery, const Commands& commands)
+  OpeningDriver::OpeningDriver(OpeningScenery& scenery, RootScenery& root, const Commands& commands)
   : m_scenery(scenery)
+  , m_root(root)
   , m_commands(commands)
   {
 
@@ -46,7 +47,8 @@ namespace akgr {
               break;
 
             case StartMenuScenery::LoadAdventure:
-              m_scenery.operation = OpeningOperation::Select;
+              m_scenery.operation = OpeningOperation::SelectSlot;
+              m_root.operation = RootOperation::SelectSlot;
               break;
 
             case StartMenuScenery::Quit:
@@ -56,20 +58,22 @@ namespace akgr {
         }
         break;
 
-      case OpeningOperation::Select:
+      case OpeningOperation::SelectSlot:
         if (m_commands.menuDown.isActive()) {
-          m_scenery.selector.choice = (m_scenery.selector.choice + 1) % SlotSelectorScenery::ItemCount;
+          m_root.selector.computeNextChoice();
         } else if (m_commands.menuUp.isActive()) {
-          m_scenery.selector.choice = (m_scenery.selector.choice - 1 + SlotSelectorScenery::ItemCount) % SlotSelectorScenery::ItemCount;
+          m_root.selector.computePrevChoice();
         }
 
         if (m_commands.use.isActive()) {
-          if (m_scenery.selector.choice == SlotSelectorScenery::Back) {
+          if (m_root.selector.choice == SlotSelectorScenery::Back) {
             m_scenery.operation = OpeningOperation::Menu;
-            m_scenery.selector.choice = 0;
+            m_root.selector.choice = 0;
+            m_root.operation = RootOperation::None;
           } else {
-            if (m_scenery.selector.getSlot().active) {
+            if (m_root.selector.getSlot().active) {
               m_scenery.operation = OpeningOperation::Load;
+              m_root.operation = RootOperation::None;
             }
           }
         }

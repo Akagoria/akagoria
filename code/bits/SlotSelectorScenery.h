@@ -54,6 +54,9 @@ namespace akgr {
     void load();
     Slot& getSlot();
 
+    void computeNextChoice();
+    void computePrevChoice();
+
     int choice = 0;
     Slot manual[SlotCount];
     Slot quick;

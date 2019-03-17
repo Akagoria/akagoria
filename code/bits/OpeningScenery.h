@@ -21,13 +21,12 @@
 #define AKGR_OPENING_SCENERY_H
 
 #include "StartMenuScenery.h"
-#include "SlotSelectorScenery.h"
 
 namespace akgr {
 
   enum class OpeningOperation {
     Menu,
-    Select,
+    SelectSlot,
     Start,
     Load,
     Wait,
@@ -36,16 +35,10 @@ namespace akgr {
   };
 
   struct OpeningScenery {
-    OpeningScenery() {
-      selector.load();
-    }
-
     OpeningOperation operation = OpeningOperation::Menu;
     StartMenuScenery menu;
-    SlotSelectorScenery selector;
   };
 
 }
-
 
 #endif // AKGR_OPENING_SCENERY_H

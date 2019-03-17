@@ -28,18 +28,12 @@
 #include "AreaScenery.h"
 #include "MapScenery.h"
 #include "ShrineScenery.h"
-#include "SlotSelectorScenery.h"
 
 namespace akgr {
   struct WorldData;
 
   struct WorldScenery {
-    WorldScenery() {
-      selector.load();
-    }
-
     MapScenery map;
-    SlotSelectorScenery selector;
     AreaScenery area;
     std::vector<ShrineScenery> shrines;
 
@@ -47,6 +41,5 @@ namespace akgr {
   };
 
 }
-
 
 #endif // AKGR_WORLD_SCENERY_H

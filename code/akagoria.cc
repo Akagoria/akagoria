@@ -52,6 +52,7 @@
 #include "bits/NotificationRenderer.h"
 #include "bits/OpeningDriver.h"
 #include "bits/OpeningScenery.h"
+#include "bits/RootScenery.h"
 #include "bits/Script.h"
 #include "bits/ShrineRenderer.h"
 #include "bits/SlotSelectorRenderer.h"
@@ -82,7 +83,7 @@ namespace {
 }
 
 int main() {
-  static constexpr gf::Vector2u ScreenSize(1024, 640);
+  static constexpr gf::Vector2u ScreenSize(1024, 576);
   static constexpr gf::Vector2f ViewSize(800.0f, 800.0f);
   static constexpr gf::Vector2f ViewCenter = ViewSize / 2;
 
@@ -98,11 +99,15 @@ int main() {
 
   // initialization
 
-  gf::Window window("Akagoria, the revenge of Kalista", ScreenSize); //, ~gf::WindowHints::Resizable);
+  gf::Window window("Akagoria, the revenge of Kalista", ScreenSize, ~gf::WindowHints::Resizable);
   window.setVerticalSyncEnabled(true);
   window.setFramerateLimit(59);
 
   gf::RenderWindow renderer(window);
+
+  // root
+
+  akgr::RootScenery rootScenery;
 
   // resources
 
@@ -177,8 +182,8 @@ int main() {
   akgr::StartMenuRenderer startMenu(uiData, openingScenery, display);
   openingEntities.addEntity(startMenu);
 
-  akgr::OpeningSlotSelectorRenderer openingSlotLoader(uiData, openingScenery, display);
-  openingEntities.addEntity(openingSlotLoader);
+  akgr::SlotSelectorRenderer openingSlotSelector(uiData, rootScenery, display);
+  openingEntities.addEntity(openingSlotSelector);
 
   // (empty) world
 
@@ -197,9 +202,9 @@ int main() {
     }
 
     if (choice == AdventureChoice::Saved) {
-      akgr::Slot& slot = openingScenery.selector.getSlot();
+      akgr::Slot& slot = rootScenery.selector.getSlot();
       assert(slot.active);
-      gf::Log::debug("Loading from slot %i\n", openingScenery.selector.choice);
+      gf::Log::debug("Loading from slot %i\n", rootScenery.selector.choice);
       worldState.loadFromFile(slot.path);
     }
 
@@ -216,13 +221,12 @@ int main() {
     auto loadingTime = loadingClock.getElapsedTime();
     gf::Log::info("Game loaded in %d ms\n", loadingTime.asMilliseconds());
 
-
     return true;
   };
 
   // driver
 
-  akgr::OpeningDriver openingDriver(openingScenery, commands);
+  akgr::OpeningDriver openingDriver(openingScenery, rootScenery, commands);
 
   renderer.clear(gf::Color::White);
 
@@ -345,8 +349,8 @@ int main() {
   akgr::AttributesRenderer attributes(worldState, resources);
   hudEntities.addEntity(attributes);
 
-  akgr::WorldSlotSelectorRenderer worldSlotSaver(uiData, worldState, worldScenery, display);
-  hudEntities.addEntity(worldSlotSaver);
+  akgr::SlotSelectorRenderer worldSlotSelector(uiData, rootScenery, display);
+  hudEntities.addEntity(worldSlotSelector);
 
   akgr::MiniMapRenderer miniMap(worldState);
   hudEntities.addEntity(miniMap);
@@ -367,7 +371,7 @@ int main() {
 
   akgr::WorldProcessor worldProcessor(worldData, worldState, worldScenery, script);
 
-  akgr::WorldDriver worldDriver(worldData, worldState, worldScenery, commands, script);
+  akgr::WorldDriver worldDriver(worldData, worldState, worldScenery, rootScenery, commands, script);
 
   // game loop
 
@@ -399,7 +403,7 @@ int main() {
     }
 
     if (quickSaveAction.isActive()) {
-      akgr::Slot& slot = worldScenery.selector.quick;
+      akgr::Slot& slot = rootScenery.selector.quick;
       worldState.saveToFile(slot.path);
       slot.active = true;
 

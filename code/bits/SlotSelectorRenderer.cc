@@ -80,7 +80,7 @@ namespace akgr {
 
   }
 
-  SlotSelectorRenderer::SlotSelectorRenderer(const UIData& data, const SlotSelectorScenery& scenery, const Display& display)
+  SlotSelectorRenderer::SlotSelectorRenderer(const UIData& data, const RootScenery& scenery, const Display& display)
   : m_data(data)
   , m_scenery(scenery)
   , m_display(display)
@@ -88,10 +88,8 @@ namespace akgr {
 
   }
 
-  SlotSelectorRenderer::~SlotSelectorRenderer() = default;
-
   void SlotSelectorRenderer::render(gf::RenderTarget& target, const gf::RenderStates& states) {
-    if (!isDisplayed()) {
+    if (m_scenery.operation != RootOperation::SelectSlot) {
       return;
     }
 
@@ -101,22 +99,22 @@ namespace akgr {
     position.y += SlotSpacing;
 
     m_display.renderBox(target, states, { position, SlotSize });
-    m_display.renderText(target, states, { position + SlotSpacing, SlotSize }, 0.8f * SelectorCharacterSize, getSlotInfo(m_scenery.manual[0], 0));
+    m_display.renderText(target, states, { position + SlotSpacing, SlotSize }, 0.8f * SelectorCharacterSize, getSlotInfo(m_scenery.selector.manual[0], 0));
 
     position.y += SlotSize.height + SlotSpacing;
 
     m_display.renderBox(target, states, { position, SlotSize });
-    m_display.renderText(target, states, { position + SlotSpacing, SlotSize }, 0.8f * SelectorCharacterSize, getSlotInfo(m_scenery.manual[1], 1));
+    m_display.renderText(target, states, { position + SlotSpacing, SlotSize }, 0.8f * SelectorCharacterSize, getSlotInfo(m_scenery.selector.manual[1], 1));
 
     position.y += SlotSize.height + SlotSpacing;
 
     m_display.renderBox(target, states, { position, SlotSize });
-    m_display.renderText(target, states, { position + SlotSpacing, SlotSize }, 0.8f * SelectorCharacterSize, getSlotInfo(m_scenery.manual[2], 2));
+    m_display.renderText(target, states, { position + SlotSpacing, SlotSize }, 0.8f * SelectorCharacterSize, getSlotInfo(m_scenery.selector.manual[2], 2));
 
     position.y += SlotSize.height + SlotSpacing;
 
     m_display.renderBox(target, states, { position, SlotSize });
-    m_display.renderText(target, states, { position + SlotSpacing, SlotSize }, 0.8f * SelectorCharacterSize, getSlotInfo(m_scenery.quick, 3));
+    m_display.renderText(target, states, { position + SlotSpacing, SlotSize }, 0.8f * SelectorCharacterSize, getSlotInfo(m_scenery.selector.quick, 3));
 
     position.y += SlotSize.height + 2 * SlotSpacing;
 
@@ -124,36 +122,13 @@ namespace akgr {
 
     gf::Vector2f arrowPosition = SelectorPosition + SelectorArrowPosition;
 
-    if (m_scenery.choice < SlotSelectorScenery::SlotCount + 1) {
-      arrowPosition.y += SelectorArrowGap * m_scenery.choice;
+    if (m_scenery.selector.choice < SlotSelectorScenery::SlotCount + 1) {
+      arrowPosition.y += SelectorArrowGap * m_scenery.selector.choice;
     } else {
       arrowPosition.y += SelectorArrowGap * (SlotSelectorScenery::SlotCount + 1) - SelectorArrowCorrection;
     }
 
     m_display.renderArrow(target, states, arrowPosition);
-  }
-
-
-  OpeningSlotSelectorRenderer::OpeningSlotSelectorRenderer(const UIData& data, const OpeningScenery& scenery, const Display& display)
-  : SlotSelectorRenderer(data, scenery.selector, display)
-  , m_scenery(scenery)
-  {
-
-  }
-
-  bool OpeningSlotSelectorRenderer::isDisplayed() const {
-    return m_scenery.operation == OpeningOperation::Select;
-  }
-
-  WorldSlotSelectorRenderer::WorldSlotSelectorRenderer(const UIData& data, const WorldState& state, const WorldScenery& scenery, const Display& display)
-  : SlotSelectorRenderer(data, scenery.selector, display)
-  , m_state(state)
-  {
-
-  }
-
-  bool WorldSlotSelectorRenderer::isDisplayed() const {
-    return m_state.operation == WorldOperation::Save;
   }
 
 }

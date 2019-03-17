@@ -23,47 +23,21 @@
 #include <gf/Entity.h>
 
 #include "Display.h"
-#include "OpeningScenery.h"
-#include "SlotSelectorScenery.h"
+#include "RootScenery.h"
 #include "UIData.h"
-#include "WorldScenery.h"
-#include "WorldState.h"
 
 namespace akgr {
 
   class SlotSelectorRenderer : public gf::Entity {
   public:
-    SlotSelectorRenderer(const UIData& data, const SlotSelectorScenery& scenery, const Display& display);
-    virtual ~SlotSelectorRenderer();
+    SlotSelectorRenderer(const UIData& data, const RootScenery& scenery, const Display& display);
 
     virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
 
-    virtual bool isDisplayed() const = 0;
-
   private:
     const UIData& m_data;
-    const SlotSelectorScenery& m_scenery;
+    const RootScenery& m_scenery;
     const Display& m_display;
-  };
-
-  class OpeningSlotSelectorRenderer : public SlotSelectorRenderer {
-  public:
-    OpeningSlotSelectorRenderer(const UIData& data, const OpeningScenery& scenery, const Display& display);
-
-    virtual bool isDisplayed() const override;
-
-  private:
-    const OpeningScenery& m_scenery;
-  };
-
-  class WorldSlotSelectorRenderer : public SlotSelectorRenderer {
-  public:
-    WorldSlotSelectorRenderer(const UIData& data, const WorldState& state, const WorldScenery& scenery, const Display& display);
-
-    virtual bool isDisplayed() const override;
-
-  private:
-    const WorldState& m_state;
   };
 
 }

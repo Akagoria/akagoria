@@ -35,10 +35,11 @@ namespace akgr {
 
   }
 
-  WorldDriver::WorldDriver(const WorldData& data, WorldState& state, WorldScenery& scenery, const Commands& commands, Script& script)
+  WorldDriver::WorldDriver(const WorldData& data, WorldState& state, WorldScenery& scenery, RootScenery& root, const Commands& commands, Script& script)
   : m_data(data)
   , m_state(state)
   , m_scenery(scenery)
+  , m_root(root)
   , m_commands(commands)
   , m_script(script)
   {
@@ -118,6 +119,7 @@ namespace akgr {
                   break;
                 case ShrineType::Tomo:
                   m_state.operation = WorldOperation::Save;
+                  m_root.operation = RootOperation::SelectSlot;
                   break;
               }
 
@@ -158,22 +160,23 @@ namespace akgr {
         hero.move.linear = gf::LinearMove::None;
 
         if (m_commands.menuDown.isActive()) {
-          m_scenery.selector.choice = (m_scenery.selector.choice + 1) % SlotSelectorScenery::ItemCount;
+          m_root.selector.computeNextChoice();
         } else if (m_commands.menuUp.isActive()) {
-          m_scenery.selector.choice = (m_scenery.selector.choice - 1 + SlotSelectorScenery::ItemCount) % SlotSelectorScenery::ItemCount;
+          m_root.selector.computePrevChoice();
         }
 
         if (m_commands.use.isActive()) {
           m_state.operation = WorldOperation::Walk;
+          m_root.operation = RootOperation::None;
 
-          if (m_scenery.selector.choice == SlotSelectorScenery::Back) {
-            m_scenery.selector.choice = 0;
+          if (m_root.selector.choice == SlotSelectorScenery::Back) {
+            m_root.selector.choice = 0;
           } else {
             // TODO: make it async?
             gf::Log::info("Game saving...\n");
             gf::Clock savingClock;
 
-            Slot& slot = m_scenery.selector.getSlot();
+            Slot& slot = m_root.selector.getSlot();
             m_state.saveToFile(slot.path);
 
             slot.meta.area = m_scenery.area.current->name;
@@ -182,7 +185,7 @@ namespace akgr {
             auto savingTime = savingClock.getElapsedTime();
             gf::Log::info("Game saved in %d ms\n", savingTime.asMilliseconds());
 
-            m_scenery.selector.load(); // reload info
+            m_root.selector.load(); // reload info
           }
 
         }

@@ -17,33 +17,36 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_WORLD_DRIVER_H
-#define AKGR_WORLD_DRIVER_H
+#include "OptionsScenery.h"
 
-#include "Commands.h"
-#include "RootScenery.h"
-#include "Script.h"
-#include "WorldData.h"
-#include "WorldScenery.h"
-#include "WorldState.h"
+#include <gf/Log.h>
+#include <gf/Paths.h>
+#include <gf/Serialization.h>
+#include <gf/SerializationOps.h>
+#include <gf/Streams.h>
+
+#include "Version.h"
 
 namespace akgr {
 
-  class WorldDriver {
-  public:
-    WorldDriver(const WorldData& data, WorldState& state, WorldScenery& scenery, RootScenery& root, const Commands& commands, Script& script);
+  void OptionsScenery::load() {
+    gf::Path saveDirectory = gf::Paths::getPrefPath("akagoria", "kalista");
+    gf::Path optionsPath = saveDirectory / "options.dat";
 
-    void processCommands();
+    if (boost::filesystem::exists(optionsPath)) {
+      gf::FileInputStream file(optionsPath);
+      gf::Deserializer ar(file);
+      ar | options;
+    }
+  }
 
-  private:
-    const WorldData& m_data;
-    WorldState& m_state;
-    WorldScenery& m_scenery;
-    RootScenery& m_root;
-    const Commands& m_commands;
-    Script& m_script;
-  };
+  void OptionsScenery::save() {
+    gf::Path saveDirectory = gf::Paths::getPrefPath("akagoria", "kalista");
+    gf::Path optionsPath = saveDirectory / "options.dat";
+
+    gf::FileOutputStream file(optionsPath);
+    gf::Serializer ar(file);
+    ar | options;
+  }
 
 }
-
-#endif // AKGR_WORLD_DRIVER_H

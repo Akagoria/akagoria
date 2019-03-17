@@ -94,4 +94,12 @@ namespace akgr {
     return quick;
   }
 
+  void SlotSelectorScenery::computeNextChoice() {
+    choice = (choice + 1) % ItemCount;
+  }
+
+  void SlotSelectorScenery::computePrevChoice() {
+    choice = (choice - 1 + ItemCount) % ItemCount;
+  }
+
 }

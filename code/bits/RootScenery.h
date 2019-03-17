@@ -17,33 +17,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_WORLD_DRIVER_H
-#define AKGR_WORLD_DRIVER_H
+#ifndef AKGR_ROOT_SCENERY_H
+#define AKGR_ROOT_SCENERY_H
 
-#include "Commands.h"
-#include "RootScenery.h"
-#include "Script.h"
-#include "WorldData.h"
-#include "WorldScenery.h"
-#include "WorldState.h"
+#include "OptionsScenery.h"
+#include "SlotSelectorScenery.h"
 
 namespace akgr {
 
-  class WorldDriver {
-  public:
-    WorldDriver(const WorldData& data, WorldState& state, WorldScenery& scenery, RootScenery& root, const Commands& commands, Script& script);
+  enum class RootOperation {
+    None,
+    ChangeOptions,
+    SelectSlot,
+  };
 
-    void processCommands();
+  struct RootScenery {
+    RootScenery() {
+      options.load();
+      selector.load();
+    }
 
-  private:
-    const WorldData& m_data;
-    WorldState& m_state;
-    WorldScenery& m_scenery;
-    RootScenery& m_root;
-    const Commands& m_commands;
-    Script& m_script;
+    RootOperation operation = RootOperation::None;
+
+    OptionsScenery options;
+    SlotSelectorScenery selector;
   };
 
 }
 
-#endif // AKGR_WORLD_DRIVER_H
+#endif // AKGR_ROOT_SCENERY_H

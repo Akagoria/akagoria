@@ -45,7 +45,7 @@ namespace {
 
     for (auto& item : data) {
       auto& ui = item.second;
-      fmt::print("\t{}: '{}': '{}' ('{}')\n", Id{item.first}, ui.name, gf::escapeString(ui.message), gf::escapeString(boost::locale::gettext(ui.message.c_str())));
+      fmt::print("\t{}: '{}': \"{}\" (\"{}\")\n", Id{item.first}, ui.name, gf::escapeString(ui.message), gf::escapeString(boost::locale::gettext(ui.message.c_str())));
     }
   }
 

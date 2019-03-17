@@ -17,33 +17,47 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_WORLD_DRIVER_H
-#define AKGR_WORLD_DRIVER_H
+#ifndef AKGR_OPTIONS_SCENERY_H
+#define AKGR_OPTIONS_SCENERY_H
 
-#include "Commands.h"
-#include "RootScenery.h"
-#include "Script.h"
-#include "WorldData.h"
-#include "WorldScenery.h"
-#include "WorldState.h"
+#include <string>
+
+#include <gf/Path.h>
+#include <gf/Time.h>
 
 namespace akgr {
 
-  class WorldDriver {
-  public:
-    WorldDriver(const WorldData& data, WorldState& state, WorldScenery& scenery, RootScenery& root, const Commands& commands, Script& script);
+  struct Options {
+    enum class Input : uint8_t {
+      Keyboard,
+      Gamepad,
+    };
 
-    void processCommands();
+    Input input = Input::Keyboard;
 
-  private:
-    const WorldData& m_data;
-    WorldState& m_state;
-    WorldScenery& m_scenery;
-    RootScenery& m_root;
-    const Commands& m_commands;
-    Script& m_script;
+    enum class Display : uint8_t {
+      Fullscreen,
+      Window_960x540,
+      Window_1024x576,
+      Window_1152x648,
+      Window_1280x720,
+    };
+
+    Display display = Display::Window_1024x576;
+  };
+
+  template<typename Archive>
+  Archive& operator|(Archive& ar, Options& options) {
+    return ar | options.input | options.display;
+  }
+
+  struct OptionsScenery {
+    Options options;
+
+    void load();
+    void save();
   };
 
 }
 
-#endif // AKGR_WORLD_DRIVER_H
+#endif // AKGR_OPTIONS_SCENERY_H

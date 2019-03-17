@@ -22,17 +22,19 @@
 
 #include "Commands.h"
 #include "OpeningScenery.h"
+#include "RootScenery.h"
 
 namespace akgr {
 
   class OpeningDriver {
   public:
-    OpeningDriver(OpeningScenery& scenery, const Commands& commands);
+    OpeningDriver(OpeningScenery& scenery, RootScenery& root, const Commands& commands);
 
     void processCommands();
 
   private:
     OpeningScenery& m_scenery;
+    RootScenery& m_root;
     const Commands& m_commands;
   };
 
