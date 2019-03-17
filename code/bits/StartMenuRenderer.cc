@@ -21,24 +21,26 @@
 
 #include <gf/VectorOps.h>
 
+#include "Menu.h"
+
 using namespace gf::literals;
 
 namespace akgr {
 
   namespace {
 
-    constexpr gf::Vector2f StartMenuPosition(0.002f, 0.002f);
-
-    constexpr float StartMenuCharacterSize = 0.03f;
-
-    constexpr gf::Vector2f StartMenuItemPosition(0.03f, 0.0f); // first, relative to menu position
-    constexpr gf::Vector2f StartMenuItemSize(0.25f, 0.04f);
-    constexpr float StartMenuItemSpacing = 0.007f;
-
-    constexpr gf::Vector2f StartMenuSize(StartMenuItemPosition.x + StartMenuItemSize.x, 3 * StartMenuItemSize.y + 4 * StartMenuItemSpacing);
-
-    constexpr gf::Vector2f StartMenuArrowPosition(0.015f, StartMenuItemSize.y / 2); // first, relative to menu position
-    constexpr float StartMenuArrowGap = StartMenuItemSpacing + StartMenuItemSize.y;
+//     constexpr gf::Vector2f StartMenuPosition(0.002f, 0.002f);
+//
+//     constexpr float StartMenuCharacterSize = 0.03f;
+//
+//     constexpr gf::Vector2f StartMenuItemPosition(0.03f, 0.0f); // first, relative to menu position
+//     constexpr gf::Vector2f StartMenuItemSize(0.25f, 0.04f);
+//     constexpr float StartMenuItemSpacing = 0.007f;
+//
+//     constexpr gf::Vector2f StartMenuSize(StartMenuItemPosition.x + StartMenuItemSize.x, 3 * StartMenuItemSize.y + 4 * StartMenuItemSpacing);
+//
+//     constexpr gf::Vector2f StartMenuArrowPosition(0.015f, StartMenuItemSize.y / 2); // first, relative to menu position
+//     constexpr float StartMenuArrowGap = StartMenuItemSpacing + StartMenuItemSize.y;
 
   }
 
@@ -56,25 +58,12 @@ namespace akgr {
       return;
     }
 
-    m_display.renderBox(target, states, { StartMenuPosition, StartMenuSize });
+    m_display.renderBox(target, states, { Menu::Position, Menu::TotalSize(3) });
+    m_display.renderText(target, states, { Menu::ItemPosition(0), Menu::ItemSize }, Menu::CharacterSize, m_data.getUIMessage("MenuStart"_id));
+    m_display.renderText(target, states, { Menu::ItemPosition(1), Menu::ItemSize }, Menu::CharacterSize, m_data.getUIMessage("MenuLoad"_id));
+    m_display.renderText(target, states, { Menu::ItemPosition(2), Menu::ItemSize }, Menu::CharacterSize, m_data.getUIMessage("MenuQuit"_id));
 
-    gf::Vector2f position = StartMenuPosition + StartMenuItemPosition;
-    position.y += StartMenuItemSpacing;
-
-    m_display.renderText(target, states, { position, StartMenuItemSize }, StartMenuCharacterSize, m_data.getUIMessage("MenuStart"_id));
-
-    position.y += StartMenuItemSize.height + StartMenuItemSpacing;
-
-    m_display.renderText(target, states, { position, StartMenuItemSize }, StartMenuCharacterSize, m_data.getUIMessage("MenuLoad"_id));
-
-    position.y += StartMenuItemSize.height + StartMenuItemSpacing;
-
-    m_display.renderText(target, states, { position, StartMenuItemSize }, StartMenuCharacterSize, m_data.getUIMessage("MenuQuit"_id));
-
-    gf::Vector2f arrowPosition = StartMenuPosition + StartMenuArrowPosition;
-    arrowPosition.y += StartMenuArrowGap * m_scenery.menu.choice;
-
-    m_display.renderArrow(target, states, arrowPosition);
+    m_display.renderArrow(target, states, Menu::ArrowPosition(m_scenery.menu.choice));
   }
 
 }
