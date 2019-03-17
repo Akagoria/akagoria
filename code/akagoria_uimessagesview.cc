@@ -25,9 +25,9 @@
 
 #include <gf/Clock.h>
 #include <gf/Path.h>
+#include <gf/StringUtils.h>
 
 #include <fmt/core.h>
-#include <fmt/ostream.h>
 
 #include "bits/Fmt.h"
 #include "bits/UIData.h"
@@ -45,7 +45,7 @@ namespace {
 
     for (auto& item : data) {
       auto& ui = item.second;
-      fmt::print("\t{}: '{}': '{}' ('{}')\n", Id{item.first}, ui.name, akgr::escapeString(ui.message), akgr::escapeString(boost::locale::gettext(ui.message.c_str())));
+      fmt::print("\t{}: '{}': '{}' ('{}')\n", Id{item.first}, ui.name, gf::escapeString(ui.message), gf::escapeString(boost::locale::gettext(ui.message.c_str())));
     }
   }
 

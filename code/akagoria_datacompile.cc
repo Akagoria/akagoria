@@ -25,6 +25,7 @@
 #include <gf/Clock.h>
 #include <gf/Math.h>
 #include <gf/Path.h>
+#include <gf/StringUtils.h>
 #include <gf/Tmx.h>
 #include <gf/Transform.h>
 
@@ -33,8 +34,8 @@
 
 #include <nlohmann/json.hpp>
 
-#include "bits/WorldData.h"
 #include "bits/UIData.h"
+#include "bits/WorldData.h"
 
 namespace {
 
@@ -748,38 +749,6 @@ namespace {
     }
   }
 
-  std::string computeEscapedString(const std::string& str) {
-    std::string res;
-    res += '"';
-
-    for (char c : str) {
-      switch (c) {
-        case '\n':
-          res += "\\n";
-          break;
-
-        case '\t':
-          res += "\\t";
-          break;
-
-        case '\\':
-          res += "\\\\";
-          break;
-
-        case '"':
-          res += "\\\"";
-          break;
-
-        default:
-          res += c;
-          break;
-      }
-    }
-
-    res += '"';
-    return res;
-  }
-
   void generateStrings(const std::vector<std::string>& strings, const gf::Path& filename) {
     std::ofstream out(filename.string());
 
@@ -789,7 +758,7 @@ namespace {
     out << "const char *string[] = {\n";
 
     for (auto& str : strings) {
-      out << "\tN_(" << computeEscapedString(str) << "),\n";
+      out << "\tN_(\"" << gf::escapeString(str) << "\"),\n";
     }
 
     out << "\tnullptr\n";

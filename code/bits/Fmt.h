@@ -91,10 +91,4 @@ namespace fmt {
 
 }
 
-namespace akgr {
-
-  std::string escapeString(const std::string& in);
-
-}
-
 #endif // AKGR_FMT_H
