@@ -12,6 +12,7 @@ Welcome to the Akagoria developer documentation.
 == Engine developers
 
 - link:engine_design.html[Akagoria engine design]
+- link:scripting.html[Scripting]
 
 == Content developers
 

@@ -1,0 +1,30 @@
+= Scripting
+Julien Bernard <julien.bernard@univ-fcomte.fr>
+v0.5
+:toc:
+:homepage: https://akagoria.github.io/
+:stem: latexmath
+:source-highlighter: coderay
+:xrefstyle: full
+
+This document explain how script works inside the engine.
+
+[[call]]
+== Anatomy of a script call
+
+In this section, we will see a scenario of a script call. At the beginning of the adventure, the hero walks in a zone that sends an `IntroDialog` message. Here is what happens in the code.
+
+1. In the `main` function (in `akagoria.cc`), the world is updated with `WorldProcessor::update()` (in `WorldProcessor.cc`)
+2. The position of the hero is updated in the physics engine and the physics engine is updated with a call to `b2World::update()`
+3. The physics engine detects a collision between the hero and the sensor, and triggers a call to `PhysicsListener::BeginContact()` (in `PhysicsRuntine.cc`).
+4. The listener checks that the requirements for the message are fulfilled, and then call `Script::onMessageDefered()` (in `Script.cc`)
+5. Back in `WorldProcessor::update()`, just after the update of the physics engine, `Script::handleDeferedMessages()` is called (in `Script.cc`)
+6. The message that was defered is handled at this time and passed to `Script::onMessage()` (in `Script.cc`)
+7. A call to the wren script is prepared with the name of the message, and then `Advendture::onMessage()` is called (is `adventure.wren`)
+8. The handler in the script retrieves the callback and, in this case, calls an anonymous function that was registered in `Chapter1::initialize()` (in `chapter1.wren`)
+9. A call to `World::startDialog()` is made, this wren call is foreign (in `world.wren`) and actually call `Script::startDialog()` (in `Script.cc`)
+10. Finally the `startDialog()` function sets the current operation to `Talk` and adds a dialog to the world state.
+
+The messages are defered because the message handler could change the physical properties of the hero or characters. Changing the physical properties during `b2World::update()` is forbidden, the world is locked. So the message handler is called when `b2World::update()` is finished.
+
+
