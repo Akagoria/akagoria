@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset name="Biomes" tilewidth="32" tileheight="32" tilecount="2025" columns="45" spacing="2" margin="1">
-<image source="biomes.png" width="1536" height="1536"/>
+<image source="biomes.png" width="1530" height="1530"/>
 <terraintypes>
-  <terrain name="Deep Water" tile="135"/>
-  <terrain name="Water" tile="47"/>
-  <terrain name="Shallow Water" tile="51"/>
-  <terrain name="Shore" tile="55"/>
-  <terrain name="Sand" tile="59"/>
-  <terrain name="Subtropical Desert" tile="63"/>
-  <terrain name="Temperate Desert" tile="79"/>
-  <terrain name="Tropical Seasonal Forest" tile="71"/>
-  <terrain name="Tropical Rain Forest" tile="75"/>
-  <terrain name="Temperate Rain Forest" tile="243"/>
-  <terrain name="Temperate Deciduous Forest" tile="227"/>
-  <terrain name="Grassland" tile="67"/>
-  <terrain name="Shrubland" tile="231"/>
-  <terrain name="Taiga" tile="267"/>
-  <terrain name="Scorched" tile="259"/>
-  <terrain name="Bare" tile="255"/>
-  <terrain name="Tundra" tile="423"/>
-  <terrain name="Snow" tile="419"/>
-  <terrain name="Unreachable" tile="1395"/>
-  <terrain name="Road" tile="1399"/>
-  <terrain name="Track" tile="1403"/>
-  <terrain name="River" tile="535"/>
+	<terrain name="DeepWater" tile="135"/>
+	<terrain name="Water" tile="47"/>
+	<terrain name="ShallowWater" tile="51"/>
+	<terrain name="Shore" tile="55"/>
+	<terrain name="Sand" tile="59"/>
+	<terrain name="SubtropicalDesert" tile="63"/>
+	<terrain name="TemperateDesert" tile="79"/>
+	<terrain name="TropicalSeasonalForest" tile="71"/>
+	<terrain name="TropicalRainForest" tile="75"/>
+	<terrain name="TemperateRainForest" tile="243"/>
+	<terrain name="TemperateDeciduousForest" tile="227"/>
+	<terrain name="Grassland" tile="67"/>
+	<terrain name="Shrubland" tile="231"/>
+	<terrain name="Taiga" tile="267"/>
+	<terrain name="Scorched" tile="259"/>
+	<terrain name="Bare" tile="255"/>
+	<terrain name="Tundra" tile="423"/>
+	<terrain name="Snow" tile="419"/>
+	<terrain name="Unreachable" tile="1395"/>
+	<terrain name="Road" tile="1399"/>
+	<terrain name="Track" tile="1403"/>
+	<terrain name="River" tile="535"/>
 </terraintypes>
 <tile id="0" terrain="0,0,1,0"/>
 <tile id="1" terrain="0,1,0,1"/>
