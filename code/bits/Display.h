@@ -35,8 +35,10 @@ namespace akgr {
 
     void renderBox(gf::RenderTarget& target, const gf::RenderStates& states, const gf::RectF& area) const;
     void renderText(gf::RenderTarget& target, const gf::RenderStates& states, const gf::RectF& area, float characterSize, const std::string& content, gf::Alignment alignment = gf::Alignment::Left) const;
+    void renderString(gf::RenderTarget& target, const gf::RenderStates& states, const gf::RectF& area, float characterSize, const std::string& content, gf::Alignment alignment = gf::Alignment::Left) const;
+    void renderChoice(gf::RenderTarget& target, const gf::RenderStates& states, const gf::RectF& area, float characterSize, std::string content) const;
 
-    void renderTextBox(gf::RenderTarget& target, const gf::RenderStates& states, const gf::RectF& area, float characterSize, const std::string& content, gf::Alignment alignment = gf::Alignment::Left) const;
+    void renderTextBox(gf::RenderTarget& target, const gf::RenderStates& states, const gf::RectF& area, float characterSize, const std::string& content, float padding, gf::Alignment alignment = gf::Alignment::Left) const;
 
   private:
     gf::Font& m_font;

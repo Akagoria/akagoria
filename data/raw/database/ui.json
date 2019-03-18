@@ -3,9 +3,22 @@
   "SplashLoading": "Loading...",
 
   "MenuStart": "Start an adventure",
-  "MenuLoad": "Load an adventure",
+  "MenuLoad": "Continue an adventure",
+  "MenuOptions": "Options",
   "MenuQuit": "Quit",
   "MenuBack": "Back",
+
+  "MenuOptionsInput": "Input device",
+  "MenuOptionsInputKeyboardKeys": "Keyboard (Keys)",
+  "MenuOptionsInputKeyboardArrows": "Keyboard (Arrows)",
+  "MenuOptionsInputGamepad": "Gamepad",
+
+  "MenuOptionsDisplay": "Display",
+  "MenuOptionsDisplayFullscreen": "Fullscreen",
+  "MenuOptionsDisplayWindow960x540": "Window (960x540)",
+  "MenuOptionsDisplayWindow1024x576": "Window (1024x576)",
+  "MenuOptionsDisplayWindow1152x648": "Window (1152x648)",
+  "MenuOptionsDisplayWindow1280x720": "Window (1280x720)",
 
   "End": "The end"
 }

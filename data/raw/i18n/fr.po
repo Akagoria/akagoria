@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: akagoria\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-01 12:22+0100\n"
+"POT-Creation-Date: 2019-03-18 15:05+0100\n"
 "PO-Revision-Date: 2018-11-01 12:11+0100\n"
 "Last-Translator: Julien Bernard <julien.bernard@univ-fcomte.fr>\n"
 "Language: fr\n"
@@ -96,8 +96,41 @@ msgstr "Fin"
 msgid "Back"
 msgstr "Retour"
 
-msgid "Load an adventure"
-msgstr "Charger une aventure"
+msgid "Continue an adventure"
+msgstr "Continuer une aventure"
+
+msgid "Options"
+msgstr "Options"
+
+msgid "Display"
+msgstr "Affichage"
+
+msgid "Fullscreen"
+msgstr ""
+
+msgid "Window (1024x576)"
+msgstr ""
+
+msgid "Window (1152x648)"
+msgstr ""
+
+msgid "Window (1280x720)"
+msgstr ""
+
+msgid "Window (960x540)"
+msgstr ""
+
+msgid "Input device"
+msgstr "Périphérique d'entrée"
+
+msgid "Gamepad"
+msgstr ""
+
+msgid "Keyboard (Arrows)"
+msgstr ""
+
+msgid "Keyboard (Keys)"
+msgstr ""
 
 msgid "Quit"
 msgstr "Quitter"

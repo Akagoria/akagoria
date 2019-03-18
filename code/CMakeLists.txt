@@ -44,6 +44,7 @@ add_executable(akagoria
   bits/NotificationRenderer.cc
   bits/OpeningDriver.cc
   bits/OpeningProcessor.cc
+  bits/OptionsRenderer.cc
   bits/OptionsScenery.cc
   bits/PhysicsRuntime.cc
   bits/PhysicsState.cc

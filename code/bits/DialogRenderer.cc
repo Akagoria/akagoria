@@ -27,13 +27,15 @@ namespace akgr {
 
   namespace {
 
+    constexpr float SpeakerCharacterSize = 0.03f;
     constexpr gf::Vector2f SpeakerPosition(0.19f, 0.75f);
-    constexpr gf::Vector2f SpeakerSize(0.2f, 0.03f);
-    constexpr float SpeakerCharacterSize = 0.03;
+    constexpr gf::Vector2f SpeakerSize(0.2f, SpeakerCharacterSize * 1.2f);
 
+    constexpr float WordsCharacterSize = 0.035f;
     constexpr gf::Vector2f WordsPosition(0.17f, 0.8f);
-    constexpr gf::Vector2f WordsSize(2.0f * (0.5f - WordsPosition.x), 0.11f);
-    constexpr float WordsCharacterSize = 0.035;
+    constexpr gf::Vector2f WordsSize(2.0f * (0.5f - WordsPosition.x), WordsCharacterSize * 1.2f * 3);
+
+    constexpr float DialogPadding = 0.01f;
 
   } // anonymous namespace
 
@@ -56,8 +58,8 @@ namespace akgr {
     assert(dialog.currentLine < dialog.ref.data->content.size());
     auto& line = dialog.ref.data->content[dialog.currentLine];
 
-    m_display.renderTextBox(target, states, { SpeakerPosition, SpeakerSize }, SpeakerCharacterSize, boost::locale::gettext(line.speaker.c_str()), gf::Alignment::Left);
-    m_display.renderTextBox(target, states, { WordsPosition, WordsSize }, WordsCharacterSize, boost::locale::gettext(line.words.c_str()), gf::Alignment::Left);
+    m_display.renderTextBox(target, states, { SpeakerPosition, SpeakerSize }, SpeakerCharacterSize, boost::locale::gettext(line.speaker.c_str()), DialogPadding, gf::Alignment::Left);
+    m_display.renderTextBox(target, states, { WordsPosition, WordsSize }, WordsCharacterSize, boost::locale::gettext(line.words.c_str()), DialogPadding, gf::Alignment::Left);
   }
 
 }

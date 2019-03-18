@@ -27,6 +27,7 @@ namespace akgr {
   enum class OpeningOperation {
     Menu,
     SelectSlot,
+    ChangeOptions,
     Start,
     Load,
     Wait,

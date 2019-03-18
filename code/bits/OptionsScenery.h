@@ -29,11 +29,12 @@ namespace akgr {
 
   struct Options {
     enum class Input : uint8_t {
-      Keyboard,
+      Keyboard_Arrows,
+      Keyboard_Keys,    // WASD
       Gamepad,
     };
 
-    Input input = Input::Keyboard;
+    Input input = Input::Keyboard_Arrows;
 
     enum class Display : uint8_t {
       Fullscreen,
@@ -53,6 +54,21 @@ namespace akgr {
 
   struct OptionsScenery {
     Options options;
+    int choice = 0;
+
+    static constexpr int Input    = 0;
+    static constexpr int Display  = 1;
+    static constexpr int Back     = 2;
+
+    static constexpr int ItemCount = 3;
+
+    void computeNextChoice() {
+      choice = (choice + 1) % ItemCount;
+    }
+
+    void computePrevChoice() {
+      choice = (choice - 1 + ItemCount) % ItemCount;
+    }
 
     void load();
     void save();

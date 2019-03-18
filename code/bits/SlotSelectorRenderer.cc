@@ -37,11 +37,10 @@ namespace akgr {
   namespace {
 
     constexpr gf::Vector2f SlotRelPosition(0.03, 0.0f); // first, relative to selector position
-    constexpr gf::Vector2f SlotSize(0.17f, 0.11f);
-    constexpr float SlotSpacing = 0.007f;
+    constexpr gf::Vector2f SlotSize(Menu::ItemSize.x, Menu::CharacterSize * 3.1f);
 
     constexpr gf::Vector2f SelectorTotalSize(int slotCount) {
-      return gf::Vector2f(Menu::Position.x + SlotSize.x + Menu::ItemSpacing, slotCount * SlotSize.y + (slotCount + 2) * Menu::ItemSpacing + Menu::ItemSize.y);
+      return gf::Vector2f(SlotRelPosition.x + SlotSize.x + Menu::ItemSpacing, slotCount * SlotSize.y + (slotCount + 2) * Menu::ItemSpacing + Menu::ItemSize.y);
     }
 
     static constexpr gf::Vector2f SlotPosition(int item) {
@@ -98,29 +97,21 @@ namespace akgr {
 
     m_display.renderBox(target, states, { Menu::Position, SelectorTotalSize(SlotSelectorScenery::SlotCount + 1) });
 
-    m_display.renderBox(target, states, { SlotPosition(0), SlotSize });
-    m_display.renderText(target, states, { SlotPosition(0) + SlotSpacing, SlotSize }, 0.8f * Menu::CharacterSize, getSlotInfo(m_scenery.selector.manual[0], 0));
+    m_display.renderTextBox(target, states, { SlotPosition(0), SlotSize }, 0.8f * Menu::CharacterSize, getSlotInfo(m_scenery.selector.manual[0], 0), Menu::ItemSpacing / 4);
+    m_display.renderTextBox(target, states, { SlotPosition(1), SlotSize }, 0.8f * Menu::CharacterSize, getSlotInfo(m_scenery.selector.manual[1], 1), Menu::ItemSpacing / 4);
+    m_display.renderTextBox(target, states, { SlotPosition(2), SlotSize }, 0.8f * Menu::CharacterSize, getSlotInfo(m_scenery.selector.manual[2], 2), Menu::ItemSpacing / 4);
+    m_display.renderTextBox(target, states, { SlotPosition(3), SlotSize }, 0.8f * Menu::CharacterSize, getSlotInfo(m_scenery.selector.quick, 3), Menu::ItemSpacing / 4);
 
-
-    m_display.renderBox(target, states, { SlotPosition(1), SlotSize });
-    m_display.renderText(target, states, { SlotPosition(1) + SlotSpacing, SlotSize }, 0.8f * Menu::CharacterSize, getSlotInfo(m_scenery.selector.manual[1], 1));
-
-    m_display.renderBox(target, states, { SlotPosition(2), SlotSize });
-    m_display.renderText(target, states, { SlotPosition(2) + SlotSpacing, SlotSize }, 0.8f * Menu::CharacterSize, getSlotInfo(m_scenery.selector.manual[2], 2));
-
-    m_display.renderBox(target, states, { SlotPosition(3), SlotSize });
-    m_display.renderText(target, states, { SlotPosition(3) + SlotSpacing, SlotSize }, 0.8f * Menu::CharacterSize, getSlotInfo(m_scenery.selector.quick, 3));
-
-    m_display.renderText(target, states, { SlotPosition(4), SlotSize }, Menu::CharacterSize, m_data.getUIMessage("MenuBack"_id));
+    m_display.renderString(target, states, { SlotPosition(4), Menu::ItemSize }, Menu::CharacterSize, m_data.getUIMessage("MenuBack"_id));
 
     // arrow
 
     gf::Vector2f arrowPosition = Menu::Position + SelectorArrowPosition;
 
     if (m_scenery.selector.choice < SlotSelectorScenery::SlotCount + 1) {
-      arrowPosition.y += SelectorArrowGap * m_scenery.selector.choice;
+      arrowPosition.y += Menu::ItemSpacing + SelectorArrowGap * m_scenery.selector.choice;
     } else {
-      arrowPosition.y += SelectorArrowGap * (SlotSelectorScenery::SlotCount + 1) - SelectorArrowCorrection;
+      arrowPosition.y += Menu::ItemSpacing + SelectorArrowGap * (SlotSelectorScenery::SlotCount + 1) - SlotSize.y / 2 + Menu::ItemSize.y / 2;
     }
 
     m_display.renderArrow(target, states, arrowPosition);

@@ -58,10 +58,11 @@ namespace akgr {
       return;
     }
 
-    m_display.renderBox(target, states, { Menu::Position, Menu::TotalSize(3) });
-    m_display.renderText(target, states, { Menu::ItemPosition(0), Menu::ItemSize }, Menu::CharacterSize, m_data.getUIMessage("MenuStart"_id));
-    m_display.renderText(target, states, { Menu::ItemPosition(1), Menu::ItemSize }, Menu::CharacterSize, m_data.getUIMessage("MenuLoad"_id));
-    m_display.renderText(target, states, { Menu::ItemPosition(2), Menu::ItemSize }, Menu::CharacterSize, m_data.getUIMessage("MenuQuit"_id));
+    m_display.renderBox(target, states, { Menu::Position, Menu::TotalSize(4) });
+    m_display.renderString(target, states, { Menu::ItemPosition(0), Menu::ItemSize }, Menu::CharacterSize, m_data.getUIMessage("MenuStart"_id));
+    m_display.renderString(target, states, { Menu::ItemPosition(1), Menu::ItemSize }, Menu::CharacterSize, m_data.getUIMessage("MenuLoad"_id));
+    m_display.renderString(target, states, { Menu::ItemPosition(2), Menu::ItemSize }, Menu::CharacterSize, m_data.getUIMessage("MenuOptions"_id));
+    m_display.renderString(target, states, { Menu::ItemPosition(3), Menu::ItemSize }, Menu::CharacterSize, m_data.getUIMessage("MenuQuit"_id));
 
     m_display.renderArrow(target, states, Menu::ArrowPosition(m_scenery.menu.choice));
   }

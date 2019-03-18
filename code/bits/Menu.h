@@ -34,8 +34,8 @@ namespace akgr {
     // items
 
     static constexpr gf::Vector2f ItemRelPosition = { 0.03f, 0.0f }; // first, relative to menu position
-    static constexpr gf::Vector2f ItemSize = { 0.25f, 0.04f };
-    static constexpr float ItemSpacing = 0.007f;
+    static constexpr gf::Vector2f ItemSize = { 0.30f, CharacterSize * 1.3f };
+    static constexpr float ItemSpacing = 0.01f;
 
     static constexpr gf::Vector2f TotalSize(int itemCount) {
       return gf::Vector2f(ItemRelPosition.x + ItemSize.x, itemCount * ItemSize.y + (itemCount + 1) * ItemSpacing);
@@ -53,7 +53,7 @@ namespace akgr {
 
     static constexpr gf::Vector2f ArrowPosition(int choice) {
       gf::Vector2f pos = Position + ArrowRelPosition;
-      pos.y += choice * (ItemSpacing + ItemSize.y);
+      pos.y += ItemSpacing + choice * (ItemSpacing + ItemSize.y);
       return pos;
     }
 

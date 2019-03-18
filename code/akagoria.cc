@@ -51,6 +51,7 @@
 #include "bits/MiniMapRenderer.h"
 #include "bits/NotificationRenderer.h"
 #include "bits/OpeningDriver.h"
+#include "bits/OptionsRenderer.h"
 #include "bits/OpeningScenery.h"
 #include "bits/RootScenery.h"
 #include "bits/Script.h"
@@ -184,6 +185,9 @@ int main() {
 
   akgr::SlotSelectorRenderer openingSlotSelector(uiData, rootScenery, display);
   openingEntities.addEntity(openingSlotSelector);
+
+  akgr::OptionsRenderer openingOptions(uiData, rootScenery, display);
+  openingEntities.addEntity(openingOptions);
 
   // (empty) world
 

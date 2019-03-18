@@ -17,31 +17,29 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_START_MENU_SCENERY_H
-#define AKGR_START_MENU_SCENERY_H
+#ifndef AKGR_OPTIONS_RENDERER_H
+#define AKGR_OPTIONS_RENDERER_H
+
+#include <gf/Entity.h>
+
+#include "Display.h"
+#include "RootScenery.h"
+#include "UIData.h"
 
 namespace akgr {
 
-  struct StartMenuScenery {
-    int choice = 0;
+  class OptionsRenderer : public gf::Entity {
+  public:
+    OptionsRenderer(const UIData& data, const RootScenery& scenery, const Display& display);
 
-    static constexpr int StartAdventure = 0;
-    static constexpr int LoadAdventure  = 1;
-    static constexpr int Options        = 2;
-    static constexpr int Quit           = 3;
+    virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
 
-    static constexpr int ItemCount = 4;
-
-    void computeNextChoice() {
-      choice = (choice + 1) % ItemCount;
-    }
-
-    void computePrevChoice() {
-      choice = (choice - 1 + ItemCount) % ItemCount;
-    }
-
+  private:
+    const UIData& m_data;
+    const RootScenery& m_scenery;
+    const Display& m_display;
   };
 
 }
 
-#endif // AKGR_START_MENU_SCENERY_H
+#endif // AKGR_OPTIONS_RENDERER_H

@@ -30,6 +30,7 @@ namespace akgr {
     constexpr gf::Vector2f NotificationPosition(0.3f, 0.1f);
     constexpr gf::Vector2f NotificationSize(2.0f * (0.5f - NotificationPosition.x), 0.06f);
     constexpr float NotificationCharacterSize = 0.03f;
+    constexpr float NotificationPadding = 0.01f;
 
   } // anonymous namespace
 
@@ -48,7 +49,7 @@ namespace akgr {
     }
 
     auto& notification = m_state.notifications.front();
-    m_display.renderTextBox(target, states, { NotificationPosition, NotificationSize }, NotificationCharacterSize, boost::locale::gettext(notification.ref.data->message.c_str()), gf::Alignment::Center);
+    m_display.renderTextBox(target, states, { NotificationPosition, NotificationSize }, NotificationCharacterSize, boost::locale::gettext(notification.ref.data->message.c_str()), NotificationPadding, gf::Alignment::Center);
   }
 
 }

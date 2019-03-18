@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-01 18:17+0100\n"
+"POT-Creation-Date: 2019-03-18 15:05+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -79,7 +79,40 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
-msgid "Load an adventure"
+msgid "Continue an adventure"
+msgstr ""
+
+msgid "Options"
+msgstr ""
+
+msgid "Display"
+msgstr ""
+
+msgid "Fullscreen"
+msgstr ""
+
+msgid "Window (1024x576)"
+msgstr ""
+
+msgid "Window (1152x648)"
+msgstr ""
+
+msgid "Window (1280x720)"
+msgstr ""
+
+msgid "Window (960x540)"
+msgstr ""
+
+msgid "Input device"
+msgstr ""
+
+msgid "Gamepad"
+msgstr ""
+
+msgid "Keyboard (Arrows)"
+msgstr ""
+
+msgid "Keyboard (Keys)"
 msgstr ""
 
 msgid "Quit"
