@@ -106,31 +106,31 @@ msgid "Display"
 msgstr "Affichage"
 
 msgid "Fullscreen"
-msgstr ""
+msgstr "Plein écran"
 
 msgid "Window (1024x576)"
-msgstr ""
+msgstr "Fenêtre (1024x576)"
 
 msgid "Window (1152x648)"
-msgstr ""
+msgstr "Fenêtre (1152x648)"
 
 msgid "Window (1280x720)"
-msgstr ""
+msgstr "Fenêtre (1280x720)"
 
 msgid "Window (960x540)"
-msgstr ""
+msgstr "Fenêtre (960x540)"
 
 msgid "Input device"
 msgstr "Périphérique d'entrée"
 
 msgid "Gamepad"
-msgstr ""
+msgstr "Manette"
 
 msgid "Keyboard (Arrows)"
-msgstr ""
+msgstr "Clavier (Flèche)"
 
 msgid "Keyboard (Keys)"
-msgstr ""
+msgstr "Clavier (Touches)"
 
 msgid "Quit"
 msgstr "Quitter"
