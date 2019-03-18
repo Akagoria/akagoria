@@ -81,10 +81,36 @@ namespace {
     "tilesets/sprites-256.png"
   };
 
+  gf::Vector2u computeScreenSize(akgr::OptionsData::Display display) {
+    switch (display) {
+      case akgr::OptionsData::Display::Window_960x540:
+        return { 960u, 540u };
+      case akgr::OptionsData::Display::Window_1024x576:
+        return { 1024u, 576u };
+      case akgr::OptionsData::Display::Window_1152x648:
+        return { 1152u, 648u };
+      case akgr::OptionsData::Display::Window_1280x720:
+        return { 1280u, 720u };
+      default:
+        break;
+    }
+
+    return { 1024u, 576u };
+
+  }
+
+  void adjustWindow(gf::Window& window, akgr::OptionsData::Display display) {
+    if (display == akgr::OptionsData::Display::Fullscreen) {
+      window.setFullscreen();
+    } else {
+      window.setSize(computeScreenSize(display));
+    }
+  }
+
 }
 
 int main() {
-  static constexpr gf::Vector2u ScreenSize(1024, 576);
+  static constexpr gf::Vector2u InitialScreenSize(1024, 576);
   static constexpr gf::Vector2f ViewSize(800.0f, 800.0f);
   static constexpr gf::Vector2f ViewCenter = ViewSize / 2;
 
@@ -98,17 +124,19 @@ int main() {
   gf::Log::info("Locale is: %s\n", std::locale("").name().c_str());
   gf::Random random;
 
-  // initialization
-
-  gf::Window window("Akagoria, the revenge of Kalista", ScreenSize, ~gf::WindowHints::Resizable);
-  window.setVerticalSyncEnabled(true);
-  window.setFramerateLimit(59);
-
-  gf::RenderWindow renderer(window);
-
   // root
 
   akgr::RootScenery rootScenery;
+
+  // initialization
+
+  gf::Window window("Akagoria, the revenge of Kalista", InitialScreenSize, ~gf::WindowHints::Resizable);
+  window.setVerticalSyncEnabled(true);
+  window.setFramerateLimit(59);
+
+  adjustWindow(window, rootScenery.options.data.display);
+
+  gf::RenderWindow renderer(window);
 
   // resources
 
@@ -127,7 +155,7 @@ int main() {
   gf::ScreenView hudView;
   views.addView(hudView);
 
-  views.setInitialScreenSize(ScreenSize);
+  views.setInitialScreenSize(renderer.getSize());
 
   gf::ZoomingViewAdaptor adaptor(renderer, mainView);
 

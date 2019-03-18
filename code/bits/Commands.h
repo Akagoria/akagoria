@@ -35,6 +35,8 @@ namespace akgr {
 
     gf::Action menuUp;
     gf::Action menuDown;
+    gf::Action menuLeft;
+    gf::Action menuRight;
 
     Commands(gf::ActionContainer& container);
   };

@@ -30,6 +30,8 @@ namespace akgr {
   , fight("Fight")
   , menuUp("Menu Up")
   , menuDown("Menu Down")
+  , menuLeft("Menu Left")
+  , menuRight("Menu Right")
   {
     up.addScancodeKeyControl(gf::Scancode::W);
     up.addScancodeKeyControl(gf::Scancode::Up);
@@ -65,6 +67,13 @@ namespace akgr {
     menuDown.addScancodeKeyControl(gf::Scancode::Down);
     container.addAction(menuDown);
 
+    menuLeft.addScancodeKeyControl(gf::Scancode::A);
+    menuLeft.addScancodeKeyControl(gf::Scancode::Left);
+    container.addAction(menuLeft);
+
+    menuRight.addScancodeKeyControl(gf::Scancode::D);
+    menuRight.addScancodeKeyControl(gf::Scancode::Right);
+    container.addAction(menuRight);
   }
 
 }

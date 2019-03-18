@@ -19,6 +19,8 @@
  */
 #include "OptionsScenery.h"
 
+#include <cassert>
+
 #include <gf/Log.h>
 #include <gf/Paths.h>
 #include <gf/Serialization.h>
@@ -28,6 +30,74 @@
 #include "Version.h"
 
 namespace akgr {
+  OptionsData::Input OptionsData::next(OptionsData::Input input) {
+    switch (input) {
+      case Input::Keyboard_Arrows:
+        return Input::Keyboard_Keys;
+      case Input::Keyboard_Keys:
+        return Input::Gamepad;
+      case Input::Gamepad:
+        return Input::Keyboard_Arrows;
+    }
+
+    assert(false);
+    return Input::Keyboard_Arrows;
+  }
+
+  OptionsData::Input OptionsData::prev(OptionsData::Input input) {
+    switch (input) {
+      case Input::Keyboard_Arrows:
+        return Input::Gamepad;
+      case Input::Keyboard_Keys:
+        return Input::Keyboard_Arrows;
+      case Input::Gamepad:
+        return Input::Keyboard_Keys;
+    }
+
+    assert(false);
+    return Input::Keyboard_Arrows;
+  }
+
+
+  OptionsData::Display OptionsData::next(OptionsData::Display display) {
+    switch (display) {
+      case Display::Fullscreen:
+        return Display::Window_960x540;
+      case Display::Window_960x540:
+        return Display::Window_1024x576;
+      case Display::Window_1024x576:
+        return Display::Window_1152x648;
+      case Display::Window_1152x648:
+        return Display::Window_1280x720;
+      case Display::Window_1280x720:
+        return Display::Fullscreen;
+    }
+
+    assert(false);
+    return Display::Fullscreen;
+  }
+
+  OptionsData::Display OptionsData::prev(OptionsData::Display display) {
+    switch (display) {
+      case Display::Fullscreen:
+        return Display::Window_1280x720;
+      case Display::Window_960x540:
+        return Display::Fullscreen;
+      case Display::Window_1024x576:
+        return Display::Window_960x540;
+      case Display::Window_1152x648:
+        return Display::Window_1024x576;
+      case Display::Window_1280x720:
+        return Display::Window_1152x648;
+    }
+
+    assert(false);
+    return Display::Fullscreen;
+  }
+
+  /*
+   * OptionsScenery
+   */
 
   void OptionsScenery::load() {
     gf::Path saveDirectory = gf::Paths::getPrefPath("akagoria", "kalista");
@@ -36,7 +106,7 @@ namespace akgr {
     if (boost::filesystem::exists(optionsPath)) {
       gf::FileInputStream file(optionsPath);
       gf::Deserializer ar(file);
-      ar | options;
+      ar | data;
     }
   }
 
@@ -46,7 +116,7 @@ namespace akgr {
 
     gf::FileOutputStream file(optionsPath);
     gf::Serializer ar(file);
-    ar | options;
+    ar | data;
   }
 
 }

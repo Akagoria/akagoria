@@ -92,14 +92,35 @@ namespace akgr {
         }
 
         if (m_commands.use.isActive()) {
+          if (m_root.options.choice == OptionsScenery::Back) {
+            m_scenery.operation = OpeningOperation::Menu;
+            m_root.operation = RootOperation::None;
+            m_root.options.save();
+          }
+        }
+
+        if (m_commands.menuRight.isActive()) {
           switch (m_root.options.choice) {
             case OptionsScenery::Input:
+              m_root.options.data.input = OptionsData::next(m_root.options.data.input);
               break;
             case OptionsScenery::Display:
+              m_root.options.data.display = OptionsData::next(m_root.options.data.display);
               break;
-            case OptionsScenery::Back:
-              m_scenery.operation = OpeningOperation::Menu;
-              m_root.operation = RootOperation::None;
+            default:
+              break;
+          }
+        }
+
+        if (m_commands.menuLeft.isActive()) {
+          switch (m_root.options.choice) {
+            case OptionsScenery::Input:
+              m_root.options.data.input = OptionsData::prev(m_root.options.data.input);
+              break;
+            case OptionsScenery::Display:
+              m_root.options.data.display = OptionsData::prev(m_root.options.data.display);
+              break;
+            default:
               break;
           }
         }

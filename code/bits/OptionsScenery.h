@@ -27,7 +27,7 @@
 
 namespace akgr {
 
-  struct Options {
+  struct OptionsData {
     enum class Input : uint8_t {
       Keyboard_Arrows,
       Keyboard_Keys,    // WASD
@@ -35,6 +35,9 @@ namespace akgr {
     };
 
     Input input = Input::Keyboard_Arrows;
+
+    static Input next(Input input);
+    static Input prev(Input input);
 
     enum class Display : uint8_t {
       Fullscreen,
@@ -45,15 +48,19 @@ namespace akgr {
     };
 
     Display display = Display::Window_1024x576;
+
+    static Display next(Display display);
+    static Display prev(Display display);
+
   };
 
   template<typename Archive>
-  Archive& operator|(Archive& ar, Options& options) {
-    return ar | options.input | options.display;
+  Archive& operator|(Archive& ar, OptionsData& data) {
+    return ar | data.input | data.display;
   }
 
   struct OptionsScenery {
-    Options options;
+    OptionsData data;
     int choice = 0;
 
     static constexpr int Input    = 0;
