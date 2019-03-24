@@ -69,14 +69,13 @@ Each part in the world can contribute to the world data, the world state, the wo
 | Physics | ✓ | ✓ | |
 
 | Shrine | ✓ | | ✓ | ✓
-
-| SlotSelector | | | ✓ | ✓
 |===
 
 
+[[opening]]
 == Opening
 
-The opening scene is what happens before the real game is launched. Its design is a simplification of <<world>>. Obviously, there is no data and no state.
+The opening scene is what happens before the real game is launched. Its design is a simplification of <<world>>. Obviously, there is no data and no state. But there is an `OpeningDriver` and an `OpeningProcessor`.
 
 .Existing parts for Opening
 [cols="<,^,^,<"]
@@ -85,10 +84,26 @@ The opening scene is what happens before the real game is launched. Its design i
 
 | Logo | | ✓ | Splash screen
 
-| SlotSelector | ✓ | ✓ |
-
 | StartMenu | ✓ | ✓ |
 |===
+
+
+== Root
+
+The root scenery is a special class that handles scenery common to <<world>> and <<opening>>
+
+.Existing parts for Root
+[cols="<,^,^,<"]
+|===
+| Part | Scenery | Renderer | Comment
+
+| CommandsHelper | ✓ | ✓ |
+
+| SlotSelector | ✓ | ✓ |
+
+| Options | ✓ | ✓ |
+|===
+
 
 
 == UI
