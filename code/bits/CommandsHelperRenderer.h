@@ -17,31 +17,31 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_COMMANDS_H
-#define AKGR_COMMANDS_H
+#ifndef AKGR_COMMANDS_HELPER_RENDERER_H
+#define AKGR_COMMANDS_HELPER_RENDERER_H
 
-#include <gf/Action.h>
+#include <gf/Entity.h>
+#include <gf/ResourceManager.h>
+
+#include "RootScenery.h"
+#include "UIData.h"
 
 namespace akgr {
 
-  struct Commands {
-    gf::Action up;
-    gf::Action down;
-    gf::Action left;
-    gf::Action right;
+  class CommandsHelperRenderer : public gf::Entity {
+  public:
+    CommandsHelperRenderer(const UIData& data, const RootScenery& root, gf::ResourceManager& resources);
 
-    gf::Action use;
-    gf::Action fight;
-    gf::Action menu;
+    virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
 
-    gf::Action menuUp;
-    gf::Action menuDown;
-    gf::Action menuLeft;
-    gf::Action menuRight;
-
-    Commands(gf::ActionContainer& container);
+  private:
+    const UIData& m_data;
+    const RootScenery& m_root;
+    const gf::Texture& m_texture;
+    gf::Font& m_font;
   };
 
 }
 
-#endif // AKGR_ACTIONS_H
+
+#endif // AKGR_COMMANDS_HELPER_RENDERER_H

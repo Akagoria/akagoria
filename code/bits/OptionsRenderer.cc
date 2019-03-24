@@ -45,10 +45,8 @@ namespace akgr {
 
     std::string getInputChoice(OptionsData::Input choice, const UIData& data) {
       switch (choice) {
-        case OptionsData::Input::Keyboard_Arrows:
-          return data.getUIMessage("MenuOptionsInputKeyboardKeys"_id);
-        case OptionsData::Input::Keyboard_Keys:
-          return data.getUIMessage("MenuOptionsInputKeyboardArrows"_id);
+        case OptionsData::Input::Keyboard:
+          return data.getUIMessage("MenuOptionsInputKeyboard"_id);
         case OptionsData::Input::Gamepad:
           return data.getUIMessage("MenuOptionsInputGamepad"_id);
       }

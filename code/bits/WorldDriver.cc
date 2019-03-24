@@ -22,12 +22,11 @@
 #include <gf/Clock.h>
 #include <gf/Log.h>
 
+#include "WorldConstants.h"
+
 namespace akgr {
 
   namespace {
-
-    constexpr float DialogDistance = 100.0f;
-    constexpr float ShrineDistance = 70.0f;
 
     void increaseAttribute(Attribute& attr) {
       attr.current = std::min(attr.max, attr.current + attr.max / 10);
@@ -49,6 +48,8 @@ namespace akgr {
 
 
   void WorldDriver::processCommands() {
+    m_root.helper.status = HelperStatus::None;
+
     auto& hero = m_state.hero;
 
     auto squareDistanceToHero = [&hero](gf::Vector2f other) {
@@ -131,6 +132,7 @@ namespace akgr {
         break;
 
       case WorldOperation::Talk:
+        m_root.helper.status = HelperStatus::Continue;
         hero.move.angular = gf::AngularMove::None;
         hero.move.linear = gf::LinearMove::None;
 
@@ -156,6 +158,8 @@ namespace akgr {
         break;
 
       case WorldOperation::Save:
+        m_root.helper.status = HelperStatus::Menu;
+
         hero.move.angular = gf::AngularMove::None;
         hero.move.linear = gf::LinearMove::None;
 

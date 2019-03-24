@@ -32,6 +32,8 @@ namespace akgr {
   }
 
   void OpeningDriver::processCommands() {
+    m_root.helper.status = HelperStatus::Menu;
+
     switch (m_scenery.operation) {
       case OpeningOperation::Menu:
         if (m_commands.menuDown.isActive()) {

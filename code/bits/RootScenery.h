@@ -22,6 +22,7 @@
 
 #include "OptionsScenery.h"
 #include "SlotSelectorScenery.h"
+#include "CommandsHelperScenery.h"
 
 namespace akgr {
 
@@ -41,6 +42,7 @@ namespace akgr {
 
     OptionsScenery options;
     SlotSelectorScenery selector;
+    CommandsHelperScenery helper;
   };
 
 }

@@ -28,6 +28,7 @@ namespace akgr {
   , right("Right")
   , use("Use")
   , fight("Fight")
+  , menu("Menu")
   , menuUp("Menu Up")
   , menuDown("Menu Down")
   , menuLeft("Menu Left")
@@ -35,44 +36,66 @@ namespace akgr {
   {
     up.addScancodeKeyControl(gf::Scancode::W);
     up.addScancodeKeyControl(gf::Scancode::Up);
+    up.addGamepadAxisControl(gf::AnyGamepad, gf::GamepadAxis::LeftY, gf::GamepadAxisDirection::Negative);
+    up.addGamepadButtonControl(gf::AnyGamepad, gf::GamepadButton::DPadUp);
     up.setContinuous();
     container.addAction(up);
 
     down.addScancodeKeyControl(gf::Scancode::S);
     down.addScancodeKeyControl(gf::Scancode::Down);
+    down.addGamepadAxisControl(gf::AnyGamepad, gf::GamepadAxis::LeftY, gf::GamepadAxisDirection::Positive);
+    down.addGamepadButtonControl(gf::AnyGamepad, gf::GamepadButton::DPadDown);
     down.setContinuous();
     container.addAction(down);
 
     left.addScancodeKeyControl(gf::Scancode::A);
     left.addScancodeKeyControl(gf::Scancode::Left);
+    left.addGamepadAxisControl(gf::AnyGamepad, gf::GamepadAxis::LeftX, gf::GamepadAxisDirection::Negative);
+    left.addGamepadButtonControl(gf::AnyGamepad, gf::GamepadButton::DPadLeft);
     left.setContinuous();
     container.addAction(left);
 
     right.addScancodeKeyControl(gf::Scancode::D);
     right.addScancodeKeyControl(gf::Scancode::Right);
+    right.addGamepadAxisControl(gf::AnyGamepad, gf::GamepadAxis::LeftX, gf::GamepadAxisDirection::Positive);
+    right.addGamepadButtonControl(gf::AnyGamepad, gf::GamepadButton::DPadRight);
     right.setContinuous();
     container.addAction(right);
 
     use.addKeycodeKeyControl(gf::Keycode::E);
+    use.addGamepadButtonControl(gf::AnyGamepad, gf::GamepadButton::A);
     container.addAction(use);
 
-    fight.addKeycodeKeyControl(gf::Keycode::Space);
+    fight.addKeycodeKeyControl(gf::Keycode::R);
+    fight.addGamepadButtonControl(gf::AnyGamepad, gf::GamepadButton::B);
     container.addAction(fight);
+
+    menu.addKeycodeKeyControl(gf::Keycode::M);
+    menu.addGamepadButtonControl(gf::AnyGamepad, gf::GamepadButton::Y);
+    container.addAction(menu);
 
     menuUp.addScancodeKeyControl(gf::Scancode::W);
     menuUp.addScancodeKeyControl(gf::Scancode::Up);
+    menuUp.addGamepadAxisControl(gf::AnyGamepad, gf::GamepadAxis::LeftY, gf::GamepadAxisDirection::Negative);
+    menuUp.addGamepadButtonControl(gf::AnyGamepad, gf::GamepadButton::DPadUp);
     container.addAction(menuUp);
 
     menuDown.addScancodeKeyControl(gf::Scancode::S);
     menuDown.addScancodeKeyControl(gf::Scancode::Down);
+    menuDown.addGamepadAxisControl(gf::AnyGamepad, gf::GamepadAxis::LeftY, gf::GamepadAxisDirection::Positive);
+    menuDown.addGamepadButtonControl(gf::AnyGamepad, gf::GamepadButton::DPadDown);
     container.addAction(menuDown);
 
     menuLeft.addScancodeKeyControl(gf::Scancode::A);
     menuLeft.addScancodeKeyControl(gf::Scancode::Left);
+    menuLeft.addGamepadAxisControl(gf::AnyGamepad, gf::GamepadAxis::LeftX, gf::GamepadAxisDirection::Negative);
+    menuLeft.addGamepadButtonControl(gf::AnyGamepad, gf::GamepadButton::DPadLeft);
     container.addAction(menuLeft);
 
     menuRight.addScancodeKeyControl(gf::Scancode::D);
     menuRight.addScancodeKeyControl(gf::Scancode::Right);
+    menuRight.addGamepadAxisControl(gf::AnyGamepad, gf::GamepadAxis::LeftX, gf::GamepadAxisDirection::Positive);
+    menuRight.addGamepadButtonControl(gf::AnyGamepad, gf::GamepadButton::DPadRight);
     container.addAction(menuRight);
   }
 

@@ -9,8 +9,7 @@
   "MenuBack": "Back",
 
   "MenuOptionsInput": "Input device",
-  "MenuOptionsInputKeyboardKeys": "Keyboard (Keys)",
-  "MenuOptionsInputKeyboardArrows": "Keyboard (Arrows)",
+  "MenuOptionsInputKeyboard": "Keyboard",
   "MenuOptionsInputGamepad": "Gamepad",
 
   "MenuOptionsDisplay": "Display",
@@ -19,6 +18,11 @@
   "MenuOptionsDisplayWindow1024x576": "Window (1024x576)",
   "MenuOptionsDisplayWindow1152x648": "Window (1152x648)",
   "MenuOptionsDisplayWindow1280x720": "Window (1280x720)",
+
+  "HelperContinue": "Continue",
+  "HelperSelect": "Select",
+  "HelperTalk": "Talk",
+  "HelperUse": "Use",
 
   "End": "The end"
 }

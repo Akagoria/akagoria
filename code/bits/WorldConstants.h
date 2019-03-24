@@ -17,31 +17,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_COMMANDS_H
-#define AKGR_COMMANDS_H
-
-#include <gf/Action.h>
+#ifndef AKGR_WORLD_CONSTANTS_H
+#define AKGR_WORLD_CONSTANTS_H
 
 namespace akgr {
 
-  struct Commands {
-    gf::Action up;
-    gf::Action down;
-    gf::Action left;
-    gf::Action right;
-
-    gf::Action use;
-    gf::Action fight;
-    gf::Action menu;
-
-    gf::Action menuUp;
-    gf::Action menuDown;
-    gf::Action menuLeft;
-    gf::Action menuRight;
-
-    Commands(gf::ActionContainer& container);
-  };
+  constexpr float DialogDistance = 100.0f;
+  constexpr float ShrineDistance = 70.0f;
 
 }
 
-#endif // AKGR_ACTIONS_H
+#endif // AKGR_WORLD_CONSTANTS_H

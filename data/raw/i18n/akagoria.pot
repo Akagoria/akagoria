@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-18 15:05+0100\n"
+"POT-Creation-Date: 2019-03-24 18:06+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -76,6 +76,18 @@ msgstr ""
 msgid "The end"
 msgstr ""
 
+msgid "Continue"
+msgstr ""
+
+msgid "Select"
+msgstr ""
+
+msgid "Talk"
+msgstr ""
+
+msgid "Use"
+msgstr ""
+
 msgid "Back"
 msgstr ""
 
@@ -109,10 +121,7 @@ msgstr ""
 msgid "Gamepad"
 msgstr ""
 
-msgid "Keyboard (Arrows)"
-msgstr ""
-
-msgid "Keyboard (Keys)"
+msgid "Keyboard"
 msgstr ""
 
 msgid "Quit"

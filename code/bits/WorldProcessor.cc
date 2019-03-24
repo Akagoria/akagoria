@@ -21,6 +21,8 @@
 
 #include <limits>
 
+#include "WorldConstants.h"
+
 namespace akgr {
 
   namespace {
@@ -43,10 +45,11 @@ namespace akgr {
 
   }
 
-  WorldProcessor::WorldProcessor(const WorldData& data, WorldState& state, WorldScenery& scenery, Script& script)
+  WorldProcessor::WorldProcessor(const WorldData& data, WorldState& state, WorldScenery& scenery, RootScenery& root, Script& script)
   : m_data(data)
   , m_state(state)
   , m_scenery(scenery)
+  , m_root(root)
   , m_script(script)
   {
 
@@ -160,6 +163,38 @@ namespace akgr {
       });
 
       m_scenery.area.current = &it->second;
+    }
+
+    /*
+     * root
+     */
+
+    auto squareDistanceToHero = [&hero](gf::Vector2f other) {
+      return gf::squareDistance(hero.physics.location.position, other);
+    };
+
+    for (auto& character : m_state.characters) {
+      if (character.dialog == gf::InvalidId) {
+        continue;
+      }
+
+      if (character.physics.location.floor != hero.physics.location.floor) {
+        continue;
+      }
+
+      if (squareDistanceToHero(character.physics.location.position) < gf::square(DialogDistance)) {
+        m_root.helper.status = HelperStatus::Talk;
+      }
+    }
+
+    for (auto& shrine : m_data.shrines) {
+      if (shrine.location.floor != hero.physics.location.floor) {
+        continue;
+      }
+
+      if (squareDistanceToHero(shrine.location.position) < gf::square(ShrineDistance)) {
+        m_root.helper.status = HelperStatus::Use;
+      }
     }
 
   }

@@ -22,6 +22,7 @@
 
 #include <gf/Model.h>
 
+#include "RootScenery.h"
 #include "Script.h"
 #include "WorldData.h"
 #include "WorldScenery.h"
@@ -31,7 +32,7 @@ namespace akgr {
 
   class WorldProcessor : gf::Model {
   public:
-    WorldProcessor(const WorldData& data, WorldState& state, WorldScenery& scenery, Script& script);
+    WorldProcessor(const WorldData& data, WorldState& state, WorldScenery& scenery, RootScenery& root, Script& script);
 
     virtual void update(gf::Time time) override;
 
@@ -39,6 +40,7 @@ namespace akgr {
     const WorldData& m_data;
     WorldState& m_state;
     WorldScenery& m_scenery;
+    RootScenery& m_root;
     Script& m_script;
   };
 

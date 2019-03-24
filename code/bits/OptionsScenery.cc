@@ -32,30 +32,26 @@
 namespace akgr {
   OptionsData::Input OptionsData::next(OptionsData::Input input) {
     switch (input) {
-      case Input::Keyboard_Arrows:
-        return Input::Keyboard_Keys;
-      case Input::Keyboard_Keys:
+      case Input::Keyboard:
         return Input::Gamepad;
       case Input::Gamepad:
-        return Input::Keyboard_Arrows;
+        return Input::Keyboard;
     }
 
     assert(false);
-    return Input::Keyboard_Arrows;
+    return Input::Keyboard;
   }
 
   OptionsData::Input OptionsData::prev(OptionsData::Input input) {
     switch (input) {
-      case Input::Keyboard_Arrows:
+      case Input::Keyboard:
         return Input::Gamepad;
-      case Input::Keyboard_Keys:
-        return Input::Keyboard_Arrows;
       case Input::Gamepad:
-        return Input::Keyboard_Keys;
+        return Input::Keyboard;
     }
 
     assert(false);
-    return Input::Keyboard_Arrows;
+    return Input::Keyboard;
   }
 
 

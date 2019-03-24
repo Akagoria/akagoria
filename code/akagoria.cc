@@ -43,6 +43,7 @@
 #include "bits/AttributesRenderer.h"
 #include "bits/CharacterRenderer.h"
 #include "bits/Commands.h"
+#include "bits/CommandsHelperRenderer.h"
 #include "bits/DialogRenderer.h"
 #include "bits/Display.h"
 #include "bits/HeroRenderer.h"
@@ -183,6 +184,9 @@ int main() {
   gf::ActionContainer gameActions;
   akgr::Commands commands(gameActions);
 
+
+  gf::GamepadTracker tracker;
+
   // preload textures
 
   for (auto path : PreloadedTexture) {
@@ -216,6 +220,10 @@ int main() {
 
   akgr::OptionsRenderer openingOptions(uiData, rootScenery, display);
   openingEntities.addEntity(openingOptions);
+
+  akgr::CommandsHelperRenderer openingCommandsHelper(uiData, rootScenery, resources);
+  openingEntities.addEntity(openingCommandsHelper);
+
 
   // (empty) world
 
@@ -271,6 +279,7 @@ int main() {
 
     while (window.pollEvent(event)) {
       windowActions.processEvent(event);
+      tracker.processEvent(event);
       gameActions.processEvent(event);
       views.processEvent(event);
     }
@@ -390,6 +399,9 @@ int main() {
   akgr::AreaRenderer area(resources, worldState, worldScenery);
   hudEntities.addEntity(area);
 
+  akgr::CommandsHelperRenderer worldCommandsHelper(uiData, rootScenery, resources);
+  hudEntities.addEntity(worldCommandsHelper);
+
   // script
 
   akgr::PhysicsListener listener(script);
@@ -401,7 +413,7 @@ int main() {
 
   // driver
 
-  akgr::WorldProcessor worldProcessor(worldData, worldState, worldScenery, script);
+  akgr::WorldProcessor worldProcessor(worldData, worldState, worldScenery, rootScenery, script);
 
   akgr::WorldDriver worldDriver(worldData, worldState, worldScenery, rootScenery, commands, script);
 
@@ -416,6 +428,7 @@ int main() {
 
     while (window.pollEvent(event)) {
       windowActions.processEvent(event);
+      tracker.processEvent(event);
       gameActions.processEvent(event);
       views.processEvent(event);
       adaptor.processEvent(event);

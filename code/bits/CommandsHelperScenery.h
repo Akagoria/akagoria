@@ -17,31 +17,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_COMMANDS_H
-#define AKGR_COMMANDS_H
-
-#include <gf/Action.h>
+#ifndef AKGR_COMMANDS_HELPER_SCENERY_H
+#define AKGR_COMMANDS_HELPER_SCENERY_H
 
 namespace akgr {
 
-  struct Commands {
-    gf::Action up;
-    gf::Action down;
-    gf::Action left;
-    gf::Action right;
+  enum class HelperStatus {
+    None,
+    // (alphabetically)
+    Continue,
+    Menu,
+    Talk,
+    Use,
+  };
 
-    gf::Action use;
-    gf::Action fight;
-    gf::Action menu;
-
-    gf::Action menuUp;
-    gf::Action menuDown;
-    gf::Action menuLeft;
-    gf::Action menuRight;
-
-    Commands(gf::ActionContainer& container);
+  struct CommandsHelperScenery {
+    HelperStatus status = HelperStatus::None;
   };
 
 }
 
-#endif // AKGR_ACTIONS_H
+#endif // AKGR_COMMANDS_HELPER_SCENERY_H

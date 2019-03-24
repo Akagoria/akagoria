@@ -29,12 +29,11 @@ namespace akgr {
 
   struct OptionsData {
     enum class Input : uint8_t {
-      Keyboard_Arrows,
-      Keyboard_Keys,    // WASD
+      Keyboard,
       Gamepad,
     };
 
-    Input input = Input::Keyboard_Arrows;
+    Input input = Input::Keyboard;
 
     static Input next(Input input);
     static Input prev(Input input);
