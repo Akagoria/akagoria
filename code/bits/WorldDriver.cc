@@ -26,14 +26,6 @@
 
 namespace akgr {
 
-  namespace {
-
-    void increaseAttribute(Attribute& attr) {
-      attr.current = std::min(attr.max, attr.current + attr.max / 10);
-    }
-
-  }
-
   WorldDriver::WorldDriver(const WorldData& data, WorldState& state, WorldScenery& scenery, RootScenery& root, const Commands& commands, Script& script)
   : m_data(data)
   , m_state(state)
@@ -118,7 +110,7 @@ namespace akgr {
                   gf::Log::info("Moli Shrine!\n");
                   break;
                 case ShrineType::Pona:
-                  increaseAttribute(hero.attributes.hp);
+                  hero.attributes.hp.increase();
                   break;
                 case ShrineType::Sewi:
                   gf::Log::info("Sewi Shrine!\n");

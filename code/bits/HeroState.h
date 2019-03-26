@@ -28,6 +28,7 @@
 #include "AttributesState.h"
 #include "DialogState.h"
 #include "PhysicsState.h"
+#include "SkillsState.h"
 
 namespace akgr {
 
@@ -46,13 +47,15 @@ namespace akgr {
 
     std::set<gf::Id> requirements;
     AttributesState attributes;
+    SkillsState skills;
+
     DialogState dialog;
     PhysicsBody physics;
   };
 
   template<typename Archive>
   Archive& operator|(Archive& ar, HeroState& state) {
-    return ar | state.move | state.requirements | state.attributes | state.dialog | state.physics;
+    return ar | state.move | state.requirements | state.attributes | state.skills | state.dialog | state.physics;
   }
 
 }

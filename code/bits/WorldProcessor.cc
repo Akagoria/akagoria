@@ -31,18 +31,6 @@ namespace akgr {
     static constexpr gf::Time HPUpdatePeriod = gf::seconds(11);
     static constexpr gf::Time MPUpdatePeriod = gf::seconds(29);
 
-    void updateAttribute(Attribute& attr, gf::Time time, gf::Time period) {
-      attr.period += time;
-
-      if (attr.period > period) {
-        if (attr.current < attr.max) {
-          ++attr.current;
-        }
-
-        attr.period -= period;
-      }
-    }
-
   }
 
   WorldProcessor::WorldProcessor(const WorldData& data, WorldState& state, WorldScenery& scenery, RootScenery& root, Script& script)
@@ -99,6 +87,7 @@ namespace akgr {
           break;
       }
 
+      angle = std::fmod(angle, 2 * gf::Pi);
       hero.physics.setAngleAndVelocity(angle, velocity);
     }
 
@@ -122,8 +111,8 @@ namespace akgr {
 
     hero.physics.pullLocation();
 
-    updateAttribute(hero.attributes.hp, time, HPUpdatePeriod);
-    updateAttribute(hero.attributes.mp, time, MPUpdatePeriod);
+    hero.attributes.hp.update(time, HPUpdatePeriod);
+    hero.attributes.mp.update(time, MPUpdatePeriod);
 
     // ...
 

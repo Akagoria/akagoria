@@ -53,7 +53,7 @@ namespace akgr {
       }
 
       {
-        float percent = static_cast<float>(attr.current) / static_cast<float>(attr.max);
+        float percent = static_cast<float>(attr.value) / static_cast<float>(attr.max);
         gf::Vector2f bar = size * gf::Vector2f(percent, 1.0f);
         gf::RectangleShape shape(bar);
         shape.setColor(color);
@@ -76,7 +76,7 @@ namespace akgr {
 
       {
         gf::Color4f fontColor = gf::Color::White * gf::Color::Opaque(0.8f); // gf::Color::darker(color);
-        std::string str = std::to_string(attr.current) + " " + name;
+        std::string str = std::to_string(attr.value) + " " + name;
         unsigned characterSize = coords.getRelativeCharacterSize(AttributeCharacterSize); // static_cast<unsigned>(insideHeight)
         gf::Text text(str, font, characterSize);
         text.setColor(fontColor);

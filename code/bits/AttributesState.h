@@ -27,14 +27,34 @@
 namespace akgr {
 
   struct Attribute {
-    int32_t current = 75;
+    int32_t value = 75;
     int32_t max = 100;
     gf::Time period = gf::Time::zero();
+
+    void increase() {
+      value = value + max / 10;
+
+      if (value > max) {
+        value = max;
+      }
+    }
+
+    void update(gf::Time time, gf::Time maxPeriod) {
+      period += time;
+
+      while (period > maxPeriod) {
+        if (value < max) {
+          ++value;
+        }
+
+        period -= maxPeriod;
+      }
+    }
   };
 
   template<typename Archive>
   Archive& operator|(Archive& ar, Attribute& attr) {
-    return ar | attr.current | attr.max | attr.period;
+    return ar | attr.value | attr.max | attr.period;
   }
 
   struct AttributesState {

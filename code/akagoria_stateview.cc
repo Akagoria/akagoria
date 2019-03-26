@@ -99,8 +99,12 @@ namespace {
     fmt::print("\n");
 
     fmt::print("\tattributes: {}/{} HP ({:g} s) {}/{} MP ({:g} s)\n",
-        state.attributes.hp.current, state.attributes.hp.max, state.attributes.hp.period.asSeconds(),
-        state.attributes.mp.current, state.attributes.mp.max, state.attributes.mp.period.asSeconds()
+        state.attributes.hp.value, state.attributes.hp.max, state.attributes.hp.period.asSeconds(),
+        state.attributes.mp.value, state.attributes.mp.max, state.attributes.mp.period.asSeconds()
+    );
+
+    fmt::print("\tskills: Strength {} | Dexterity {} | Intelligence {} | Wisdom {} | Knowledge {}\n",
+        state.skills.strength.value, state.skills.dexterity.value, state.skills.intelligence.value, state.skills.wisdom.value, state.skills.knowledge.value
     );
 
     fmt::print("\tdialog: {} line {}\n", Id{ state.dialog.ref.id }, state.dialog.currentLine);
