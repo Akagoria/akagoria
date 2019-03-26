@@ -102,29 +102,11 @@ namespace akgr {
         }
 
         if (m_commands.menuRight.isActive()) {
-          switch (m_root.options.choice) {
-            case OptionsScenery::Input:
-              m_root.options.data.input = OptionsData::next(m_root.options.data.input);
-              break;
-            case OptionsScenery::Display:
-              m_root.options.data.display = OptionsData::next(m_root.options.data.display);
-              break;
-            default:
-              break;
-          }
+          m_root.options.computeNextOption();
         }
 
         if (m_commands.menuLeft.isActive()) {
-          switch (m_root.options.choice) {
-            case OptionsScenery::Input:
-              m_root.options.data.input = OptionsData::prev(m_root.options.data.input);
-              break;
-            case OptionsScenery::Display:
-              m_root.options.data.display = OptionsData::prev(m_root.options.data.display);
-              break;
-            default:
-              break;
-          }
+          m_root.options.computePrevOption();
         }
         break;
 

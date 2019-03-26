@@ -116,6 +116,10 @@ namespace {
         return "Talk";
       case akgr::WorldOperation::Save:
         return "Save";
+      case akgr::WorldOperation::Menu:
+        return "Menu";
+      case akgr::WorldOperation::Options:
+        return "Options";
     }
 
     assert(false);

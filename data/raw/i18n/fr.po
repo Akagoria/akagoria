@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: akagoria\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-24 18:06+0100\n"
+"POT-Creation-Date: 2019-03-26 11:52+0100\n"
 "PO-Revision-Date: 2018-11-01 12:11+0100\n"
 "Last-Translator: Julien Bernard <julien.bernard@univ-fcomte.fr>\n"
 "Language: fr\n"
@@ -108,6 +108,9 @@ msgstr "Utiliser"
 msgid "Back"
 msgstr "Retour"
 
+msgid "Inventory"
+msgstr "Inventaire"
+
 msgid "Continue an adventure"
 msgstr "Continuer une aventure"
 
@@ -141,8 +144,14 @@ msgstr "Manette"
 msgid "Keyboard"
 msgstr "Clavier"
 
+msgid "Quests"
+msgstr "Quêtes"
+
 msgid "Quit"
 msgstr "Quitter"
+
+msgid "Skills"
+msgstr "Talents"
 
 msgid "Start an adventure"
 msgstr "Démarrer une aventure"

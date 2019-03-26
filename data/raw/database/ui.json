@@ -4,6 +4,11 @@
 
   "MenuStart": "Start an adventure",
   "MenuLoad": "Continue an adventure",
+
+  "MenuInventory": "Inventory",
+  "MenuQuests": "Quests",
+  "MenuSkills": "Skills",
+
   "MenuOptions": "Options",
   "MenuQuit": "Quit",
   "MenuBack": "Back",

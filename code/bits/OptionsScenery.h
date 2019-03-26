@@ -76,6 +76,32 @@ namespace akgr {
       choice = (choice - 1 + ItemCount) % ItemCount;
     }
 
+    void computeNextOption() {
+      switch (choice) {
+        case OptionsScenery::Input:
+          data.input = OptionsData::next(data.input);
+          break;
+        case OptionsScenery::Display:
+          data.display = OptionsData::next(data.display);
+          break;
+        default:
+          break;
+      }
+    }
+
+    void computePrevOption() {
+      switch (choice) {
+        case OptionsScenery::Input:
+          data.input = OptionsData::prev(data.input);
+          break;
+        case OptionsScenery::Display:
+          data.display = OptionsData::prev(data.display);
+          break;
+        default:
+          break;
+      }
+    }
+
     void load();
     void save();
   };

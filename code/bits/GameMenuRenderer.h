@@ -17,31 +17,31 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_WORLD_SCENERY_H
-#define AKGR_WORLD_SCENERY_H
+#ifndef AKGR_GAME_MENU_RENDERER_H
+#define AKGR_GAME_MENU_RENDERER_H
 
-#include <vector>
+#include <gf/Entity.h>
 
-#include <gf/Random.h>
-#include <gf/ResourceManager.h>
-
-#include "AreaScenery.h"
-#include "GameMenuScenery.h"
-#include "MapScenery.h"
-#include "ShrineScenery.h"
+#include "Display.h"
+#include "WorldScenery.h"
+#include "WorldState.h"
+#include "UIData.h"
 
 namespace akgr {
-  struct WorldData;
 
-  struct WorldScenery {
-    GameMenuScenery menu;
-    MapScenery map;
-    AreaScenery area;
-    std::vector<ShrineScenery> shrines;
+  class GameMenuRenderer : public gf::Entity {
+  public:
+    GameMenuRenderer(const UIData& data, const WorldState& state, const WorldScenery& scenery, const Display& display);
 
-    void bind(const WorldData& data, gf::ResourceManager& resources, gf::Random& random);
+    virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
+
+  private:
+    const UIData& m_data;
+    const WorldState& m_state;
+    const WorldScenery& m_scenery;
+    const Display& m_display;
   };
 
 }
 
-#endif // AKGR_WORLD_SCENERY_H
+#endif // AKGR_GAME_MENU_RENDERER_H

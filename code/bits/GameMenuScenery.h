@@ -17,31 +17,33 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_WORLD_SCENERY_H
-#define AKGR_WORLD_SCENERY_H
-
-#include <vector>
-
-#include <gf/Random.h>
-#include <gf/ResourceManager.h>
-
-#include "AreaScenery.h"
-#include "GameMenuScenery.h"
-#include "MapScenery.h"
-#include "ShrineScenery.h"
+#ifndef AKGR_GAME_MENU_SCENERY_H
+#define AKGR_GAME_MENU_SCENERY_H
 
 namespace akgr {
-  struct WorldData;
 
-  struct WorldScenery {
-    GameMenuScenery menu;
-    MapScenery map;
-    AreaScenery area;
-    std::vector<ShrineScenery> shrines;
+  struct GameMenuScenery {
+    int choice = 0;
 
-    void bind(const WorldData& data, gf::ResourceManager& resources, gf::Random& random);
+    static constexpr int Inventory  = 0;
+    static constexpr int Quests     = 1;
+    static constexpr int Skills     = 2;
+    static constexpr int Options    = 3;
+    static constexpr int Quit       = 4;
+
+    static constexpr int ItemCount = 5;
+
+    void computeNextChoice() {
+      choice = (choice + 1) % ItemCount;
+    }
+
+    void computePrevChoice() {
+      choice = (choice - 1 + ItemCount) % ItemCount;
+    }
+
   };
 
 }
 
-#endif // AKGR_WORLD_SCENERY_H
+#endif // AKGR_GAME_MENU_SCENERY_H
+

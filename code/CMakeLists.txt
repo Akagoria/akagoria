@@ -38,6 +38,7 @@ add_executable(akagoria
   bits/CommandsHelperRenderer.cc
   bits/Display.cc
   bits/DialogRenderer.cc
+  bits/GameMenuRenderer.cc
   bits/HeroRenderer.cc
   bits/LogoRenderer.cc
   bits/MapRenderer.cc
@@ -110,9 +111,16 @@ add_executable(akagoria_dataview
   bits/WorldData.cc
 )
 
+target_include_directories(akagoria_dataview
+  PRIVATE
+    ${Boost_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_BINARY_DIR}
+)
+
 target_link_libraries(akagoria_dataview
   gf::gf0
   fmt-header-only
+  ${Boost_LIBRARIES}
 )
 
 
@@ -143,6 +151,7 @@ add_executable(akagoria_uimessagesview
 
 target_include_directories(akagoria_uimessagesview
   PRIVATE
+    ${Boost_INCLUDE_DIRS}
     ${CMAKE_CURRENT_BINARY_DIR}
 )
 

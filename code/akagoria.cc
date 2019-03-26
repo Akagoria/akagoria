@@ -46,6 +46,7 @@
 #include "bits/CommandsHelperRenderer.h"
 #include "bits/DialogRenderer.h"
 #include "bits/Display.h"
+#include "bits/GameMenuRenderer.h"
 #include "bits/HeroRenderer.h"
 #include "bits/LogoRenderer.h"
 #include "bits/MapRenderer.h"
@@ -401,6 +402,12 @@ int main() {
 
   akgr::CommandsHelperRenderer worldCommandsHelper(uiData, rootScenery, resources);
   hudEntities.addEntity(worldCommandsHelper);
+
+  akgr::GameMenuRenderer gameMenu(uiData, worldState, worldScenery, display);
+  hudEntities.addEntity(gameMenu);
+
+  akgr::OptionsRenderer gameOptions(uiData, rootScenery, display);
+  hudEntities.addEntity(gameOptions);
 
   // script
 

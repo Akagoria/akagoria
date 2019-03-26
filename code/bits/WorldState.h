@@ -38,6 +38,8 @@ namespace akgr {
     Walk,
     Talk,
     Save,
+    Menu,
+    Options,
   };
 
   struct WorldState {

@@ -58,6 +58,11 @@ namespace akgr {
 
     switch (m_state.operation) {
       case WorldOperation::Walk:
+        if (m_commands.menu.isActive()) {
+          m_scenery.menu.choice = 0;
+          m_state.operation = WorldOperation::Menu;
+        }
+
         if (m_commands.right.isActive()) {
           hero.move.angular = gf::AngularMove::Right;
         } else if (m_commands.left.isActive()) {
@@ -120,7 +125,6 @@ namespace akgr {
                   break;
                 case ShrineType::Tomo:
                   m_state.operation = WorldOperation::Save;
-                  m_root.operation = RootOperation::SelectSlot;
                   break;
               }
 
@@ -133,6 +137,7 @@ namespace akgr {
 
       case WorldOperation::Talk:
         m_root.helper.status = HelperStatus::Continue;
+
         hero.move.angular = gf::AngularMove::None;
         hero.move.linear = gf::LinearMove::None;
 
@@ -158,6 +163,7 @@ namespace akgr {
         break;
 
       case WorldOperation::Save:
+        m_root.operation = RootOperation::SelectSlot;
         m_root.helper.status = HelperStatus::Menu;
 
         hero.move.angular = gf::AngularMove::None;
@@ -192,6 +198,82 @@ namespace akgr {
             m_root.selector.load(); // reload info
           }
 
+        }
+        break;
+
+      case WorldOperation::Menu:
+        m_root.helper.status = HelperStatus::Menu;
+
+        hero.move.angular = gf::AngularMove::None;
+        hero.move.linear = gf::LinearMove::None;
+
+        if (m_commands.menu.isActive()) {
+          m_state.operation = WorldOperation::Walk;
+        }
+
+        if (m_commands.menuDown.isActive()) {
+          m_scenery.menu.computeNextChoice();
+        } else if (m_commands.menuUp.isActive()) {
+          m_scenery.menu.computePrevChoice();
+        }
+
+        if (m_commands.use.isActive()) {
+          switch (m_scenery.menu.choice) {
+            case GameMenuScenery::Inventory:
+              // TODO
+              gf::Log::debug("Inventory\n");
+              break;
+
+            case GameMenuScenery::Quests:
+              // TODO
+              gf::Log::debug("Quests\n");
+              break;
+
+            case GameMenuScenery::Skills:
+              // TODO
+              gf::Log::debug("Skills\n");
+              break;
+
+            case GameMenuScenery::Options:
+              m_state.operation = WorldOperation::Options;
+              break;
+
+            case GameMenuScenery::Quit:
+              m_state.operation = WorldOperation::Walk;
+              break;
+          }
+
+        }
+        break;
+
+      case WorldOperation::Options:
+        m_root.operation = RootOperation::ChangeOptions;
+        m_root.helper.status = HelperStatus::Menu;
+
+        if (m_commands.menu.isActive()) {
+          m_state.operation = WorldOperation::Walk;
+        }
+
+        if (m_commands.menuDown.isActive()) {
+          m_root.options.computeNextChoice();
+        } else if (m_commands.menuUp.isActive()) {
+          m_root.options.computePrevChoice();
+        }
+
+        if (m_commands.use.isActive()) {
+          if (m_root.options.choice == OptionsScenery::Back) {
+            m_state.operation = WorldOperation::Menu;
+            m_root.operation = RootOperation::None;
+            m_root.options.save();
+          }
+        }
+
+        if (m_commands.menuRight.isActive()) {
+          m_root.options.computeNextOption();
+        }
+
+        if (m_commands.menuLeft.isActive()) {
+          m_root.options.computePrevOption();
         }
         break;
     }

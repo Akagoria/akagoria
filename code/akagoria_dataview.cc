@@ -21,23 +21,20 @@
 #include <cstdio>
 #include <cstdlib>
 
+#include <boost/locale.hpp>
+
 #include <gf/Clock.h>
 #include <gf/Path.h>
+#include <gf/StringUtils.h>
 
 #include <fmt/core.h>
 
 #include "bits/Fmt.h"
 #include "bits/WorldData.h"
 
-namespace {
+#include "config.h"
 
-  void transformMultilineString(std::string& str) {
-    for (auto& c : str) {
-      if (c == '\n') {
-        c = '|';
-      }
-    }
-  }
+namespace {
 
   void viewNewSection(const char *section) {
     fmt::print("#\n# {}\n#\n", section);
@@ -200,9 +197,8 @@ namespace {
       auto& dialog = item.second;
       fmt::print("\t{}: '{}' [{}]\n", Id{item.first}, dialog.name, getDialogType(dialog.type));
 
-      for (auto line : dialog.content) {
-        transformMultilineString(line.words);
-        fmt::print("\t\t`{}`: |{}|\n", line.speaker, line.words);
+      for (auto& line : dialog.content) {
+        fmt::print("\t\t`{}`:\n\t\t\t\"{}\"\n\t\t\t(\"{}\")\n", line.speaker, gf::escapeString(line.words), gf::escapeString(boost::locale::gettext(line.words.c_str())));
       }
     }
   }
@@ -247,6 +243,11 @@ int main(int argc, char *argv[]) {
     fmt::print("Usage: alagoria_dataview <file>\n");
     return EXIT_FAILURE;
   }
+
+  boost::locale::generator localeGenerator;
+  localeGenerator.add_messages_path(AKAGORIA_LOCALEDIR);
+  localeGenerator.add_messages_domain("akagoria");
+  std::locale::global(localeGenerator(""));
 
   fmt::print("Loading akagoria data from '{}'...\n", argv[1]);
   gf::Path inputFile(argv[1]);
