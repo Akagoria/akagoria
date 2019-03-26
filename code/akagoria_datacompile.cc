@@ -406,6 +406,10 @@ namespace {
           shape.type = akgr::PhysicsShapeType::Circle;
           shape.circle.radius = static_cast<float>(radius);
 
+          if (shape.name.empty()) {
+            gf::Log::warning("Shape with no name at (%g,%g)[%" PRIi32 "]\n", shape.location.position.x, shape.location.position.y, currentFloor);
+          }
+
           data.physics.shapes.push_back(shape);
         }
 
@@ -469,6 +473,10 @@ namespace {
           collision.location.position = object->position;
           collision.location.floor = currentFloor;
           collision.line = tmxObjectToPolyline(*object);
+
+          if (collision.name.empty()) {
+            gf::Log::warning("Collision object with no name at (%g,%g)[%" PRIi32 "]\n", collision.location.position.x, collision.location.position.y, currentFloor);
+          }
 
           data.physics.collisions.push_back(std::move(collision));
         }
@@ -665,7 +673,6 @@ namespace {
         line.words = item["words"].get<std::string>();
         dialog.content.push_back(std::move(line));
 
-        strings.push_back(item["speaker"].get<std::string>());
         strings.push_back(item["words"].get<std::string>());
       }
 

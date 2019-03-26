@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: akagoria\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-26 11:52+0100\n"
+"POT-Creation-Date: 2019-03-26 14:31+0100\n"
 "PO-Revision-Date: 2018-11-01 12:11+0100\n"
 "Last-Translator: Julien Bernard <julien.bernard@univ-fcomte.fr>\n"
 "Language: fr\n"
@@ -22,9 +22,6 @@ msgstr "Montagnes Rocheuses"
 
 msgid "Plains of the South"
 msgstr "Plaines du Sud"
-
-msgid "Kalista"
-msgstr ""
 
 msgid ""
 "Ouch! What a terrible headache!\n"
@@ -52,9 +49,6 @@ msgstr ""
 "Bonjour ! Pouvez-vous m'aider ?\n"
 "Je recherche un village non loin.\n"
 "Suis-je dans la bonne direction ?"
-
-msgid "Shagir"
-msgstr ""
 
 msgid ""
 "Hummm... Yes!\n"

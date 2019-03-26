@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-26 11:52+0100\n"
+"POT-Creation-Date: 2019-03-26 15:04+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,9 +21,6 @@ msgid "Rocky Moutains"
 msgstr ""
 
 msgid "Plains of the South"
-msgstr ""
-
-msgid "Kalista"
 msgstr ""
 
 msgid ""
@@ -42,9 +39,6 @@ msgid ""
 "Hi! Can you help me?\n"
 "I am looking for a village nearby.\n"
 "Am I in the right direction?"
-msgstr ""
-
-msgid "Shagir"
 msgstr ""
 
 msgid ""

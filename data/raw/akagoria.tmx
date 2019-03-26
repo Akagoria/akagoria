@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextobjectid="33">
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="14" nextobjectid="35">
  <tileset firstgid="1" source="tilesets/biomes.tsx"/>
  <tileset firstgid="2026" name="sprites-128" tilewidth="128" tileheight="128" tilecount="64" columns="8">
   <image source="tilesets/sprites-128.png" width="1024" height="1024"/>
-  <tile id="0">
+  <tile id="0" type="well">
    <properties>
     <property name="shape" value="circle"/>
     <property name="shape_radius" type="float" value="28"/>
@@ -24,11 +24,11 @@
    </properties>
   </tile>
  </tileset>
- <group name="Floor -2">
+ <group id="1" name="Floor -2">
   <properties>
    <property name="floor" type="int" value="-2"/>
   </properties>
-  <layer name="Ground" width="100" height="100">
+  <layer id="2" name="Ground" width="100" height="100">
    <properties>
     <property name="kind" value="ground_tiles"/>
    </properties>
@@ -36,30 +36,30 @@
    eJzt10loFEEUxvGq7gEvLijGBSLePCjmoIKCggQVQSJB4sEFMSGCK0IOIoK44jEqggcVPOhRPIm4BDdciNEgxoXgUZGoiagnFcH4PasmPc5BhBmSTPwffryanu5hpr55Vd3OO+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAoILdkHf/6ELq3EV5Pwy+90j1QU7Jvb/4mjg3UfW1shiTc+7oMPjeI0VxP0zWXD9Q/aK3l2m8JMnqtHi8W+MX8kwOpORRzixs/q0f7D//PQl1v+b4rk5p1/iWaq8L9axen0lCfShe5+0jj7LwMjcXsjikOW2UtZLKLKnW8Uea8zqf6dOlK1UX6Hin/Iz90ePZQ0phfZEqi2tp6IUmH9af/P//tgusL/I5fJSpGk+XkzrnvLyT5bq+xdMjpcjv2fWayzc6tFnzWq/XdXH+f1cXeqHdZf3QJHtiNh0aV+n6t6q7WbNK8ioNa1VX3Kvvm5hBn8vy2KLj83R+s/RrXCNXk2wvOS0t+qxd5FGSGunQMEnDnm1r0EB/uGx9sh74rNqo9ybITI1vumwfuaP3q/UZPzx5lKJbczhO/eHSuGe7AjGXFh3/FLPYJFc0Xp9meVjvWN9skyqN24bB76pUtl6NVh5rNI/Xk6IsfNYb9qxhzxy23y+Ke31vPHenxi8T7nfLId8fq+N+ULhvWC1+1jhRtN9bXs06dkn1sj5rTm7of1Mls/urST7sH+c0r1M0rlVdmoR72j73574+kFfM4onOW6drv2k8Q8e63ND/pkpmebRpuDc+hz/V/G6IY8snn43VhUm4383XzvhcfliOSAN5lOyYtMp22SENmtdVstWHTDZqPDsNGY2XWlkcq51rvWHr1HytU891fj95lCWT4wUK8zloc+9DRivksc/Yva311tgcfTEY+bTG+e5x4T62MLNCo3L0xWDmYnimAAAAAAAAAAAAAAAAAAAAAP4PvwDSst6i
   </data>
   </layer>
-  <objectgroup name="Collisions">
+  <objectgroup id="3" name="Collisions">
    <properties>
     <property name="kind" value="collisions"/>
    </properties>
-   <object id="30" x="2339.5" y="1971.5" width="143" height="11"/>
-   <object id="31" x="2337.5" y="2079" width="143" height="10"/>
-   <object id="32" x="2311" y="1971" width="30" height="118"/>
+   <object id="34" name="Exit" x="2482.67" y="1983.33">
+    <polygon points="0,0 -143.667,0 -144,96 -3.33333,95.6667 -3,106.333 -171.667,105.333 -171.333,-12.3333 0.333333,-12"/>
+   </object>
   </objectgroup>
-  <objectgroup color="#ff0000" name="Zones">
+  <objectgroup color="#ff0000" id="4" name="Zones">
    <properties>
     <property name="kind" value="zones"/>
    </properties>
-   <object id="14" name="Bar" x="2290" y="1984" width="54" height="94">
+   <object id="14" name="Bar" x="2314.33" y="1984" width="29.6667" height="94">
     <properties>
      <property name="message" value="MoveUp"/>
     </properties>
    </object>
   </objectgroup>
  </group>
- <group name="Floor 0">
+ <group id="5" name="Floor 0" visible="0">
   <properties>
    <property name="floor" type="int" value="0"/>
   </properties>
-  <objectgroup name="Locations">
+  <objectgroup id="6" name="Locations">
    <properties>
     <property name="kind" value="locations"/>
    </properties>
@@ -70,7 +70,7 @@
     <ellipse/>
    </object>
   </objectgroup>
-  <objectgroup name="Areas">
+  <objectgroup id="7" name="Areas">
    <properties>
     <property name="kind" value="areas"/>
    </properties>
@@ -81,7 +81,7 @@
     <point/>
    </object>
   </objectgroup>
-  <layer name="Ground" width="100" height="100">
+  <layer id="8" name="Ground" width="100" height="100">
    <properties>
     <property name="kind" value="ground_tiles"/>
    </properties>
@@ -89,7 +89,7 @@
    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
   </data>
   </layer>
-  <layer name="Low Tiles" width="100" height="100">
+  <layer id="9" name="Low Tiles" width="100" height="100">
    <properties>
     <property name="kind" value="low_tiles"/>
    </properties>
@@ -97,7 +97,7 @@
    eJzt2d1uEzEQhuEceG8CVKGqqlCvJEALhVC4EhBFFAHieqFQflKgB3gUj/rF2g1Od52s0PtIIzU0PcBfxmNvJhMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIBlO81kci/W/Wb5dVf5+9DfblzLo1gPm8W629o+iPUi1jSt96v0uqs+h23/L/4fj+J6nsa6CIscpivW/2WsL/F9n8Ly69v0x2DyPLoy0HU/D+RQi+XxOtadZrHO/tn38j2rbUbsx397nOoJ2QzC8jiUGXKe7Uf+s84Iz+FdrLNUx2QyiG9xnb+G6z3L6Dy/lc2IfcnhbazL+LsfYfH6J3N9EDpDjPZIfnaaSRZ7KaN5yoQe6cfPum9SHodpzzJtM9t7w7PQe4rnRCY3531h89z3LJ8lR5KN8zW3fWknnYttxlhmc/at3mx2fA+Ls5XOEa+LbF1tzW1e7MmdUfczzQv9eT75fG/jM2YqZ2HyqEP7xuTPs5zOGD13kUddev71TPQuyF1ks/Q5is8LPfdehuvymU4mdfg5SvPIz71qRp9Upb3hZ9tVc3seuLPX5DM7n9ttvaE4a9Wjs7v0DMV9vQ49x+r8tt44iPWsY62ZI8PKn6lrDsay+BjraUcm+vyEfWs9vvb+GW7riXxW/Inr+yvW+8JMjhu+tyqle31+t1v12dZMfne8Jz9vsXf9W75mbbOiy/NmdR5uVpAvlvn+UpKDK82D5/E3My/MwfhM/xDrbsHfcCepw3I4SVmU9IYjj+EdSA7WF1ehrDeMfp+FfrQn1s0Bw/O5vc7+hHpK7hrYnHXPUqjL96uuZyPYLObHuJDHuJQ8z8Vm0SPjQo+Mj/YImWyf9chV1icn5LJ12ifMk+3L+4Q8xqH0+0EAAAAAAACMx1/fBAJv
   </data>
   </layer>
-  <objectgroup name="Low Sprites">
+  <objectgroup id="10" name="Low Sprites">
    <properties>
     <property name="kind" value="low_sprites"/>
    </properties>
@@ -105,15 +105,15 @@
    <object id="9" name="Pona Shrine" gid="2028" x="1315.73" y="1884.33" width="128" height="128" rotation="-57.5928"/>
    <object id="21" name="Stairs" gid="2029" x="2333.54" y="1966.46" width="128" height="128" rotation="89.5878"/>
   </objectgroup>
-  <objectgroup name="Collisions">
+  <objectgroup id="11" name="Collisions">
    <properties>
     <property name="kind" value="collisions"/>
    </properties>
-   <object id="25" x="2452" y="1971" width="30" height="118"/>
-   <object id="27" x="2338.5" y="2079" width="143" height="10"/>
-   <object id="29" x="2338.5" y="1971" width="143" height="11"/>
+   <object id="33" name="Entrance" x="2336" y="1970">
+    <polygon points="0,0 121.667,0.666667 126.333,61.6667 119.667,119.333 1,123 1,106.333 105.333,102.333 107.333,17.6667 0,14.6667"/>
+   </object>
   </objectgroup>
-  <objectgroup color="#ff0000" name="Zones" visible="0">
+  <objectgroup color="#ff0000" id="12" name="Zones">
    <properties>
     <property name="kind" value="zones"/>
    </properties>
@@ -123,13 +123,13 @@
      <property name="requirements" value="IntroDialogReq"/>
     </properties>
    </object>
-   <object id="12" name="Foo" x="2440" y="1986" width="58" height="92">
+   <object id="12" name="Foo" x="2436.33" y="1986" width="16.6667" height="92">
     <properties>
      <property name="message" value="MoveDown"/>
     </properties>
    </object>
   </objectgroup>
-  <objectgroup name="High Sprites">
+  <objectgroup id="13" name="High Sprites">
    <properties>
     <property name="kind" value="high_sprites"/>
    </properties>
