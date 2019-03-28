@@ -187,13 +187,15 @@ namespace akgr {
       createPolylineFixture(world, collision.location, collision.line, /* isSensor */ false);
     }
 
-    for (auto& shape : data.physics.shapes) {
-      switch (shape.type) {
-        case PhysicsShapeType::Circle:
-          createCircleFixture(world, shape.location, shape.circle.radius);
+    for (auto& thing : data.physics.things) {
+      switch (thing.shape.type) {
+        case ShapeType::None:
           break;
-        case PhysicsShapeType::Rectangle:
-          createRectangleFixture(world, shape.location, shape.rectangle.width, shape.rectangle.height);
+        case ShapeType::Circle:
+          createCircleFixture(world, thing.location, thing.shape.circle.radius);
+          break;
+        case ShapeType::Rectangle:
+          createRectangleFixture(world, thing.location, thing.shape.rectangle.width, thing.shape.rectangle.height);
           break;
       }
     }
@@ -249,6 +251,47 @@ namespace akgr {
     fixtureDef.restitution = 0.0f;
     fixtureDef.shape = &shape;
     body->CreateFixture(&fixtureDef);
+
+    return body;
+  }
+
+  b2Body *PhysicsState::createItemBody(const Location& location, float angle, const Shape& shape) {
+    b2BodyDef bodyDef;
+    bodyDef.type = b2_staticBody;
+    bodyDef.position = { location.position.x * PhysicsScale, location.position.y * PhysicsScale };
+    bodyDef.angle = angle;
+    auto body = world.CreateBody(&bodyDef);
+
+//     b2PolygonShape shape;
+//     shape.SetAsBox(CharacterWidth * PhysicsScale * 0.5f, CharacterHeight * PhysicsScale * 0.5f);
+
+    b2FixtureDef fixtureDef;
+    fixtureDef.isSensor = false;
+    fixtureDef.filter.categoryBits = fixtureDef.filter.maskBits = bitsFromFloor(location.floor);
+    fixtureDef.density = 1.0f;
+    fixtureDef.friction = 0.0f;
+    fixtureDef.restitution = 0.0f;
+
+    switch (shape.type) {
+      case ShapeType::None:
+        break;
+
+      case ShapeType::Rectangle: {
+        b2PolygonShape polygon;
+        polygon.SetAsBox(shape.rectangle.width * PhysicsScale * 0.5f, shape.rectangle.height * PhysicsScale * 0.5f);
+        fixtureDef.shape = &polygon;
+        body->CreateFixture(&fixtureDef);
+        break;
+      }
+
+      case ShapeType::Circle: {
+        b2CircleShape circle;
+        circle.m_radius = shape.circle.radius * PhysicsScale;
+        fixtureDef.shape = &circle;
+        body->CreateFixture(&fixtureDef);
+        break;
+      }
+    }
 
     return body;
   }

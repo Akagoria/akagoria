@@ -2,6 +2,7 @@
 set(AKAGORIA_DATABASE_FILES
   raw/database/characters.json
   raw/database/dialogs.json
+  raw/database/items.json
   raw/database/notifications.json
   raw/database/ui.json
 )

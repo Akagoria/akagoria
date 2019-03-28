@@ -27,6 +27,7 @@
 #include <gf/Time.h>
 
 #include "LocationTypes.h"
+#include "Shape.h"
 
 namespace akgr {
   struct WorldData;
@@ -58,6 +59,7 @@ namespace akgr {
 
     b2Body *createHeroBody(const Location& location, float angle);
     b2Body *createCharacterBody(const Location& location, float angle);
+    b2Body *createItemBody(const Location& location, float angle, const Shape& shape);
 
     b2Fixture *createFixtureForZone(const Zone& zone);
 

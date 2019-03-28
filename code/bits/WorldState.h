@@ -27,6 +27,7 @@
 #include "CharacterState.h"
 #include "DialogState.h"
 #include "HeroState.h"
+#include "ItemState.h"
 #include "NotificationState.h"
 #include "PhysicsState.h"
 
@@ -46,6 +47,7 @@ namespace akgr {
     WorldOperation operation;
     PhysicsState physics;
     std::vector<NotificationState> notifications;
+    std::vector<ItemState> items;
     std::vector<CharacterState> characters;
     HeroState hero;
 

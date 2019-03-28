@@ -1,0 +1,23 @@
+{
+  "resources": {
+    "SmallItems": {
+      "spritesheet": "sprites/items-s.png",
+      "width": 16, "height": 16
+    }
+  },
+  "items": {
+    "GemRuby": {
+      "description": "ruby",
+      "shape": {
+        "type": "circle",
+        "radius": 10
+      },
+      "graphics": {
+        "resource": "SmallItems",
+        "index": 0,
+        "scale": 0.25
+      }
+    }
+
+  }
+}

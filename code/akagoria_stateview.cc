@@ -44,8 +44,17 @@ namespace {
     viewNewSection("Notifications");
     fmt::print("Number of notifications: {}\n", state.size());
 
+    for (auto& notification : state) {
+      fmt::print("\t{}: {:g} s\n", Id{notification.ref.id}, notification.elapsed.asSeconds());
+    }
+  }
+
+  void viewItemsState(const std::vector<akgr::ItemState>& state) {
+    viewNewSection("Items");
+    fmt::print("Number of items: {}\n", state.size());
+
     for (auto& item : state) {
-      fmt::print("\t{}: {:g} s\n", Id{item.ref.id}, item.elapsed.asSeconds());
+      fmt::print("\t{}: {} {:.0f}°\n", Id{item.ref.id}, item.physics.location, gf::radiansToDegrees(item.physics.angle));
     }
   }
 
@@ -53,8 +62,8 @@ namespace {
     viewNewSection("Characters");
     fmt::print("Number of characters: {}\n", state.size());
 
-    for (auto& item : state) {
-      fmt::print("\t{}: ({}) {} {:.0f}°\n", Id{item.ref.id}, Id{item.dialog},  item.physics.location, gf::radiansToDegrees(item.physics.angle));
+    for (auto& character : state) {
+      fmt::print("\t{}: ({}) {} {:.0f}°\n", Id{character.ref.id}, Id{character.dialog},  character.physics.location, gf::radiansToDegrees(character.physics.angle));
     }
   }
 
@@ -136,6 +145,7 @@ namespace {
 
 //     viewPhysicsState(state.physics);
     viewNotificationsState(state.notifications);
+    viewItemsState(state.items);
     viewCharactersState(state.characters);
     viewHeroState(state.hero);
   }

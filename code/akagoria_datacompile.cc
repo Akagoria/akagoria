@@ -23,6 +23,7 @@
 #include <cinttypes>
 
 #include <gf/Clock.h>
+#include <gf/Log.h>
 #include <gf/Math.h>
 #include <gf/Path.h>
 #include <gf/StringUtils.h>
@@ -145,6 +146,22 @@ namespace {
     return { 0, 0 };
   }
 
+  /*
+   * common
+   */
+
+  akgr::ShapeType getShapeType(const std::string& name) {
+    if (name == "circle") {
+      return akgr::ShapeType::Circle;
+    }
+
+    if (name == "rectangle") {
+      return akgr::ShapeType::Rectangle;
+    }
+
+    gf::Log::error("Unknown shape type: '%s'\n", name.c_str());
+    return akgr::ShapeType::None;
+  }
 
   /*
    * tmx file
@@ -399,18 +416,18 @@ namespace {
           double radius =  tilesetTile->properties.getFloatProperty("shape_radius", -1.0);
           assert(radius > 0.0);
 
-          akgr::PhysicsShape shape;
-          shape.name = tilesetTile->type;
-          shape.location.position = center;
-          shape.location.floor = currentFloor;
-          shape.type = akgr::PhysicsShapeType::Circle;
-          shape.circle.radius = static_cast<float>(radius);
+          akgr::Thing thing;
+          thing.name = tilesetTile->type;
+          thing.location.position = center;
+          thing.location.floor = currentFloor;
+          thing.shape.type = akgr::ShapeType::Circle;
+          thing.shape.circle.radius = static_cast<float>(radius);
 
-          if (shape.name.empty()) {
-            gf::Log::warning("Shape with no name at (%g,%g)[%" PRIi32 "]\n", shape.location.position.x, shape.location.position.y, currentFloor);
+          if (thing.name.empty()) {
+            gf::Log::warning("Thing with no name at (%g,%g)[%" PRIi32 "]\n", thing.location.position.x, thing.location.position.y, currentFloor);
           }
 
-          data.physics.shapes.push_back(shape);
+          data.physics.things.push_back(thing);
         }
 
       }
@@ -716,6 +733,52 @@ namespace {
     }
   }
 
+  void compileJsonItems(const gf::Path& filename, akgr::ItemCatalogueData& data) {
+    std::ifstream ifs(filename.string());
+
+    const auto j = nlohmann::json::parse(ifs);
+
+    for (auto kv : j["resources"].items()) {
+      akgr::ItemResource resource;
+      resource.name = kv.key();
+
+      auto value = kv.value();
+      resource.path = value["spritesheet"].get<std::string>();
+      resource.size.width = value["width"].get<int>();
+      resource.size.height = value["height"].get<int>();
+
+      data.resources.emplace(gf::hash(resource.name), std::move(resource));
+    }
+
+    for (auto kv : j["items"].items()) {
+      akgr::ItemData item;
+      item.name = kv.key();
+
+      auto value = kv.value();
+      item.description = value["description"].get<std::string>();
+      item.shape.type = getShapeType(value["shape"]["type"].get<std::string>());
+
+      switch (item.shape.type) {
+        case akgr::ShapeType::None:
+          break;
+        case akgr::ShapeType::Circle:
+          item.shape.circle.radius = value["shape"]["radius"].get<float>();
+          break;
+        case akgr::ShapeType::Rectangle:
+          item.shape.rectangle.width = value["shape"]["width"].get<float>();
+          item.shape.rectangle.height = value["shape"]["height"].get<float>();
+          break;
+      }
+
+      item.graphics.resource = gf::hash(value["graphics"]["resource"].get<std::string>());
+      item.graphics.index = value["graphics"]["index"].get<int>();
+      item.graphics.scale = value["graphics"]["scale"].get<float>();
+
+      data.items.emplace(gf::hash(item.name), std::move(item));
+    }
+
+  }
+
   void compileJsonUI(const gf::Path& filename, std::map<gf::Id, akgr::UIMessageData>& data, std::vector<std::string>& strings) {
     std::ifstream ifs(filename.string());
 
@@ -812,6 +875,7 @@ int main(int argc, char *argv[]) {
   compileJsonDialogs(databaseDirectory / "dialogs.json", worldData.dialogs, strings);
   compileJsonNotifications(databaseDirectory / "notifications.json", worldData.notifications, strings);
   compileJsonCharacters(databaseDirectory / "characters.json", worldData.characters);
+  compileJsonItems(databaseDirectory / "items.json", worldData.catalogue);
 
   postProcessAreas(worldData.areas);
 

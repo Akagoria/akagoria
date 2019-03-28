@@ -54,6 +54,8 @@ class Adventure {
     World.addCharacter("Shagir", "Shagir")
     World.attachDialogToCharacter("ShagirConversation0", "Shagir")
     World.postNotification("Welcome")
+
+    World.addItem("GemRuby", "Ruby #1")
   }
 
   static onMessage(message) {

@@ -48,6 +48,7 @@
 #include "bits/Display.h"
 #include "bits/GameMenuRenderer.h"
 #include "bits/HeroRenderer.h"
+#include "bits/ItemRenderer.h"
 #include "bits/LogoRenderer.h"
 #include "bits/MapRenderer.h"
 #include "bits/MiniMapRenderer.h"
@@ -372,6 +373,9 @@ int main() {
 
   akgr::CharacterRenderer character(worldData, worldState);
   mainEntities.addEntity(character);
+
+  akgr::ItemRenderer item(worldData, worldState, resources);
+  mainEntities.addEntity(item);
 
   akgr::ShrineRenderer shrine(worldScenery, worldState);
   mainEntities.addEntity(shrine);

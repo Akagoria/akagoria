@@ -82,6 +82,12 @@ namespace akgr {
     static void removeRequirement(WrenVM* vm);
 
     /*
+     * items
+     */
+
+    static void addItem(WrenVM* vm);
+
+    /*
      * characters
      */
 

@@ -83,6 +83,8 @@ namespace akgr {
           return &Script::addRequirement;
         case "removeRequirement(_)"_id:
           return &Script::removeRequirement;
+        case "addItem(_,_)"_id:
+          return &Script::addItem;
         case "addCharacter(_,_)"_id:
           return &Script::addCharacter;
         case "startDialog(_)"_id:
@@ -316,6 +318,30 @@ namespace akgr {
   void Script::removeRequirement(WrenVM* vm) {
     const char *requirementId = wrenGetSlotString(vm, 1);
     getState(vm).hero.requirements.erase(gf::hash(requirementId));
+
+    wrenSetSlotNull(vm, 0);
+  }
+
+  // addItem(item, location)
+  void Script::addItem(WrenVM* vm) {
+    const char *itemId = wrenGetSlotString(vm, 1);
+    const char *locationId = wrenGetSlotString(vm, 2);
+
+    DataRef<LocationData> locationRef = { };
+    locationRef.id = gf::hash(locationId);
+    locationRef.bind(getData(vm).locations);
+    checkRef(locationRef.data, locationId);
+
+    ItemState item;
+    item.ref.id = gf::hash(itemId);
+    item.ref.bind(getData(vm).catalogue.items);
+    checkRef(item.ref.data, itemId);
+
+    item.physics.location = locationRef.data->location;
+    item.physics.angle = 0.0f; // TODO
+    item.physics.body = getState(vm).physics.createItemBody(item.physics.location, item.physics.angle, item.ref.data->shape);
+
+    getState(vm).items.push_back(std::move(item));
 
     wrenSetSlotNull(vm, 0);
   }

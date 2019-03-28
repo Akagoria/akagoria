@@ -85,11 +85,13 @@ namespace {
 
   }
 
-  const char *getPhysicsShapeType(akgr::PhysicsShapeType type) {
+  const char *getShapeType(akgr::ShapeType type) {
     switch (type) {
-      case akgr::PhysicsShapeType::Circle:
+      case akgr::ShapeType::None:
+        return "None";
+      case akgr::ShapeType::Circle:
         return "Circle";
-      case akgr::PhysicsShapeType::Rectangle:
+      case akgr::ShapeType::Rectangle:
         return "Rectangle";
     }
 
@@ -116,17 +118,19 @@ namespace {
       fmt::print("\t'{}' {} + {} of {} points\n", collision.name, collision.location, collision.line.isChain() ? "chain" : "loop", collision.line.getPointCount());
     }
 
-    fmt::print("Number of shapes: {}\n", data.shapes.size());
+    fmt::print("Number of things: {}\n", data.things.size());
 
-    for (auto& shape : data.shapes) {
-      fmt::print("\t'{}' {} {} ", shape.name, shape.location, getPhysicsShapeType(shape.type));
+    for (auto& thing : data.things) {
+      fmt::print("\t'{}' {} {} ", thing.name, thing.location, getShapeType(thing.shape.type));
 
-      switch (shape.type) {
-        case akgr::PhysicsShapeType::Circle:
-          fmt::print("radius: {}\n", shape.circle.radius);
+      switch (thing.shape.type) {
+        case akgr::ShapeType::None:
           break;
-        case akgr::PhysicsShapeType::Rectangle:
-          fmt::print("width: {}, height: {}\n", shape.rectangle.width, shape.rectangle.height);
+        case akgr::ShapeType::Circle:
+          fmt::print("radius: {}\n", thing.shape.circle.radius);
+          break;
+        case akgr::ShapeType::Rectangle:
+          fmt::print("width: {}, height: {}\n", thing.shape.rectangle.width, thing.shape.rectangle.height);
           break;
       }
     }
@@ -136,9 +140,9 @@ namespace {
     viewNewSection("Areas");
     fmt::print("Number of areas: {}\n", data.size());
 
-    for (auto& item : data) {
-      auto& area = item.second;
-      fmt::print("\t{}: '{}' {} {}\n", Id{item.first}, area.name, area.position.center, area.position.radius);
+    for (auto& kv : data) {
+      auto& area = kv.second;
+      fmt::print("\t{}: '{}' {} {}\n", Id{kv.first}, area.name, area.position.center, area.position.radius);
     }
   }
 
@@ -146,9 +150,9 @@ namespace {
     viewNewSection("Locations");
     fmt::print("Number of locations: {}\n", data.size());
 
-    for (auto& item : data) {
-      auto& loc = item.second;
-      fmt::print("\t{}: '{}' {}\n", Id{item.first}, loc.name, loc.location);
+    for (auto& kv : data) {
+      auto& loc = kv.second;
+      fmt::print("\t{}: '{}' {}\n", Id{kv.first}, loc.name, loc.location);
     }
   }
 
@@ -193,9 +197,9 @@ namespace {
     viewNewSection("Dialogs");
     fmt::print("Number of dialogs: {}\n", data.size());
 
-    for (auto& item : data) {
-      auto& dialog = item.second;
-      fmt::print("\t{}: '{}' [{}]\n", Id{item.first}, dialog.name, getDialogType(dialog.type));
+    for (auto& kv : data) {
+      auto& dialog = kv.second;
+      fmt::print("\t{}: '{}' [{}]\n", Id{kv.first}, dialog.name, getDialogType(dialog.type));
 
       for (auto& line : dialog.content) {
         fmt::print("\t\t`{}`:\n\t\t\t\"{}\"\n\t\t\t(\"{}\")\n", line.speaker, gf::escapeString(line.words), gf::escapeString(boost::locale::gettext(line.words.c_str())));
@@ -207,20 +211,51 @@ namespace {
     viewNewSection("Notifications");
     fmt::print("Number of notifications: {}\n", data.size());
 
-    for (auto& item : data) {
-      auto& notification = item.second;
-      fmt::print("\t{}: '{}' [{:g} s]: '{}'\n", Id{item.first}, notification.name, notification.duration.asSeconds(), notification.message);
+    for (auto& kv : data) {
+      auto& notification = kv.second;
+      fmt::print("\t{}: '{}' [{:g} s]: '{}'\n", Id{kv.first}, notification.name, notification.duration.asSeconds(), notification.message);
     }
   }
-
 
   void viewCharacterData(const std::map<gf::Id, akgr::CharacterData>& data) {
     viewNewSection("Characters");
     fmt::print("Number of characters: {}\n", data.size());
 
-    for (auto& item : data) {
-      auto& character = item.second;
-      fmt::print("\t{}: '{}' {}\n", Id{item.first}, character.name, character.size);
+    for (auto& kv : data) {
+      auto& character = kv.second;
+      fmt::print("\t{}: '{}' {}\n", Id{kv.first}, character.name, character.size);
+    }
+  }
+
+  void viewItemData(const akgr::ItemCatalogueData& data) {
+    viewNewSection("Items");
+    fmt::print("Number of resources: {}\n", data.resources.size());
+
+    for (auto& kv : data.resources) {
+      auto& resource = kv.second;
+      fmt::print("\t{}: '{}' ({}, {})\n", Id{kv.first}, resource.path.string(), resource.size.width, resource.size.height);
+    }
+
+    fmt::print("Number of items: {}\n", data.items.size());
+
+    for (auto& kv : data.items) {
+      auto& item = kv.second;
+      fmt::print("\t{}: '{}', \"{}\", ", Id{kv.first}, item.name, gf::escapeString(item.description));
+
+      fmt::print("{} ", getShapeType(item.shape.type));
+
+      switch (item.shape.type) {
+        case akgr::ShapeType::None:
+          break;
+        case akgr::ShapeType::Circle:
+          fmt::print("radius: {}", item.shape.circle.radius);
+          break;
+        case akgr::ShapeType::Rectangle:
+          fmt::print("width: {}, height: {}", item.shape.rectangle.width, item.shape.rectangle.height);
+          break;
+      }
+
+      fmt::print(", {} [{}] x{:g}\n", Id{item.graphics.resource}, item.graphics.index, item.graphics.scale);
     }
   }
 
@@ -233,6 +268,7 @@ namespace {
     viewDialogData(data.dialogs);
     viewNotificationData(data.notifications);
     viewCharacterData(data.characters);
+    viewItemData(data.catalogue);
   }
 
 }

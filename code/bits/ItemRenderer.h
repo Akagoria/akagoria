@@ -17,47 +17,29 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef AKGR_ITEM_RENDERER_H
+#define AKGR_ITEM_RENDERER_H
 
-class World {
-  /*
-   * hero
-   */
+#include <gf/Entity.h>
+#include <gf/ResourceManager.h>
 
-  foreign static moveHero(location)
-  foreign static moveHeroDown()
-  foreign static moveHeroUp()
+#include "WorldData.h"
+#include "WorldState.h"
 
+namespace akgr {
 
-  /*
-   * notifications
-   */
+  class ItemRenderer : public gf::Entity {
+  public:
+    ItemRenderer(const WorldData& data, const WorldState& state, gf::ResourceManager& resources);
 
-  foreign static postNotification(notification)
+    virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
 
-  /*
-   * requirements
-   */
-
-  foreign static addRequirement(requirement)
-  foreign static removeRequirement(requirement)
-
-  /*
-   * items
-   */
-
-  foreign static addItem(item, location)
-
-  /*
-   * characters
-   */
-
-  foreign static addCharacter(character, location)
-
-  /*
-   * dialog
-   */
-
-  foreign static startDialog(dialog)
-  foreign static attachDialogToCharacter(dialog, character)
+  private:
+    const WorldData& m_data;
+    const WorldState& m_state;
+    gf::ResourceManager& m_resources;
+  };
 
 }
+
+#endif // AKGR_ITEM_RENDERER_H

@@ -40,6 +40,7 @@ add_executable(akagoria
   bits/DialogRenderer.cc
   bits/GameMenuRenderer.cc
   bits/HeroRenderer.cc
+  bits/ItemRenderer.cc
   bits/LogoRenderer.cc
   bits/MapRenderer.cc
   bits/MiniMapRenderer.cc

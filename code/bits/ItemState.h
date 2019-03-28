@@ -17,47 +17,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef AKGR_ITEM_STATE_H
+#define AKGR_ITEM_STATE_H
 
-class World {
-  /*
-   * hero
-   */
+#include "DataRef.h"
+#include "ItemData.h"
+#include "PhysicsState.h"
 
-  foreign static moveHero(location)
-  foreign static moveHeroDown()
-  foreign static moveHeroUp()
+namespace akgr {
 
+  struct ItemState {
+    DataRef<ItemData> ref;
+    PhysicsBody physics;
+  };
 
-  /*
-   * notifications
-   */
-
-  foreign static postNotification(notification)
-
-  /*
-   * requirements
-   */
-
-  foreign static addRequirement(requirement)
-  foreign static removeRequirement(requirement)
-
-  /*
-   * items
-   */
-
-  foreign static addItem(item, location)
-
-  /*
-   * characters
-   */
-
-  foreign static addCharacter(character, location)
-
-  /*
-   * dialog
-   */
-
-  foreign static startDialog(dialog)
-  foreign static attachDialogToCharacter(dialog, character)
+  template<typename Archive>
+  Archive& operator|(Archive& ar, ItemState& state) {
+    return ar | state.ref | state.physics;
+  }
 
 }
+
+#endif // AKGR_ITEM_STATE_H

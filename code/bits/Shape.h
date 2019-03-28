@@ -17,47 +17,51 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef AKGR_SHAPE_H
+#define AKGR_SHAPE_H
 
-class World {
-  /*
-   * hero
-   */
+#include <gf/Vector.h>
 
-  foreign static moveHero(location)
-  foreign static moveHeroDown()
-  foreign static moveHeroUp()
+namespace akgr {
 
+  enum class ShapeType : int32_t {
+    None,
+    Circle,
+    Rectangle,
+  };
 
-  /*
-   * notifications
-   */
+  struct Shape {
+    ShapeType type;
 
-  foreign static postNotification(notification)
+    union {
+      struct {
+        float radius;
+      } circle;
+      struct {
+        float width;
+        float height;
+      } rectangle;
+    };
+  };
 
-  /*
-   * requirements
-   */
+  template<typename Archive>
+  Archive& operator|(Archive& ar, Shape& data) {
+    ar | data.type;
 
-  foreign static addRequirement(requirement)
-  foreign static removeRequirement(requirement)
+    switch (data.type) {
+      case ShapeType::None:
+        break;
+      case ShapeType::Circle:
+        ar | data.circle.radius;
+        break;
+      case ShapeType::Rectangle:
+        ar | data.rectangle.width | data.rectangle.height;
+        break;
+    }
 
-  /*
-   * items
-   */
-
-  foreign static addItem(item, location)
-
-  /*
-   * characters
-   */
-
-  foreign static addCharacter(character, location)
-
-  /*
-   * dialog
-   */
-
-  foreign static startDialog(dialog)
-  foreign static attachDialogToCharacter(dialog, character)
+    return ar;
+  }
 
 }
+
+#endif // AKGR_SHAPE_H

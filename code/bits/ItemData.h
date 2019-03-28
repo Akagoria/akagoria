@@ -17,70 +17,63 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_PHYSICS_DATA_H
-#define AKGR_PHYSICS_DATA_H
+#ifndef AKGR_ITEM_DATA_H
+#define AKGR_ITEM_DATA_H
 
-#include <vector>
-#include <set>
 #include <string>
+#include <map>
 
-#include <gf/Polyline.h>
-#include <gf/Polygon.h>
+#include <gf/Id.h>
 #include <gf/Vector.h>
 
-#include "LocationTypes.h"
 #include "Shape.h"
 
 namespace akgr {
 
-  constexpr float PhysicsScale = 0.02f;
-
-  struct Zone {
+  struct ItemResource {
     std::string name;
-    Location location;
-    gf::Polygon polygon;
-    std::string message;
-    std::set<gf::Id> requirements;
+    gf::Path path;
+    gf::Vector<int32_t, 2> size;
   };
 
   template<typename Archive>
-  Archive& operator|(Archive& ar, Zone& data) {
-    return ar | data.name | data.location | data.polygon | data.message | data.requirements;
+  Archive& operator|(Archive& ar, ItemResource& data) {
+    return ar | data.name | data.path | data.size;
   }
 
-  struct Collision {
-    std::string name;
-    Location location;
-    gf::Polyline line;
+  struct ItemGraphics {
+    gf::Id resource;
+    int32_t index;
+    float scale;
   };
 
   template<typename Archive>
-  Archive& operator|(Archive& ar, Collision& data) {
-    return ar | data.name | data.location | data.line;
+  Archive& operator|(Archive& ar, ItemGraphics& data) {
+    return ar | data.resource | data.index | data.scale;
   }
 
-  struct Thing {
+  struct ItemData {
     std::string name;
-    Location location;
+    std::string description;
     Shape shape;
+    ItemGraphics graphics;
   };
 
   template<typename Archive>
-  Archive& operator|(Archive& ar, Thing& data) {
-    return ar | data.name | data.location | data.shape;
+  Archive& operator|(Archive& ar, ItemData& data) {
+    return ar | data.name | data.description | data.shape | data.graphics;
   }
 
-  struct PhysicsData {
-    std::vector<Zone> zones;
-    std::vector<Collision> collisions;
-    std::vector<Thing> things;
+  struct ItemCatalogueData {
+    std::map<gf::Id, ItemResource> resources;
+    std::map<gf::Id, ItemData> items;
   };
 
   template<typename Archive>
-  Archive& operator|(Archive& ar, PhysicsData& data) {
-    return ar | data.zones | data.collisions | data.things;
+  Archive& operator|(Archive& ar, ItemCatalogueData& data) {
+    return ar | data.resources | data.items;
   }
 
 }
 
-#endif // AKGR_PHYSICS_DATA_H
+#endif // AKGR_ITEM_DATA_H
