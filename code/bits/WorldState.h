@@ -41,6 +41,7 @@ namespace akgr {
     Save,
     Menu,
     Options,
+    Inventory,
   };
 
   struct WorldState {

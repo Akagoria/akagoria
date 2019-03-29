@@ -237,8 +237,7 @@ namespace akgr {
         if (m_commands.use.isActive()) {
           switch (m_scenery.menu.choice) {
             case GameMenuScenery::Inventory:
-              // TODO
-              gf::Log::debug("Inventory\n");
+              m_state.operation = WorldOperation::Inventory;
               break;
 
             case GameMenuScenery::Quests:
@@ -292,6 +291,28 @@ namespace akgr {
         if (m_commands.menuLeft.isActive()) {
           m_root.options.computePrevOption();
         }
+        break;
+
+      case WorldOperation::Inventory:
+        m_root.helper.status = HelperStatus::Menu;
+
+//         if (m_commands.menuDown.isActive()) {
+//           m_root.options.computeNextChoice();
+//         } else if (m_commands.menuUp.isActive()) {
+//           m_root.options.computePrevChoice();
+//         }
+
+        if (m_commands.use.isActive()) {
+          m_state.operation = WorldOperation::Menu;
+        }
+
+//         if (m_commands.menuRight.isActive()) {
+//           m_root.options.computeNextOption();
+//         }
+//
+//         if (m_commands.menuLeft.isActive()) {
+//           m_root.options.computePrevOption();
+//         }
         break;
     }
   }

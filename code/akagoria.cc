@@ -48,6 +48,7 @@
 #include "bits/Display.h"
 #include "bits/GameMenuRenderer.h"
 #include "bits/HeroRenderer.h"
+#include "bits/InventoryRenderer.h"
 #include "bits/ItemRenderer.h"
 #include "bits/LogoRenderer.h"
 #include "bits/MapRenderer.h"
@@ -412,6 +413,10 @@ int main() {
 
   akgr::OptionsRenderer gameOptions(uiData, rootScenery, display);
   hudEntities.addEntity(gameOptions);
+
+  akgr::InventoryRenderer inventory(uiData, worldState, worldScenery, display);
+  hudEntities.addEntity(inventory);
+
 
   // script
 
