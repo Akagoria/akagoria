@@ -17,28 +17,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_NOTIFICATION_RENDERER_H
-#define AKGR_NOTIFICATION_RENDERER_H
-
-#include <gf/Entity.h>
-
-#include "Display.h"
-#include "WorldState.h"
+#include "Menu.h"
 
 namespace akgr {
 
-  class NotificationRenderer : public gf::Entity {
-  public:
-    NotificationRenderer(const WorldState& state, const Display& display);
+  constexpr gf::Vector2f Menu::Position;
 
-    virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
+  constexpr float Menu::CharacterSize;
 
-  private:
-    const WorldState& m_state;
-    const Display& m_display;
-  };
+  constexpr gf::Vector2f Menu::ItemRelPosition;
+  constexpr gf::Vector2f Menu::ItemSize;
+  constexpr float Menu::ItemSpacing;
+
+  constexpr gf::Vector2f Menu::ArrowRelPosition;
 
 }
-
-
-#endif // AKGR_NOTIFICATION_RENDERER_H

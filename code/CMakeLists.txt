@@ -43,6 +43,7 @@ add_executable(akagoria
   bits/ItemRenderer.cc
   bits/LogoRenderer.cc
   bits/MapRenderer.cc
+  bits/Menu.cc
   bits/MiniMapRenderer.cc
   bits/NotificationRenderer.cc
   bits/OpeningDriver.cc

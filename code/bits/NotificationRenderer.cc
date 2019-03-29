@@ -34,9 +34,8 @@ namespace akgr {
 
   } // anonymous namespace
 
-  NotificationRenderer::NotificationRenderer(const UIData& data, const WorldState& state, const Display& display)
+  NotificationRenderer::NotificationRenderer(const WorldState& state, const Display& display)
   : gf::Entity(50)
-  , m_data(data)
   , m_state(state)
   , m_display(display)
   {

@@ -33,14 +33,18 @@ namespace akgr {
   struct Shape {
     ShapeType type;
 
+    struct Circ {
+      float radius;
+    };
+
+    struct Rect {
+      float width;
+      float height;
+    };
+
     union {
-      struct {
-        float radius;
-      } circle;
-      struct {
-        float width;
-        float height;
-      } rectangle;
+      Circ circle;
+      Rect rectangle;
     };
 
     float getPhysicalSize() const {
