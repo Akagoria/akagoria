@@ -27,6 +27,7 @@ namespace akgr {
     // (alphabetically)
     Continue,
     Menu,
+    Pick,
     Talk,
     Use,
   };

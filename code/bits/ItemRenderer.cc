@@ -45,6 +45,7 @@ namespace akgr {
 
       if (it == m_data.catalogue.resources.end()) {
         gf::Log::error("Unknown graphics resource for item '%s'\n", data.name.c_str());
+        continue;
       }
 
       const ItemResource& resource = it->second;

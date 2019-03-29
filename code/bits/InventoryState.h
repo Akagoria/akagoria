@@ -17,49 +17,33 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_HERO_STATE_H
-#define AKGR_HERO_STATE_H
+#ifndef AKGR_INVENTORY_STATE_H
+#define AKGR_INVENTORY_STATE_H
 
-#include <set>
-
-#include <gf/Id.h>
-#include <gf/Move.h>
-
-#include "AttributesState.h"
-#include "DialogState.h"
-#include "InventoryState.h"
-#include "PhysicsState.h"
-#include "SkillsState.h"
+#include "DataRef.h"
+#include "ItemData.h"
 
 namespace akgr {
 
-  struct HeroMove {
-    gf::LinearMove linear = gf::LinearMove::None;
-    gf::AngularMove angular = gf::AngularMove::None;
+  struct InventoryItem {
+    DataRef<ItemData> ref;
+    int32_t count;
   };
 
   template<typename Archive>
-  Archive& operator|(Archive& ar, HeroMove& move) {
-    return ar | move.linear | move.angular;
+  Archive& operator|(Archive& ar, InventoryItem& item) {
+    return ar | item.ref | item.count;
   }
 
-  struct HeroState {
-    HeroMove move;
-
-    std::set<gf::Id> requirements;
-    AttributesState attributes;
-    SkillsState skills;
-    InventoryState inventory;
-
-    DialogState dialog;
-    PhysicsBody physics;
+  struct InventoryState {
+    std::vector<InventoryItem> items;
   };
 
   template<typename Archive>
-  Archive& operator|(Archive& ar, HeroState& state) {
-    return ar | state.move | state.requirements | state.attributes | state.skills | state.inventory | state.dialog | state.physics;
+  Archive& operator|(Archive& ar, InventoryState& state) {
+    return ar | state.items;
   }
 
 }
 
-#endif // AKGR_HERO_STATE_H
+#endif // AKGR_INVENTORY_STATE_H

@@ -116,9 +116,21 @@ namespace {
         state.skills.strength.value, state.skills.dexterity.value, state.skills.intelligence.value, state.skills.wisdom.value, state.skills.knowledge.value
     );
 
-    fmt::print("\tdialog: {} line {}\n", Id{ state.dialog.ref.id }, state.dialog.currentLine);
+    if (state.dialog.ref.id != gf::InvalidId) {
+      fmt::print("\tdialog: {} line {}\n", Id{ state.dialog.ref.id }, state.dialog.currentLine);
+    } else {
+      fmt::print("\tdialog: None\n");
+    }
 
     fmt::print("\tphysics: {} {:.0f}°\n", state.physics.location, gf::radiansToDegrees(state.physics.angle));
+
+    viewNewSection("Hero.Inventory");
+
+    fmt::print("Number of items: {}\n", state.inventory.items.size());
+
+    for (auto& item : state.inventory.items) {
+      fmt::print("\t{}: {}\n", Id{ item.ref.id }, item.count);
+    }
   }
 
   const char *getWorldOperation(akgr::WorldOperation op) {

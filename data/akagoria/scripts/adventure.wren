@@ -62,6 +62,7 @@ class Adventure {
     var callback = __messages[message]
 
     if (callback) {
+      System.print("[adventure.wren] Message '%(message)' sent")
       callback.call()
     } else {
       System.print("[adventure.wren] No callback for message '%(message)'")
@@ -72,6 +73,7 @@ class Adventure {
     var callback = __dialogs[dialog]
 
     if (callback) {
+      System.print("[adventure.wren] Dialog '%(dialog)' finished")
       callback.call()
     } else {
       System.print("[adventure.wren] No callback for dialog '%(dialog)'")

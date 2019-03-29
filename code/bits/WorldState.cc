@@ -62,12 +62,20 @@ namespace akgr {
       assert(notification.ref.data);
     }
 
+    // items
+
+    for (auto& item : items) {
+      item.ref.bind(data.catalogue.items);
+      assert(item.ref.data);
+      item.physics.body = physics.createItemBody(item.physics.location, item.physics.angle, item.ref.data->shape);
+    }
+
     // characters
 
     for (auto& character : characters) {
       character.ref.bind(data.characters);
-      character.physics.body = physics.createCharacterBody(character.physics.location, character.physics.angle);
       assert(character.ref.data);
+      character.physics.body = physics.createCharacterBody(character.physics.location, character.physics.angle);
     }
 
     // hero
@@ -79,6 +87,10 @@ namespace akgr {
 
     hero.physics.body = physics.createHeroBody(hero.physics.location, hero.physics.angle);
 
+    for (auto& item : hero.inventory.items) {
+      item.ref.bind(data.catalogue.items);
+      assert(item.ref.data);
+    }
 
   }
 

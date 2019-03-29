@@ -59,7 +59,7 @@ namespace akgr {
 
   template<typename Archive>
   Archive& operator|(Archive& ar, WorldState& state) {
-    return ar /* | state.physics */ | state.operation | state.notifications | state.characters | state.hero;
+    return ar /* | state.physics */ | state.operation | state.notifications | state.items | state.characters | state.hero;
   }
 
 }

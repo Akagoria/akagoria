@@ -94,8 +94,33 @@ namespace akgr {
             }
           }
 
-          // check for an item (TODO)
+          // check for an item
 
+          for (auto& item : m_state.items) {
+            if (item.physics.location.floor != hero.physics.location.floor) {
+              continue;
+            }
+
+            if (squareDistanceToHero(item.physics.location.position) < gf::square(ItemDistance + item.ref.data->shape.getPhysicalSize())) {
+              // put in inventory
+
+              auto it = std::find_if(hero.inventory.items.begin(), hero.inventory.items.end(), [&item](const auto& i) { return i.ref.id == item.ref.id; });
+
+              if (it == hero.inventory.items.end()) {
+                // new item
+                hero.inventory.items.push_back({ item.ref, 1 });
+              } else {
+                ++it->count;
+              }
+
+              // remove from the world
+
+              m_state.physics.world.DestroyBody(item.physics.body);
+              item.physics.body = nullptr;
+            }
+          }
+
+          m_state.items.erase(std::remove_if(m_state.items.begin(), m_state.items.end(), [](const auto& item) { return item.physics.body == nullptr; }), m_state.items.end());
 
           // check for a shrine
 

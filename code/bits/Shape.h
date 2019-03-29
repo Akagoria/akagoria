@@ -42,6 +42,19 @@ namespace akgr {
         float height;
       } rectangle;
     };
+
+    float getPhysicalSize() const {
+      switch (type) {
+        case ShapeType::None:
+          return 0;
+        case ShapeType::Circle:
+          return circle.radius;
+        case ShapeType::Rectangle:
+          return std::min(rectangle.width, rectangle.height);
+      }
+
+      return 0;
+    }
   };
 
   template<typename Archive>

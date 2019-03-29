@@ -260,6 +260,20 @@ namespace akgr {
         }
         break; // HelperStatus::Talk
 
+      case HelperStatus::Pick:
+        switch (m_root.options.data.input) {
+          case OptionsData::Input::Gamepad:
+            drawButton("A");
+            drawText(m_data.getUIMessage("HelperPick"_id));
+            break;
+          case OptionsData::Input::Keyboard:
+            drawKey(gf::Keyboard::getKeycodeName(gf::Keyboard::localize(gf::Scancode::E)));
+            position += smallSpacing;
+            drawText(m_data.getUIMessage("HelperPick"_id));
+            break;
+        }
+        break; // HelperStatus::Pick
+
       case HelperStatus::Use:
         switch (m_root.options.data.input) {
           case OptionsData::Input::Gamepad:

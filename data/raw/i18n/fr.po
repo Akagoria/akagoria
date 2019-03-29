@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: akagoria\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-26 14:31+0100\n"
+"POT-Creation-Date: 2019-03-28 16:01+0100\n"
 "PO-Revision-Date: 2018-11-01 12:11+0100\n"
 "Last-Translator: Julien Bernard <julien.bernard@univ-fcomte.fr>\n"
 "Language: fr\n"
@@ -89,6 +89,9 @@ msgstr "Fin"
 
 msgid "Continue"
 msgstr "Continuer"
+
+msgid "Pick"
+msgstr "Prendre"
 
 msgid "Select"
 msgstr "Sélectionner"

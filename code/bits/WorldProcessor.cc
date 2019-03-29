@@ -176,6 +176,16 @@ namespace akgr {
       }
     }
 
+    for (auto& item : m_state.items) {
+      if (item.physics.location.floor != hero.physics.location.floor) {
+        continue;
+      }
+
+      if (squareDistanceToHero(item.physics.location.position) < gf::square(ItemDistance + item.ref.data->shape.getPhysicalSize())) {
+        m_root.helper.status = HelperStatus::Pick;
+      }
+    }
+
     for (auto& shrine : m_data.shrines) {
       if (shrine.location.floor != hero.physics.location.floor) {
         continue;
@@ -185,7 +195,6 @@ namespace akgr {
         m_root.helper.status = HelperStatus::Use;
       }
     }
-
   }
 
 }

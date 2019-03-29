@@ -24,6 +24,7 @@ namespace akgr {
 
   constexpr float DialogDistance = 100.0f;
   constexpr float ShrineDistance = 70.0f;
+  constexpr float ItemDistance = 50.0f;
 
 }
 
