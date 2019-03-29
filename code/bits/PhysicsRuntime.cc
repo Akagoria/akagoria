@@ -72,34 +72,14 @@ namespace akgr {
     constexpr float DebugTransformLength = 0.5f;
   }
 
-  void PhysicsDebugger::addPolygon(gf::Polygon polygon, gf::Color4f color) {
-    m_polygons.push_back({ std::move(polygon), color });
-  }
-
-  void PhysicsDebugger::addSolidPolygon(gf::Polygon polygon, gf::Color4f color) {
-    m_solidPolygons.push_back({ std::move(polygon), color });
-  }
-
-  void PhysicsDebugger::addCircle(gf::CircF circle, gf::Color4f color) {
-    m_circles.push_back({ circle, color });
-  }
-
-  void PhysicsDebugger::addSolidCircle(gf::CircF circle, gf::Vector2f axis, gf::Color4f color) {
-    m_solidCircles.push_back({ circle, axis, color });
-  }
-
-  void PhysicsDebugger::addSegment(gf::Vector2f p1, gf::Vector2f p2, gf::Color4f color) {
-    m_segments.push_back({ p1, p2, color });
-  }
-
-  void PhysicsDebugger::addTransform(gf::Vector2f position, gf::Vector2f xAxis, gf::Vector2f yAxis) {
-    m_transforms.push_back({ position, xAxis, yAxis });
+  void PhysicsDebugger::setDebug(bool debug) {
+    m_state.world.SetDebugDraw(debug ? &m_draw : nullptr);
   }
 
   void PhysicsDebugger::render(gf::RenderTarget& target, const gf::RenderStates& states) {
     m_state.world.DrawDebugData();
 
-    for (auto& polygon : m_polygons) {
+    for (auto& polygon : m_draw.polygons) {
       gf::ConvexShape shape(polygon.shape);
       shape.setColor(gf::Color::Transparent);
       shape.setOutlineColor(polygon.color);
@@ -107,13 +87,13 @@ namespace akgr {
       target.draw(shape, states);
     }
 
-    for (auto& polygon : m_solidPolygons) {
+    for (auto& polygon : m_draw.solidPolygons) {
       gf::ConvexShape shape(polygon.shape);
       shape.setColor(polygon.color);
       target.draw(shape, states);
     }
 
-    for (auto& circle : m_circles) {
+    for (auto& circle : m_draw.circles) {
       gf::CircleShape shape(circle.shape);
       shape.setColor(gf::Color::Transparent);
       shape.setOutlineColor(circle.color);
@@ -121,7 +101,7 @@ namespace akgr {
       target.draw(shape, states);
     }
 
-    for (auto& circle : m_solidCircles) {
+    for (auto& circle : m_draw.solidCircles) {
       gf::CircleShape shape(circle.shape);
       shape.setColor(circle.color);
       target.draw(shape, states);
@@ -132,14 +112,14 @@ namespace akgr {
       target.draw(line, states);
     }
 
-    for (auto& segment : m_segments) {
+    for (auto& segment : m_draw.segments) {
       gf::Line curve(segment.p1, segment.p2);
       curve.setWidth(DebugOutlineThickness);
       curve.setColor(segment.color);
       target.draw(curve, states);
     }
 
-    for (auto& transform : m_transforms) {
+    for (auto& transform : m_draw.transforms) {
       gf::Line lineX(transform.position, transform.position + DebugTransformLength * transform.xAxis);
       lineX.setWidth(DebugOutlineThickness);
       lineX.setColor(gf::Color::Red);
@@ -151,12 +131,21 @@ namespace akgr {
       target.draw(lineY, states);
     }
 
-    m_polygons.clear();
-    m_solidPolygons.clear();
-    m_circles.clear();
-    m_solidCircles.clear();
-    m_segments.clear();
-    m_transforms.clear();
+    for (auto& point : m_draw.points) {
+      gf::CircleShape circle(point.size / 2);
+      circle.setColor(point.color);
+      circle.setAnchor(gf::Anchor::Center);
+      circle.setPosition(point.position);
+      target.draw(circle, states);
+    }
+
+    m_draw.polygons.clear();
+    m_draw.solidPolygons.clear();
+    m_draw.circles.clear();
+    m_draw.solidCircles.clear();
+    m_draw.segments.clear();
+    m_draw.transforms.clear();
+    m_draw.points.clear();
   }
 
 
@@ -172,49 +161,48 @@ namespace akgr {
 
   }
 
-  PhysicsDraw::PhysicsDraw(PhysicsDebugger& debug)
-  : m_debug(debug)
+  PhysicsDebugger::PhysicsDraw::PhysicsDraw()
   {
     SetFlags(b2Draw::e_shapeBit /* | b2Draw::e_aabbBit */ | b2Draw::e_pairBit | b2Draw::e_centerOfMassBit);
   }
 
-  void PhysicsDraw::DrawPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color) {
+  void PhysicsDebugger::PhysicsDraw::DrawPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color) {
     gf::Polygon polygon;
 
     for (int32 i = 0; i < vertexCount; ++i) {
       polygon.addPoint(toVec(vertices[i]));
     }
 
-    m_debug.addPolygon(std::move(polygon), toColor(color));
+    polygons.push_back({ std::move(polygon), toColor(color) });
   }
 
-  void PhysicsDraw::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color) {
+  void PhysicsDebugger::PhysicsDraw::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color) {
     gf::Polygon polygon;
 
     for (int32 i = 0; i < vertexCount; ++i) {
       polygon.addPoint(toVec(vertices[i]));
     }
 
-    m_debug.addSolidPolygon(std::move(polygon), toColor(color));
+    solidPolygons.push_back({ std::move(polygon), toColor(color) });
   }
 
-  void PhysicsDraw::DrawCircle(const b2Vec2& center, float32 radius, const b2Color& color) {
-    m_debug.addCircle(gf::CircF(toVec(center), radius / PhysicsScale), toColor(color));
+  void PhysicsDebugger::PhysicsDraw::DrawCircle(const b2Vec2& center, float32 radius, const b2Color& color) {
+    circles.push_back({ gf::CircF(toVec(center), radius / PhysicsScale), toColor(color) });
   }
 
-  void PhysicsDraw::DrawSolidCircle(const b2Vec2& center, float32 radius, const b2Vec2& axis, const b2Color& color) {
-    m_debug.addSolidCircle(gf::CircF(toVec(center), radius / PhysicsScale), toVec(axis), toColor(color));
+  void PhysicsDebugger::PhysicsDraw::DrawSolidCircle(const b2Vec2& center, float32 radius, const b2Vec2& axis, const b2Color& color) {
+    solidCircles.push_back({ gf::CircF(toVec(center), radius / PhysicsScale), toVec(axis), toColor(color) });
   }
 
-  void PhysicsDraw::DrawSegment(const b2Vec2& p1, const b2Vec2& p2, const b2Color& color) {
-    m_debug.addSegment(toVec(p1), toVec(p2), toColor(color));
+  void PhysicsDebugger::PhysicsDraw::DrawSegment(const b2Vec2& p1, const b2Vec2& p2, const b2Color& color) {
+    segments.push_back({ toVec(p1), toVec(p2), toColor(color) });
   }
 
-  void PhysicsDraw::DrawTransform(const b2Transform& xf) {
-    m_debug.addTransform(toVec(xf.p), toVec(xf.q.GetXAxis()), toVec(xf.q.GetYAxis()));
+  void PhysicsDebugger::PhysicsDraw::DrawTransform(const b2Transform& xf) {
+    transforms.push_back({ toVec(xf.p), toVec(xf.q.GetXAxis()), toVec(xf.q.GetYAxis()) });
   }
 
-  void PhysicsDraw::DrawPoint(const b2Vec2& p, float32 size, const b2Color& color) {
-
+  void PhysicsDebugger::PhysicsDraw::DrawPoint(const b2Vec2& p, float32 size, const b2Color& color) {
+    points.push_back({ toVec(p), size, toColor(color) });
   }
 }

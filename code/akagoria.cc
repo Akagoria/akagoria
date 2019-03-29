@@ -418,9 +418,7 @@ int main() {
   akgr::PhysicsListener listener(script);
   worldState.physics.world.SetContactListener(&listener);
 
-  akgr::PhysicsDraw draw(debug);
   bool debugPhysics = false;
-//   worldState.physics.world.SetDebugDraw(&draw);
 
   // driver
 
@@ -455,7 +453,7 @@ int main() {
 
     if (debugPhysicsAction.isActive()) {
       debugPhysics = !debugPhysics;
-      worldState.physics.world.SetDebugDraw(debugPhysics ? &draw : nullptr);
+      debug.setDebug(debugPhysics);
     }
 
     if (quickSaveAction.isActive()) {
