@@ -67,10 +67,11 @@ namespace akgr {
     }
 
     template<typename T>
-    b2Fixture *createFixture(b2World& world, const Location& location, T& shape, b2BodyType type, bool isSensor) {
+    b2Fixture *createFixture(b2World& world, const Location& location, float angle, T& shape, b2BodyType type, bool isSensor) {
       b2BodyDef bodyDef;
       bodyDef.type = type;
       bodyDef.position = { location.position.x * PhysicsScale, location.position.y * PhysicsScale };
+      bodyDef.angle = angle;
       auto body = world.CreateBody(&bodyDef);
 
       b2FixtureDef fixtureDef;
@@ -84,7 +85,7 @@ namespace akgr {
       return body->CreateFixture(&fixtureDef);
     }
 
-    b2Fixture *createPolylineFixture(b2World& world, const Location& location, const gf::Polyline& polyline, bool isSensor) {
+    b2Fixture *createPolylineFixture(b2World& world, const Location& location, float angle, const gf::Polyline& polyline, bool isSensor) {
       std::vector<b2Vec2> line;
 
       for (auto& point : polyline) {
@@ -99,10 +100,10 @@ namespace akgr {
         shape.CreateChain(line.data(), line.size());
       }
 
-      return createFixture(world, location, shape, b2_staticBody, isSensor);
+      return createFixture(world, location, angle, shape, b2_staticBody, isSensor);
     }
 
-    b2Fixture *createPolygonFixture(b2World& world, const Location& location, const gf::Polygon& polygon, bool isSensor) {
+    b2Fixture *createPolygonFixture(b2World& world, const Location& location, float angle, const gf::Polygon& polygon, bool isSensor) {
       std::vector<b2Vec2> line;
 
       for (auto& point : polygon) {
@@ -111,20 +112,20 @@ namespace akgr {
 
       b2PolygonShape shape;
       shape.Set(line.data(), line.size());
-      return createFixture(world, location, shape, b2_staticBody, isSensor);
+      return createFixture(world, location, angle, shape, b2_staticBody, isSensor);
     }
 
-    b2Fixture *createCircleFixture(b2World& world, const Location& location, float radius) {
-      b2CircleShape shape;
-      shape.m_radius = radius * PhysicsScale;
-      return createFixture(world, location, shape, b2_staticBody, /* isSensor */ false);
-    }
-
-    b2Fixture *createRectangleFixture(b2World& world, const Location& location, float width, float height) {
-      b2PolygonShape shape;
-      shape.SetAsBox(width * PhysicsScale * 0.5f, height * PhysicsScale * 0.5f);
-      return createFixture(world, location, shape, b2_staticBody, /* isSensor */ false);
-    }
+//     b2Fixture *createCircleFixture(b2World& world, const Location& location, float radius) {
+//       b2CircleShape shape;
+//       shape.m_radius = radius * PhysicsScale;
+//       return createFixture(world, location, shape, b2_staticBody, /* isSensor */ false);
+//     }
+//
+//     b2Fixture *createRectangleFixture(b2World& world, const Location& location, float width, float height) {
+//       b2PolygonShape shape;
+//       shape.SetAsBox(width * PhysicsScale * 0.5f, height * PhysicsScale * 0.5f);
+//       return createFixture(world, location, shape, b2_staticBody, /* isSensor */ false);
+//     }
 
   }
 
@@ -184,20 +185,11 @@ namespace akgr {
 
   void PhysicsState::bind(const WorldData& data) {
     for (auto& collision : data.physics.collisions) {
-      createPolylineFixture(world, collision.location, collision.line, /* isSensor */ false);
+      createPolylineFixture(world, collision.location, 0.0f, collision.line, /* isSensor */ false);
     }
 
     for (auto& thing : data.physics.things) {
-      switch (thing.shape.type) {
-        case ShapeType::None:
-          break;
-        case ShapeType::Circle:
-          createCircleFixture(world, thing.location, thing.shape.circle.radius);
-          break;
-        case ShapeType::Rectangle:
-          createRectangleFixture(world, thing.location, thing.shape.rectangle.width, thing.shape.rectangle.height);
-          break;
-      }
+      createPolylineFixture(world, thing.location, gf::degreesToRadians(thing.angle), thing.line, /* isSensor */ false);
     }
   }
 
@@ -297,7 +289,7 @@ namespace akgr {
   }
 
   b2Fixture *PhysicsState::createFixtureForZone(const Zone& zone) {
-    return createPolygonFixture(world, zone.location, zone.polygon, /* isSensor */ true);
+    return createPolygonFixture(world, zone.location, 0.0f, zone.polygon, /* isSensor */ true);
   }
 
 }

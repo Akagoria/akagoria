@@ -45,7 +45,7 @@ namespace {
       fmt::print("\t\t'{}' ({})\n", layer.name, layer.sprites.size());
 
       for (auto& sprite : layer.sprites) {
-        fmt::print("\t\t\t'{}' {}, {}°, tileset #{}, {}\n", sprite.name, sprite.position, sprite.rotation, sprite.tilesetId, sprite.subTexture);
+        fmt::print("\t\t\t'{}' {}, {:.0f}°, tileset #{}, {}\n", sprite.name, sprite.position, sprite.rotation, sprite.tilesetId, sprite.subTexture);
       }
     }
   }
@@ -121,18 +121,7 @@ namespace {
     fmt::print("Number of things: {}\n", data.things.size());
 
     for (auto& thing : data.things) {
-      fmt::print("\t'{}' {} {} ", thing.name, thing.location, getShapeType(thing.shape.type));
-
-      switch (thing.shape.type) {
-        case akgr::ShapeType::None:
-          break;
-        case akgr::ShapeType::Circle:
-          fmt::print("radius: {}\n", thing.shape.circle.radius);
-          break;
-        case akgr::ShapeType::Rectangle:
-          fmt::print("width: {}, height: {}\n", thing.shape.rectangle.width, thing.shape.rectangle.height);
-          break;
-      }
+      fmt::print("\t'{}' {} {:.0f}° + {} of {} points\n", thing.name, thing.location, thing.angle, thing.line.isChain() ? "chain" : "loop", thing.line.getPointCount());
     }
   }
 

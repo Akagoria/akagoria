@@ -62,12 +62,13 @@ namespace akgr {
   struct Thing {
     std::string name;
     Location location;
-    Shape shape;
+    gf::Polyline line;
+    float angle;
   };
 
   template<typename Archive>
   Archive& operator|(Archive& ar, Thing& data) {
-    return ar | data.name | data.location | data.shape;
+    return ar | data.name | data.location | data.line | data.angle;
   }
 
   struct PhysicsData {

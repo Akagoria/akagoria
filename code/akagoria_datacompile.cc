@@ -194,6 +194,23 @@ namespace {
       return polyline;
     }
 
+    if (object.kind == gf::TmxObject::Ellipse) {
+      auto& ellipse = static_cast<const gf::TmxEllipse&>(object);
+
+      gf::Vector2f size = ellipse.size;
+      gf::Vector2f center = size / 2;
+
+      gf::Polyline polyline(gf::Polyline::Loop);
+
+      static constexpr int EllipseSegmentCount = 10;
+
+      for (int i = 0; i < EllipseSegmentCount; ++i) {
+        polyline.addPoint(size / 2 * gf::unit(2.0f * gf::Pi * i / EllipseSegmentCount) + center);
+      }
+
+      return polyline;
+    }
+
     gf::Log::error("Object kind not supported for polyline: %i\n", static_cast<int>(object.kind));
     return gf::Polyline();
   }
@@ -384,7 +401,7 @@ namespace {
 
         if (type == "shrine") {
           gf::Vector2f size = sprite.subTexture.getSize();
-          gf::Vector2f center = tile->position + size / 2 - gf::Vector2f(0, size.height);
+          gf::Vector2f center = tile->position + size / 2 - gf::diry(size.height);
           gf::Vector2f bottomLeft = tile->position;
 
           std::string shrineType = tilesetTile->properties.getStringProperty("shrine_type", "");
@@ -400,36 +417,33 @@ namespace {
          * physics
          */
 
-        std::string shapeType = tilesetTile->properties.getStringProperty("shape", "");
-
-        if (shapeType.empty()) {
+        if (!tilesetTile->objects) {
           continue;
         }
 
-        gf::Matrix3f rot = gf::rotation(gf::degreesToRadians(tile->rotation), tile->position);
-        gf::Vector2f center = tile->position;
-        center.x += sprite.subTexture.width * 0.5f;
-        center.y -= sprite.subTexture.height * 0.5f;
-        center = gf::transform(rot, center);
+        assert(!tilesetTile->objects->objects.empty());
+        const gf::TmxObject& shape = *tilesetTile->objects->objects.front();
 
-        if (shapeType == "circle") {
-          double radius =  tilesetTile->properties.getFloatProperty("shape_radius", -1.0);
-          assert(radius > 0.0);
+        gf::Vector2f size = sprite.subTexture.getSize();
+        gf::Vector2f center = tile->position + size / 2 - gf::diry(size.height);
+        gf::Vector2f bottomLeft = tile->position;
 
-          akgr::Thing thing;
-          thing.name = tilesetTile->type;
-          thing.location.position = center;
-          thing.location.floor = currentFloor;
-          thing.shape.type = akgr::ShapeType::Circle;
-          thing.shape.circle.radius = static_cast<float>(radius);
+        akgr::Thing thing;
+        thing.name = tilesetTile->type;
+        thing.location.position = gf::transform(gf::rotation(gf::degreesToRadians(sprite.rotation), bottomLeft), center);
+        thing.location.floor = currentFloor;
+        thing.angle = sprite.rotation;
+        thing.line = tmxObjectToPolyline(shape);
 
-          if (thing.name.empty()) {
-            gf::Log::warning("Thing with no name at (%g,%g)[%" PRIi32 "]\n", thing.location.position.x, thing.location.position.y, currentFloor);
-          }
-
-          data.physics.things.push_back(thing);
+        for (auto& point : thing.line) {
+          point += shape.position - size / 2;
         }
 
+        if (thing.name.empty()) {
+          gf::Log::warning("Thing with no name at (%g,%g)[%" PRIi32 "]\n", thing.location.position.x, thing.location.position.y, currentFloor);
+        }
+
+        data.physics.things.push_back(std::move(thing));
       }
     }
 
