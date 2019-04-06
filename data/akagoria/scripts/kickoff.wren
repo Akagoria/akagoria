@@ -17,34 +17,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_WORLD_SCENERY_H
-#define AKGR_WORLD_SCENERY_H
 
-#include <vector>
+class Kickoff {
 
-#include <gf/Random.h>
-#include <gf/ResourceManager.h>
+  static initialize(W) {
+    W.moveHero("Start")
+    W.addRequirement("IntroDialogReq")
+    W.addCharacter("Shagir", "Shagir")
+    W.attachDialogToCharacter("ShagirConversation0", "Shagir")
+    W.postNotification("Welcome")
 
-#include "AreaScenery.h"
-#include "GameMenuScenery.h"
-#include "InventoryScenery.h"
-#include "MapScenery.h"
-#include "ShrineScenery.h"
-
-namespace akgr {
-  struct WorldData;
-
-  struct WorldScenery {
-    GameMenuScenery menu;
-    InventoryScenery inventory;
-
-    MapScenery map;
-    AreaScenery area;
-    std::vector<ShrineScenery> shrines;
-
-    void bind(const WorldData& data, gf::ResourceManager& resources, gf::Random& random);
-  };
+    W.addItem("GemRuby", "Ruby #1")
+    W.addItem("GemEmerald", "Emerald #1")
+    W.addItemToInventory("GemEmerald")
+    W.addItemToInventory("GemRuby")
+  }
 
 }
-
-#endif // AKGR_WORLD_SCENERY_H

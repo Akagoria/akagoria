@@ -20,10 +20,57 @@
 #ifndef AKGR_INVENTORY_SCENERY_H
 #define AKGR_INVENTORY_SCENERY_H
 
+#include <cstddef>
+
 namespace akgr {
 
   struct InventoryScenery {
-    int choice = 0;
+    static constexpr std::size_t Length = 24;
+
+    std::size_t start = 0;
+    std::size_t size = 0;
+    std::size_t current = 0; // 0 <= current - start < length
+
+    void computeNextItem() {
+      if (current == size - 1) {
+        return;
+      }
+
+      ++current;
+
+      if (start + Length < size && current >= start + Length - 1) {
+        ++start;
+      }
+    }
+
+    void computePrevItem() {
+      if (current == 0) {
+        return;
+      }
+
+      --current;
+
+      if (start > 0 && current < start + 1) {
+        --start;
+      }
+    }
+
+    int choice;
+
+    static constexpr int NoChoice = -1;
+    static constexpr int Drop     = 0;
+    static constexpr int Back     = 1;
+
+    static constexpr int ItemCount = 2;
+
+    void computeNextChoice() {
+      choice = (choice + 1) % ItemCount;
+    }
+
+    void computePrevChoice() {
+      choice = (choice - 1 + ItemCount) % ItemCount;
+    }
+
   };
 
 }

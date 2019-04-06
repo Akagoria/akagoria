@@ -103,18 +103,9 @@ namespace akgr {
 
             if (squareDistanceToHero(item.physics.location.position) < gf::square(ItemDistance + item.ref.data->shape.getPhysicalSize())) {
               // put in inventory
-
-              auto it = std::find_if(hero.inventory.items.begin(), hero.inventory.items.end(), [&item](const auto& i) { return i.ref.id == item.ref.id; });
-
-              if (it == hero.inventory.items.end()) {
-                // new item
-                hero.inventory.items.push_back({ item.ref, 1 });
-              } else {
-                ++it->count;
-              }
+              hero.inventory.addItem(item.ref);
 
               // remove from the world
-
               m_state.physics.world.DestroyBody(item.physics.body);
               item.physics.body = nullptr;
             }
@@ -238,6 +229,7 @@ namespace akgr {
           switch (m_scenery.menu.choice) {
             case GameMenuScenery::Inventory:
               m_state.operation = WorldOperation::Inventory;
+              m_scenery.inventory.size = m_state.hero.inventory.items.size();
               break;
 
             case GameMenuScenery::Quests:
@@ -294,25 +286,31 @@ namespace akgr {
         break;
 
       case WorldOperation::Inventory:
-        m_root.helper.status = HelperStatus::Menu;
+        m_root.helper.status = HelperStatus::Inventory;
 
-//         if (m_commands.menuDown.isActive()) {
-//           m_root.options.computeNextChoice();
-//         } else if (m_commands.menuUp.isActive()) {
-//           m_root.options.computePrevChoice();
-//         }
-
-        if (m_commands.use.isActive()) {
-          m_state.operation = WorldOperation::Menu;
+        if (m_commands.menuDown.isActive()) {
+          m_scenery.inventory.computeNextItem();
+        } else if (m_commands.menuUp.isActive()) {
+          m_scenery.inventory.computePrevItem();
         }
 
-//         if (m_commands.menuRight.isActive()) {
-//           m_root.options.computeNextOption();
-//         }
-//
-//         if (m_commands.menuLeft.isActive()) {
-//           m_root.options.computePrevOption();
-//         }
+        if (m_commands.menuPageDown.isActive()) {
+          for (std::size_t i = 0; i < InventoryScenery::Length / 2; ++i) {
+            m_scenery.inventory.computeNextItem();
+          }
+        } else if (m_commands.menuPageUp.isActive()) {
+          for (std::size_t i = 0; i < InventoryScenery::Length / 2; ++i) {
+            m_scenery.inventory.computePrevItem();
+          }
+        }
+
+        if (m_commands.use.isActive()) {
+//           m_state.operation = WorldOperation::Menu;
+        }
+
+        if (m_commands.menuQuit.isActive()) {
+          m_state.operation = WorldOperation::Menu;
+        }
         break;
     }
   }

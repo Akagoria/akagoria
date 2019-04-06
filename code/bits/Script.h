@@ -86,6 +86,7 @@ namespace akgr {
      */
 
     static void addItem(WrenVM* vm);
+    static void addItemToInventory(WrenVM* vm);
 
     /*
      * characters

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-28 16:07+0100\n"
+"POT-Creation-Date: 2019-04-06 10:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -76,6 +76,9 @@ msgstr ""
 msgid "Pick"
 msgstr ""
 
+msgid "Quit"
+msgstr ""
+
 msgid "Select"
 msgstr ""
 
@@ -125,9 +128,6 @@ msgid "Keyboard"
 msgstr ""
 
 msgid "Quests"
-msgstr ""
-
-msgid "Quit"
 msgstr ""
 
 msgid "Skills"

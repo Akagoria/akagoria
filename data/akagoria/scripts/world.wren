@@ -46,6 +46,7 @@ class World {
    */
 
   foreign static addItem(item, location)
+  foreign static addItemToInventory(item)
 
   /*
    * characters

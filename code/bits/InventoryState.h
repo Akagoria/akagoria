@@ -37,6 +37,16 @@ namespace akgr {
 
   struct InventoryState {
     std::vector<InventoryItem> items;
+
+    void addItem(DataRef<ItemData> ref) {
+      auto it = std::find_if(items.begin(), items.end(), [&](const auto& other) { return ref.id == other.ref.id; });
+
+      if (it == items.end()) {
+        items.push_back({ ref, 1 });
+      } else {
+        ++it->count;
+      }
+    }
   };
 
   template<typename Archive>

@@ -225,23 +225,37 @@ namespace akgr {
         }
         break; // HelperStatus::Continue
 
-      case HelperStatus::Menu:
+      case HelperStatus::Inventory:
         switch (m_root.options.data.input) {
           case OptionsData::Input::Gamepad:
             drawButton("A");
             drawText(m_data.getUIMessage("HelperSelect"_id));
-//             position += largeSpacing;
-//             drawButton("B");
-//             drawText("Fight");
+            position += largeSpacing;
+            drawButton("B");
+            drawText(m_data.getUIMessage("HelperQuit"_id));
             break;
           case OptionsData::Input::Keyboard:
             drawKey(gf::Keyboard::getKeycodeName(gf::Keyboard::localize(gf::Scancode::E)));
             position += smallSpacing;
             drawText(m_data.getUIMessage("HelperSelect"_id));
-//             position += largeSpacing;
-//             drawKey(gf::Keyboard::getKeycodeName(gf::Keyboard::localize(gf::Scancode::F)));
-//             position += smallSpacing;
-//             drawText("Fight");
+            position += largeSpacing;
+            drawKey(gf::Keyboard::getKeycodeName(gf::Keyboard::localize(gf::Scancode::R)));
+            position += smallSpacing;
+            drawText(m_data.getUIMessage("HelperQuit"_id));
+            break;
+        }
+        break; // HelperStatus::Inventory
+
+      case HelperStatus::Menu:
+        switch (m_root.options.data.input) {
+          case OptionsData::Input::Gamepad:
+            drawButton("A");
+            drawText(m_data.getUIMessage("HelperSelect"_id));
+            break;
+          case OptionsData::Input::Keyboard:
+            drawKey(gf::Keyboard::getKeycodeName(gf::Keyboard::localize(gf::Scancode::E)));
+            position += smallSpacing;
+            drawText(m_data.getUIMessage("HelperSelect"_id));
             break;
         }
         break; // HelperStatus::Menu

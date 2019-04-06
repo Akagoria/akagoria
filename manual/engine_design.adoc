@@ -58,7 +58,7 @@ Each part in the world can contribute to the world data, the world state, the wo
 
 | Hero | | ✓ | | ✓
 
-| Inventory | | ✓ | | ✓
+| Inventory | | ✓ | ✓ | ✓
 
 | Item | ✓ | ✓ | | ✓
 

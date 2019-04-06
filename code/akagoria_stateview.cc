@@ -145,6 +145,8 @@ namespace {
         return "Menu";
       case akgr::WorldOperation::Options:
         return "Options";
+      case akgr::WorldOperation::Inventory:
+        return "Inventory";
     }
 
     assert(false);

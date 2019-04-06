@@ -20,6 +20,7 @@
 
 import "world" for World
 import "chapter1" for Chapter1
+import "kickoff" for Kickoff
 
 class Adventure {
 
@@ -34,28 +35,22 @@ class Adventure {
     // special messages
 
     Adventure.addMessageCallback("MoveDown") {
-      System.print("[adventure.wren] MoveDown")
+      System.print("[adventure.wren] Message 'MoveDown' received")
       World.moveHeroDown()
     }
 
     Adventure.addMessageCallback("MoveUp") {
-      System.print("[adventure.wren] MoveUp")
+      System.print("[adventure.wren] Message 'MoveUp' received")
       World.moveHeroUp()
     }
 
-    // chapter initialization
+    // chapters initialization
 
     Chapter1.initialize(Adventure, World)
   }
 
   static start() {
-    World.moveHero("Start")
-    World.addRequirement("IntroDialogReq")
-    World.addCharacter("Shagir", "Shagir")
-    World.attachDialogToCharacter("ShagirConversation0", "Shagir")
-    World.postNotification("Welcome")
-
-    World.addItem("GemRuby", "Ruby #1")
+    Kickoff.initialize(World)
   }
 
   static onMessage(message) {

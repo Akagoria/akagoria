@@ -85,6 +85,8 @@ namespace akgr {
           return &Script::removeRequirement;
         case "addItem(_,_)"_id:
           return &Script::addItem;
+        case "addItemToInventory(_)"_id:
+          return &Script::addItemToInventory;
         case "addCharacter(_,_)"_id:
           return &Script::addCharacter;
         case "startDialog(_)"_id:
@@ -342,6 +344,20 @@ namespace akgr {
     item.physics.body = getState(vm).physics.createItemBody(item.physics.location, item.physics.angle, item.ref.data->shape);
 
     getState(vm).items.push_back(std::move(item));
+
+    wrenSetSlotNull(vm, 0);
+  }
+
+  // addItemToInventory(item)
+  void Script::addItemToInventory(WrenVM* vm) {
+    const char *itemId = wrenGetSlotString(vm, 1);
+
+    DataRef<ItemData> ref;
+    ref.id = gf::hash(itemId);
+    ref.bind(getData(vm).catalogue.items);
+    checkRef(ref.data, itemId);
+
+    getState(vm).hero.inventory.addItem(ref);
 
     wrenSetSlotNull(vm, 0);
   }

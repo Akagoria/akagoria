@@ -32,6 +32,10 @@ class Chapter1 {
     A.addDialogCallback("ShagirConversation0") {
       W.attachDialogToCharacter("ShagirConversation1", "Shagir")
     }
+
+    A.addDialogCallback("ShagirConversation1") {
+      // W.attachDialogToCharacter("ShagirConversation1", "Shagir")
+    }
   }
 
 }

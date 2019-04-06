@@ -23,6 +23,7 @@
 #include <gf/Entity.h>
 
 #include "Display.h"
+#include "WorldData.h"
 #include "WorldScenery.h"
 #include "WorldState.h"
 #include "UIData.h"
@@ -31,15 +32,17 @@ namespace akgr {
 
   class InventoryRenderer : public gf::Entity {
   public:
-    InventoryRenderer(const UIData& data, const WorldState& state, const WorldScenery& scenery, const Display& display);
+    InventoryRenderer(const UIData& ui, const WorldData& data, const WorldState& state, const WorldScenery& scenery, const Display& display, gf::ResourceManager& resources);
 
     virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
 
   private:
-    const UIData& m_data;
+    const UIData& m_ui;
+    const WorldData& m_data;
     const WorldState& m_state;
     const WorldScenery& m_scenery;
     const Display& m_display;
+    gf::ResourceManager& m_resources;
   };
 
 }

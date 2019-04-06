@@ -33,6 +33,9 @@ namespace akgr {
   , menuDown("Menu Down")
   , menuLeft("Menu Left")
   , menuRight("Menu Right")
+  , menuPageUp("Menu Page Up")
+  , menuPageDown("Menu Page Down")
+  , menuQuit("Menu Quit")
   {
     up.addScancodeKeyControl(gf::Scancode::W);
     up.addScancodeKeyControl(gf::Scancode::Up);
@@ -97,6 +100,20 @@ namespace akgr {
     menuRight.addGamepadAxisControl(gf::AnyGamepad, gf::GamepadAxis::LeftX, gf::GamepadAxisDirection::Positive);
     menuRight.addGamepadButtonControl(gf::AnyGamepad, gf::GamepadButton::DPadRight);
     container.addAction(menuRight);
+
+    menuPageUp.addScancodeKeyControl(gf::Scancode::PageUp);
+    menuPageUp.addGamepadAxisControl(gf::AnyGamepad, gf::GamepadAxis::TriggerRight, gf::GamepadAxisDirection::Positive);
+    menuPageUp.addGamepadButtonControl(gf::AnyGamepad, gf::GamepadButton::RightBumper);
+    container.addAction(menuPageUp);
+
+    menuPageDown.addScancodeKeyControl(gf::Scancode::PageDown);
+    menuPageDown.addGamepadAxisControl(gf::AnyGamepad, gf::GamepadAxis::TriggerLeft, gf::GamepadAxisDirection::Positive);
+    menuPageDown.addGamepadButtonControl(gf::AnyGamepad, gf::GamepadButton::LeftBumper);
+    container.addAction(menuPageDown);
+
+    menuQuit.addKeycodeKeyControl(gf::Keycode::R);
+    menuQuit.addGamepadButtonControl(gf::AnyGamepad, gf::GamepadButton::B);
+    container.addAction(menuQuit);
   }
 
 }

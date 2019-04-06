@@ -26,6 +26,7 @@ namespace akgr {
     None,
     // (alphabetically)
     Continue,
+    Inventory,
     Menu,
     Pick,
     Talk,

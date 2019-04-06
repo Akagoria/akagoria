@@ -99,22 +99,7 @@ These layers are dedicated to large items that can not be represented with a sin
 
 These layers contain all the small items that are spread all around the world. If the item has an upper part that can cover the hero, then it must go in the "High Sprites" layer. Otherwise, it goes in  the "Low Sprites" layer.
 
-Each sprite in the tileset can have a string property named `shape` that is the collision shape of the sprite. The shapes are assumed to be centered in the tile. If the `shape` property is not present, no collision shape is defined for this tile.
-
-.Shape properties in tilesets
-|===
-| Value of `shape` | Mandatory properties
-
-| `circle`
-a|
-- `shape_radius`: the radius of the circle.
-
-| `rectangle`
-a|
-- `shape_width`: the width of the rectangle
-- `shape_height`: the height of the rectangle
-
-|===
+Each sprite in the tileset can have a collision shape. It is defined in Tiled. The collision shape is represented by an _ellipse object_ or a _rectangle object_ or a _polyline object_.
 
 === Data layers
 
@@ -172,6 +157,36 @@ In this section, all the files are plain https://www.json.org/[JSON] files.
 ----
 
 
+[[items]]
+=== Items
+
+[source,json]
+----
+{
+  "resources": {
+    "SmallItems": {
+      "spritesheet": "sprites/items-s.png",
+      "width": 16, "height": 16
+    }
+  },
+  "items": {
+    "GemRuby": {
+      "description": "Ruby",
+      "shape": {
+        "type": "circle",
+        "radius": 10
+      },
+      "graphics": {
+        "resource": "SmallItems",
+        "index": 0,
+        "scale": 0.25
+      }
+    }
+  }
+}
+----
+
+
 [[dialogs]]
 === Dialogs
 
@@ -204,7 +219,7 @@ In this section, all the files are plain https://www.json.org/[JSON] files.
 [[scripts]]
 == Scripts
 
-Scripts are written in the http://wren.io/[Wren] language. They are loaded at startup. They contain classes with static functions only.
+Scripts are written in the http://wren.io/[Wren] language. They are loaded at startup. They contain classes with static functions only. The script must not store any state as they can not be serialized when saving the game.
 
 === `World` script
 
@@ -232,7 +247,14 @@ This script handles the interactions with the state of the game.
 
 ==== Characters functions
 
-`World.addCharacter(character, location)` add a character in the specified location. The `character` parameter is a valid character name (see <<characters>>). The `location` parameter is a valid location name on the map (see <<locations_layer>>).
+`World.addCharacter(character, location)` adds a character in the specified location. The `character` parameter is a valid character name (see <<characters>>). The `location` parameter is a valid location name on the map (see <<locations_layer>>).
+
+
+==== Items functions
+
+`World.addItem(item, location)` adds an item in the specified location. The `item` parameter is a valid item name (see <<items>>). The `location` parameter is a valid location name on the map (see <<locations_layer>>).
+
+`World.addItemToInventory(item)` adds an item to the hero's inventory. The `item` parameter is a valid item name (see <<items>>).
 
 
 ==== Dialogs functions

@@ -414,7 +414,7 @@ int main() {
   akgr::OptionsRenderer gameOptions(uiData, rootScenery, display);
   hudEntities.addEntity(gameOptions);
 
-  akgr::InventoryRenderer inventory(uiData, worldState, worldScenery, display);
+  akgr::InventoryRenderer inventory(uiData, worldData, worldState, worldScenery, display, resources);
   hudEntities.addEntity(inventory);
 
 
