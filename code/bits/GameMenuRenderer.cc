@@ -21,20 +21,29 @@
 
 #include <gf/VectorOps.h>
 
-#include "Menu.h"
+#include "ui/Common.h"
 
 using namespace gf::literals;
 
 namespace akgr {
 
-  GameMenuRenderer::GameMenuRenderer(const UIData& data, const WorldState& state, const WorldScenery& scenery, const Display& display)
+  GameMenuRenderer::GameMenuRenderer(const UIData& data, const WorldState& state, const WorldScenery& scenery, ui::Theme& theme)
   : gf::Entity(10)
   , m_data(data)
   , m_state(state)
   , m_scenery(scenery)
-  , m_display(display)
+  , m_theme(theme)
+  , m_frame(nullptr)
   {
+    auto menu = m_frame.add<ui::MenuWidget>(m_scenery.menu.index);
 
+    for (gf::Id id : { "MenuInventory"_id, "MenuQuests"_id, "MenuSkills"_id, "MenuOptions"_id, "MenuBackToAdventure"_id, "MenuBackToRealLife"_id }) {
+      auto label = menu->add<ui::LabelWidget>(m_data.getUIMessage(id));
+      label->setSize(ui::Common::DefaultCaptionSize);
+    }
+
+    m_frame.setPosition(ui::Common::Position);
+    m_frame.computeLayout();
   }
 
   void GameMenuRenderer::render(gf::RenderTarget& target, const gf::RenderStates& states) {
@@ -42,14 +51,7 @@ namespace akgr {
       return;
     }
 
-    m_display.renderBox(target, states, { Menu::Position, Menu::TotalSize(GameMenuScenery::ItemCount) });
-    m_display.renderString(target, states, { Menu::ItemPosition(GameMenuScenery::Inventory), Menu::ItemSize }, Menu::CharacterSize, m_data.getUIMessage("MenuInventory"_id));
-    m_display.renderString(target, states, { Menu::ItemPosition(GameMenuScenery::Quests), Menu::ItemSize }, Menu::CharacterSize, m_data.getUIMessage("MenuQuests"_id));
-    m_display.renderString(target, states, { Menu::ItemPosition(GameMenuScenery::Skills), Menu::ItemSize }, Menu::CharacterSize, m_data.getUIMessage("MenuSkills"_id));
-    m_display.renderString(target, states, { Menu::ItemPosition(GameMenuScenery::Options), Menu::ItemSize }, Menu::CharacterSize, m_data.getUIMessage("MenuOptions"_id));
-    m_display.renderString(target, states, { Menu::ItemPosition(GameMenuScenery::Quit), Menu::ItemSize }, Menu::CharacterSize, m_data.getUIMessage("MenuQuit"_id));
-
-    m_display.renderArrow(target, states, Menu::ArrowPosition(m_scenery.menu.choice));
+    m_frame.render(target, states, m_theme);
   }
 
 }

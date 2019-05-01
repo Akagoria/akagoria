@@ -20,26 +20,23 @@
 #ifndef AKGR_GAME_MENU_SCENERY_H
 #define AKGR_GAME_MENU_SCENERY_H
 
+#include "ui/Scenery.h"
+
 namespace akgr {
 
   struct GameMenuScenery {
-    int choice = 0;
+    enum class Choice {
+      Inventory,
+      Quests,
+      Skills,
+      Options,
+      BackToAdventure,
+      BackToRealLife,
+    };
 
-    static constexpr int Inventory  = 0;
-    static constexpr int Quests     = 1;
-    static constexpr int Skills     = 2;
-    static constexpr int Options    = 3;
-    static constexpr int Quit       = 4;
+    ui::WidgetIndexScenery index = { 0, 6 };
 
-    static constexpr int ItemCount = 5;
-
-    void computeNextChoice() {
-      choice = (choice + 1) % ItemCount;
-    }
-
-    void computePrevChoice() {
-      choice = (choice - 1 + ItemCount) % ItemCount;
-    }
+    Choice getChoice() const;
 
   };
 

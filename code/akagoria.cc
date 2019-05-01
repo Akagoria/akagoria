@@ -412,7 +412,7 @@ int main() {
   akgr::CommandsHelperRenderer worldCommandsHelper(uiData, rootScenery, resources);
   hudEntities.addEntity(worldCommandsHelper);
 
-  akgr::GameMenuRenderer gameMenu(uiData, worldState, worldScenery, display);
+  akgr::GameMenuRenderer gameMenu(uiData, worldState, worldScenery, theme);
   hudEntities.addEntity(gameMenu);
 
   akgr::OptionsRenderer gameOptions(uiData, rootScenery, theme);

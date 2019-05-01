@@ -51,7 +51,7 @@ namespace akgr {
     switch (m_state.operation) {
       case WorldOperation::Walk:
         if (m_commands.menu.isActive()) {
-          m_scenery.menu.choice = 0;
+          m_scenery.menu.index.choice = 0;
           m_state.operation = WorldOperation::Menu;
         }
 
@@ -220,33 +220,38 @@ namespace akgr {
         }
 
         if (m_commands.menuDown.isActive()) {
-          m_scenery.menu.computeNextChoice();
+          m_scenery.menu.index.computeNextChoice();
         } else if (m_commands.menuUp.isActive()) {
-          m_scenery.menu.computePrevChoice();
+          m_scenery.menu.index.computePrevChoice();
         }
 
         if (m_commands.use.isActive()) {
-          switch (m_scenery.menu.choice) {
-            case GameMenuScenery::Inventory:
+          switch (m_scenery.menu.getChoice()) {
+            case GameMenuScenery::Choice::Inventory:
               m_state.operation = WorldOperation::Inventory;
               m_scenery.inventory.size = m_state.hero.inventory.items.size();
               break;
 
-            case GameMenuScenery::Quests:
+            case GameMenuScenery::Choice::Quests:
               // TODO
               gf::Log::debug("Quests\n");
               break;
 
-            case GameMenuScenery::Skills:
+            case GameMenuScenery::Choice::Skills:
               // TODO
               gf::Log::debug("Skills\n");
               break;
 
-            case GameMenuScenery::Options:
+            case GameMenuScenery::Choice::Options:
               m_state.operation = WorldOperation::Options;
               break;
 
-            case GameMenuScenery::Quit:
+            case GameMenuScenery::Choice::BackToAdventure:
+              m_state.operation = WorldOperation::Walk;
+              break;
+
+            case GameMenuScenery::Choice::BackToRealLife:
+              // TODO
               m_state.operation = WorldOperation::Walk;
               break;
           }

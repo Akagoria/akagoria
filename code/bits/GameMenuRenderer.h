@@ -22,16 +22,19 @@
 
 #include <gf/Entity.h>
 
-#include "Display.h"
 #include "WorldScenery.h"
 #include "WorldState.h"
 #include "UIData.h"
+
+#include "ui/Theme.h"
+#include "ui/Widgets.h"
+
 
 namespace akgr {
 
   class GameMenuRenderer : public gf::Entity {
   public:
-    GameMenuRenderer(const UIData& data, const WorldState& state, const WorldScenery& scenery, const Display& display);
+    GameMenuRenderer(const UIData& data, const WorldState& state, const WorldScenery& scenery, ui::Theme& theme);
 
     virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
 
@@ -39,7 +42,8 @@ namespace akgr {
     const UIData& m_data;
     const WorldState& m_state;
     const WorldScenery& m_scenery;
-    const Display& m_display;
+    ui::Theme& m_theme;
+    ui::FrameWidget m_frame;
   };
 
 }
