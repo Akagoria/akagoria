@@ -25,6 +25,8 @@
 #include <gf/Path.h>
 #include <gf/Time.h>
 
+#include "ui/Scenery.h"
+
 namespace akgr {
 
   struct OptionsData {
@@ -33,10 +35,9 @@ namespace akgr {
       Gamepad,
     };
 
-    Input input = Input::Keyboard;
+    ui::WidgetIndexScenery input = { 0, 2 };
 
-    static Input next(Input input);
-    static Input prev(Input input);
+    Input getInput() const;
 
     enum class Display : uint8_t {
       Fullscreen,
@@ -46,43 +47,36 @@ namespace akgr {
       Window_1280x720,
     };
 
-    Display display = Display::Window_1024x576;
+    ui::WidgetIndexScenery display = { 0, 5 };
 
-    static Display next(Display display);
-    static Display prev(Display display);
-
+    Display getDisplay() const;
   };
 
   template<typename Archive>
   Archive& operator|(Archive& ar, OptionsData& data) {
-    return ar | data.input | data.display;
+    return ar | data.input.choice | data.display.choice;
   }
 
   struct OptionsScenery {
     OptionsData data;
-    int choice = 0;
 
-    static constexpr int Input    = 0;
-    static constexpr int Display  = 1;
-    static constexpr int Back     = 2;
+    enum class Choice {
+      Input,
+      Display,
+      Back,
+    };
 
-    static constexpr int ItemCount = 3;
+    ui::WidgetIndexScenery index = { 0, 3 };
 
-    void computeNextChoice() {
-      choice = (choice + 1) % ItemCount;
-    }
-
-    void computePrevChoice() {
-      choice = (choice - 1 + ItemCount) % ItemCount;
-    }
+    Choice getChoice() const;
 
     void computeNextOption() {
-      switch (choice) {
-        case OptionsScenery::Input:
-          data.input = OptionsData::next(data.input);
+      switch (getChoice()) {
+        case Choice::Input:
+          data.input.computeNextChoice();
           break;
-        case OptionsScenery::Display:
-          data.display = OptionsData::next(data.display);
+        case Choice::Display:
+          data.display.computeNextChoice();
           break;
         default:
           break;
@@ -90,12 +84,12 @@ namespace akgr {
     }
 
     void computePrevOption() {
-      switch (choice) {
-        case OptionsScenery::Input:
-          data.input = OptionsData::prev(data.input);
+      switch (getChoice()) {
+        case Choice::Input:
+          data.input.computePrevChoice();
           break;
-        case OptionsScenery::Display:
-          data.display = OptionsData::prev(data.display);
+        case Choice::Display:
+          data.display.computePrevChoice();
           break;
         default:
           break;

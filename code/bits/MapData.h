@@ -37,7 +37,7 @@ namespace akgr {
   struct TextureLayer {
     std::string name;
     uint32_t tilesetId;
-    gf::Array2D<int16_t, uint32_t> tiles;
+    gf::Array2D<int16_t, int32_t> tiles;
   };
 
   template<typename Archive>
@@ -52,7 +52,7 @@ namespace akgr {
   struct Sprite {
     std::string name;
     uint32_t tilesetId;
-    gf::RectU subTexture;
+    gf::Rect<int32_t> subTexture;
     gf::Vector2f position;
     float rotation;
   };
@@ -99,8 +99,8 @@ namespace akgr {
 
   struct Tileset {
     gf::Path path;
-    uint32_t spacing;
-    uint32_t margin;
+    int32_t spacing;
+    int32_t margin;
   };
 
   template<typename Archive>
@@ -118,8 +118,8 @@ namespace akgr {
     int32_t floorMax;
     std::vector<Floor> floors;
 
-    gf::Vector2u mapSize;
-    gf::Vector2u tileSize;
+    gf::Vector<int32_t, 2> mapSize;
+    gf::Vector<int32_t, 2> tileSize;
     std::vector<Tileset> tilesets;
 
     Floor& operator[](int32_t floor) {

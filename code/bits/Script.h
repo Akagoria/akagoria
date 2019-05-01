@@ -38,6 +38,14 @@ namespace akgr {
     Script(gf::ResourceManager& resources, const akgr::WorldData& data, akgr::WorldState& state);
     ~Script();
 
+    Script(const Script&) = delete;
+    Script& operator=(const Script&) = delete;
+
+    Script(Script&&) = delete;
+    Script& operator=(Script&&) = delete;
+
+    void bind();
+
     const akgr::WorldData& getData() {
       return m_data;
     }

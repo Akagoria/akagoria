@@ -178,17 +178,17 @@ namespace akgr {
         hero.move.linear = gf::LinearMove::None;
 
         if (m_commands.menuDown.isActive()) {
-          m_root.selector.computeNextChoice();
+          m_root.selector.index.computeNextChoice();
         } else if (m_commands.menuUp.isActive()) {
-          m_root.selector.computePrevChoice();
+          m_root.selector.index.computePrevChoice();
         }
 
         if (m_commands.use.isActive()) {
           m_state.operation = WorldOperation::Walk;
           m_root.operation = RootOperation::None;
 
-          if (m_root.selector.choice == SlotSelectorScenery::Back) {
-            m_root.selector.choice = 0;
+          if (m_root.selector.index.choice == SlotSelectorScenery::Back) {
+            m_root.selector.index.choice = 0;
           } else {
             // TODO: make it async?
             gf::Log::info("Game saving...\n");
@@ -263,13 +263,13 @@ namespace akgr {
         }
 
         if (m_commands.menuDown.isActive()) {
-          m_root.options.computeNextChoice();
+          m_root.options.index.computeNextChoice();
         } else if (m_commands.menuUp.isActive()) {
-          m_root.options.computePrevChoice();
+          m_root.options.index.computePrevChoice();
         }
 
         if (m_commands.use.isActive()) {
-          if (m_root.options.choice == OptionsScenery::Back) {
+          if (m_root.options.getChoice() == OptionsScenery::Choice::Back) {
             m_state.operation = WorldOperation::Menu;
             m_root.operation = RootOperation::None;
             m_root.options.save();

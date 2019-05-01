@@ -79,27 +79,13 @@ namespace akgr {
     for (int i = 0; i < SlotCount; ++i) {
       std::string filename = "slot" + std::to_string(i) + ".dat";
       gf::Path path = saveDirectory / filename;
-      manual[i].loadFromFile(path);
+      games[i].loadFromFile(path);
     }
-
-    quick.loadFromFile(saveDirectory / "quick.dat");
   }
 
   Slot& SlotSelectorScenery::getSlot() {
-    if (0 <= choice && choice < SlotCount) {
-      return manual[choice];
-    }
-
-    assert(choice == SlotCount);
-    return quick;
-  }
-
-  void SlotSelectorScenery::computeNextChoice() {
-    choice = (choice + 1) % ItemCount;
-  }
-
-  void SlotSelectorScenery::computePrevChoice() {
-    choice = (choice - 1 + ItemCount) % ItemCount;
+    assert(index.choice < SlotCount);
+    return games[index.choice];
   }
 
 }

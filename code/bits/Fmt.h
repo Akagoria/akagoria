@@ -45,24 +45,24 @@ namespace fmt {
     }
   };
 
-  template <>
-  struct formatter<gf::Vector2u> {
+  template <typename T>
+  struct formatter<gf::Vector<T,2>> {
     template <typename ParseContext>
     constexpr auto parse(ParseContext& ctx) { return ctx.begin(); }
 
     template <typename FormatContext>
-    auto format(const gf::Vector2u& vec, FormatContext& ctx) {
+    auto format(const gf::Vector<T,2>& vec, FormatContext& ctx) {
       return format_to(ctx.begin(), "({}, {})", vec.x, vec.y);
     }
   };
 
-  template <>
-  struct formatter<gf::RectU> {
+  template <typename T>
+  struct formatter<gf::Rect<T>> {
     template <typename ParseContext>
     constexpr auto parse(ParseContext& ctx) { return ctx.begin(); }
 
     template <typename FormatContext>
-    auto format(const gf::RectU& rect, FormatContext& ctx) {
+    auto format(const gf::Rect<T>& rect, FormatContext& ctx) {
       return format_to(ctx.begin(), "[{}, {}]", rect.getPosition(), rect.getSize());
     }
   };

@@ -26,9 +26,8 @@
 #include <boost/locale.hpp>
 
 #include <gf/Id.h>
-#include <gf/VectorOps.h>
 
-#include "Menu.h"
+#include "ui/Common.h"
 
 using namespace gf::literals;
 
@@ -36,40 +35,14 @@ namespace akgr {
 
   namespace {
 
-    constexpr gf::Vector2f SlotRelPosition(0.03 + Menu::ItemSpacing, Menu::ItemSpacing); // first, relative to selector position
-    constexpr gf::Vector2f SlotSize(Menu::ItemSize.x, Menu::CharacterSize * 1.2 * 3.0f);
-    constexpr gf::Vector2f ExtendedSlotSize = SlotSize + 2 * Menu::ItemSpacing;
-
-    constexpr gf::Vector2f SelectorTotalSize(int slotCount) {
-      return gf::Vector2f(SlotRelPosition.x + ExtendedSlotSize.x, slotCount * ExtendedSlotSize.y + (slotCount + 2) * Menu::ItemSpacing + Menu::ItemSize.y);
-    }
-
-    static constexpr gf::Vector2f SlotPosition(int item) {
-      gf::Vector2f pos = Menu::Position + SlotRelPosition;
-      pos.y += Menu::ItemSpacing + item * (Menu::ItemSpacing + ExtendedSlotSize.y);
-      return pos;
-    }
-
-    constexpr gf::Vector2f SelectorArrowPosition(0.015f, ExtendedSlotSize.y / 2); // first, relative to selector position
-    constexpr float SelectorArrowGap = Menu::ItemSpacing + ExtendedSlotSize.y;
-    constexpr float SelectorArrowCorrection = 0.03f;
-
-
     std::string getSlotInfo(const Slot& slot, int index) {
       if (!slot.active) {
-        return "Slot #" + std::to_string(index) + "\n---\n---";
+        return "Slot #" + std::to_string(index + 1) + "\n---\n---";
       }
 
       std::string str;
 
-      if (index < SlotSelectorScenery::SlotCount) {
-        str += "Slot #" + std::to_string(index);
-      } else {
-        str += "Quick Save";
-      }
-
-      str += '\n';
-
+      str += "Slot #" + std::to_string(index + 1) + '\n';
       str += boost::locale::gettext(slot.meta.area.c_str()) + '\n';
 
       static constexpr std::size_t TimeInfoSize = 1024;
@@ -81,14 +54,55 @@ namespace akgr {
       return str;
     }
 
+    class SlotWidget : public ui::TextWidget {
+    public:
+      SlotWidget(ui::Widget* parent, const Slot& slot, int index)
+      : ui::TextWidget(parent, getSlotInfo(slot, index))
+      , m_slot(slot)
+      , m_index(index)
+      , m_last(slot.time)
+      {
+        setSize({ 0.30f, ui::Common::DefaultCharacterSize * 1.2 * 3.0f });
+      }
+
+      virtual void render(gf::RenderTarget& target, const gf::RenderStates& states, ui::Theme& theme) override {
+        if (m_slot.time > m_last) {
+          setCaption(getSlotInfo(m_slot, m_index));
+          m_last = m_slot.time;
+        }
+
+        TextWidget::render(target, states, theme);
+      }
+
+    private:
+      const Slot& m_slot;
+      int m_index;
+      std::time_t m_last;
+    };
+
   }
 
-  SlotSelectorRenderer::SlotSelectorRenderer(const UIData& data, const RootScenery& scenery, const Display& display)
+  SlotSelectorRenderer::SlotSelectorRenderer(const UIData& data, const RootScenery& scenery, ui::Theme& theme)
   : m_data(data)
   , m_scenery(scenery)
-  , m_display(display)
+  , m_theme(theme)
+  , m_frame(nullptr)
   {
+    auto menu = m_frame.add<ui::MenuWidget>(m_scenery.selector.index);
 
+    for (int i = 0; i < SlotSelectorScenery::SlotCount; ++i) {
+      auto innerFrame = menu->add<ui::FrameWidget>();
+      innerFrame->setPositioning(ui::Positioning::Minimum);
+      innerFrame->setMargin({ 0.01f, 0.01f });
+
+      innerFrame->add<SlotWidget>(m_scenery.selector.games[i], i);
+    }
+
+    auto label = menu->add<ui::LabelWidget>(m_data.getUIMessage("MenuBack"_id));
+    label->setSize(ui::Common::DefaultCaptionSize);
+
+    m_frame.setPosition(ui::Common::Position);
+    m_frame.computeLayout();
   }
 
   void SlotSelectorRenderer::render(gf::RenderTarget& target, const gf::RenderStates& states) {
@@ -96,26 +110,8 @@ namespace akgr {
       return;
     }
 
-    m_display.renderBox(target, states, { Menu::Position, SelectorTotalSize(SlotSelectorScenery::SlotCount + 1) });
+    m_frame.render(target, states, m_theme);
 
-    m_display.renderTextBox(target, states, { SlotPosition(0), SlotSize }, Menu::CharacterSize, getSlotInfo(m_scenery.selector.manual[0], 0), Menu::ItemSpacing);
-    m_display.renderTextBox(target, states, { SlotPosition(1), SlotSize }, Menu::CharacterSize, getSlotInfo(m_scenery.selector.manual[1], 1), Menu::ItemSpacing);
-    m_display.renderTextBox(target, states, { SlotPosition(2), SlotSize }, Menu::CharacterSize, getSlotInfo(m_scenery.selector.manual[2], 2), Menu::ItemSpacing);
-    m_display.renderTextBox(target, states, { SlotPosition(3), SlotSize }, Menu::CharacterSize, getSlotInfo(m_scenery.selector.quick, 3), Menu::ItemSpacing);
-
-    m_display.renderString(target, states, { SlotPosition(4) - Menu::ItemSpacing, Menu::ItemSize }, Menu::CharacterSize, m_data.getUIMessage("MenuBack"_id));
-
-    // arrow
-
-    gf::Vector2f arrowPosition = Menu::Position + SelectorArrowPosition;
-
-    if (m_scenery.selector.choice < SlotSelectorScenery::SlotCount + 1) {
-      arrowPosition.y += Menu::ItemSpacing + SelectorArrowGap * m_scenery.selector.choice;
-    } else {
-      arrowPosition.y += Menu::ItemSpacing + SelectorArrowGap * (SlotSelectorScenery::SlotCount + 1) - ExtendedSlotSize.y / 2 + Menu::ItemSize.y / 2;
-    }
-
-    m_display.renderArrow(target, states, arrowPosition);
   }
 
 }

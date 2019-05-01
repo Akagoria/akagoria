@@ -143,7 +143,23 @@ namespace akgr {
   , m_methodOnMessage(nullptr)
   , m_methodOnDialog(nullptr)
   {
-    gf::Path file = resources.getAbsolutePath("scripts/adventure.wren");
+
+  }
+
+  Script::~Script() {
+    for (auto handle : { m_methodOnDialog, m_methodOnMessage, m_methodStart, m_methodInitialize, m_classAdventure }) {
+      if (handle != nullptr) {
+        wrenReleaseHandle(m_vm, handle);
+      }
+    }
+
+    if (m_vm != nullptr) {
+      wrenFreeVM(m_vm);
+    }
+  }
+
+  void Script::bind() {
+    gf::Path file = m_resources.getAbsolutePath("scripts/adventure.wren");
     std::string script = loadFile(file);
 
     WrenConfiguration configuration;
@@ -181,13 +197,6 @@ namespace akgr {
     assert(m_methodOnDialog);
   }
 
-  Script::~Script() {
-    for (auto handle : { m_methodOnDialog, m_methodOnMessage, m_methodStart, m_methodInitialize, m_classAdventure }) {
-      wrenReleaseHandle(m_vm, handle);
-    }
-
-    wrenFreeVM(m_vm);
-  }
 
   char *Script::loadModule(gf::Path path) {
     gf::Path file = m_resources.getAbsolutePath("scripts" / path.replace_extension(".wren"));

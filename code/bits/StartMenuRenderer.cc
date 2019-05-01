@@ -19,38 +19,30 @@
  */
 #include "StartMenuRenderer.h"
 
-#include <gf/VectorOps.h>
+#include <gf/Id.h>
 
-#include "Menu.h"
+#include "ui/Common.h"
 
 using namespace gf::literals;
 
 namespace akgr {
 
-  namespace {
-
-//     constexpr gf::Vector2f StartMenuPosition(0.002f, 0.002f);
-//
-//     constexpr float StartMenuCharacterSize = 0.03f;
-//
-//     constexpr gf::Vector2f StartMenuItemPosition(0.03f, 0.0f); // first, relative to menu position
-//     constexpr gf::Vector2f StartMenuItemSize(0.25f, 0.04f);
-//     constexpr float StartMenuItemSpacing = 0.007f;
-//
-//     constexpr gf::Vector2f StartMenuSize(StartMenuItemPosition.x + StartMenuItemSize.x, 3 * StartMenuItemSize.y + 4 * StartMenuItemSpacing);
-//
-//     constexpr gf::Vector2f StartMenuArrowPosition(0.015f, StartMenuItemSize.y / 2); // first, relative to menu position
-//     constexpr float StartMenuArrowGap = StartMenuItemSpacing + StartMenuItemSize.y;
-
-  }
-
-  StartMenuRenderer::StartMenuRenderer(const UIData& data, const OpeningScenery& scenery, const Display& display)
+  StartMenuRenderer::StartMenuRenderer(const UIData& data, const OpeningScenery& scenery, ui::Theme& theme)
   : gf::Entity(10)
   , m_data(data)
   , m_scenery(scenery)
-  , m_display(display)
+  , m_theme(theme)
+  , m_frame(nullptr)
   {
+    auto menu = m_frame.add<ui::MenuWidget>(m_scenery.menu.index);
 
+    for (gf::Id id : { "MenuStart"_id, "MenuLoad"_id, "MenuOptions"_id, "MenuQuit"_id }) {
+      auto label = menu->add<ui::LabelWidget>(m_data.getUIMessage(id));
+      label->setSize(ui::Common::DefaultCaptionSize);
+    }
+
+    m_frame.setPosition(ui::Common::Position);
+    m_frame.computeLayout();
   }
 
   void StartMenuRenderer::render(gf::RenderTarget& target, const gf::RenderStates& states) {
@@ -58,13 +50,7 @@ namespace akgr {
       return;
     }
 
-    m_display.renderBox(target, states, { Menu::Position, Menu::TotalSize(4) });
-    m_display.renderString(target, states, { Menu::ItemPosition(0), Menu::ItemSize }, Menu::CharacterSize, m_data.getUIMessage("MenuStart"_id));
-    m_display.renderString(target, states, { Menu::ItemPosition(1), Menu::ItemSize }, Menu::CharacterSize, m_data.getUIMessage("MenuLoad"_id));
-    m_display.renderString(target, states, { Menu::ItemPosition(2), Menu::ItemSize }, Menu::CharacterSize, m_data.getUIMessage("MenuOptions"_id));
-    m_display.renderString(target, states, { Menu::ItemPosition(3), Menu::ItemSize }, Menu::CharacterSize, m_data.getUIMessage("MenuQuit"_id));
-
-    m_display.renderArrow(target, states, Menu::ArrowPosition(m_scenery.menu.choice));
+    m_frame.render(target, states, m_theme);
   }
 
 }

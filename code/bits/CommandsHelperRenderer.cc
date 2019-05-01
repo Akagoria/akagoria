@@ -144,7 +144,7 @@ namespace akgr {
 
     gf::Sprite sprite(m_texture);
 
-    if (m_root.options.data.input == OptionsData::Input::Gamepad) {
+    if (m_root.options.data.getInput() == OptionsData::Input::Gamepad) {
       sprite.setTextureRect(gf::RectF({ 0.500f, 0.0f }, { 0.125f, 0.125f }));
     } else {
       sprite.setTextureRect(gf::RectF({ 0.375f, 0.0f }, { 0.125f, 0.125f }));
@@ -212,7 +212,7 @@ namespace akgr {
 
     switch (m_root.helper.status) {
       case HelperStatus::Continue:
-        switch (m_root.options.data.input) {
+        switch (m_root.options.data.getInput()) {
           case OptionsData::Input::Gamepad:
             drawButton("A");
             drawText(m_data.getUIMessage("HelperContinue"_id));
@@ -226,7 +226,7 @@ namespace akgr {
         break; // HelperStatus::Continue
 
       case HelperStatus::Inventory:
-        switch (m_root.options.data.input) {
+        switch (m_root.options.data.getInput()) {
           case OptionsData::Input::Gamepad:
             drawButton("A");
             drawText(m_data.getUIMessage("HelperSelect"_id));
@@ -247,7 +247,7 @@ namespace akgr {
         break; // HelperStatus::Inventory
 
       case HelperStatus::Menu:
-        switch (m_root.options.data.input) {
+        switch (m_root.options.data.getInput()) {
           case OptionsData::Input::Gamepad:
             drawButton("A");
             drawText(m_data.getUIMessage("HelperSelect"_id));
@@ -261,7 +261,7 @@ namespace akgr {
         break; // HelperStatus::Menu
 
       case HelperStatus::Talk:
-        switch (m_root.options.data.input) {
+        switch (m_root.options.data.getInput()) {
           case OptionsData::Input::Gamepad:
             drawButton("A");
             drawText(m_data.getUIMessage("HelperTalk"_id));
@@ -275,7 +275,7 @@ namespace akgr {
         break; // HelperStatus::Talk
 
       case HelperStatus::Pick:
-        switch (m_root.options.data.input) {
+        switch (m_root.options.data.getInput()) {
           case OptionsData::Input::Gamepad:
             drawButton("A");
             drawText(m_data.getUIMessage("HelperPick"_id));
@@ -289,7 +289,7 @@ namespace akgr {
         break; // HelperStatus::Pick
 
       case HelperStatus::Use:
-        switch (m_root.options.data.input) {
+        switch (m_root.options.data.getInput()) {
           case OptionsData::Input::Gamepad:
             drawButton("A");
             drawText(m_data.getUIMessage("HelperUse"_id));

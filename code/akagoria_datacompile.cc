@@ -253,16 +253,16 @@ namespace {
       textureLayer.name = tileLayer.name;
       textureLayer.tilesetId = InvalidTilesetId;
 
-      gf::Array2D<int16_t, uint32_t> tiles(map.mapSize, -1);
+      gf::Array2D<int16_t, int32_t> tiles(map.mapSize, -1);
 
-      unsigned k = 0;
+      int k = 0;
 
       for (auto& cell : tileLayer.cells) {
-        unsigned i = k % map.mapSize.width;
-        unsigned j = k / map.mapSize.width;
+        int i = k % map.mapSize.width;
+        int j = k / map.mapSize.width;
         assert(j < map.mapSize.height);
 
-        unsigned gid = cell.gid;
+        int gid = cell.gid;
 
         if (gid != 0) {
           auto tileset = map.getTileSetFromGID(gid);

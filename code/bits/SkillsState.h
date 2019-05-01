@@ -109,4 +109,4 @@ namespace akgr {
 
 }
 
-#endif // AKGR_ATTRIBUTE_STATE_H
+#endif // AKGR_SKILLS_STATE_H

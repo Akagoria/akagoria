@@ -26,18 +26,22 @@
 #include "OpeningScenery.h"
 #include "UIData.h"
 
+#include "ui/Theme.h"
+#include "ui/Widgets.h"
+
 namespace akgr {
 
   class StartMenuRenderer : public gf::Entity {
   public:
-    StartMenuRenderer(const UIData& data, const OpeningScenery& scenery, const Display& display);
+    StartMenuRenderer(const UIData& data, const OpeningScenery& scenery, ui::Theme& theme);
 
     virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
 
   private:
     const UIData& m_data;
     const OpeningScenery& m_scenery;
-    const Display& m_display;
+    ui::Theme& m_theme;
+    ui::FrameWidget m_frame;
   };
 
 }

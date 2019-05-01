@@ -70,6 +70,8 @@
 #include "bits/WorldScenery.h"
 #include "bits/WorldState.h"
 
+#include "bits/ui/Theme.h"
+
 #include "config.h"
 
 namespace {
@@ -138,7 +140,7 @@ int main() {
   window.setVerticalSyncEnabled(true);
   window.setFramerateLimit(59);
 
-  adjustWindow(window, rootScenery.options.data.display);
+  adjustWindow(window, rootScenery.options.data.getDisplay());
 
   gf::RenderWindow renderer(window);
 
@@ -148,6 +150,7 @@ int main() {
   resources.addSearchDir(AKAGORIA_DATADIR);
 
   akgr::Display display(resources);
+  akgr::ui::Theme theme(resources);
 
   // views
 
@@ -215,13 +218,13 @@ int main() {
   akgr::LogoRenderer logo(openingScenery, uiData, resources);
   openingEntities.addEntity(logo);
 
-  akgr::StartMenuRenderer startMenu(uiData, openingScenery, display);
+  akgr::StartMenuRenderer startMenu(uiData, openingScenery, theme);
   openingEntities.addEntity(startMenu);
 
-  akgr::SlotSelectorRenderer openingSlotSelector(uiData, rootScenery, display);
+  akgr::SlotSelectorRenderer openingSlotSelector(uiData, rootScenery, theme);
   openingEntities.addEntity(openingSlotSelector);
 
-  akgr::OptionsRenderer openingOptions(uiData, rootScenery, display);
+  akgr::OptionsRenderer openingOptions(uiData, rootScenery, theme);
   openingEntities.addEntity(openingOptions);
 
   akgr::CommandsHelperRenderer openingCommandsHelper(uiData, rootScenery, resources);
@@ -247,12 +250,13 @@ int main() {
     if (choice == AdventureChoice::Saved) {
       akgr::Slot& slot = rootScenery.selector.getSlot();
       assert(slot.active);
-      gf::Log::debug("Loading from slot %i\n", rootScenery.selector.choice);
+      gf::Log::debug("Loading from slot %i\n", rootScenery.selector.index.choice);
       worldState.loadFromFile(slot.path);
     }
 
     worldState.bind(worldData);
     worldScenery.bind(worldData, resources, random);
+    script.bind();
     script.initialize();
 
     if (choice == AdventureChoice::New) {
@@ -396,7 +400,7 @@ int main() {
   akgr::AttributesRenderer attributes(worldState, resources);
   hudEntities.addEntity(attributes);
 
-  akgr::SlotSelectorRenderer worldSlotSelector(uiData, rootScenery, display);
+  akgr::SlotSelectorRenderer worldSlotSelector(uiData, rootScenery, theme);
   hudEntities.addEntity(worldSlotSelector);
 
   akgr::MiniMapRenderer miniMap(worldState);
@@ -411,7 +415,7 @@ int main() {
   akgr::GameMenuRenderer gameMenu(uiData, worldState, worldScenery, display);
   hudEntities.addEntity(gameMenu);
 
-  akgr::OptionsRenderer gameOptions(uiData, rootScenery, display);
+  akgr::OptionsRenderer gameOptions(uiData, rootScenery, theme);
   hudEntities.addEntity(gameOptions);
 
   akgr::InventoryRenderer inventory(uiData, worldData, worldState, worldScenery, display, resources);
@@ -462,7 +466,7 @@ int main() {
     }
 
     if (quickSaveAction.isActive()) {
-      akgr::Slot& slot = rootScenery.selector.quick;
+      akgr::Slot& slot = rootScenery.selector.games[akgr::SlotSelectorScenery::SlotCount - 1];
       worldState.saveToFile(slot.path);
       slot.active = true;
 
@@ -470,6 +474,8 @@ int main() {
       slot.save();
 
       gf::Log::debug("Quick save\n");
+
+      rootScenery.selector.load();
     }
 
     worldDriver.processCommands();

@@ -19,66 +19,48 @@
  */
 #include "OptionsRenderer.h"
 
-#include <boost/locale.hpp>
-
+#include <gf/ArrayRef.h>
 #include <gf/Id.h>
-#include <gf/VectorOps.h>
 
-#include "Menu.h"
+#include "ui/Common.h"
 
 using namespace gf::literals;
 
 namespace akgr {
 
-  namespace {
-    constexpr gf::Vector2f OptionSize = { Menu::ItemSize.x * 2, Menu::ItemSize.y };
-
-    constexpr gf::Vector2f OptionsTotalSize(int optionCount) {
-      return gf::Vector2f(Menu::Position.x + Menu::ItemRelPosition.x + OptionSize.x + Menu::ItemSpacing, optionCount * OptionSize.y + (optionCount + 1) * Menu::ItemSpacing);
-    }
-
-    constexpr gf::Vector2f ChoicePosition(int choice) {
-      gf::Vector2f position = Menu::ItemPosition(choice);
-      position.x += Menu::ItemSize.x;
-      return position;
-    }
-
-    std::string getInputChoice(OptionsData::Input choice, const UIData& data) {
-      switch (choice) {
-        case OptionsData::Input::Keyboard:
-          return data.getUIMessage("MenuOptionsInputKeyboard"_id);
-        case OptionsData::Input::Gamepad:
-          return data.getUIMessage("MenuOptionsInputGamepad"_id);
-      }
-
-      return "???";
-    }
-
-    std::string getDisplayChoice(OptionsData::Display choice, const UIData& data) {
-      switch (choice) {
-        case OptionsData::Display::Fullscreen:
-          return data.getUIMessage("MenuOptionsDisplayFullscreen"_id);
-        case OptionsData::Display::Window_960x540:
-          return data.getUIMessage("MenuOptionsDisplayWindow960x540"_id);
-        case OptionsData::Display::Window_1024x576:
-          return data.getUIMessage("MenuOptionsDisplayWindow1024x576"_id);
-        case OptionsData::Display::Window_1152x648:
-          return data.getUIMessage("MenuOptionsDisplayWindow1152x648"_id);
-        case OptionsData::Display::Window_1280x720:
-          return data.getUIMessage("MenuOptionsDisplayWindow1280x720"_id);
-      }
-
-      return "???";
-    }
-
-  }
-
-  OptionsRenderer::OptionsRenderer(const UIData& data, const RootScenery& scenery, const Display& display)
+  OptionsRenderer::OptionsRenderer(const UIData& data, const RootScenery& scenery, ui::Theme& theme)
   : m_data(data)
   , m_scenery(scenery)
-  , m_display(display)
+  , m_theme(theme)
+  , m_frame(nullptr)
   {
 
+    auto addOption = [this](ui::ContainerWidget* parent, const ui::WidgetIndexScenery& index, gf::Id caption, gf::ArrayRef<gf::Id> choices) {
+      auto line = parent->add<ui::BoxWidget>(ui::Aspect::Horizontal);
+      line->add<ui::LabelWidget>(m_data.getUIMessage(caption))->setSize(ui::Common::DefaultCaptionSize);
+      auto choice = line->add<ui::ChoiceWidget>(index);
+
+      for (gf::Id id : choices) {
+        auto text = choice->add<ui::TextWidget>(m_data.getUIMessage(id), ui::Common::DefaultCharacterSize, gf::Alignment::Center);
+        text->setSize(ui::Common::DefaultCaptionSize);
+      }
+    };
+
+    auto menu = m_frame.add<ui::MenuWidget>(m_scenery.options.index);
+
+    addOption(menu, m_scenery.options.data.input, "MenuOptionsInput"_id,
+        { "MenuOptionsInputKeyboard"_id, "MenuOptionsInputGamepad"_id }
+    );
+
+    addOption(menu, m_scenery.options.data.display, "MenuOptionsDisplay"_id,
+        { "MenuOptionsDisplayFullscreen"_id,  "MenuOptionsDisplayWindow960x540"_id, "MenuOptionsDisplayWindow1024x576"_id, "MenuOptionsDisplayWindow1152x648"_id, "MenuOptionsDisplayWindow1280x720"_id }
+    );
+
+    auto label = menu->add<ui::LabelWidget>(m_data.getUIMessage("MenuBack"_id));
+    label->setSize(ui::Common::DefaultCaptionSize);
+
+    m_frame.setPosition(ui::Common::Position);
+    m_frame.computeLayout();
   }
 
   void OptionsRenderer::render(gf::RenderTarget& target, const gf::RenderStates& states) {
@@ -86,14 +68,7 @@ namespace akgr {
       return;
     }
 
-    m_display.renderBox(target, states, { Menu::Position, OptionsTotalSize(3) });
-    m_display.renderString(target, states, { Menu::ItemPosition(0), Menu::ItemSize }, Menu::CharacterSize, m_data.getUIMessage("MenuOptionsInput"_id));
-    m_display.renderChoice(target, states, { ChoicePosition(0), Menu::ItemSize }, Menu::CharacterSize, getInputChoice(m_scenery.options.data.input, m_data));
-    m_display.renderString(target, states, { Menu::ItemPosition(1), Menu::ItemSize }, Menu::CharacterSize, m_data.getUIMessage("MenuOptionsDisplay"_id));
-    m_display.renderChoice(target, states, { ChoicePosition(1), Menu::ItemSize }, Menu::CharacterSize, getDisplayChoice(m_scenery.options.data.display, m_data));
-    m_display.renderString(target, states, { Menu::ItemPosition(2), Menu::ItemSize }, Menu::CharacterSize, m_data.getUIMessage("MenuBack"_id));
-
-    m_display.renderArrow(target, states, Menu::ArrowPosition(m_scenery.options.choice));
+    m_frame.render(target, states, m_theme);
   }
 
 }

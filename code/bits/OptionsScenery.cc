@@ -30,74 +30,68 @@
 #include "Version.h"
 
 namespace akgr {
-  OptionsData::Input OptionsData::next(OptionsData::Input input) {
-    switch (input) {
-      case Input::Keyboard:
+  /*
+   * OptionsData
+   */
+
+  OptionsData::Input OptionsData::getInput() const {
+    switch (input.choice) {
+      case 0:
+        return Input::Keyboard;
+      case 1:
         return Input::Gamepad;
-      case Input::Gamepad:
+      default:
+        assert(false);
         return Input::Keyboard;
     }
-
-    assert(false);
-    return Input::Keyboard;
   }
 
-  OptionsData::Input OptionsData::prev(OptionsData::Input input) {
-    switch (input) {
-      case Input::Keyboard:
-        return Input::Gamepad;
-      case Input::Gamepad:
-        return Input::Keyboard;
-    }
-
-    assert(false);
-    return Input::Keyboard;
-  }
-
-
-  OptionsData::Display OptionsData::next(OptionsData::Display display) {
-    switch (display) {
-      case Display::Fullscreen:
+  OptionsData::Display OptionsData::getDisplay() const {
+    switch (display.choice) {
+      case 0:
+        return Display::Fullscreen;
+      case 1:
         return Display::Window_960x540;
-      case Display::Window_960x540:
+      case 2:
         return Display::Window_1024x576;
-      case Display::Window_1024x576:
+      case 3:
         return Display::Window_1152x648;
-      case Display::Window_1152x648:
+      case 4:
         return Display::Window_1280x720;
-      case Display::Window_1280x720:
+      default:
+        assert(false);
         return Display::Fullscreen;
     }
-
-    assert(false);
-    return Display::Fullscreen;
-  }
-
-  OptionsData::Display OptionsData::prev(OptionsData::Display display) {
-    switch (display) {
-      case Display::Fullscreen:
-        return Display::Window_1280x720;
-      case Display::Window_960x540:
-        return Display::Fullscreen;
-      case Display::Window_1024x576:
-        return Display::Window_960x540;
-      case Display::Window_1152x648:
-        return Display::Window_1024x576;
-      case Display::Window_1280x720:
-        return Display::Window_1152x648;
-    }
-
-    assert(false);
-    return Display::Fullscreen;
   }
 
   /*
    * OptionsScenery
    */
 
+  namespace {
+
+    gf::Path getOptionsPath() {
+      return gf::Paths::getPrefPath("akagoria", "kalista") / "options.dat";
+    }
+
+  }
+
+  OptionsScenery::Choice OptionsScenery::getChoice() const {
+    switch (index.choice) {
+      case 0:
+        return Choice::Input;
+      case 1:
+        return Choice::Display;
+      case 2:
+        return Choice::Back;
+      default:
+        assert(false);
+        return Choice::Back;
+    }
+  }
+
   void OptionsScenery::load() {
-    gf::Path saveDirectory = gf::Paths::getPrefPath("akagoria", "kalista");
-    gf::Path optionsPath = saveDirectory / "options.dat";
+    gf::Path optionsPath = getOptionsPath();
 
     if (boost::filesystem::exists(optionsPath)) {
       gf::FileInputStream file(optionsPath);
@@ -107,8 +101,7 @@ namespace akgr {
   }
 
   void OptionsScenery::save() {
-    gf::Path saveDirectory = gf::Paths::getPrefPath("akagoria", "kalista");
-    gf::Path optionsPath = saveDirectory / "options.dat";
+    gf::Path optionsPath = getOptionsPath();
 
     gf::FileOutputStream file(optionsPath);
     gf::Serializer ar(file);

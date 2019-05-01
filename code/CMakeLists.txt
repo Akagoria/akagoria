@@ -58,12 +58,18 @@ add_executable(akagoria
   bits/SlotSelectorRenderer.cc
   bits/SlotSelectorScenery.cc
   bits/StartMenuRenderer.cc
+  bits/StartMenuScenery.cc
   bits/UIData.cc
   bits/WorldData.cc
   bits/WorldDriver.cc
   bits/WorldProcessor.cc
   bits/WorldScenery.cc
   bits/WorldState.cc
+
+  bits/ui/Common.cc
+  bits/ui/Theme.cc
+  bits/ui/Widget.cc
+  bits/ui/Widgets.cc
 )
 
 target_include_directories(akagoria

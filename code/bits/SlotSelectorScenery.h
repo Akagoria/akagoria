@@ -26,8 +26,9 @@
 #include <gf/Path.h>
 #include <gf/Time.h>
 
-namespace akgr {
+#include "ui/Scenery.h"
 
+namespace akgr {
 
   struct SlotMeta {
     std::string area;
@@ -41,7 +42,7 @@ namespace akgr {
   struct Slot {
     bool active = false;
     gf::Path path;
-    std::time_t time;
+    std::time_t time = 0;
     SlotMeta meta;
 
     void loadFromFile(const gf::Path& path);
@@ -49,20 +50,16 @@ namespace akgr {
   };
 
   struct SlotSelectorScenery {
-    static constexpr int SlotCount = 3;
+    static constexpr int SlotCount = 5;
 
     void load();
     Slot& getSlot();
 
-    void computeNextChoice();
-    void computePrevChoice();
+    Slot games[SlotCount];
 
-    int choice = 0;
-    Slot manual[SlotCount];
-    Slot quick;
+    ui::WidgetIndexScenery index = { 0, SlotCount + 1 };
 
-    static constexpr int Back = 4;
-    static constexpr int ItemCount = 5;
+    static constexpr int Back = 5;
   };
 
 }
