@@ -21,28 +21,26 @@
 
 #include <boost/locale.hpp>
 
-#include <gf/Log.h>
+#include "ui/Widgets.h"
 
 namespace akgr {
 
   namespace {
 
     constexpr float SpeakerCharacterSize = 0.03f;
-    constexpr gf::Vector2f SpeakerPosition(0.19f, 0.75f);
+    constexpr gf::Vector2f SpeakerPosition(0.19f, 0.74f);
     constexpr gf::Vector2f SpeakerSize(0.2f, SpeakerCharacterSize * 1.2f);
 
     constexpr float WordsCharacterSize = 0.035f;
     constexpr gf::Vector2f WordsPosition(0.17f, 0.8f);
     constexpr gf::Vector2f WordsSize(2.0f * (0.5f - WordsPosition.x), WordsCharacterSize * 1.2f * 3);
 
-    constexpr float DialogPadding = 0.01f;
-
   } // anonymous namespace
 
-  DialogRenderer::DialogRenderer(const WorldState& state, const Display& display)
+  DialogRenderer::DialogRenderer(const WorldState& state, ui::Theme& theme)
   : gf::Entity(50)
   , m_state(state)
-  , m_display(display)
+  , m_theme(theme)
   {
 
   }
@@ -58,8 +56,18 @@ namespace akgr {
     assert(dialog.currentLine < dialog.ref.data->content.size());
     auto& line = dialog.ref.data->content[dialog.currentLine];
 
-    m_display.renderTextBox(target, states, { SpeakerPosition, SpeakerSize }, SpeakerCharacterSize, boost::locale::gettext(line.speaker.c_str()), DialogPadding, gf::Alignment::Left);
-    m_display.renderTextBox(target, states, { WordsPosition, WordsSize }, WordsCharacterSize, boost::locale::gettext(line.words.c_str()), DialogPadding, gf::Alignment::Left);
+    auto renderTextBox = [&](const std::string& string, float characterSize, gf::Vector2f position, gf::Vector2f size) {
+      ui::FrameWidget frame(nullptr);
+      auto text = frame.add<ui::TextWidget>(boost::locale::gettext(string.c_str()), characterSize, gf::Alignment::Left);
+      text->setSize(size);
+      frame.setPosition(position);
+      frame.setMargin({ 0.01f, 0.01f });
+      frame.computeLayout();
+      frame.render(target, states, m_theme);
+    };
+
+    renderTextBox(line.speaker, SpeakerCharacterSize, SpeakerPosition, SpeakerSize);
+    renderTextBox(line.words, WordsCharacterSize, WordsPosition, WordsSize);
   }
 
 }

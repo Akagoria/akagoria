@@ -25,17 +25,19 @@
 #include "Display.h"
 #include "WorldState.h"
 
+#include "ui/Theme.h"
+
 namespace akgr {
 
   class DialogRenderer : public gf::Entity {
   public:
-    DialogRenderer(const WorldState& state, const Display& display);
+    DialogRenderer(const WorldState& state, ui::Theme& theme);
 
     virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
 
   private:
     const WorldState& m_state;
-    const Display& m_display;
+    ui::Theme& m_theme;
   };
 
 }

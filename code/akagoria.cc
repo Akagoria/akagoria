@@ -394,7 +394,7 @@ int main() {
   akgr::NotificationRenderer notifications(worldState, theme);
   hudEntities.addEntity(notifications);
 
-  akgr::DialogRenderer dialog(worldState, display);
+  akgr::DialogRenderer dialog(worldState, theme);
   hudEntities.addEntity(dialog);
 
   akgr::AttributesRenderer attributes(worldState, resources);
