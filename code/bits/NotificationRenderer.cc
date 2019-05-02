@@ -21,23 +21,22 @@
 
 #include <boost/locale.hpp>
 
-#include <gf/Log.h>
+#include "ui/Common.h"
+#include "ui/Widgets.h"
 
 namespace akgr {
 
   namespace {
 
-    constexpr gf::Vector2f NotificationPosition(0.3f, 0.1f);
-    constexpr gf::Vector2f NotificationSize(2.0f * (0.5f - NotificationPosition.x), 0.06f);
-    constexpr float NotificationCharacterSize = 0.03f;
-    constexpr float NotificationPadding = 0.01f;
+    constexpr gf::Vector2f NotificationSize(0.4f, 1.3f * ui::Common::DefaultCharacterSize);
+    constexpr gf::Vector2f NotificationPosition((1.0f - NotificationSize.x) / 2.0f, 0.1f);
 
   } // anonymous namespace
 
-  NotificationRenderer::NotificationRenderer(const WorldState& state, const Display& display)
+  NotificationRenderer::NotificationRenderer(const WorldState& state, ui::Theme& theme)
   : gf::Entity(50)
   , m_state(state)
-  , m_display(display)
+  , m_theme(theme)
   {
 
   }
@@ -48,7 +47,14 @@ namespace akgr {
     }
 
     auto& notification = m_state.notifications.front();
-    m_display.renderTextBox(target, states, { NotificationPosition, NotificationSize }, NotificationCharacterSize, boost::locale::gettext(notification.ref.data->message.c_str()), NotificationPadding, gf::Alignment::Center);
+
+    ui::FrameWidget frame(nullptr);
+    auto text = frame.add<ui::TextWidget>(boost::locale::gettext(notification.ref.data->message.c_str()), ui::Common::DefaultCharacterSize, gf::Alignment::Center);
+    text->setSize(NotificationSize);
+    frame.setPosition(NotificationPosition);
+    frame.setMargin({ 0.01f, 0.01f });
+    frame.computeLayout();
+    frame.render(target, states, m_theme);
   }
 
 }
