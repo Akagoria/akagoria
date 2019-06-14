@@ -1,0 +1,50 @@
+{
+  "SmallFireCone": {
+    "type": "elemantal",
+    "ATK": 10,
+    "REQ": 30,
+    "MP": 3,
+    "cast": 2000,
+    "range": 10,
+    "angle": 15,
+    "cooldown": 1000
+  },
+
+  "Barrier": {
+    "type": "protection",
+    "REQ": 30,
+    "MP": 3,
+    "cast": 2000,
+    "effect": {
+      "action": "increase",
+      "object": "DEF",
+      "amount": 10,
+      "duration": 30
+    }
+  },
+
+  "Disease": {
+    "type": "alteration",
+    "REQ": 30,
+    "MP": 3,
+    "cast": 2000,
+    "effect": {
+      "action": "shrink",
+      "object": "HP",
+      "amount": 1,
+      "duration": 30
+    }
+  },
+
+  "Cure": {
+    "type": "enhancement",
+    "REQ": 30,
+    "MP": 3,
+    "cast": 2000,
+    "effect": {
+      "action": "restore",
+      "object": "HP",
+    }
+  }
+
+}

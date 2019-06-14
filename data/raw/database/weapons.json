@@ -1,0 +1,32 @@
+{
+  "SmallSword": {
+    "type": "melee",
+    "ATK": 10,
+    "REQ": 30,
+    "VP": 3,
+    "range": 1,
+    "angle": 90,
+    "cooldown": 2000
+  },
+
+  "SmallBow": {
+    "type": "ranged",
+    "ATK": 10,
+    "REQ": 30,
+    "VP": 3,
+    "range": 10,
+    "angle": 15,
+    "cooldown": 2000
+  },
+
+  "Grenade": {
+    "type": "explosive",
+    "ATK": 10,
+    "REQ": 30,
+    "VP": 3,
+    "range": 10,
+    "angle": 5,
+    "cooldown": 1000
+  }
+
+}
