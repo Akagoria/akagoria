@@ -28,7 +28,7 @@ namespace akgr {
   namespace {
 
     constexpr float SpeakerCharacterSize = 0.03f;
-    constexpr gf::Vector2f SpeakerPosition(0.19f, 0.74f);
+    constexpr gf::Vector2f SpeakerPosition(0.19f, 0.745f);
     constexpr gf::Vector2f SpeakerSize(0.2f, SpeakerCharacterSize * 1.2f);
 
     constexpr float WordsCharacterSize = 0.035f;

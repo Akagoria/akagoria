@@ -468,7 +468,7 @@ namespace akgr {
       text.setAnchor(gf::Anchor::TopLeft);
 
       gf::RectF bounds = text.getLocalBounds();
-      text.setPosition(position + gf::diry((size.height - bounds.height) / 2));
+      text.setPosition(position);
       target.draw(text, states);
 
       if (bounds.width > size.width || bounds.height > size.height) {
