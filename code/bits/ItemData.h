@@ -52,6 +52,18 @@ namespace akgr {
     return ar | data.resource | data.index | data.scale;
   }
 
+  enum class ItemType {
+    MeleeWeapon,
+    Armor,
+    RangedWeapon,
+    Explosive,
+    Potion,
+    Recipes,
+    Ingredient,
+    Manuscript, // books and parchments
+    Rare, // quest objects, rare objects
+  };
+
   struct ItemData {
     std::string name;
     std::string description;

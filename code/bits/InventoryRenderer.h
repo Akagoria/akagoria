@@ -28,11 +28,41 @@
 #include "WorldState.h"
 #include "UIData.h"
 
+#include "ui/Scenery.h"
+#include "ui/Theme.h"
+#include "ui/Widgets.h"
+
 namespace akgr {
+
+  class InventoryModel : public ui::ListModel {
+  public:
+    InventoryModel(const ui::WidgetListScenery& scenery, const std::vector<InventoryItem>& items);
+
+    InventoryModel(const InventoryModel&) = delete;
+    InventoryModel(InventoryModel&&) = default;
+
+    InventoryModel& operator=(const InventoryModel&) = delete;
+    InventoryModel& operator=(InventoryModel&&) = default;
+
+    ~InventoryModel();
+
+    virtual void update(ui::Widget* parent) override;
+    virtual std::size_t getWidgetCount() override;
+    virtual ui::Widget* getWidget(std::size_t i) override;
+
+  private:
+    void clear();
+
+  private:
+    const ui::WidgetListScenery& m_scenery;
+    const std::vector<InventoryItem>& m_items;
+    std::vector<ui::Widget*> m_widgets;
+  };
+
 
   class InventoryRenderer : public gf::Entity {
   public:
-    InventoryRenderer(const UIData& ui, const WorldData& data, const WorldState& state, const WorldScenery& scenery, const Display& display, gf::ResourceManager& resources);
+    InventoryRenderer(const UIData& ui, const WorldData& data, const WorldState& state, const WorldScenery& scenery, const Display& display, ui::Theme& theme, gf::ResourceManager& resources);
 
     virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
 
@@ -42,7 +72,10 @@ namespace akgr {
     const WorldState& m_state;
     const WorldScenery& m_scenery;
     const Display& m_display;
+    ui::Theme& m_theme;
     gf::ResourceManager& m_resources;
+    InventoryModel m_model;
+    ui::FrameWidget m_frame;
   };
 
 }

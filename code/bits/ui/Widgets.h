@@ -5,6 +5,7 @@
 
 #include <gf/Alignment.h>
 
+#include "Models.h"
 #include "Scenery.h"
 #include "Widget.h"
 
@@ -91,9 +92,9 @@ namespace akgr {
       float m_spacing;
     };
 
-    class IndexedStackWidget : public ContainerWidget {
+    class StackWidget : public ContainerWidget {
     public:
-      IndexedStackWidget(Widget* parent, const WidgetIndexScenery& scenery);
+      StackWidget(Widget* parent);
 
       void setPositioning(Positioning positioning) noexcept { m_positioning = positioning; }
       Positioning getPositioning() const noexcept { return m_positioning; }
@@ -101,16 +102,44 @@ namespace akgr {
       void setMargin(gf::Vector2f margin) noexcept { m_margin = margin; }
       gf::Vector2f getMargin() const noexcept { return m_margin; }
 
-      virtual void render(gf::RenderTarget& target, const gf::RenderStates& states, Theme& theme) override;
+    private:
+      virtual void doLayoutRequest() override;
+      virtual void doLayoutAllocation() override;
+
+    private:
+      Positioning m_positioning;
+      gf::Vector2f m_margin;
+    };
+
+    class ListWidget : public Widget {
+    public:
+      ListWidget(Widget* parent, ListModel& model);
+
+      void setPositioning(Positioning positioning) noexcept { m_positioning = positioning; }
+      Positioning getPositioning() const noexcept { return m_positioning; }
+
+      void setMargin(gf::Vector2f margin) noexcept { m_margin = margin; }
+      gf::Vector2f getMargin() const noexcept { return m_margin; }
+
+      void setOffset(gf::Vector2f offset) noexcept { m_offset = offset; }
+      gf::Vector2f getOffset() const noexcept { return m_offset; }
+
+      void setSpacing(float spacing) noexcept { m_spacing = spacing; }
+      float getSpacing() const noexcept { return m_spacing; }
+
+    protected:
+      ListModel& getModel() { return m_model; }
 
     private:
       virtual void doLayoutRequest() override;
       virtual void doLayoutAllocation() override;
 
     private:
-      const WidgetIndexScenery& m_scenery;
+      ListModel& m_model;
       Positioning m_positioning;
       gf::Vector2f m_margin;
+      gf::Vector2f m_offset;
+      float m_spacing;
     };
 
     /*
@@ -133,12 +162,24 @@ namespace akgr {
       const WidgetIndexScenery& m_scenery;
     };
 
-    class ChoiceWidget : public IndexedStackWidget {
+    class ChoiceWidget : public StackWidget {
     public:
       ChoiceWidget(Widget* parent, const WidgetIndexScenery& scenery);
 
       virtual void render(gf::RenderTarget& target, const gf::RenderStates& states, Theme& theme) override;
+    private:
+      const WidgetIndexScenery& m_scenery;
     };
+
+    class CatalogueWidget : public ListWidget {
+    public:
+      CatalogueWidget(Widget* parent, ListModel& model, const WidgetListScenery& scenery);
+
+      virtual void render(gf::RenderTarget& target, const gf::RenderStates& states, Theme& theme) override;
+    private:
+      const WidgetListScenery& m_scenery;
+    };
+
 
     class LabelWidget : public Widget {
     public:
@@ -164,6 +205,22 @@ namespace akgr {
       gf::Alignment m_alignment;
     };
 
+    class DoubleTextWidget : public Widget {
+    public:
+      DoubleTextWidget(Widget* parent, std::string leftCaption, std::string rightCaption, float characterSize = 0.03f);
+
+      void setLeftCaption(std::string caption) { m_leftCaption = std::move(caption); }
+      std::string getLeftCaption() const { return m_leftCaption; }
+
+      void setRightCaption(std::string caption) { m_rightCaption = std::move(caption); }
+      std::string getRightCaption() const { return m_rightCaption; }
+
+      virtual void render(gf::RenderTarget& target, const gf::RenderStates& states, Theme& theme) override;
+    private:
+      std::string m_leftCaption;
+      std::string m_rightCaption;
+      float m_characterSize;
+    };
 
   }
 }

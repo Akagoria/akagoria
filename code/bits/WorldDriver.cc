@@ -229,7 +229,6 @@ namespace akgr {
           switch (m_scenery.menu.getChoice()) {
             case GameMenuScenery::Choice::Inventory:
               m_state.operation = WorldOperation::Inventory;
-              m_scenery.inventory.size = m_state.hero.inventory.items.size();
               break;
 
             case GameMenuScenery::Choice::Quests:
@@ -294,18 +293,18 @@ namespace akgr {
         m_root.helper.status = HelperStatus::Inventory;
 
         if (m_commands.menuDown.isActive()) {
-          m_scenery.inventory.computeNextItem();
+          m_scenery.inventory.list.computeNextChoice(m_state.hero.inventory.items.size());
         } else if (m_commands.menuUp.isActive()) {
-          m_scenery.inventory.computePrevItem();
+          m_scenery.inventory.list.computePrevChoice(m_state.hero.inventory.items.size());
         }
 
         if (m_commands.menuPageDown.isActive()) {
-          for (std::size_t i = 0; i < InventoryScenery::Length / 2; ++i) {
-            m_scenery.inventory.computeNextItem();
+          for (std::size_t i = 0; i < m_scenery.inventory.list.length / 2; ++i) {
+            m_scenery.inventory.list.computeNextChoice(m_state.hero.inventory.items.size());
           }
         } else if (m_commands.menuPageUp.isActive()) {
-          for (std::size_t i = 0; i < InventoryScenery::Length / 2; ++i) {
-            m_scenery.inventory.computePrevItem();
+          for (std::size_t i = 0; i < m_scenery.inventory.list.length / 2; ++i) {
+            m_scenery.inventory.list.computePrevChoice(m_state.hero.inventory.items.size());
           }
         }
 

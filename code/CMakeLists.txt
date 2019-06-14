@@ -68,6 +68,7 @@ add_executable(akagoria
   bits/WorldState.cc
 
   bits/ui/Common.cc
+  bits/ui/Models.cc
   bits/ui/Theme.cc
   bits/ui/Widget.cc
   bits/ui/Widgets.cc

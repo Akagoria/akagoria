@@ -24,11 +24,92 @@
 
 #include "Menu.h"
 
+#include "ui/Widgets.h"
+#include "ui/Common.h"
+
 using namespace gf::literals;
 
 namespace akgr {
 
-  namespace {
+  InventoryModel::InventoryModel(const ui::WidgetListScenery& scenery, const std::vector<InventoryItem>& items)
+  : m_scenery(scenery)
+  , m_items(items)
+  {
+
+  }
+
+  InventoryModel::~InventoryModel() {
+    clear();
+  }
+
+  void InventoryModel::update(ui::Widget* parent) {
+    std::size_t count = m_items.size();
+
+    clear();
+    std::size_t visible = std::min(count, m_scenery.length);
+
+    if (visible == 0) {
+      return;
+    }
+
+    auto newInventoryItemWidget = [&](const InventoryItem& item) {
+      auto widget = new ui::DoubleTextWidget(parent, item.ref.data->description, std::to_string(item.count));
+      widget->setSize(ui::Common::DefaultCaptionSize);
+      return widget;
+    };
+
+    auto newDotsWidget = [&]() {
+      auto widget = new ui::LabelWidget(parent, "...");
+      widget->setSize(ui::Common::DefaultCaptionSize);
+      return widget;
+    };
+
+    if (m_scenery.start > 0) {
+      m_widgets.push_back(newDotsWidget());
+    } else {
+      m_widgets.push_back(newInventoryItemWidget(m_items.front()));
+    }
+
+    for (std::size_t i = 1; i < visible - 1; ++i) {
+      assert(m_scenery.start + i < count);
+      m_widgets.push_back(newInventoryItemWidget(m_items[m_scenery.start + i]));
+    }
+
+    if (count > m_scenery.length) {
+      if (m_scenery.start + m_scenery.length < count) {
+        m_widgets.push_back(newDotsWidget());
+      } else {
+        assert(visible == m_scenery.length);
+        m_widgets.push_back(newInventoryItemWidget(m_items.back()));
+      }
+    } else {
+      assert(visible == count);
+      m_widgets.push_back(newInventoryItemWidget(m_items.back()));
+    }
+
+    assert(m_widgets.size() == visible);
+  }
+
+  std::size_t InventoryModel::getWidgetCount() {
+    return m_widgets.size();
+  }
+
+  ui::Widget* InventoryModel::getWidget(std::size_t i) {
+    assert(i < m_widgets.size());
+    return m_widgets[i];
+  }
+
+  void InventoryModel::clear() {
+    for (auto widget : m_widgets) {
+      delete widget;
+    }
+
+    m_widgets.clear();
+  }
+
+
+
+#if 0
 
     constexpr gf::Vector2f InventoryPosition = Menu::Position;
     constexpr gf::Vector2f InventorySize = { 0.496f, 0.946f };
@@ -55,25 +136,36 @@ namespace akgr {
 
     constexpr gf::Vector2f InventoryPreviewPosition = { 0.95f, 0.03f };
     constexpr gf::Vector2f InventoryPreviewSize = { 0.05f, 0.0f };
+#endif
 
-  }
 
-  InventoryRenderer::InventoryRenderer(const UIData& ui, const WorldData& data, const WorldState& state, const WorldScenery& scenery, const Display& display, gf::ResourceManager& resources)
+  InventoryRenderer::InventoryRenderer(const UIData& ui, const WorldData& data, const WorldState& state, const WorldScenery& scenery, const Display& display, ui::Theme& theme, gf::ResourceManager& resources)
   : gf::Entity(10)
   , m_ui(ui)
   , m_data(data)
   , m_state(state)
   , m_scenery(scenery)
   , m_display(display)
+  , m_theme(theme)
   , m_resources(resources)
+  , m_model(scenery.inventory.list, state.hero.inventory.items)
+  , m_frame(nullptr)
   {
+    m_frame.add<ui::CatalogueWidget>(m_model, scenery.inventory.list);
 
+    m_frame.setPosition(ui::Common::Position);
+    m_frame.computeLayout();
   }
 
   void InventoryRenderer::render(gf::RenderTarget& target, const gf::RenderStates& states) {
     if (m_state.operation != WorldOperation::Inventory) {
       return;
     }
+
+    m_frame.computeLayout();
+    m_frame.render(target, states, m_theme);
+
+#if 0
 
     // left pane
 
@@ -166,6 +258,9 @@ namespace akgr {
 //     m_display.renderString(target, states, { Menu::ItemPosition(GameMenuScenery::Quit), Menu::ItemSize }, Menu::CharacterSize, m_data.getUIMessage("MenuQuit"_id));
 //
 //     m_display.renderArrow(target, states, Menu::ArrowPosition(m_scenery.menu.choice));
+
+#endif
+
   }
 
 }

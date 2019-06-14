@@ -418,7 +418,7 @@ int main() {
   akgr::OptionsRenderer gameOptions(uiData, rootScenery, theme);
   hudEntities.addEntity(gameOptions);
 
-  akgr::InventoryRenderer inventory(uiData, worldData, worldState, worldScenery, display, resources);
+  akgr::InventoryRenderer inventory(uiData, worldData, worldState, worldScenery, display, theme, resources);
   hudEntities.addEntity(inventory);
 
 
@@ -432,7 +432,6 @@ int main() {
   // driver
 
   akgr::WorldProcessor worldProcessor(worldData, worldState, worldScenery, rootScenery, script);
-
   akgr::WorldDriver worldDriver(worldData, worldState, worldScenery, rootScenery, commands, script);
 
   // game loop
