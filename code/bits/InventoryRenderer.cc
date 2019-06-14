@@ -108,44 +108,12 @@ namespace akgr {
   }
 
 
-
-#if 0
-
-    constexpr gf::Vector2f InventoryPosition = Menu::Position;
-    constexpr gf::Vector2f InventorySize = { 0.496f, 0.946f };
-
-    constexpr gf::Vector2f InventoryItemRelPosition = { Menu::ItemRelPosition.x, 0.005f };
-    constexpr gf::Vector2f InventoryItemSize = { 0.45f, Menu::ItemSize.y };
-
-    constexpr gf::Vector2f InventoryItemPosition(std::size_t i) {
-      gf::Vector2f pos = InventoryPosition + InventoryItemRelPosition;
-      pos.y += i * InventoryItemSize.y;
-      return pos;
-    }
-
-    constexpr gf::Vector2f InventoryArrowRelPosition = { Menu::ArrowRelPosition.x, InventoryItemSize.y / 2 };
-
-    constexpr gf::Vector2f InventoryArrowPosition(std::size_t i) {
-      gf::Vector2f pos = InventoryPosition + InventoryArrowRelPosition;
-      pos.y += i * InventoryItemSize.y;
-      return pos;
-    }
-
-    static_assert(InventoryScenery::Length == static_cast<std::size_t>(InventorySize.y / InventoryItemSize.y), "Bad inventory length");
-
-
-    constexpr gf::Vector2f InventoryPreviewPosition = { 0.95f, 0.03f };
-    constexpr gf::Vector2f InventoryPreviewSize = { 0.05f, 0.0f };
-#endif
-
-
-  InventoryRenderer::InventoryRenderer(const UIData& ui, const WorldData& data, const WorldState& state, const WorldScenery& scenery, const Display& display, ui::Theme& theme, gf::ResourceManager& resources)
+  InventoryRenderer::InventoryRenderer(const UIData& ui, const WorldData& data, const WorldState& state, const WorldScenery& scenery, ui::Theme& theme, gf::ResourceManager& resources)
   : gf::Entity(10)
   , m_ui(ui)
   , m_data(data)
   , m_state(state)
   , m_scenery(scenery)
-  , m_display(display)
   , m_theme(theme)
   , m_resources(resources)
   , m_model(scenery.inventory.list, state.hero.inventory.items)
@@ -166,48 +134,6 @@ namespace akgr {
     m_frame.render(target, states, m_theme);
 
 #if 0
-
-    // left pane
-
-    assert(m_scenery.inventory.size == m_state.hero.inventory.items.size());
-
-    m_display.renderBox(target, states, { InventoryPosition, InventorySize });
-    m_display.renderBox(target, states, { InventoryPosition + gf::dirx(0.5f), InventorySize });
-
-    if (m_scenery.inventory.size == 0) {
-      return;
-    }
-
-    auto displayItem = [&](const InventoryItem& item, std::size_t i) {
-      m_display.renderString(target, states, { InventoryItemPosition(i), InventoryItemSize }, Menu::CharacterSize, item.ref.data->description);
-      m_display.renderString(target, states, { InventoryItemPosition(i), InventoryItemSize }, Menu::CharacterSize, std::to_string(item.count), gf::Alignment::Right);
-    };
-
-    if (m_scenery.inventory.start > 0) {
-      m_display.renderString(target, states, { InventoryItemPosition(0), InventoryItemSize }, Menu::CharacterSize, "...");
-    } else {
-      displayItem(m_state.hero.inventory.items.front(), 0);
-    }
-
-    for (std::size_t i = 1; i < std::min(InventoryScenery::Length, m_scenery.inventory.size) - 1; ++i) {
-      assert(m_scenery.inventory.start + i < m_scenery.inventory.size);
-      const auto& item = m_state.hero.inventory.items[m_scenery.inventory.start + i];
-      displayItem(item, i);
-    }
-
-    if (m_scenery.inventory.size > InventoryScenery::Length) {
-      if (m_scenery.inventory.start + InventoryScenery::Length < m_scenery.inventory.size) {
-        m_display.renderString(target, states, { InventoryItemPosition(InventoryScenery::Length - 1), InventoryItemSize }, Menu::CharacterSize, "...");
-      } else {
-        displayItem(m_state.hero.inventory.items.back(), InventoryScenery::Length - 1);
-      }
-    } else {
-      displayItem(m_state.hero.inventory.items.back(), m_scenery.inventory.size - 1);
-    }
-
-    m_display.renderArrow(target, states, InventoryArrowPosition(m_scenery.inventory.current - m_scenery.inventory.start));
-
-    // right pane
 
     gf::Coordinates coords(target);
 
@@ -242,22 +168,6 @@ namespace akgr {
       sprite.setScale(previewSize / size);
       target.draw(sprite, states);
     }
-
-
-
-
-    if (m_scenery.inventory.choice == InventoryScenery::NoChoice) {
-      return;
-    }
-
-//     m_display.renderBox(target, states, { Menu::Position, Menu::TotalSize(GameMenuScenery::ItemCount) });
-//     m_display.renderString(target, states, { Menu::ItemPosition(GameMenuScenery::Inventory), Menu::ItemSize }, Menu::CharacterSize, m_data.getUIMessage("MenuInventory"_id));
-//     m_display.renderString(target, states, { Menu::ItemPosition(GameMenuScenery::Quests), Menu::ItemSize }, Menu::CharacterSize, m_data.getUIMessage("MenuQuests"_id));
-//     m_display.renderString(target, states, { Menu::ItemPosition(GameMenuScenery::Skills), Menu::ItemSize }, Menu::CharacterSize, m_data.getUIMessage("MenuSkills"_id));
-//     m_display.renderString(target, states, { Menu::ItemPosition(GameMenuScenery::Options), Menu::ItemSize }, Menu::CharacterSize, m_data.getUIMessage("MenuOptions"_id));
-//     m_display.renderString(target, states, { Menu::ItemPosition(GameMenuScenery::Quit), Menu::ItemSize }, Menu::CharacterSize, m_data.getUIMessage("MenuQuit"_id));
-//
-//     m_display.renderArrow(target, states, Menu::ArrowPosition(m_scenery.menu.choice));
 
 #endif
 

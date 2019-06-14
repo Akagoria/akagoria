@@ -45,7 +45,6 @@
 #include "bits/Commands.h"
 #include "bits/CommandsHelperRenderer.h"
 #include "bits/DialogRenderer.h"
-#include "bits/Display.h"
 #include "bits/GameMenuRenderer.h"
 #include "bits/HeroRenderer.h"
 #include "bits/InventoryRenderer.h"
@@ -149,7 +148,6 @@ int main() {
   gf::ResourceManager resources;
   resources.addSearchDir(AKAGORIA_DATADIR);
 
-  akgr::Display display(resources);
   akgr::ui::Theme theme(resources);
 
   // views
@@ -418,7 +416,7 @@ int main() {
   akgr::OptionsRenderer gameOptions(uiData, rootScenery, theme);
   hudEntities.addEntity(gameOptions);
 
-  akgr::InventoryRenderer inventory(uiData, worldData, worldState, worldScenery, display, theme, resources);
+  akgr::InventoryRenderer inventory(uiData, worldData, worldState, worldScenery, theme, resources);
   hudEntities.addEntity(inventory);
 
 

@@ -22,7 +22,6 @@
 
 #include <gf/Entity.h>
 
-#include "Display.h"
 #include "WorldState.h"
 
 #include "ui/Theme.h"

@@ -36,7 +36,6 @@ add_executable(akagoria
   bits/CharacterRenderer.cc
   bits/Commands.cc
   bits/CommandsHelperRenderer.cc
-  bits/Display.cc
   bits/DialogRenderer.cc
   bits/GameMenuRenderer.cc
   bits/GameMenuScenery.cc

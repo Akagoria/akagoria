@@ -22,7 +22,6 @@
 
 #include <gf/Entity.h>
 
-#include "Display.h"
 #include "RootScenery.h"
 #include "UIData.h"
 
