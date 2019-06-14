@@ -17,8 +17,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_ATTRIBUTES_STATE_H
-#define AKGR_ATTRIBUTES_STATE_H
+#ifndef AKGR_ASPECT_STATE_H
+#define AKGR_ASPECT_STATE_H
 
 #include <cstdint>
 
@@ -26,7 +26,7 @@
 
 namespace akgr {
 
-  struct Attribute {
+  struct Aspect {
     int32_t value = 75;
     int32_t max = 100;
     gf::Time period = gf::Time::zero();
@@ -53,20 +53,20 @@ namespace akgr {
   };
 
   template<typename Archive>
-  Archive& operator|(Archive& ar, Attribute& attr) {
+  Archive& operator|(Archive& ar, Aspect& attr) {
     return ar | attr.value | attr.max | attr.period;
   }
 
-  struct AttributesState {
-    Attribute hp;
-    Attribute mp;
+  struct AspectState {
+    Aspect hp;
+    Aspect mp;
   };
 
   template<typename Archive>
-  Archive& operator|(Archive& ar, AttributesState& state) {
+  Archive& operator|(Archive& ar, AspectState& state) {
     return ar | state.hp | state.mp;
   }
 
 }
 
-#endif // AKGR_ATTRIBUTE_STATE_H
+#endif // AKGR_ASPECT_STATE_H

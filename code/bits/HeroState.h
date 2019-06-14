@@ -25,7 +25,7 @@
 #include <gf/Id.h>
 #include <gf/Move.h>
 
-#include "AttributesState.h"
+#include "AspectState.h"
 #include "DialogState.h"
 #include "InventoryState.h"
 #include "PhysicsState.h"
@@ -47,7 +47,7 @@ namespace akgr {
     HeroMove move;
 
     std::set<gf::Id> requirements;
-    AttributesState attributes;
+    AspectState aspect;
     SkillsState skills;
     InventoryState inventory;
 
@@ -57,7 +57,7 @@ namespace akgr {
 
   template<typename Archive>
   Archive& operator|(Archive& ar, HeroState& state) {
-    return ar | state.move | state.requirements | state.attributes | state.skills | state.inventory | state.dialog | state.physics;
+    return ar | state.move | state.requirements | state.aspect | state.skills | state.inventory | state.dialog | state.physics;
   }
 
 }

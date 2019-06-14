@@ -126,7 +126,7 @@ namespace akgr {
                   gf::Log::info("Moli Shrine!\n");
                   break;
                 case ShrineType::Pona:
-                  hero.attributes.hp.increase();
+                  hero.aspect.hp.increase();
                   break;
                 case ShrineType::Sewi:
                   gf::Log::info("Sewi Shrine!\n");

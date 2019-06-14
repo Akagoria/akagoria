@@ -40,7 +40,7 @@
 #include <gf/Window.h>
 
 #include "bits/AreaRenderer.h"
-#include "bits/AttributesRenderer.h"
+#include "bits/AspectRenderer.h"
 #include "bits/CharacterRenderer.h"
 #include "bits/Commands.h"
 #include "bits/CommandsHelperRenderer.h"
@@ -395,8 +395,8 @@ int main() {
   akgr::DialogRenderer dialog(worldState, theme);
   hudEntities.addEntity(dialog);
 
-  akgr::AttributesRenderer attributes(worldState, resources);
-  hudEntities.addEntity(attributes);
+  akgr::AspectRenderer aspect(worldState, resources);
+  hudEntities.addEntity(aspect);
 
   akgr::SlotSelectorRenderer worldSlotSelector(uiData, rootScenery, theme);
   hudEntities.addEntity(worldSlotSelector);

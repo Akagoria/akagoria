@@ -17,8 +17,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_ATTRIBUTES_RENDERER_H
-#define AKGR_ATTRIBUTES_RENDERER_H
+#ifndef AKGR_ASPECT_RENDERER_H
+#define AKGR_ASPECT_RENDERER_H
 
 #include <gf/Entity.h>
 #include <gf/ResourceManager.h>
@@ -28,9 +28,9 @@
 
 namespace akgr {
 
-  class AttributesRenderer : public gf::Entity {
+  class AspectRenderer : public gf::Entity {
   public:
-    AttributesRenderer(WorldState& state, gf::ResourceManager& resources);
+    AspectRenderer(WorldState& state, gf::ResourceManager& resources);
 
     virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
 
@@ -41,4 +41,4 @@ namespace akgr {
   };
 }
 
-#endif // AKGR_ATTRIBUTES_RENDERER_H
+#endif // AKGR_ASPECT_RENDERER_H

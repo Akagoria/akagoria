@@ -107,9 +107,9 @@ namespace {
 
     fmt::print("\n");
 
-    fmt::print("\tattributes: {}/{} HP ({:g} s) {}/{} MP ({:g} s)\n",
-        state.attributes.hp.value, state.attributes.hp.max, state.attributes.hp.period.asSeconds(),
-        state.attributes.mp.value, state.attributes.mp.max, state.attributes.mp.period.asSeconds()
+    fmt::print("\taspect: {}/{} HP ({:g} s) {}/{} MP ({:g} s)\n",
+        state.aspect.hp.value, state.aspect.hp.max, state.aspect.hp.period.asSeconds(),
+        state.aspect.mp.value, state.aspect.mp.max, state.aspect.mp.period.asSeconds()
     );
 
     fmt::print("\tskills: Strength {} | Dexterity {} | Intelligence {} | Wisdom {} | Knowledge {}\n",

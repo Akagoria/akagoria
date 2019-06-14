@@ -111,8 +111,8 @@ namespace akgr {
 
     hero.physics.pullLocation();
 
-    hero.attributes.hp.update(time, HPUpdatePeriod);
-    hero.attributes.mp.update(time, MPUpdatePeriod);
+    hero.aspect.hp.update(time, HPUpdatePeriod);
+    hero.aspect.mp.update(time, MPUpdatePeriod);
 
     // ...
 

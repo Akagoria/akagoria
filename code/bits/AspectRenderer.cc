@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "AttributesRenderer.h"
+#include "AspectRenderer.h"
 
 #include <gf/Coordinates.h>
 #include <gf/Color.h>
@@ -31,16 +31,16 @@ namespace akgr {
 
   namespace {
 
-    constexpr gf::Vector2f AttributeSize = { 0.25f, 0.03f };
-    constexpr float AttributeIconSize = 64.0f;
-    constexpr float AttributeCharacterSize = 0.0259;
+    constexpr gf::Vector2f AspectSize = { 0.25f, 0.03f };
+    constexpr float AspectIconSize = 64.0f;
+    constexpr float AspectCharacterSize = 0.0259;
 
-    void drawAttribute(gf::RenderTarget& target, const gf::RenderStates& states, Attribute& attr, gf::Vector2f relativePosition, const gf::Color4f& color,
+    void drawAspect(gf::RenderTarget& target, const gf::RenderStates& states, Aspect& attr, gf::Vector2f relativePosition, const gf::Color4f& color,
         const gf::Texture& texture, const gf::RectF& textureRect, gf::Font& font, const std::string& name) {
       gf::Coordinates coords(target);
 
       gf::Vector2f position = coords.getRelativePoint(relativePosition);
-      gf::Vector2f size = coords.getRelativeSize(AttributeSize);
+      gf::Vector2f size = coords.getRelativeSize(AspectSize);
       float thickness = coords.getRelativeSize({ 0.0f, 0.002f }).height;
 
       {
@@ -68,7 +68,7 @@ namespace akgr {
       {
         gf::Color4f iconColor = gf::Color::White * gf::Color::Opaque(0.7f); // gf::Color::darker(color);
         gf::Sprite sprite(texture, textureRect);
-        sprite.scale(insideHeight / AttributeIconSize);
+        sprite.scale(insideHeight / AspectIconSize);
         sprite.setColor(iconColor);
         sprite.setPosition(position + insidePadding);
         target.draw(sprite, states);
@@ -77,7 +77,7 @@ namespace akgr {
       {
         gf::Color4f fontColor = gf::Color::White * gf::Color::Opaque(0.8f); // gf::Color::darker(color);
         std::string str = std::to_string(attr.value) + " " + name;
-        unsigned characterSize = coords.getRelativeCharacterSize(AttributeCharacterSize); // static_cast<unsigned>(insideHeight)
+        unsigned characterSize = coords.getRelativeCharacterSize(AspectCharacterSize); // static_cast<unsigned>(insideHeight)
         gf::Text text(str, font, characterSize);
         text.setColor(fontColor);
         text.setOutlineColor(gf::Color::Black);
@@ -92,7 +92,7 @@ namespace akgr {
 
   }
 
-  AttributesRenderer::AttributesRenderer(WorldState& state, gf::ResourceManager& resources)
+  AspectRenderer::AspectRenderer(WorldState& state, gf::ResourceManager& resources)
   : gf::Entity(50)
   , m_state(state)
   , m_texture(resources.getTexture("pictures/icons.png"))
@@ -101,14 +101,14 @@ namespace akgr {
 
   }
 
-  void AttributesRenderer::render(gf::RenderTarget& target, const gf::RenderStates& states) {
+  void AspectRenderer::render(gf::RenderTarget& target, const gf::RenderStates& states) {
     if (m_state.operation != WorldOperation::Walk) {
       return;
     }
 
-    drawAttribute(target, states, m_state.hero.attributes.hp, { 0.015f, 0.015f }, gf::Color4f(0.75f, 0.25f, 0.25f, 1.0f),
+    drawAspect(target, states, m_state.hero.aspect.hp, { 0.015f, 0.015f }, gf::Color4f(0.75f, 0.25f, 0.25f, 1.0f),
         m_texture, gf::RectF({ 0.0f, 0.0f }, { 0.125f, 0.125f }), m_font, "HP");
-    drawAttribute(target, states, m_state.hero.attributes.mp, { 0.015f, 0.055f }, gf::Color4f(0.25f, 0.25f, 0.75f, 1.0f),
+    drawAspect(target, states, m_state.hero.aspect.mp, { 0.015f, 0.055f }, gf::Color4f(0.25f, 0.25f, 0.75f, 1.0f),
         m_texture, gf::RectF({ 0.125f, 0.0f }, { 0.125f, 0.125f }), m_font, "MP");
   }
 
