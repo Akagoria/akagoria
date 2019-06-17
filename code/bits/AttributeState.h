@@ -17,13 +17,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_SKILLS_STATE_H
-#define AKGR_SKILLS_STATE_H
+#ifndef AKGR_ATTRIBUTE_STATE_H
+#define AKGR_ATTRIBUTE_STATE_H
 
 #include <cstdint>
 
 namespace akgr {
-  enum class SkillKind {
+  enum class Attribute {
     Strength,
     Dexterity,
     Intelligence,
@@ -31,10 +31,10 @@ namespace akgr {
     Knowledge,
   };
 
-  struct Skill {
-    int32_t value = 8000;
+  struct AttributeValue {
+    int32_t value = 5000;
 
-    void increase(int32_t gain, int32_t extra, Skill& anti1, Skill& anti2) {
+    void increase(int32_t gain, AttributeValue& anti1, AttributeValue& anti2) {
       gain += (gain % 2);
       int32_t loss = gain / 2;
 
@@ -46,7 +46,7 @@ namespace akgr {
         loss = anti2.value;
       }
 
-      gain = loss * 2 + extra;
+      gain = loss * 2;
 
       value += gain;
       anti1.value -= loss;
@@ -55,58 +55,58 @@ namespace akgr {
   };
 
   template<typename Archive>
-  Archive& operator|(Archive& ar, Skill& skill) {
-    return ar | skill.value;
+  Archive& operator|(Archive& ar, AttributeValue& attribute) {
+    return ar | attribute.value;
   }
 
-  struct SkillsState {
-    Skill strength;
-    Skill dexterity;
-    Skill intelligence;
-    Skill wisdom;
-    Skill knowledge;
+  struct AttributeState {
+    AttributeValue strength;
+    AttributeValue dexterity;
+    AttributeValue intelligence;
+    AttributeValue wisdom;
+    AttributeValue knowledge;
 
-    void increase(SkillKind kind, int32_t gain, int32_t extra) {
+    void increase(Attribute kind, int32_t gain) {
       switch (kind) {
-        case SkillKind::Strength:
-          strength.increase(gain, extra, intelligence, wisdom);
+        case Attribute::Strength:
+          strength.increase(gain, intelligence, wisdom);
           break;
-        case SkillKind::Dexterity:
-          dexterity.increase(gain, extra, wisdom, knowledge);
+        case Attribute::Dexterity:
+          dexterity.increase(gain, wisdom, knowledge);
           break;
-        case SkillKind::Intelligence:
-          intelligence.increase(gain, extra, knowledge, strength);
+        case Attribute::Intelligence:
+          intelligence.increase(gain, knowledge, strength);
           break;
-        case SkillKind::Wisdom:
-          wisdom.increase(gain, extra, strength, dexterity);
+        case Attribute::Wisdom:
+          wisdom.increase(gain, strength, dexterity);
           break;
-        case SkillKind::Knowledge:
-          knowledge.increase(gain, extra, dexterity, intelligence);
+        case Attribute::Knowledge:
+          knowledge.increase(gain, dexterity, intelligence);
           break;
       }
     }
 
-    Skill& getSkill(SkillKind kind) {
+    AttributeValue& operator[](Attribute kind) {
       switch (kind) {
-        case SkillKind::Strength:
+        case Attribute::Strength:
           return strength;
-        case SkillKind::Dexterity:
+        case Attribute::Dexterity:
           return dexterity;
-        case SkillKind::Intelligence:
+        case Attribute::Intelligence:
           return intelligence;
-        case SkillKind::Wisdom:
+        case Attribute::Wisdom:
           return wisdom;
-        case SkillKind::Knowledge:
+        case Attribute::Knowledge:
           return knowledge;
       }
     }
   };
 
   template<typename Archive>
-  Archive& operator|(Archive& ar, SkillsState& state) {
+  Archive& operator|(Archive& ar, AttributeState& state) {
     return ar | state.strength | state.dexterity | state.intelligence | state.wisdom | state.knowledge;
   }
 
 }
 
-#endif // AKGR_SKILLS_STATE_H
+#endif // AKGR_ATTRIBUTE_STATE_H

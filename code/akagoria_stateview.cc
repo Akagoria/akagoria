@@ -112,8 +112,8 @@ namespace {
         state.aspect.mp.value, state.aspect.mp.max, state.aspect.mp.period.asSeconds()
     );
 
-    fmt::print("\tskills: Strength {} | Dexterity {} | Intelligence {} | Wisdom {} | Knowledge {}\n",
-        state.skills.strength.value, state.skills.dexterity.value, state.skills.intelligence.value, state.skills.wisdom.value, state.skills.knowledge.value
+    fmt::print("\tattributes: Strength {} | Dexterity {} | Intelligence {} | Wisdom {} | Knowledge {}\n",
+        state.attributes.strength.value, state.attributes.dexterity.value, state.attributes.intelligence.value, state.attributes.wisdom.value, state.attributes.knowledge.value
     );
 
     if (state.dialog.ref.id != gf::InvalidId) {
