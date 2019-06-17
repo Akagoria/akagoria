@@ -28,11 +28,11 @@ namespace akgr {
   namespace {
 
     constexpr float SpeakerCharacterSize = 0.03f;
-    constexpr gf::Vector2f SpeakerPosition(0.19f, 0.745f);
+    constexpr gf::Vector2f SpeakerPosition(0.19f, 0.725f);
     constexpr gf::Vector2f SpeakerSize(0.2f, SpeakerCharacterSize * 1.2f);
 
     constexpr float WordsCharacterSize = 0.035f;
-    constexpr gf::Vector2f WordsPosition(0.17f, 0.8f);
+    constexpr gf::Vector2f WordsPosition(0.17f, 0.78f);
     constexpr gf::Vector2f WordsSize(2.0f * (0.5f - WordsPosition.x), WordsCharacterSize * 1.2f * 3);
 
   } // anonymous namespace
@@ -61,7 +61,7 @@ namespace akgr {
       auto text = frame.add<ui::TextWidget>(boost::locale::gettext(string.c_str()), characterSize, gf::Alignment::Left);
       text->setSize(size);
       frame.setPosition(position);
-      frame.setMargin({ 0.01f, 0.01f });
+      frame.setMargin({ 0.01f, 0.015f });
       frame.computeLayout();
       frame.render(target, states, m_theme);
     };
