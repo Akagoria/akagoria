@@ -99,13 +99,14 @@ namespace akgr {
 
   struct Tileset {
     gf::Path path;
+    gf::Vector<int32_t, 2> tileSize;
     int32_t spacing;
     int32_t margin;
   };
 
   template<typename Archive>
   Archive& operator|(Archive& ar, Tileset& data) {
-    return ar | data.path | data.spacing | data.margin;
+    return ar | data.path | data.tileSize | data.spacing | data.margin;
   }
 
 

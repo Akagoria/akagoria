@@ -79,7 +79,7 @@ namespace {
     uint32_t id = 0;
 
     for (auto& tileset : data.tilesets) {
-      fmt::print("\t#{}: '{}', {}, {}\n", id, tileset.path.string(), tileset.spacing, tileset.margin);
+      fmt::print("\t#{}: '{}', {}, {}, {}\n", id, tileset.path.string(), tileset.tileSize, tileset.spacing, tileset.margin);
       id++;
     }
 

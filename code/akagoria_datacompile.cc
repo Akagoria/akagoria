@@ -272,7 +272,7 @@ namespace {
           gid = gid - tileset->firstGid;
           tiles({ i, j }) = static_cast<int16_t>(gid);
 
-          auto tilesetId = getTilesetId(tileset->image->source, tileset->spacing, tileset->margin);
+          auto tilesetId = getTilesetId(tileset->image->source, tileset->tileSize, tileset->spacing, tileset->margin);
 
           if (textureLayer.tilesetId == InvalidTilesetId) {
             textureLayer.tilesetId = tilesetId;
@@ -380,7 +380,7 @@ namespace {
         sprite.subTexture = tileset->getSubTexture(lid, tileset->image->size);
 
         // get texture path
-        sprite.tilesetId = getTilesetId(tileset->image->source, tileset->spacing, tileset->margin);
+        sprite.tilesetId = getTilesetId(tileset->image->source, tileset->tileSize, tileset->spacing, tileset->margin);
 
         sprite.position = tile->position;
         sprite.rotation = tile->rotation;
@@ -619,7 +619,7 @@ namespace {
     std::vector<std::string>& strings;
 
 
-    uint32_t getTilesetId(const gf::Path& path, uint32_t spacing, uint32_t margin) {
+    uint32_t getTilesetId(const gf::Path& path, gf::Vector<int32_t, 2> tileSize, uint32_t spacing, uint32_t margin) {
       auto it = reverseTilesetId.find(path);
 
       if (it == reverseTilesetId.end()) {
@@ -627,6 +627,7 @@ namespace {
 
         akgr::Tileset tileset;
         tileset.path = path;
+        tileset.tileSize = tileSize;
         tileset.spacing = spacing;
         tileset.margin = margin;
 

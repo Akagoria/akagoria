@@ -43,6 +43,7 @@ namespace akgr {
 
       const Tileset& tileset = map.tilesets[textureLayer.tilesetId];
 
+      layer.setTilesetTileSize(tileset.tileSize);
       layer.setMargin(tileset.margin);
       layer.setSpacing(tileset.spacing);
 
