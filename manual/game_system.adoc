@@ -28,7 +28,7 @@ image::attributes.png[Attributes]
 
 All attributes start at 50% and cannot go above 100% or beyond 10%. When an attribute is used (through its associated skills, see <<skills>>), it is enhanced and its two opposed attributes are reduced. The siblings attributes are unchanged. More precisely, if an attribute receives stem:[x] points, then stem:[\frac{x}{2}] points are taken from its two opposed attributes. As a consequence, the total points for all the attributes remains the same: 250%.
 
-=== Conditions
+=== Aspects
 
 - Health
 - Magic

@@ -30,6 +30,7 @@ namespace akgr {
     static constexpr gf::Time AreaUpdatePeriod = gf::seconds(1);
     static constexpr gf::Time HPUpdatePeriod = gf::seconds(11);
     static constexpr gf::Time MPUpdatePeriod = gf::seconds(29);
+    static constexpr gf::Time VPUpdatePeriod = gf::seconds(29);
 
   }
 
@@ -113,6 +114,7 @@ namespace akgr {
 
     hero.aspect.hp.update(time, HPUpdatePeriod);
     hero.aspect.mp.update(time, MPUpdatePeriod);
+    hero.aspect.vp.update(time, VPUpdatePeriod);
 
     // ...
 

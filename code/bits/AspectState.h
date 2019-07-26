@@ -60,11 +60,12 @@ namespace akgr {
   struct AspectState {
     Aspect hp;
     Aspect mp;
+    Aspect vp;
   };
 
   template<typename Archive>
   Archive& operator|(Archive& ar, AspectState& state) {
-    return ar | state.hp | state.mp;
+    return ar | state.hp | state.mp | state.vp;
   }
 
 }

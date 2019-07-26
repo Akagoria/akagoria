@@ -107,12 +107,13 @@ namespace {
 
     fmt::print("\n");
 
-    fmt::print("\taspect: {}/{} HP ({:g} s) {}/{} MP ({:g} s)\n",
+    fmt::print("\taspect:\n\t\tHP: {}/{} ({:g} s)\n\t\tMP: {}/{} ({:g} s)\n\t\tVP: {}/{} ({:g} s)\n",
         state.aspect.hp.value, state.aspect.hp.max, state.aspect.hp.period.asSeconds(),
-        state.aspect.mp.value, state.aspect.mp.max, state.aspect.mp.period.asSeconds()
+        state.aspect.mp.value, state.aspect.mp.max, state.aspect.mp.period.asSeconds(),
+        state.aspect.vp.value, state.aspect.vp.max, state.aspect.vp.period.asSeconds()
     );
 
-    fmt::print("\tattributes: Strength {} | Dexterity {} | Intelligence {} | Wisdom {} | Knowledge {}\n",
+    fmt::print("\tattributes:\n\t\tSTR: {}\n\t\tDEX: {}\n\t\tINT: {}\n\t\tWIS: {}\n\t\tKNO: {}\n",
         state.attributes.strength.value, state.attributes.dexterity.value, state.attributes.intelligence.value, state.attributes.wisdom.value, state.attributes.knowledge.value
     );
 
