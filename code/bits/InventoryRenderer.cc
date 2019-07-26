@@ -122,6 +122,8 @@ namespace akgr {
     m_frame.add<ui::CatalogueWidget>(m_model, scenery.inventory.list);
 
     m_frame.setPosition(ui::Common::Position);
+    m_frame.setSize({ 1.0f, 1.0f });
+    m_frame.setPositioning(ui::Positioning::Minimum);
     m_frame.computeLayout();
   }
 

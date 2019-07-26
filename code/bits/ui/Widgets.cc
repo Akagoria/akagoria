@@ -81,7 +81,8 @@ namespace akgr {
         container.*axis0 += (getChildrenCount() - 1) * m_spacing;
       }
 
-      setSize(m_offset + container);
+      container += m_offset;
+      setSize(gf::max(container, getSize()));
     }
 
     void BoxWidget::doLayoutAllocation() {
