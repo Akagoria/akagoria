@@ -34,6 +34,7 @@
 #include "NotificationData.h"
 #include "PhysicsData.h"
 #include "ShrineData.h"
+#include "WeaponData.h"
 
 namespace akgr {
 
@@ -49,6 +50,8 @@ namespace akgr {
     std::map<gf::Id, CharacterData> characters;
     ItemCatalogueData catalogue;
 
+    std::map<gf::Id, WeaponData> weapons;
+
     bool loadFromFile(const gf::Path& filename);
     bool saveToFile(const gf::Path& filename);
   };
@@ -56,7 +59,7 @@ namespace akgr {
   template<typename Archive>
   Archive& operator|(Archive& ar, WorldData& data) {
     return ar | data.map | data.physics | data.areas | data.locations | data.shrines
-        | data.dialogs | data.notifications | data.characters | data.catalogue;
+        | data.dialogs | data.notifications | data.characters | data.catalogue | data.weapons;
   }
 
 }

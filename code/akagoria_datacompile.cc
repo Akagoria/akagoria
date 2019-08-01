@@ -163,6 +163,23 @@ namespace {
     return akgr::ShapeType::None;
   }
 
+  akgr::WeaponType getWeaponType(const std::string& name) {
+    if (name == "melee") {
+      return akgr::WeaponType::Melee;
+    }
+
+    if (name == "ranged") {
+      return akgr::WeaponType::Ranged;
+    }
+
+    if (name == "explosive") {
+      return akgr::WeaponType::Explosive;
+    }
+
+    gf::Log::error("Unknown weapon type: '%s'\n", name.c_str());
+    return akgr::WeaponType::Melee;
+  }
+
   /*
    * tmx file
    */
@@ -794,6 +811,31 @@ namespace {
 
   }
 
+  void compileJsonWeapons(const gf::Path& filename, std::map<gf::Id, akgr::WeaponData>& data, std::vector<std::string>& strings) {
+    std::ifstream ifs(filename.string());
+
+    const auto j = nlohmann::json::parse(ifs);
+
+    for (auto kv : j.items()) {
+      akgr::WeaponData weapon;
+      weapon.name = kv.key();
+
+      auto value = kv.value();
+      weapon.description = value["description"].get<std::string>();
+      weapon.type = getWeaponType(value["type"].get<std::string>());
+      weapon.attack = value["ATK"].get<float>();
+      weapon.required = value["REQ"].get<float>();
+      weapon.vitality = value["VP"].get<float>();
+      weapon.range = value["range"].get<float>();
+      weapon.angle = value["angle"].get<float>();
+      weapon.cooldown = gf::milliseconds(value["cooldown"].get<int32_t>());
+
+      data.emplace(gf::hash(weapon.name), std::move(weapon));
+
+      strings.push_back(value["description"].get<std::string>());
+    }
+  }
+
   void compileJsonUI(const gf::Path& filename, std::map<gf::Id, akgr::UIMessageData>& data, std::vector<std::string>& strings) {
     std::ifstream ifs(filename.string());
 
@@ -891,6 +933,7 @@ int main(int argc, char *argv[]) {
   compileJsonNotifications(databaseDirectory / "notifications.json", worldData.notifications, strings);
   compileJsonCharacters(databaseDirectory / "characters.json", worldData.characters);
   compileJsonItems(databaseDirectory / "items.json", worldData.catalogue);
+  compileJsonWeapons(databaseDirectory / "weapons.json", worldData.weapons, strings);
 
   postProcessAreas(worldData.areas);
 

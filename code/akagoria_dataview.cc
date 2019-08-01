@@ -98,6 +98,19 @@ namespace {
     return "???";
   }
 
+  const char *getWeaponType(akgr::WeaponType type) {
+    switch (type) {
+      case akgr::WeaponType::Melee:
+        return "Melee";
+      case akgr::WeaponType::Ranged:
+        return "Ranged";
+      case akgr::WeaponType::Explosive:
+        return "Explosive";
+    }
+
+    return "???";
+  }
+
   void viewPhysicsData(const akgr::PhysicsData& data) {
     viewNewSection("Physics");
     fmt::print("Number of zones: {}\n", data.zones.size());
@@ -248,6 +261,19 @@ namespace {
     }
   }
 
+
+  void viewWeaponData(const std::map<gf::Id, akgr::WeaponData>& data) {
+    viewNewSection("Weapons");
+    fmt::print("Number of weapons: {}\n", data.size());
+
+    for (auto& kv : data) {
+      auto& weapon = kv.second;
+      fmt::print("\t{}: '{}' {}, \"{}\"\n", Id{kv.first}, weapon.name, getWeaponType(weapon.type), gf::escapeString(weapon.description));
+      fmt::print("\t\tATK: {:g}, REQ: {:g}, VP: {:g} | range: {:g}, angle: {:.0f}° | cooldown: {} ms\n",
+          weapon.attack, weapon.required, weapon.vitality, weapon.range, weapon.angle, weapon.cooldown.asMilliseconds());
+    }
+  }
+
   void viewData(const akgr::WorldData& data) {
     viewMapData(data.map);
     viewPhysicsData(data.physics);
@@ -258,6 +284,7 @@ namespace {
     viewNotificationData(data.notifications);
     viewCharacterData(data.characters);
     viewItemData(data.catalogue);
+    viewWeaponData(data.weapons);
   }
 
 }

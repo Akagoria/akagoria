@@ -5,6 +5,7 @@ set(AKAGORIA_DATABASE_FILES
   raw/database/items.json
   raw/database/notifications.json
   raw/database/ui.json
+  raw/database/weapons.json
 )
 
 set(AKAGORIA_MAP_FILES

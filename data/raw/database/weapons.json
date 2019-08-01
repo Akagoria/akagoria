@@ -1,5 +1,6 @@
 {
   "SmallSword": {
+    "description": "small sword",
     "type": "melee",
     "ATK": 10,
     "REQ": 30,
@@ -10,6 +11,7 @@
   },
 
   "SmallBow": {
+    "description": "small bow",
     "type": "ranged",
     "ATK": 10,
     "REQ": 30,
@@ -20,6 +22,7 @@
   },
 
   "Grenade": {
+    "description": "simple grenade",
     "type": "explosive",
     "ATK": 10,
     "REQ": 30,
