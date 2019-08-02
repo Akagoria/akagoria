@@ -27,7 +27,7 @@
 
 namespace akgr {
 
-  enum class WeaponType {
+  enum class WeaponType : uint8_t {
     Melee,
     Ranged,
     Explosive,

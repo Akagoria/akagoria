@@ -1,31 +1,23 @@
 {
-  "resources": {
-    "SmallItems": {
-      "spritesheet": "sprites/items-s.png",
-      "width": 16, "height": 16
-    }
+  "GemRuby": {
+    "description": "Ruby",
+    "trait": { "type": "rare" },
+    "shape": { "type": "circle", "radius": 10 },
+    "sprite": { "atlas": "SmallItems", "index": 0, "scale": 0.25 }
   },
-  "items": {
-    "GemRuby": {
-      "description": "Ruby",
-      "trait": { "type": "rare" },
-      "shape": { "type": "circle", "radius": 10 },
-      "graphics": { "resource": "SmallItems", "index": 0, "scale": 0.25 }
-    },
 
-    "GemEmerald": {
-      "description": "Emerald",
-      "trait": { "type": "rare" },
-      "shape": { "type": "circle", "radius": 10 },
-      "graphics": { "resource": "SmallItems", "index": 1, "scale": 0.25 }
-    },
+  "GemEmerald": {
+    "description": "Emerald",
+    "trait": { "type": "rare" },
+    "shape": { "type": "circle", "radius": 10 },
+    "sprite": { "atlas": "SmallItems", "index": 1, "scale": 0.25 }
+  },
 
-    "ShortSword": {
-      "description": "Short sword",
-      "trait": { "type": "weapon", "ref": "SmallSword" },
-      "shape": { "type": "rectangle", "width": 10, "height": 10 },
-      "graphics": { "resource": "SmallItems", "index": 2, "scale": 1 }
-    }
-
+  "ShortSword": {
+    "description": "Short sword",
+    "trait": { "type": "weapon", "ref": "SmallSword" },
+    "shape": { "type": "rectangle", "width": 10, "height": 10 },
+    "sprite": { "atlas": "SmallItems", "index": 2, "scale": 1 }
   }
+
 }

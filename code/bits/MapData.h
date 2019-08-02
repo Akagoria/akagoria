@@ -49,7 +49,7 @@ namespace akgr {
    * Sprite
    */
 
-  struct Sprite {
+  struct MapSprite {
     std::string name;
     uint32_t tilesetId;
     gf::Rect<int32_t> subTexture;
@@ -58,7 +58,7 @@ namespace akgr {
   };
 
   template<typename Archive>
-  Archive& operator|(Archive& ar, Sprite& data) {
+  Archive& operator|(Archive& ar, MapSprite& data) {
     return ar | data.name | data.tilesetId | data.subTexture | data.position | data.rotation;
   }
 
@@ -68,7 +68,7 @@ namespace akgr {
 
   struct SpriteLayer {
     std::string name;
-    std::vector<Sprite> sprites;
+    std::vector<MapSprite> sprites;
   };
 
   template<typename Archive>

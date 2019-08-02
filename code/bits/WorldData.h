@@ -26,6 +26,7 @@
 #include <gf/Path.h>
 
 #include "AreaData.h"
+#include "AtlasData.h"
 #include "CharacterData.h"
 #include "DialogData.h"
 #include "ItemData.h"
@@ -45,10 +46,12 @@ namespace akgr {
     std::map<gf::Id, LocationData> locations;
     std::vector<ShrineData> shrines;
 
+    std::map<gf::Id, AtlasData> atlases;
+
     std::map<gf::Id, DialogData> dialogs;
     std::map<gf::Id, NotificationData> notifications;
     std::map<gf::Id, CharacterData> characters;
-    ItemCatalogueData catalogue;
+    std::map<gf::Id, ItemData> items;
 
     std::map<gf::Id, WeaponData> weapons;
 
@@ -59,7 +62,7 @@ namespace akgr {
   template<typename Archive>
   Archive& operator|(Archive& ar, WorldData& data) {
     return ar | data.map | data.physics | data.areas | data.locations | data.shrines
-        | data.dialogs | data.notifications | data.characters | data.catalogue | data.weapons;
+        | data.atlases | data.dialogs | data.notifications | data.characters | data.items | data.weapons;
   }
 
 }

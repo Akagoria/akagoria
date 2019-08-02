@@ -345,7 +345,7 @@ namespace akgr {
 
     ItemState item;
     item.ref.id = gf::hash(itemId);
-    item.ref.bind(getData(vm).catalogue.items);
+    item.ref.bind(getData(vm).items);
     checkRef(item.ref.data, itemId);
 
     item.physics.location = locationRef.data->location;
@@ -363,7 +363,7 @@ namespace akgr {
 
     DataRef<ItemData> ref;
     ref.id = gf::hash(itemId);
-    ref.bind(getData(vm).catalogue.items);
+    ref.bind(getData(vm).items);
     checkRef(ref.data, itemId);
 
     getState(vm).hero.inventory.addItem(ref);

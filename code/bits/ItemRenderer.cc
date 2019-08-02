@@ -41,25 +41,25 @@ namespace akgr {
 
       const ItemData& data = *item.ref.data;
 
-      auto it = m_data.catalogue.resources.find(data.graphics.resource);
+      auto it = m_data.atlases.find(data.sprite.atlas);
 
-      if (it == m_data.catalogue.resources.end()) {
-        gf::Log::error("Unknown graphics resource for item '%s'\n", data.name.c_str());
+      if (it == m_data.atlases.end()) {
+        gf::Log::error("Unknown atlas for item '%s'\n", data.name.c_str());
         continue;
       }
 
-      const ItemResource& resource = it->second;
-      const gf::Texture& texture = m_resources.getTexture(resource.path);
+      const AtlasData& atlas = it->second;
+      const gf::Texture& texture = m_resources.getTexture(atlas.path);
 
-      gf::Vector2f textureSize = 1.0f / resource.size;
-      gf::Vector2i textureIndex = { data.graphics.index % resource.size.width, data.graphics.index / resource.size.width };
+      gf::Vector2f textureSize = 1.0f / atlas.size;
+      gf::Vector2i textureIndex = { data.sprite.index % atlas.size.width, data.sprite.index / atlas.size.width };
 
       gf::Sprite sprite(texture);
       sprite.setTextureRect({ textureSize * textureIndex, textureSize });
       sprite.setAnchor(gf::Anchor::Center);
       sprite.setPosition(item.physics.location.position);
       sprite.setRotation(item.physics.angle);
-      sprite.setScale(data.graphics.scale);
+      sprite.setScale(data.sprite.scale);
       target.draw(sprite, states);
     }
 

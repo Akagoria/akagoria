@@ -1,5 +1,6 @@
 
 set(AKAGORIA_DATABASE_FILES
+  raw/database/atlases.json
   raw/database/characters.json
   raw/database/dialogs.json
   raw/database/items.json

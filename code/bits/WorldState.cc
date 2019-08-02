@@ -65,7 +65,7 @@ namespace akgr {
     // items
 
     for (auto& item : items) {
-      item.ref.bind(data.catalogue.items);
+      item.ref.bind(data.items);
       assert(item.ref.data);
       item.physics.body = physics.createItemBody(item.physics.location, item.physics.angle, item.ref.data->shape);
     }
@@ -88,7 +88,7 @@ namespace akgr {
     hero.physics.body = physics.createHeroBody(hero.physics.location, hero.physics.angle);
 
     for (auto& item : hero.inventory.items) {
-      item.ref.bind(data.catalogue.items);
+      item.ref.bind(data.items);
       assert(item.ref.data);
     }
 

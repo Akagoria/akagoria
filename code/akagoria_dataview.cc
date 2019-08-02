@@ -182,6 +182,17 @@ namespace {
     }
   }
 
+  void viewAtlasData(const std::map<gf::Id, akgr::AtlasData>& data) {
+    viewNewSection("Atlases");
+    fmt::print("Number of atlases: {}\n", data.size());
+
+    for (auto& kv : data) {
+      auto& atlas = kv.second;
+      fmt::print("\t{}: '{}' {}\n", Id{kv.first}, atlas.path.string(), atlas.size);
+    }
+  }
+
+
   const char *getDialogType(akgr::DialogData::Type type) {
     switch (type) {
       case akgr::DialogData::Simple:
@@ -229,18 +240,11 @@ namespace {
     }
   }
 
-  void viewItemData(const akgr::ItemCatalogueData& data) {
+  void viewItemData(const std::map<gf::Id, akgr::ItemData>&data) {
     viewNewSection("Items");
-    fmt::print("Number of resources: {}\n", data.resources.size());
+    fmt::print("Number of items: {}\n", data.size());
 
-    for (auto& kv : data.resources) {
-      auto& resource = kv.second;
-      fmt::print("\t{}: '{}' ({}, {})\n", Id{kv.first}, resource.path.string(), resource.size.width, resource.size.height);
-    }
-
-    fmt::print("Number of items: {}\n", data.items.size());
-
-    for (auto& kv : data.items) {
+    for (auto& kv : data) {
       auto& item = kv.second;
       fmt::print("\t{}: '{}', \"{}\", ", Id{kv.first}, item.name, gf::escapeString(item.description));
 
@@ -257,7 +261,7 @@ namespace {
           break;
       }
 
-      fmt::print(", {} [{}] x{:g}\n", Id{item.graphics.resource}, item.graphics.index, item.graphics.scale);
+      fmt::print(", {} [{}] x{:g}\n", Id{item.sprite.atlas}, item.sprite.index, item.sprite.scale);
     }
   }
 
@@ -280,10 +284,12 @@ namespace {
     viewAreaData(data.areas);
     viewLocationData(data.locations);
     viewShrineData(data.shrines);
+
+    viewAtlasData(data.atlases);
     viewDialogData(data.dialogs);
     viewNotificationData(data.notifications);
     viewCharacterData(data.characters);
-    viewItemData(data.catalogue);
+    viewItemData(data.items);
     viewWeaponData(data.weapons);
   }
 

@@ -385,7 +385,7 @@ namespace {
 
         auto tile = static_cast<gf::TmxTileObject *>(object.get());
 
-        akgr::Sprite sprite;
+        akgr::MapSprite sprite;
         sprite.name = tile->name;
 
         auto tileset = map.getTileSetFromGID(tile->gid);
@@ -687,6 +687,24 @@ namespace {
    * json files
    */
 
+  void compileJsonAtlases(const gf::Path& filename, std::map<gf::Id, akgr::AtlasData>& data) {
+    std::ifstream ifs(filename.string());
+
+    const auto j = nlohmann::json::parse(ifs);
+
+    for (auto kv : j.items()) {
+      akgr::AtlasData atlas;
+      atlas.name = kv.key();
+
+      auto value = kv.value();
+      atlas.path = value["path"].get<std::string>();
+      atlas.size.width = value["width"].get<int32_t>();
+      atlas.size.height = value["height"].get<int32_t>();
+
+      data.emplace(gf::hash(atlas.name), std::move(atlas));
+    }
+  }
+
   akgr::DialogData::Type getDialogType(const std::string& type) {
     if (type == "Simple") {
       return akgr::DialogData::Simple;
@@ -765,24 +783,12 @@ namespace {
     }
   }
 
-  void compileJsonItems(const gf::Path& filename, akgr::ItemCatalogueData& data) {
+  void compileJsonItems(const gf::Path& filename, std::map<gf::Id, akgr::ItemData>& data) {
     std::ifstream ifs(filename.string());
 
     const auto j = nlohmann::json::parse(ifs);
 
-    for (auto kv : j["resources"].items()) {
-      akgr::ItemResource resource;
-      resource.name = kv.key();
-
-      auto value = kv.value();
-      resource.path = value["spritesheet"].get<std::string>();
-      resource.size.width = value["width"].get<int>();
-      resource.size.height = value["height"].get<int>();
-
-      data.resources.emplace(gf::hash(resource.name), std::move(resource));
-    }
-
-    for (auto kv : j["items"].items()) {
+    for (auto kv : j.items()) {
       akgr::ItemData item;
       item.name = kv.key();
 
@@ -802,11 +808,11 @@ namespace {
           break;
       }
 
-      item.graphics.resource = gf::hash(value["graphics"]["resource"].get<std::string>());
-      item.graphics.index = value["graphics"]["index"].get<int>();
-      item.graphics.scale = value["graphics"]["scale"].get<float>();
+      item.sprite.atlas = gf::hash(value["sprite"]["atlas"].get<std::string>());
+      item.sprite.index = value["sprite"]["index"].get<int>();
+      item.sprite.scale = value["sprite"]["scale"].get<float>();
 
-      data.items.emplace(gf::hash(item.name), std::move(item));
+      data.emplace(gf::hash(item.name), std::move(item));
     }
 
   }
@@ -929,10 +935,11 @@ int main(int argc, char *argv[]) {
 
   gf::Path databaseDirectory = inputDirectory / "database";
 
+  compileJsonAtlases(databaseDirectory / "atlases.json", worldData.atlases);
   compileJsonDialogs(databaseDirectory / "dialogs.json", worldData.dialogs, strings);
   compileJsonNotifications(databaseDirectory / "notifications.json", worldData.notifications, strings);
   compileJsonCharacters(databaseDirectory / "characters.json", worldData.characters);
-  compileJsonItems(databaseDirectory / "items.json", worldData.catalogue);
+  compileJsonItems(databaseDirectory / "items.json", worldData.items);
   compileJsonWeapons(databaseDirectory / "weapons.json", worldData.weapons, strings);
 
   postProcessAreas(worldData.areas);

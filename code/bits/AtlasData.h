@@ -17,40 +17,39 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_ITEM_DATA_H
-#define AKGR_ITEM_DATA_H
+#ifndef AKGR_ATLAS_DATA_H
+#define AKGR_ATLAS_DATA_H
 
 #include <string>
 
-#include "AtlasData.h"
-#include "Shape.h"
+#include <gf/Path.h>
+#include <gf/Vector.h>
 
 namespace akgr {
 
-  enum class ItemType : uint8_t {
-    MeleeWeapon,
-    Armor,
-    RangedWeapon,
-    Explosive,
-    Potion,
-    Recipes,
-    Ingredient,
-    Manuscript, // books and parchments
-    Rare, // quest objects, rare objects
-  };
-
-  struct ItemData {
+  struct AtlasData {
     std::string name;
-    std::string description;
-    Shape shape;
-    AtlasSprite sprite;
+    gf::Path path;
+    gf::Vector<int32_t, 2> size;
   };
 
   template<typename Archive>
-  Archive& operator|(Archive& ar, ItemData& data) {
-    return ar | data.name | data.description | data.shape | data.sprite;
+  Archive& operator|(Archive& ar, AtlasData& data) {
+    return ar | data.name | data.path | data.size;
+  }
+
+
+  struct AtlasSprite {
+    gf::Id atlas;
+    int32_t index;
+    float scale;
+  };
+
+  template<typename Archive>
+  Archive& operator|(Archive& ar, AtlasSprite& data) {
+    return ar | data.atlas | data.index | data.scale;
   }
 
 }
 
-#endif // AKGR_ITEM_DATA_H
+#endif // AKGR_ATLAS_DATA_H
