@@ -125,7 +125,7 @@ namespace akgr {
     template<typename T>
     void checkRef(T *data, const char *name) {
       if (data == nullptr) {
-        gf::Log::error("Reference was '%s'\n", name);
+        gf::Log::error("A binding failed. Reference was '%s'\n", name);
         std::abort();
       }
     }
@@ -386,7 +386,6 @@ namespace akgr {
     character.ref.bind(getData(vm).characters);
     checkRef(character.ref.data, characterId);
 
-    character.dialog = gf::InvalidId;
     character.physics.location = locationRef.data->location;
     character.physics.angle = 0.0f; // TODO
     character.physics.body = getState(vm).physics.createCharacterBody(character.physics.location, character.physics.angle);
@@ -424,7 +423,10 @@ namespace akgr {
 
     for (auto& character : getState(vm).characters) {
       if (character.ref.id == id) {
-        character.dialog = gf::hash(dialogId);
+        character.dialog.id = gf::hash(dialogId);
+        character.dialog.bind(getData(vm).dialogs);
+        checkRef(character.dialog.data, dialogId);
+
         gf::Log::debug("Dialog '%s' attached to '%s'\n", dialogId, characterId);
         break;
       }

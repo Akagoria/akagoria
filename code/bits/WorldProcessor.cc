@@ -165,7 +165,7 @@ namespace akgr {
     };
 
     for (auto& character : m_state.characters) {
-      if (character.dialog == gf::InvalidId) {
+      if (character.dialog.id == gf::InvalidId) {
         continue;
       }
 

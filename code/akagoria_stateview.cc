@@ -63,7 +63,7 @@ namespace {
     fmt::print("Number of characters: {}\n", state.size());
 
     for (auto& character : state) {
-      fmt::print("\t{}: ({}) {} {:.0f}°\n", Id{character.ref.id}, Id{character.dialog},  character.physics.location, gf::radiansToDegrees(character.physics.angle));
+      fmt::print("\t{}: ({}) {} {:.0f}°\n", Id{character.ref.id}, Id{character.dialog.id},  character.physics.location, gf::radiansToDegrees(character.physics.angle));
     }
   }
 

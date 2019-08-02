@@ -25,13 +25,14 @@
 
 #include "CharacterData.h"
 #include "DataRef.h"
+#include "DialogData.h"
 #include "PhysicsState.h"
 
 namespace akgr {
 
   struct CharacterState {
     DataRef<CharacterData> ref;
-    gf::Id dialog = gf::InvalidId;
+    DataRef<DialogData> dialog;
     PhysicsBody physics;
   };
 

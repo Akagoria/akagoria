@@ -75,7 +75,7 @@ namespace akgr {
           // check for a character conversation
 
           for (auto& character : m_state.characters) {
-            if (character.dialog == gf::InvalidId) {
+            if (character.dialog.id == gf::InvalidId) {
               continue;
             }
 
@@ -86,11 +86,11 @@ namespace akgr {
             if (squareDistanceToHero(character.physics.location.position) < gf::square(DialogDistance)) {
               m_state.operation = WorldOperation::Talk;
 
-              hero.dialog.ref.id = character.dialog;
-              hero.dialog.ref.bind(m_data.dialogs);
+              hero.dialog.ref = character.dialog;
               assert(hero.dialog.ref.data != nullptr);
 
-              character.dialog = gf::InvalidId;
+              character.dialog.id = gf::InvalidId;
+              character.dialog.data = nullptr;
             }
           }
 

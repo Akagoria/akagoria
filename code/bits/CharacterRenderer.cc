@@ -45,13 +45,9 @@ namespace akgr {
         continue;
       }
 
-      if (character.dialog != gf::InvalidId) {
-        DataRef<DialogData> dialogRef = { };
-        dialogRef.id = character.dialog;
-        dialogRef.bind(m_data.dialogs);
-        assert(dialogRef.data);
-
-        auto type = dialogRef.data->type;
+      if (character.dialog.id != gf::InvalidId) {
+        assert(character.dialog.data != nullptr);
+        auto type = character.dialog.data->type;
 
         gf::Color4f color = gf::Color::Opaque(0.5f);
 
