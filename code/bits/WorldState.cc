@@ -75,6 +75,12 @@ namespace akgr {
     for (auto& character : characters) {
       character.ref.bind(data.characters);
       assert(character.ref.data);
+
+      if (character.dialog.id != gf::InvalidId) {
+        character.dialog.bind(data.dialogs);
+        assert(character.dialog.data);
+      }
+
       character.physics.body = physics.createCharacterBody(character.physics.location, character.physics.angle);
     }
 

@@ -81,7 +81,6 @@ namespace akgr {
             if (m_root.selector.getSlot().active) {
               m_scenery.operation = OpeningOperation::Load;
               m_root.operation = RootOperation::None;
-              m_root.selector.index.choice = 0;
             }
           }
         }
