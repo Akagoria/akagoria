@@ -50,7 +50,7 @@ namespace akgr {
 
       value += gain;
       anti1.value -= loss;
-      anti1.value -= loss;
+      anti2.value -= loss;
     }
   };
 
