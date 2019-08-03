@@ -53,6 +53,7 @@ add_executable(akagoria
   bits/OptionsScenery.cc
   bits/PhysicsRuntime.cc
   bits/PhysicsState.cc
+  bits/ProgressionState.cc
   bits/Script.cc
   bits/ShrineRenderer.cc
   bits/SlotSelectorRenderer.cc

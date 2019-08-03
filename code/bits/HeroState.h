@@ -30,6 +30,7 @@
 #include "DialogState.h"
 #include "InventoryState.h"
 #include "PhysicsState.h"
+#include "ProgressionState.h"
 
 namespace akgr {
 
@@ -49,6 +50,8 @@ namespace akgr {
     std::set<gf::Id> requirements;
     AspectState aspect;
     AttributeState attributes;
+    ProgressionState progression;
+
     InventoryState inventory;
 
     DialogState dialog;
@@ -57,7 +60,8 @@ namespace akgr {
 
   template<typename Archive>
   Archive& operator|(Archive& ar, HeroState& state) {
-    return ar | state.move | state.requirements | state.aspect | state.attributes | state.inventory | state.dialog | state.physics;
+    return ar | state.move | state.requirements | state.aspect | state.attributes | state.progression
+        | state.inventory | state.dialog | state.physics;
   }
 
 }
