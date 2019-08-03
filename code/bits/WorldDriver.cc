@@ -122,6 +122,12 @@ namespace akgr {
 
             if (squareDistanceToHero(shrine.location.position) < gf::square(ShrineDistance)) {
               switch (shrine.type) {
+                case ShrineType::Ale:
+                  m_state.operation = WorldOperation::Save;
+                  break;
+                case ShrineType::Ike:
+                  gf::Log::info("Ike Shrine!\n");
+                  break;
                 case ShrineType::Moli:
                   gf::Log::info("Moli Shrine!\n");
                   break;
@@ -129,10 +135,10 @@ namespace akgr {
                   hero.aspect.hp.increase();
                   break;
                 case ShrineType::Sewi:
-                  gf::Log::info("Sewi Shrine!\n");
+                  hero.aspect.mp.increase();
                   break;
-                case ShrineType::Tomo:
-                  m_state.operation = WorldOperation::Save;
+                case ShrineType::Sijelo:
+                  hero.aspect.vp.increase();
                   break;
               }
 

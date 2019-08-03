@@ -31,19 +31,25 @@ namespace akgr {
 
     gf::Color4f getColorFromShrineType(ShrineType type) {
       switch (type) {
+        case ShrineType::Ale:
+          return gf::Color::Yellow;
+        case ShrineType::Ike:
+          return gf::Color::White;
         case ShrineType::Moli:
           return gf::Color::Black;
         case ShrineType::Pona:
           return gf::Color4f(0.75f, 0.25f, 0.25f, 1.0f);
         case ShrineType::Sewi:
           return gf::Color4f(0.25f, 0.25f, 0.75f, 1.0f);
-        case ShrineType::Tomo:
-          return gf::Color4f(1.0f, 1.0f, 0.5f, 1.0f);
+        case ShrineType::Sijelo:
+          return gf::Color4f(0.25f, 0.75f, 0.25f, 1.0f);
       }
 
       assert(false);
       return gf::Color::White;
     }
+
+    const float ShrineParticleSize = 2.0f;
 
   }
 
@@ -55,9 +61,6 @@ namespace akgr {
   }
 
   void ShrineRenderer::render(gf::RenderTarget& target, const gf::RenderStates& states) {
-    gf::Coordinates coords(target);
-    gf::Vector2f size = coords.getRelativeSize({ 0.0f, 0.002f });
-
     gf::ShapeParticles particles;
 
     auto floor = m_state.hero.physics.location.floor;
@@ -73,7 +76,7 @@ namespace akgr {
         float rho = particle.amplitude * (1.0f + particle.e * std::cos(particle.n * particle.theta));
         gf::Vector2f position = center + rho * gf::unit(particle.theta);
 
-        particles.addCircle(position, size.height, getColorFromShrineType(shrine.data->type));
+        particles.addCircle(position, ShrineParticleSize, getColorFromShrineType(shrine.data->type));
       }
     }
 

@@ -356,6 +356,14 @@ namespace {
     }
 
     akgr::ShrineType getShrineType(const std::string& type) {
+      if (type == "ale") {
+        return akgr::ShrineType::Ale;
+      }
+
+      if (type == "ike") {
+        return akgr::ShrineType::Ike;
+      }
+
       if (type == "moli") {
         return akgr::ShrineType::Moli;
       }
@@ -368,8 +376,8 @@ namespace {
         return akgr::ShrineType::Sewi;
       }
 
-      if (type == "tomo") {
-        return akgr::ShrineType::Tomo;
+      if (type == "sijelo") {
+        return akgr::ShrineType::Sijelo;
       }
 
       assert(false);

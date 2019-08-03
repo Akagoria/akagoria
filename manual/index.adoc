@@ -16,6 +16,7 @@ Welcome to the Akagoria developer documentation.
 
 == Content developers
 
+- link:world_description.html[Description of Akagoria]
 - link:world_builder.html[Akagoria world builder manual]
 - link:game_system.html[Game system]
 

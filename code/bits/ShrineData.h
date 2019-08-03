@@ -28,10 +28,12 @@
 namespace akgr {
 
   enum class ShrineType : uint8_t {
+    Ale,
+    Ike,
     Moli,
     Pona,
     Sewi,
-    Tomo,
+    Sijelo,
   };
 
   struct ShrineData {

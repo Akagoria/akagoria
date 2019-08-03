@@ -1,0 +1,33 @@
+= Akagoria world builder manual
+Julien Bernard <julien.bernard@univ-fcomte.fr>
+v0.5
+:toc:
+:homepage: https://akagoria.github.io/
+:stem: latexmath
+:source-highlighter: coderay
+:xrefstyle: full
+
+This document describes the world of Akagoria.
+
+== Environment
+
+=== Shrines
+
+.Shrines
+|===
+| Name | Color | Role
+
+| Shrine of Ale | Yellow | Save the game
+
+| Shrine of Ike | Black | Provide darkness
+
+| Shrine of Moli | White | Define a respawn point
+
+| Shrine of Pona | Red | Provide HP
+
+| Shrine of Sewi | Blue | Provide MP
+
+| Shrine of Sijelo | Green | Provide VP
+|===
+
+

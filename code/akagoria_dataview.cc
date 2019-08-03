@@ -160,14 +160,18 @@ namespace {
 
   const char *getShrineType(akgr::ShrineType type) {
     switch (type) {
+      case akgr::ShrineType::Ale:
+        return "Ale";
+      case akgr::ShrineType::Ike:
+        return "Ike";
       case akgr::ShrineType::Moli:
         return "Moli";
       case akgr::ShrineType::Pona:
         return "Pona";
       case akgr::ShrineType::Sewi:
         return "Sewi";
-      case akgr::ShrineType::Tomo:
-        return "Tomo";
+      case akgr::ShrineType::Sijelo:
+        return "Sijelo";
     }
 
     return "???";
