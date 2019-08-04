@@ -1,4 +1,4 @@
-= Akagoria world builder manual
+= Description of Akagoria
 Julien Bernard <julien.bernard@univ-fcomte.fr>
 v0.5
 :toc:
@@ -8,6 +8,20 @@ v0.5
 :xrefstyle: full
 
 This document describes the world of Akagoria.
+
+== History
+
+=== Ancient Age
+
+Many thousands years ago, the Six Divines created the world of Akagoria. Ale created life, Ike created evil, Moli created death. Then Pona, Sewi and Sijelo created the Humans giving them health, magic and vitality. The Divines lived among the Humans for many years. Nobody knows exactly how it ended, but the Divines disappeared. That was the end of the Ancient Age.
+
+
+== Geography
+
+Akagoria is a wide world with many continents and islands.
+
+_Akagoria, the revenge of Kalista_ occurs on one of these islands, in a peaceful kingdom.
+
 
 == Environment
 
@@ -19,7 +33,7 @@ This document describes the world of Akagoria.
 
 | Shrine of Ale | Yellow | Save the game
 
-| Shrine of Ike | Black | Provide darkness
+| Shrine of Ike | Black | Provide XP
 
 | Shrine of Moli | White | Define a respawn point
 
