@@ -23,7 +23,7 @@
 
 namespace akgr {
 
-  void VfxScenery::onAspectBoost(gf::Random& random, gf::Color4f color) {
+  void VfxScenery::onAspectBoost(gf::Random& random, Aspect aspect) {
     static constexpr int Count = 50;
 
     static constexpr float DelayMin = 0.0f;
@@ -40,7 +40,7 @@ namespace akgr {
       particle.delay = gf::seconds(delay);
       particle.angle = angle;
       particle.distance = distance;
-      particle.color = color;
+      particle.color = getAspectColor(aspect);
       particle.lifetime = gf::seconds(VfxAspectParticle::Lifetime);
 
       aspectParticles.push_back(particle);

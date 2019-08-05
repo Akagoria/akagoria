@@ -134,13 +134,15 @@ namespace akgr {
                   break;
                 case ShrineType::Pona:
                   hero.aspect.hp.increase();
-                  m_scenery.vfx.onAspectBoost(m_random, gf::Color4f(0.75f, 0.25f, 0.25f, 1.0f));
+                  m_scenery.vfx.onAspectBoost(m_random, Aspect::Health);
                   break;
                 case ShrineType::Sewi:
                   hero.aspect.mp.increase();
+                  m_scenery.vfx.onAspectBoost(m_random, Aspect::Magic);
                   break;
                 case ShrineType::Sijelo:
                   hero.aspect.vp.increase();
+                  m_scenery.vfx.onAspectBoost(m_random, Aspect::Vitality);
                   break;
               }
 

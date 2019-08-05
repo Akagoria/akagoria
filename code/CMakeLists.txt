@@ -32,6 +32,7 @@ target_compile_definitions(wren
 add_executable(akagoria
   akagoria.cc
   bits/AreaRenderer.cc
+  bits/Aspect.cc
   bits/AspectState.cc
   bits/AspectRenderer.cc
   bits/AttributeState.cc

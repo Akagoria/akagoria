@@ -26,6 +26,8 @@
 #include <gf/Time.h>
 #include <gf/Vector.h>
 
+#include "Aspect.h"
+
 namespace akgr {
 
   struct VfxAspectParticle {
@@ -41,7 +43,7 @@ namespace akgr {
   struct VfxScenery {
     std::vector<VfxAspectParticle> aspectParticles;
 
-    void onAspectBoost(gf::Random& random, gf::Color4f color);
+    void onAspectBoost(gf::Random& random, Aspect aspect);
     void update(gf::Time time);
   };
 

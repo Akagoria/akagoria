@@ -17,21 +17,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_ASPECT_H
-#define AKGR_ASPECT_H
+#include "Aspect.h"
 
-#include <gf/Vector.h>
+#include <cassert>
+
+#include <gf/Color.h>
 
 namespace akgr {
 
-  enum Aspect {
-    Health,
-    Magic,
-    Vitality,
-  };
+  gf::Color4f getAspectColor(Aspect aspect) {
+    switch (aspect) {
+      case Aspect::Health:
+        return gf::Color4f(0.75f, 0.25f, 0.25f, 1.0f);
+      case Aspect::Magic:
+        return gf::Color4f(0.25f, 0.25f, 0.75f, 1.0f);
+      case Aspect::Vitality:
+        return gf::Color4f(0.25f, 0.75f, 0.25f, 1.0f);
+    }
 
-  gf::Color4f getAspectColor(Aspect aspect);
+    assert(false);
+    return gf::Color::Black;
+  }
 
 }
-
-#endif // AKGR_ASPECT_H

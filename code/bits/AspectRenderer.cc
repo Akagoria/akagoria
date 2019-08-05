@@ -106,11 +106,11 @@ namespace akgr {
       return;
     }
 
-    drawAspect(target, states, m_state.hero.aspect.hp, { 0.015f, 0.015f }, gf::Color4f(0.75f, 0.25f, 0.25f, 1.0f),
+    drawAspect(target, states, m_state.hero.aspect.hp, { 0.015f, 0.015f }, getAspectColor(Aspect::Health),
         m_texture, gf::RectF({ 0.0f, 0.0f }, { 0.125f, 0.125f }), m_font, "HP");
-    drawAspect(target, states, m_state.hero.aspect.mp, { 0.015f, 0.055f }, gf::Color4f(0.25f, 0.25f, 0.75f, 1.0f),
+    drawAspect(target, states, m_state.hero.aspect.mp, { 0.015f, 0.055f }, getAspectColor(Aspect::Magic),
         m_texture, gf::RectF({ 0.125f, 0.0f }, { 0.125f, 0.125f }), m_font, "MP");
-    drawAspect(target, states, m_state.hero.aspect.vp, { 0.015f, 0.095f }, gf::Color4f(0.25f, 0.75f, 0.25f, 1.0f),
+    drawAspect(target, states, m_state.hero.aspect.vp, { 0.015f, 0.095f }, getAspectColor(Aspect::Vitality),
         m_texture, gf::RectF({ 0.625f, 0.0f }, { 0.125f, 0.125f }), m_font, "VP");
   }
 

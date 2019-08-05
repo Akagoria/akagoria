@@ -24,6 +24,8 @@
 #include <gf/Particles.h>
 #include <gf/RenderTarget.h>
 
+#include "Aspect.h"
+
 namespace akgr {
 
   namespace {
@@ -37,11 +39,11 @@ namespace akgr {
         case ShrineType::Moli:
           return gf::Color::Black;
         case ShrineType::Pona:
-          return gf::Color4f(0.75f, 0.25f, 0.25f, 1.0f);
+          return getAspectColor(Aspect::Health);
         case ShrineType::Sewi:
-          return gf::Color4f(0.25f, 0.25f, 0.75f, 1.0f);
+          return getAspectColor(Aspect::Magic);
         case ShrineType::Sijelo:
-          return gf::Color4f(0.25f, 0.75f, 0.25f, 1.0f);
+          return getAspectColor(Aspect::Vitality);
       }
 
       assert(false);
