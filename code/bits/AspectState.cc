@@ -17,44 +17,44 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_ASPECT_STATE_H
-#define AKGR_ASPECT_STATE_H
+#include "AspectState.h"
 
-#include <cstdint>
-
-#include <gf/Time.h>
-
-#include "Aspect.h"
+#include <cassert>
 
 namespace akgr {
 
-  struct AspectValue {
-    int32_t value = 75;
-    int32_t max = 100;
-    gf::Time period = gf::Time::zero();
+  void AspectValue::increase() {
+    value = value + max / 10;
 
-    void increase();
-    void update(gf::Time time, gf::Time maxPeriod);
-  };
-
-  template<typename Archive>
-  Archive& operator|(Archive& ar, AspectValue& aspect) {
-    return ar | aspect.value | aspect.max | aspect.period;
+    if (value > max) {
+      value = max;
+    }
   }
 
-  struct AspectState {
-    AspectValue hp;
-    AspectValue mp;
-    AspectValue vp;
+  void AspectValue::update(gf::Time time, gf::Time maxPeriod) {
+    period += time;
 
-    AspectValue& operator[](Aspect aspect);
-  };
+    while (period > maxPeriod) {
+      if (value < max) {
+        ++value;
+      }
 
-  template<typename Archive>
-  Archive& operator|(Archive& ar, AspectState& state) {
-    return ar | state.hp | state.mp | state.vp;
+      period -= maxPeriod;
+    }
+  }
+
+  AspectValue& AspectState::operator[](Aspect aspect) {
+    switch (aspect) {
+      case Aspect::Health:
+        return hp;
+      case Aspect::Magic:
+        return mp;
+      case Aspect::Vitality:
+        return vp;
+    }
+
+    assert(false);
+    return hp;
   }
 
 }
-
-#endif // AKGR_ASPECT_STATE_H

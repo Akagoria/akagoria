@@ -22,36 +22,14 @@
 
 #include <cstdint>
 
+#include "Attribute.h"
+
 namespace akgr {
-  enum class Attribute {
-    Strength,
-    Dexterity,
-    Intelligence,
-    Wisdom,
-    Knowledge,
-  };
 
   struct AttributeValue {
     int32_t value = 5000;
 
-    void increase(int32_t gain, AttributeValue& anti1, AttributeValue& anti2) {
-      gain += (gain % 2);
-      int32_t loss = gain / 2;
-
-      if (loss > anti1.value) {
-        loss = anti1.value;
-      }
-
-      if (loss > anti2.value) {
-        loss = anti2.value;
-      }
-
-      gain = loss * 2;
-
-      value += gain;
-      anti1.value -= loss;
-      anti2.value -= loss;
-    }
+    void increase(int32_t gain, AttributeValue& anti1, AttributeValue& anti2);
   };
 
   template<typename Archive>
@@ -66,40 +44,8 @@ namespace akgr {
     AttributeValue wisdom;
     AttributeValue knowledge;
 
-    void increase(Attribute kind, int32_t gain) {
-      switch (kind) {
-        case Attribute::Strength:
-          strength.increase(gain, intelligence, wisdom);
-          break;
-        case Attribute::Dexterity:
-          dexterity.increase(gain, wisdom, knowledge);
-          break;
-        case Attribute::Intelligence:
-          intelligence.increase(gain, knowledge, strength);
-          break;
-        case Attribute::Wisdom:
-          wisdom.increase(gain, strength, dexterity);
-          break;
-        case Attribute::Knowledge:
-          knowledge.increase(gain, dexterity, intelligence);
-          break;
-      }
-    }
-
-    AttributeValue& operator[](Attribute kind) {
-      switch (kind) {
-        case Attribute::Strength:
-          return strength;
-        case Attribute::Dexterity:
-          return dexterity;
-        case Attribute::Intelligence:
-          return intelligence;
-        case Attribute::Wisdom:
-          return wisdom;
-        case Attribute::Knowledge:
-          return knowledge;
-      }
-    }
+    void increase(Attribute kind, int32_t gain);
+    AttributeValue& operator[](Attribute attribute);
   };
 
   template<typename Archive>

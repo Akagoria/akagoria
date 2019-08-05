@@ -35,7 +35,7 @@ namespace akgr {
     constexpr float AspectIconSize = 64.0f;
     constexpr float AspectCharacterSize = 0.0259;
 
-    void drawAspect(gf::RenderTarget& target, const gf::RenderStates& states, Aspect& attr, gf::Vector2f relativePosition, const gf::Color4f& color,
+    void drawAspect(gf::RenderTarget& target, const gf::RenderStates& states, AspectValue& aspect, gf::Vector2f relativePosition, const gf::Color4f& color,
         const gf::Texture& texture, const gf::RectF& textureRect, gf::Font& font, const std::string& name) {
       gf::Coordinates coords(target);
 
@@ -53,7 +53,7 @@ namespace akgr {
       }
 
       {
-        float percent = static_cast<float>(attr.value) / static_cast<float>(attr.max);
+        float percent = static_cast<float>(aspect.value) / static_cast<float>(aspect.max);
         gf::Vector2f bar = size * gf::Vector2f(percent, 1.0f);
         gf::RectangleShape shape(bar);
         shape.setColor(color);
@@ -76,7 +76,7 @@ namespace akgr {
 
       {
         gf::Color4f fontColor = gf::Color::White * gf::Color::Opaque(0.8f); // gf::Color::darker(color);
-        std::string str = std::to_string(attr.value) + '/' + std::to_string(attr.max) + ' ' + name;
+        std::string str = std::to_string(aspect.value) + '/' + std::to_string(aspect.max) + ' ' + name;
         unsigned characterSize = coords.getRelativeCharacterSize(AspectCharacterSize); // static_cast<unsigned>(insideHeight)
         gf::Text text(str, font, characterSize);
         text.setColor(fontColor);

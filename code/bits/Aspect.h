@@ -17,44 +17,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_ASPECT_STATE_H
-#define AKGR_ASPECT_STATE_H
-
-#include <cstdint>
-
-#include <gf/Time.h>
-
-#include "Aspect.h"
+#ifndef AKGR_ASPECT_H
+#define AKGR_ASPECT_H
 
 namespace akgr {
 
-  struct AspectValue {
-    int32_t value = 75;
-    int32_t max = 100;
-    gf::Time period = gf::Time::zero();
-
-    void increase();
-    void update(gf::Time time, gf::Time maxPeriod);
+  enum Aspect {
+    Health,
+    Magic,
+    Vitality,
   };
-
-  template<typename Archive>
-  Archive& operator|(Archive& ar, AspectValue& aspect) {
-    return ar | aspect.value | aspect.max | aspect.period;
-  }
-
-  struct AspectState {
-    AspectValue hp;
-    AspectValue mp;
-    AspectValue vp;
-
-    AspectValue& operator[](Aspect aspect);
-  };
-
-  template<typename Archive>
-  Archive& operator|(Archive& ar, AspectState& state) {
-    return ar | state.hp | state.mp | state.vp;
-  }
 
 }
 
-#endif // AKGR_ASPECT_STATE_H
+#endif // AKGR_ASPECT_H
