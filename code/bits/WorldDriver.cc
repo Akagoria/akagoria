@@ -26,13 +26,14 @@
 
 namespace akgr {
 
-  WorldDriver::WorldDriver(const WorldData& data, WorldState& state, WorldScenery& scenery, RootScenery& root, const Commands& commands, Script& script)
+  WorldDriver::WorldDriver(const WorldData& data, WorldState& state, WorldScenery& scenery, RootScenery& root, const Commands& commands, Script& script, gf::Random& random)
   : m_data(data)
   , m_state(state)
   , m_scenery(scenery)
   , m_root(root)
   , m_commands(commands)
   , m_script(script)
+  , m_random(random)
   {
 
 
@@ -133,6 +134,7 @@ namespace akgr {
                   break;
                 case ShrineType::Pona:
                   hero.aspect.hp.increase();
+                  m_scenery.vfx.onAspectBoost(m_random, gf::Color4f(0.75f, 0.25f, 0.25f, 1.0f));
                   break;
                 case ShrineType::Sewi:
                   hero.aspect.mp.increase();

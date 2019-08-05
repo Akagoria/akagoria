@@ -63,6 +63,7 @@
 #include "bits/StartMenuRenderer.h"
 #include "bits/PhysicsRuntime.h"
 #include "bits/UIData.h"
+#include "bits/VfxRenderer.h"
 #include "bits/WorldData.h"
 #include "bits/WorldDriver.h"
 #include "bits/WorldProcessor.h"
@@ -383,6 +384,9 @@ int main() {
   akgr::ShrineRenderer shrine(worldScenery, worldState);
   mainEntities.addEntity(shrine);
 
+  akgr::VfxRenderer vfx(worldScenery, worldState);
+  mainEntities.addEntity(vfx);
+
   akgr::PhysicsDebugger debug(worldState.physics);
   mainEntities.addEntity(debug);
 
@@ -430,7 +434,7 @@ int main() {
   // driver
 
   akgr::WorldProcessor worldProcessor(worldData, worldState, worldScenery, rootScenery, script);
-  akgr::WorldDriver worldDriver(worldData, worldState, worldScenery, rootScenery, commands, script);
+  akgr::WorldDriver worldDriver(worldData, worldState, worldScenery, rootScenery, commands, script, random);
 
   // game loop
 

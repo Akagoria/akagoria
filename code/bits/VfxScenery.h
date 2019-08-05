@@ -17,36 +17,34 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_WORLD_SCENERY_H
-#define AKGR_WORLD_SCENERY_H
+#ifndef AKGR_VFX_SCENERY_H
+#define AKGR_VFX_SCENERY_H
 
 #include <vector>
 
 #include <gf/Random.h>
-#include <gf/ResourceManager.h>
-
-#include "AreaScenery.h"
-#include "GameMenuScenery.h"
-#include "InventoryScenery.h"
-#include "MapScenery.h"
-#include "ShrineScenery.h"
-#include "VfxScenery.h"
+#include <gf/Time.h>
+#include <gf/Vector.h>
 
 namespace akgr {
-  struct WorldData;
 
-  struct WorldScenery {
-    GameMenuScenery menu;
-    InventoryScenery inventory;
+  struct VfxAspectParticle {
+    gf::Time delay;
+    float angle;
+    float distance;
+    gf::Color4f color;
+    gf::Time lifetime;
 
-    MapScenery map;
-    AreaScenery area;
-    std::vector<ShrineScenery> shrines;
-    VfxScenery vfx;
+    static constexpr float Lifetime = 0.5f;
+  };
 
-    void bind(const WorldData& data, gf::ResourceManager& resources, gf::Random& random);
+  struct VfxScenery {
+    std::vector<VfxAspectParticle> aspectParticles;
+
+    void onAspectBoost(gf::Random& random, gf::Color4f color);
+    void update(gf::Time time);
   };
 
 }
 
-#endif // AKGR_WORLD_SCENERY_H
+#endif // AKGR_VFX_SCENERY_H

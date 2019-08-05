@@ -139,6 +139,11 @@ namespace akgr {
       }
     }
 
+    // particles
+
+    m_scenery.vfx.update(time);
+
+    // area
 
     m_scenery.area.period += time;
 

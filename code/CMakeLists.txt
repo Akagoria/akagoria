@@ -61,6 +61,8 @@ add_executable(akagoria
   bits/StartMenuRenderer.cc
   bits/StartMenuScenery.cc
   bits/UIData.cc
+  bits/VfxRenderer.cc
+  bits/VfxScenery.cc
   bits/WorldData.cc
   bits/WorldDriver.cc
   bits/WorldProcessor.cc

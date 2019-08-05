@@ -30,11 +30,11 @@ namespace akgr {
   class ShrineRenderer : public gf::Entity {
   public:
 
-    ShrineRenderer(WorldScenery& scenery, const WorldState& state);
+    ShrineRenderer(const WorldScenery& scenery, const WorldState& state);
 
     virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
   private:
-    WorldScenery& m_scenery;
+    const WorldScenery& m_scenery;
     const WorldState& m_state;
   };
 }

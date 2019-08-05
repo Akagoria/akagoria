@@ -17,36 +17,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_WORLD_SCENERY_H
-#define AKGR_WORLD_SCENERY_H
+#ifndef AKGR_VFX_RENDERER_H
+#define AKGR_VFX_RENDERER_H
 
-#include <vector>
+#include <gf/Entity.h>
 
-#include <gf/Random.h>
-#include <gf/ResourceManager.h>
-
-#include "AreaScenery.h"
-#include "GameMenuScenery.h"
-#include "InventoryScenery.h"
-#include "MapScenery.h"
-#include "ShrineScenery.h"
-#include "VfxScenery.h"
+#include "WorldScenery.h"
+#include "WorldState.h"
 
 namespace akgr {
-  struct WorldData;
 
-  struct WorldScenery {
-    GameMenuScenery menu;
-    InventoryScenery inventory;
+  class VfxRenderer : public gf::Entity {
+  public:
+    VfxRenderer(const WorldScenery& scenery, const WorldState& state);
 
-    MapScenery map;
-    AreaScenery area;
-    std::vector<ShrineScenery> shrines;
-    VfxScenery vfx;
-
-    void bind(const WorldData& data, gf::ResourceManager& resources, gf::Random& random);
+    virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
+  private:
+    const WorldScenery& m_scenery;
+    const WorldState& m_state;
   };
-
 }
 
-#endif // AKGR_WORLD_SCENERY_H
+#endif // AKGR_VFX_RENDERER_H

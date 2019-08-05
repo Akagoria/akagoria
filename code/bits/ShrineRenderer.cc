@@ -21,7 +21,6 @@
 
 #include <cassert>
 
-#include <gf/Coordinates.h>
 #include <gf/Particles.h>
 #include <gf/RenderTarget.h>
 
@@ -53,7 +52,7 @@ namespace akgr {
 
   }
 
-  ShrineRenderer::ShrineRenderer(WorldScenery& scenery, const WorldState& state)
+  ShrineRenderer::ShrineRenderer(const WorldScenery& scenery, const WorldState& state)
   : m_scenery(scenery)
   , m_state(state)
   {

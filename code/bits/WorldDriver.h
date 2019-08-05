@@ -31,7 +31,7 @@ namespace akgr {
 
   class WorldDriver {
   public:
-    WorldDriver(const WorldData& data, WorldState& state, WorldScenery& scenery, RootScenery& root, const Commands& commands, Script& script);
+    WorldDriver(const WorldData& data, WorldState& state, WorldScenery& scenery, RootScenery& root, const Commands& commands, Script& script, gf::Random& random);
 
     void processCommands();
 
@@ -42,6 +42,7 @@ namespace akgr {
     RootScenery& m_root;
     const Commands& m_commands;
     Script& m_script;
+    gf::Random& m_random;
   };
 
 }
