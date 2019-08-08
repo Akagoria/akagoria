@@ -24,7 +24,7 @@
 
 namespace akgr {
 
-  enum class ShapeType : int32_t {
+  enum class ShapeType : uint8_t {
     None,
     Circle,
     Rectangle,

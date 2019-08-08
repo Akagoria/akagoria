@@ -24,7 +24,7 @@
 
 namespace akgr {
 
-  enum Aspect {
+  enum class Aspect {
     Health,
     Magic,
     Vitality,

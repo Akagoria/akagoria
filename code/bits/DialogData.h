@@ -26,7 +26,7 @@
 namespace akgr {
 
   struct DialogData {
-    enum Type : int8_t {
+    enum Type : uint8_t {
       Simple  = 1,
       Quest   = 2,
       Story   = 3,
