@@ -1,6 +1,7 @@
 #ifndef AKGR_UI_SCENERY_H
 #define AKGR_UI_SCENERY_H
 
+#include <cstddef>
 #include <cstdint>
 
 namespace akgr {
