@@ -36,6 +36,53 @@
 
 namespace {
 
+  const char *getShapeType(akgr::ShapeType type) {
+    switch (type) {
+      case akgr::ShapeType::None:
+        return "None";
+      case akgr::ShapeType::Circle:
+        return "Circle";
+      case akgr::ShapeType::Rectangle:
+        return "Rectangle";
+    }
+
+    return "???";
+  }
+
+  const char *getShrineType(akgr::ShrineType type) {
+    switch (type) {
+      case akgr::ShrineType::Ale:
+        return "Ale";
+      case akgr::ShrineType::Ike:
+        return "Ike";
+      case akgr::ShrineType::Moli:
+        return "Moli";
+      case akgr::ShrineType::Pona:
+        return "Pona";
+      case akgr::ShrineType::Sewi:
+        return "Sewi";
+      case akgr::ShrineType::Sijelo:
+        return "Sijelo";
+    }
+
+    return "???";
+  }
+
+  const char *getWeaponType(akgr::WeaponType type) {
+    switch (type) {
+      case akgr::WeaponType::Melee:
+        return "Melee";
+      case akgr::WeaponType::Ranged:
+        return "Ranged";
+      case akgr::WeaponType::Explosive:
+        return "Explosive";
+    }
+
+    return "???";
+  }
+
+
+
   void viewNewSection(const char *section) {
     fmt::print("#\n# {}\n#\n", section);
   }
@@ -85,32 +132,6 @@ namespace {
 
   }
 
-  const char *getShapeType(akgr::ShapeType type) {
-    switch (type) {
-      case akgr::ShapeType::None:
-        return "None";
-      case akgr::ShapeType::Circle:
-        return "Circle";
-      case akgr::ShapeType::Rectangle:
-        return "Rectangle";
-    }
-
-    return "???";
-  }
-
-  const char *getWeaponType(akgr::WeaponType type) {
-    switch (type) {
-      case akgr::WeaponType::Melee:
-        return "Melee";
-      case akgr::WeaponType::Ranged:
-        return "Ranged";
-      case akgr::WeaponType::Explosive:
-        return "Explosive";
-    }
-
-    return "???";
-  }
-
   void viewPhysicsData(const akgr::PhysicsData& data) {
     viewNewSection("Physics");
     fmt::print("Number of zones: {}\n", data.zones.size());
@@ -138,6 +159,16 @@ namespace {
     }
   }
 
+  void viewLandscapeData(const akgr::LandscapeData& data) {
+    viewNewSection("Landscape");
+
+    fmt::print("Number of shrines: {}\n", data.shrines.size());
+
+    for (auto& shrine : data.shrines) {
+      fmt::print("\t{} [{}]\n", shrine.location, getShrineType(shrine.type));
+    }
+  }
+
   void viewAreaData(const std::map<gf::Id, akgr::AreaData>& data) {
     viewNewSection("Areas");
     fmt::print("Number of areas: {}\n", data.size());
@@ -155,34 +186,6 @@ namespace {
     for (auto& kv : data) {
       auto& loc = kv.second;
       fmt::print("\t{}: '{}' {}\n", Id{kv.first}, loc.name, loc.location);
-    }
-  }
-
-  const char *getShrineType(akgr::ShrineType type) {
-    switch (type) {
-      case akgr::ShrineType::Ale:
-        return "Ale";
-      case akgr::ShrineType::Ike:
-        return "Ike";
-      case akgr::ShrineType::Moli:
-        return "Moli";
-      case akgr::ShrineType::Pona:
-        return "Pona";
-      case akgr::ShrineType::Sewi:
-        return "Sewi";
-      case akgr::ShrineType::Sijelo:
-        return "Sijelo";
-    }
-
-    return "???";
-  }
-
-  void viewShrineData(const std::vector<akgr::ShrineData>& data) {
-    viewNewSection("Shrines");
-    fmt::print("Number of shrines: {}\n", data.size());
-
-    for (auto& shrine : data) {
-      fmt::print("\t{} [{}]\n", shrine.location, getShrineType(shrine.type));
     }
   }
 
@@ -285,9 +288,9 @@ namespace {
   void viewData(const akgr::WorldData& data) {
     viewMapData(data.map);
     viewPhysicsData(data.physics);
+    viewLandscapeData(data.landscape);
     viewAreaData(data.areas);
     viewLocationData(data.locations);
-    viewShrineData(data.shrines);
 
     viewAtlasData(data.atlases);
     viewDialogData(data.dialogs);

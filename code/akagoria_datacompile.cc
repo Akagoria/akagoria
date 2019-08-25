@@ -220,9 +220,13 @@ namespace {
       gf::Polyline polyline(gf::Polyline::Loop);
 
       static constexpr int EllipseSegmentCount = 10;
+      static constexpr float SegmentLength = 50.0f;
 
-      for (int i = 0; i < EllipseSegmentCount; ++i) {
-        polyline.addPoint(size / 2 * gf::unit(2.0f * gf::Pi * i / EllipseSegmentCount) + center);
+      float perimeterApprox = gf::Pi * std::sqrt(2 * (gf::square(size.width) + gf::square(size.height)));
+      int count = std::max(EllipseSegmentCount, static_cast<int>(perimeterApprox / SegmentLength));
+
+      for (int i = 0; i < count; ++i) {
+        polyline.addPoint(size / 2 * gf::unit(2.0f * gf::Pi * i / count) + center);
       }
 
       return polyline;
@@ -431,11 +435,11 @@ namespace {
 
           std::string shrineType = tilesetTile->properties.getStringProperty("shrine_type", "");
 
-          akgr::ShrineData shrine;
+          akgr::LandscapeShrineData shrine;
           shrine.type = getShrineType(shrineType);
           shrine.location.position = gf::transform(gf::rotation(gf::degreesToRadians(sprite.rotation), bottomLeft), center);
           shrine.location.floor = currentFloor;
-          data.shrines.push_back(std::move(shrine));
+          data.landscape.shrines.push_back(std::move(shrine));
         }
 
         /*

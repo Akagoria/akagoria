@@ -19,6 +19,7 @@
  */
 #include "VfxScenery.h"
 
+#include <gf/Color.h>
 #include <gf/VectorOps.h>
 
 namespace akgr {
@@ -40,26 +41,11 @@ namespace akgr {
       particle.delay = gf::seconds(delay);
       particle.angle = angle;
       particle.distance = distance;
-      particle.color = getAspectColor(aspect);
+      particle.color = gf::Color::lighter(getAspectColor(aspect), 0.75f);
       particle.lifetime = gf::seconds(VfxAspectParticle::Lifetime);
 
-      aspectParticles.push_back(particle);
+      aspectEmitter.particles.push_back(particle);
     }
-  }
-
-  void VfxScenery::update(gf::Time time) {
-    for (auto& particle : aspectParticles) {
-      if (particle.delay > gf::Time::zero()) {
-        particle.delay -= time;
-        continue;
-      }
-
-      particle.lifetime -= time;
-    }
-
-    aspectParticles.erase(
-        std::remove_if(aspectParticles.begin(), aspectParticles.end(), [](const auto& particle) { return particle.lifetime < gf::Time::zero(); }),
-        aspectParticles.end());
   }
 
 }

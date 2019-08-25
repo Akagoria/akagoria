@@ -21,11 +21,40 @@
 
 #include <cassert>
 
+#include <gf/Color.h>
 #include <gf/Easings.h>
 #include <gf/Particles.h>
 #include <gf/RenderTarget.h>
 
+#include "Aspect.h"
+
 namespace akgr {
+
+  namespace {
+
+    gf::Color4f getColorFromShrineType(ShrineType type) {
+      switch (type) {
+        case ShrineType::Ale:
+          return gf::Color::Yellow;
+        case ShrineType::Ike:
+          return gf::Color::White;
+        case ShrineType::Moli:
+          return gf::Color::Black;
+        case ShrineType::Pona:
+          return getAspectColor(Aspect::Health);
+        case ShrineType::Sewi:
+          return getAspectColor(Aspect::Magic);
+        case ShrineType::Sijelo:
+          return getAspectColor(Aspect::Vitality);
+      }
+
+      assert(false);
+      return gf::Color::White;
+    }
+
+    const float VfxShrineParticleSize = 2.0f;
+
+  }
 
   VfxRenderer::VfxRenderer(const WorldScenery& scenery, const WorldState& state)
   : m_scenery(scenery)
@@ -39,7 +68,29 @@ namespace akgr {
 
     gf::ShapeParticles particles;
 
-    for (auto& particle : m_scenery.vfx.aspectParticles) {
+    // shrines
+
+    auto floor = m_state.hero.physics.location.floor;
+
+    for (auto& shrine : m_scenery.vfx.shrineEmitters) {
+      if (shrine.data->location.floor != floor) {
+        continue;
+      }
+
+      gf::Vector2f center = shrine.data->location.position;
+
+      for (auto& particle : shrine.particles) {
+        float rho = particle.amplitude * (1.0f + particle.e * std::cos(particle.n * particle.theta));
+        gf::Vector2f position = center + rho * gf::unit(particle.theta);
+
+        particles.addCircle(position, VfxShrineParticleSize, getColorFromShrineType(shrine.data->type));
+      }
+    }
+
+
+    // aspect
+
+    for (auto& particle : m_scenery.vfx.aspectEmitter.particles) {
       static constexpr float RadiusMin = 0.8f;
       static constexpr float RadiusMax = 2.0f;
 

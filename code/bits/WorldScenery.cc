@@ -90,22 +90,22 @@ namespace akgr {
 
     // shrines
 
-    for (auto& shrine : data.shrines) {
-      ShrineScenery scenery;
-      scenery.data = &shrine;
+    for (auto& shrine : data.landscape.shrines) {
+      VfxShrineEmitter emitter;
+      emitter.data = &shrine;
 
       for (std::size_t i = 0; i < ShrineParticleCount; ++i) {
-        ShrineParticle particle;
+        VfxShrineParticle particle;
         particle.velocity = random.computeUniformFloat(0.5f * gf::Pi, 1.5f * gf::Pi);
         particle.amplitude = ShrineParticleMinRadius;
         particle.theta = random.computeUniformFloat(0.0f, 2 * gf::Pi);
         particle.n = random.computeUniformFloat(1.0f, 3.0f);
         particle.e = random.computeUniformFloat(0.5f, 1.5f);
         particle.clockwise = (i % 2 == 0);
-        scenery.particles.push_back(particle);
+        emitter.particles.push_back(particle);
       }
 
-      shrines.push_back(std::move(scenery));
+      vfx.shrineEmitters.push_back(std::move(emitter));
     }
 
   }

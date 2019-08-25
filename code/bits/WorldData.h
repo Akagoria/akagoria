@@ -30,11 +30,11 @@
 #include "CharacterData.h"
 #include "DialogData.h"
 #include "ItemData.h"
+#include "LandscapeData.h"
 #include "LocationData.h"
 #include "MapData.h"
 #include "NotificationData.h"
 #include "PhysicsData.h"
-#include "ShrineData.h"
 #include "WeaponData.h"
 
 namespace akgr {
@@ -42,9 +42,9 @@ namespace akgr {
   struct WorldData {
     MapData map;
     PhysicsData physics;
+    LandscapeData landscape;
     std::map<gf::Id, AreaData> areas;
     std::map<gf::Id, LocationData> locations;
-    std::vector<ShrineData> shrines;
 
     std::map<gf::Id, AtlasData> atlases;
 
@@ -61,7 +61,7 @@ namespace akgr {
 
   template<typename Archive>
   Archive& operator|(Archive& ar, WorldData& data) {
-    return ar | data.map | data.physics | data.areas | data.locations | data.shrines
+    return ar | data.map | data.physics | data.landscape | data.areas | data.locations
         | data.atlases | data.dialogs | data.notifications | data.characters | data.items | data.weapons;
   }
 

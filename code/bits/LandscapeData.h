@@ -17,26 +17,37 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_SHRINE_RENDERER_H
-#define AKGR_SHRINE_RENDERER_H
+#ifndef AKGR_LANDSCAPE_DATA_H
+#define AKGR_LANDSCAPE_DATA_H
 
-#include <gf/Entity.h>
+#include <cstdint>
+#include <string>
 
-#include "WorldScenery.h"
-#include "WorldState.h"
+#include "LocationTypes.h"
+#include "Shrine.h"
 
 namespace akgr {
 
-  class ShrineRenderer : public gf::Entity {
-  public:
-
-    ShrineRenderer(const WorldScenery& scenery, const WorldState& state);
-
-    virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
-  private:
-    const WorldScenery& m_scenery;
-    const WorldState& m_state;
+  struct LandscapeShrineData {
+    ShrineType type;
+    Location location;
   };
+
+  template<typename Archive>
+  Archive& operator|(Archive& ar, LandscapeShrineData& data) {
+    return ar | data.type | data.location;
+  }
+
+
+  struct LandscapeData {
+    std::vector<LandscapeShrineData> shrines;
+  };
+
+  template<typename Archive>
+  Archive& operator|(Archive& ar, LandscapeData& data) {
+    return ar | data.shrines;
+  }
+
 }
 
-#endif // AKGR_SHRINE_RENDERER_H
+#endif // AKGR_LANDSCAPE_DATA_H

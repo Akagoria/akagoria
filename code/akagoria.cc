@@ -58,7 +58,6 @@
 #include "bits/OpeningScenery.h"
 #include "bits/RootScenery.h"
 #include "bits/Script.h"
-#include "bits/ShrineRenderer.h"
 #include "bits/SlotSelectorRenderer.h"
 #include "bits/StartMenuRenderer.h"
 #include "bits/PhysicsRuntime.h"
@@ -380,9 +379,6 @@ int main() {
 
   akgr::ItemRenderer item(worldData, worldState, resources);
   mainEntities.addEntity(item);
-
-  akgr::ShrineRenderer shrine(worldScenery, worldState);
-  mainEntities.addEntity(shrine);
 
   akgr::VfxRenderer vfx(worldScenery, worldState);
   mainEntities.addEntity(vfx);

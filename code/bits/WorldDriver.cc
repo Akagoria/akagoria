@@ -116,7 +116,7 @@ namespace akgr {
 
           // check for a shrine
 
-          for (auto& shrine : m_data.shrines) {
+          for (auto& shrine : m_data.landscape.shrines) {
             if (shrine.location.floor != hero.physics.location.floor) {
               continue;
             }

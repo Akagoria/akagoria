@@ -29,7 +29,6 @@
 #include "GameMenuScenery.h"
 #include "InventoryScenery.h"
 #include "MapScenery.h"
-#include "ShrineScenery.h"
 #include "VfxScenery.h"
 
 namespace akgr {
@@ -41,7 +40,6 @@ namespace akgr {
 
     MapScenery map;
     AreaScenery area;
-    std::vector<ShrineScenery> shrines;
     VfxScenery vfx;
 
     void bind(const WorldData& data, gf::ResourceManager& resources, gf::Random& random);

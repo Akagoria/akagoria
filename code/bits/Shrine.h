@@ -17,28 +17,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_SHRINE_SCENERY_H
-#define AKGR_SHRINE_SCENERY_H
+#ifndef AKGR_SHRINE_H
+#define AKGR_SHRINE_H
 
-#include "DataRef.h"
-#include "ShrineData.h"
+#include <cstdint>
 
 namespace akgr {
 
-  struct ShrineParticle {
-    float velocity;
-    float amplitude;
-    float theta;
-    float n;
-    float e;
-    bool clockwise;
-  };
-
-  struct ShrineScenery {
-    const ShrineData *data;
-    std::vector<ShrineParticle> particles;
+  enum class ShrineType : uint8_t {
+    Ale,
+    Ike,
+    Moli,
+    Pona,
+    Sewi,
+    Sijelo,
   };
 
 }
 
-#endif // AKGR_SHRINE_SCENERY_H
+#endif // AKGR_SHRINE_H

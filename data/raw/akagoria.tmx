@@ -14,11 +14,21 @@
    <properties>
     <property name="shrine_type" value="ale"/>
    </properties>
+   <objectgroup draworder="index">
+    <object id="1" x="10.5" y="11.5" width="105.25" height="105.25">
+     <ellipse/>
+    </object>
+   </objectgroup>
   </tile>
   <tile id="2" type="shrine">
    <properties>
     <property name="shrine_type" value="pona"/>
    </properties>
+   <objectgroup draworder="index">
+    <object id="1" x="10.875" y="10.875" width="105.25" height="105.25">
+     <ellipse/>
+    </object>
+   </objectgroup>
   </tile>
   <tile id="3" type="stairs">
    <objectgroup draworder="index">

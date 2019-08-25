@@ -27,8 +27,24 @@
 #include <gf/Vector.h>
 
 #include "Aspect.h"
+#include "LandscapeData.h"
 
 namespace akgr {
+
+  struct VfxShrineParticle {
+    float velocity;
+    float amplitude;
+    float theta;
+    float n;
+    float e;
+    bool clockwise;
+  };
+
+  struct VfxShrineEmitter {
+    const LandscapeShrineData *data;
+    std::vector<VfxShrineParticle> particles;
+  };
+
 
   struct VfxAspectParticle {
     gf::Time delay;
@@ -40,11 +56,15 @@ namespace akgr {
     static constexpr float Lifetime = 0.5f;
   };
 
+  struct VfxAspectEmitter {
+    std::vector<VfxAspectParticle> particles;
+  };
+
   struct VfxScenery {
-    std::vector<VfxAspectParticle> aspectParticles;
+    VfxAspectEmitter aspectEmitter;
+    std::vector<VfxShrineEmitter> shrineEmitters;
 
     void onAspectBoost(gf::Random& random, Aspect aspect);
-    void update(gf::Time time);
   };
 
 }

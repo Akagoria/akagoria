@@ -123,9 +123,9 @@ namespace akgr {
      * scenery
      */
 
-    // shrines
+    // vfx
 
-    for (auto& shrine : m_scenery.shrines) {
+    for (auto& shrine : m_scenery.vfx.shrineEmitters) {
       if (shrine.data->location.floor != floor) {
         continue;
       }
@@ -139,9 +139,23 @@ namespace akgr {
       }
     }
 
-    // particles
+    {
+      auto& particles = m_scenery.vfx.aspectEmitter.particles;
 
-    m_scenery.vfx.update(time);
+      for (auto& particle : particles) {
+        if (particle.delay > gf::Time::zero()) {
+          particle.delay -= time;
+          continue;
+        }
+
+        particle.lifetime -= time;
+      }
+
+      particles.erase(
+          std::remove_if(particles.begin(), particles.end(), [](const auto& particle) { return particle.lifetime < gf::Time::zero(); }),
+          particles.end()
+      );
+    }
 
     // area
 
@@ -193,7 +207,7 @@ namespace akgr {
       }
     }
 
-    for (auto& shrine : m_data.shrines) {
+    for (auto& shrine : m_data.landscape.shrines) {
       if (shrine.location.floor != hero.physics.location.floor) {
         continue;
       }
