@@ -32,7 +32,7 @@ namespace akgr {
 
   class WorldProcessor : gf::Model {
   public:
-    WorldProcessor(const WorldData& data, WorldState& state, WorldScenery& scenery, RootScenery& root, Script& script);
+    WorldProcessor(const WorldData& data, WorldState& state, WorldScenery& scenery, RootScenery& root, Script& script, gf::Random& random);
 
     virtual void update(gf::Time time) override;
 
@@ -42,6 +42,7 @@ namespace akgr {
     WorldScenery& m_scenery;
     RootScenery& m_root;
     Script& m_script;
+    gf::Random& m_random;
   };
 
 }

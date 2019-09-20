@@ -145,9 +145,9 @@ namespace akgr {
     gf::Sprite sprite(m_texture);
 
     if (m_root.options.data.getInput() == OptionsData::Input::Gamepad) {
-      sprite.setTextureRect(gf::RectF({ 0.500f, 0.0f }, { 0.125f, 0.125f }));
+      sprite.setTextureRect(gf::RectF::fromPositionSize({ 0.500f, 0.0f }, { 0.125f, 0.125f }));
     } else {
-      sprite.setTextureRect(gf::RectF({ 0.375f, 0.0f }, { 0.125f, 0.125f }));
+      sprite.setTextureRect(gf::RectF::fromPositionSize({ 0.375f, 0.0f }, { 0.125f, 0.125f }));
     }
 
     sprite.setPosition(position + gf::projx(padding) / 2);

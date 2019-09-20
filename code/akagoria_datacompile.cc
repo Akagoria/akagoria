@@ -551,14 +551,14 @@ namespace {
             continue;
           }
 
-          akgr::AreaData areaData;
-          areaData.name = object->name;
-          areaData.position.center = object->position;
-          areaData.position.radius = 0.0f;
+          akgr::AreaData area;
+          area.name = object->name;
+          area.position.center = object->position;
+          area.position.radius = 0.0f;
 
-          data.areas.insert({ gf::hash(areaData.name), std::move(areaData) });
+          strings.push_back(area.name);
 
-          strings.push_back(object->name);
+          data.areas.insert({ gf::hash(area.name), std::move(area) });
         }
 
         return;
@@ -750,9 +750,10 @@ namespace {
         akgr::DialogData::Line line;
         line.speaker = item["speaker"].get<std::string>();
         line.words = item["words"].get<std::string>();
-        dialog.content.push_back(std::move(line));
 
-        strings.push_back(item["words"].get<std::string>());
+        strings.push_back(line.words);
+
+        dialog.content.push_back(std::move(line));
       }
 
       data.emplace(gf::hash(dialog.name), std::move(dialog));
@@ -772,9 +773,9 @@ namespace {
       notification.message = value["message"].get<std::string>();
       notification.duration = gf::seconds(value["duration"].get<float>());
 
-      data.emplace(gf::hash(notification.name), std::move(notification));
+      strings.push_back(notification.message);
 
-      strings.push_back(value["message"].get<std::string>());
+      data.emplace(gf::hash(notification.name), std::move(notification));
     }
   }
 
@@ -795,7 +796,7 @@ namespace {
     }
   }
 
-  void compileJsonItems(const gf::Path& filename, std::map<gf::Id, akgr::ItemData>& data) {
+  void compileJsonItems(const gf::Path& filename, std::map<gf::Id, akgr::ItemData>& data, std::vector<std::string>& strings) {
     std::ifstream ifs(filename.string());
 
     const auto j = nlohmann::json::parse(ifs);
@@ -807,6 +808,8 @@ namespace {
       auto value = kv.value();
       item.description = value["description"].get<std::string>();
       item.shape.type = getShapeType(value["shape"]["type"].get<std::string>());
+
+      strings.push_back(item.description);
 
       switch (item.shape.type) {
         case akgr::ShapeType::None:
@@ -848,9 +851,9 @@ namespace {
       weapon.angle = value["angle"].get<float>();
       weapon.cooldown = gf::milliseconds(value["cooldown"].get<int32_t>());
 
-      data.emplace(gf::hash(weapon.name), std::move(weapon));
+      strings.push_back(weapon.description);
 
-      strings.push_back(value["description"].get<std::string>());
+      data.emplace(gf::hash(weapon.name), std::move(weapon));
     }
   }
 
@@ -866,9 +869,9 @@ namespace {
       auto value = kv.value();
       ui.message = value.get<std::string>();
 
-      data.emplace(gf::hash(ui.name), std::move(ui));
+      strings.push_back(ui.message);
 
-      strings.push_back(value.get<std::string>());
+      data.emplace(gf::hash(ui.name), std::move(ui));
     }
   }
 
@@ -951,7 +954,7 @@ int main(int argc, char *argv[]) {
   compileJsonDialogs(databaseDirectory / "dialogs.json", worldData.dialogs, strings);
   compileJsonNotifications(databaseDirectory / "notifications.json", worldData.notifications, strings);
   compileJsonCharacters(databaseDirectory / "characters.json", worldData.characters);
-  compileJsonItems(databaseDirectory / "items.json", worldData.items);
+  compileJsonItems(databaseDirectory / "items.json", worldData.items, strings);
   compileJsonWeapons(databaseDirectory / "weapons.json", worldData.weapons, strings);
 
   postProcessAreas(worldData.areas);

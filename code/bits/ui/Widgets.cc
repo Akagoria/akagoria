@@ -300,7 +300,7 @@ namespace akgr {
 
       float height = coords.getRelativeSize({ 0.0f, 0.03f }).height;
 
-      gf::Sprite sprite(theme.getArrowTexture(), gf::RectF({ 0.25f, 0.0f }, { 0.125f, 0.125f }));
+      gf::Sprite sprite(theme.getArrowTexture(), gf::RectF::fromPositionSize({ 0.25f, 0.0f }, { 0.125f, 0.125f }));
       sprite.setPosition(coords.getRelativePoint(position));
       sprite.setScale(height / ArrowSize);
       sprite.setAnchor(gf::Anchor::Center);
@@ -399,7 +399,7 @@ namespace akgr {
 
       float height = coords.getRelativeSize({ 0.0f, 0.03f }).height;
 
-      gf::Sprite sprite(theme.getArrowTexture(), gf::RectF({ 0.25f, 0.0f }, { 0.125f, 0.125f }));
+      gf::Sprite sprite(theme.getArrowTexture(), gf::RectF::fromPositionSize({ 0.25f, 0.0f }, { 0.125f, 0.125f }));
       sprite.setPosition(coords.getRelativePoint(position));
       sprite.setScale(height / ArrowSize);
       sprite.setAnchor(gf::Anchor::Center);
@@ -429,10 +429,10 @@ namespace akgr {
       text.setColor(gf::Color::White);
       text.setOutlineColor(gf::Color::Black);
       text.setOutlineThickness(1);
-      text.setAnchor(gf::Anchor::TopLeft);
+      text.setAnchor(gf::Anchor::CenterLeft);
 
-      gf::RectF bounds = text.getLocalBounds();
-      text.setPosition(position + gf::diry((size.height - bounds.height) / 2));
+      gf::Vector2f bounds = text.getLocalBounds().getSize();
+      text.setPosition(position + gf::diry(size.height / 2));
       target.draw(text, states);
 
       if (bounds.width > size.width || bounds.height > size.height) {
@@ -468,7 +468,7 @@ namespace akgr {
       text.setOutlineThickness(1);
       text.setAnchor(gf::Anchor::TopLeft);
 
-      gf::RectF bounds = text.getLocalBounds();
+      gf::Vector2f bounds = text.getLocalBounds().getSize();
       text.setPosition(position);
       target.draw(text, states);
 
@@ -504,10 +504,10 @@ namespace akgr {
         text.setColor(gf::Color::White);
         text.setOutlineColor(gf::Color::Black);
         text.setOutlineThickness(1);
-        text.setAnchor(gf::Anchor::TopLeft);
+        text.setAnchor(gf::Anchor::CenterLeft);
 
-        gf::RectF bounds = text.getLocalBounds();
-        text.setPosition(position + gf::diry((size.height - bounds.height) / 2));
+        gf::Vector2f bounds = text.getLocalBounds().getSize();
+        text.setPosition(position + gf::diry(size.height / 2));
         target.draw(text, states);
 
         if (bounds.width > size.width || bounds.height > size.height) {

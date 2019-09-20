@@ -132,17 +132,7 @@ namespace akgr {
                 case ShrineType::Moli:
                   gf::Log::info("Moli Shrine!\n");
                   break;
-                case ShrineType::Pona:
-                  hero.aspect.hp.increase();
-                  m_scenery.vfx.onAspectBoost(m_random, Aspect::Health);
-                  break;
-                case ShrineType::Sewi:
-                  hero.aspect.mp.increase();
-                  m_scenery.vfx.onAspectBoost(m_random, Aspect::Magic);
-                  break;
-                case ShrineType::Sijelo:
-                  hero.aspect.vp.increase();
-                  m_scenery.vfx.onAspectBoost(m_random, Aspect::Vitality);
+                default:
                   break;
               }
 

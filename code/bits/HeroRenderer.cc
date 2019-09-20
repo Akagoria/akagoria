@@ -33,17 +33,17 @@ namespace akgr {
     auto& texture = resources.getTexture("sprites/kalista.png");
     texture.setSmooth(true);
 
-    m_staticAnimation.addFrame(texture, { 0.0f, 0.0f, 0.25f, 0.25f }, gf::seconds(1.0f));
+    m_staticAnimation.addFrame(texture, gf::RectF::fromPositionSize({ 0.0f, 0.0f }, { 0.25f, 0.25f }), gf::seconds(1.0f));
 
-    m_forwardAnimation.addFrame(texture, { 0.0f,  0.0f, 0.25f, 0.25f }, gf::seconds(0.15f));
-    m_forwardAnimation.addFrame(texture, { 0.25f, 0.0f, 0.25f, 0.25f }, gf::seconds(0.20f));
-    m_forwardAnimation.addFrame(texture, { 0.0f,  0.0f, 0.25f, 0.25f }, gf::seconds(0.15f));
-    m_forwardAnimation.addFrame(texture, { 0.5f,  0.0f, 0.25f, 0.25f }, gf::seconds(0.20f));
+    m_forwardAnimation.addFrame(texture, gf::RectF::fromPositionSize({ 0.0f,  0.0f }, { 0.25f, 0.25f }), gf::seconds(0.15f));
+    m_forwardAnimation.addFrame(texture, gf::RectF::fromPositionSize({ 0.25f, 0.0f }, { 0.25f, 0.25f }), gf::seconds(0.20f));
+    m_forwardAnimation.addFrame(texture, gf::RectF::fromPositionSize({ 0.0f,  0.0f }, { 0.25f, 0.25f }), gf::seconds(0.15f));
+    m_forwardAnimation.addFrame(texture, gf::RectF::fromPositionSize({ 0.5f,  0.0f }, { 0.25f, 0.25f }), gf::seconds(0.20f));
 
-    m_backwardAnimation.addFrame(texture, { 0.0f,  0.0f, 0.25f, 0.25f }, gf::seconds(0.20f));
-    m_backwardAnimation.addFrame(texture, { 0.5f,  0.0f, 0.25f, 0.25f }, gf::seconds(0.30f));
-    m_backwardAnimation.addFrame(texture, { 0.0f,  0.0f, 0.25f, 0.25f }, gf::seconds(0.20f));
-    m_backwardAnimation.addFrame(texture, { 0.25f, 0.0f, 0.25f, 0.25f }, gf::seconds(0.30f));
+    m_backwardAnimation.addFrame(texture, gf::RectF::fromPositionSize({ 0.0f,  0.0f }, { 0.25f, 0.25f }), gf::seconds(0.20f));
+    m_backwardAnimation.addFrame(texture, gf::RectF::fromPositionSize({ 0.5f,  0.0f }, { 0.25f, 0.25f }), gf::seconds(0.30f));
+    m_backwardAnimation.addFrame(texture, gf::RectF::fromPositionSize({ 0.0f,  0.0f }, { 0.25f, 0.25f }), gf::seconds(0.20f));
+    m_backwardAnimation.addFrame(texture, gf::RectF::fromPositionSize({ 0.25f, 0.0f }, { 0.25f, 0.25f }), gf::seconds(0.30f));
   }
 
   void HeroRenderer::update(gf::Time time) {

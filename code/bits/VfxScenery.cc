@@ -19,33 +19,6 @@
  */
 #include "VfxScenery.h"
 
-#include <gf/Color.h>
-#include <gf/VectorOps.h>
-
 namespace akgr {
-
-  void VfxScenery::onAspectBoost(gf::Random& random, Aspect aspect) {
-    static constexpr int Count = 50;
-
-    static constexpr float DelayMin = 0.0f;
-    static constexpr float DelayMax = 0.8f;
-    static constexpr float DistanceMin = 20.0f;
-    static constexpr float DistanceMax = 80.0f;
-
-    for (int i = 0; i < Count; ++i) {
-      float delay = random.computeUniformFloat(DelayMin, DelayMax);
-      float angle = random.computeAngle();
-      float distance = random.computeRadius(DistanceMin, DistanceMax);
-
-      VfxAspectParticle particle;
-      particle.delay = gf::seconds(delay);
-      particle.angle = angle;
-      particle.distance = distance;
-      particle.color = gf::Color::lighter(getAspectColor(aspect), 0.75f);
-      particle.lifetime = gf::seconds(VfxAspectParticle::Lifetime);
-
-      aspectEmitter.particles.push_back(particle);
-    }
-  }
 
 }

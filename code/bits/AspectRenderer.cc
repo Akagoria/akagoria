@@ -76,7 +76,7 @@ namespace akgr {
 
       {
         gf::Color4f fontColor = gf::Color::White * gf::Color::Opaque(0.8f); // gf::Color::darker(color);
-        std::string str = std::to_string(aspect.value) + '/' + std::to_string(aspect.max) + ' ' + name;
+        std::string str = std::to_string(aspect.value / 100) + '/' + std::to_string(aspect.max / 100) + ' ' + name;
         unsigned characterSize = coords.getRelativeCharacterSize(AspectCharacterSize); // static_cast<unsigned>(insideHeight)
         gf::Text text(str, font, characterSize);
         text.setColor(fontColor);
@@ -107,11 +107,11 @@ namespace akgr {
     }
 
     drawAspect(target, states, m_state.hero.aspect.hp, { 0.015f, 0.015f }, getAspectColor(Aspect::Health),
-        m_texture, gf::RectF({ 0.0f, 0.0f }, { 0.125f, 0.125f }), m_font, "HP");
+        m_texture, gf::RectF::fromPositionSize({ 0.0f, 0.0f }, { 0.125f, 0.125f }), m_font, "HP");
     drawAspect(target, states, m_state.hero.aspect.mp, { 0.015f, 0.055f }, getAspectColor(Aspect::Magic),
-        m_texture, gf::RectF({ 0.125f, 0.0f }, { 0.125f, 0.125f }), m_font, "MP");
+        m_texture, gf::RectF::fromPositionSize({ 0.125f, 0.0f }, { 0.125f, 0.125f }), m_font, "MP");
     drawAspect(target, states, m_state.hero.aspect.vp, { 0.015f, 0.095f }, getAspectColor(Aspect::Vitality),
-        m_texture, gf::RectF({ 0.625f, 0.0f }, { 0.125f, 0.125f }), m_font, "VP");
+        m_texture, gf::RectF::fromPositionSize({ 0.625f, 0.0f }, { 0.125f, 0.125f }), m_font, "VP");
   }
 
 }

@@ -32,14 +32,48 @@ namespace akgr {
     static constexpr gf::Time MPUpdatePeriod = gf::seconds(29);
     static constexpr gf::Time VPUpdatePeriod = gf::seconds(29);
 
+    static constexpr gf::Time AspectParticleSpawnPeriod = gf::milliseconds(150);
+    static constexpr float AspectParticleFadeoutDistance = 25.0f;
+    static constexpr float AspectParticleVelocity = 250.0f;
+
+    bool isAspectShrine(ShrineType shrine) {
+      switch (shrine) {
+        case ShrineType::Pona:
+        case ShrineType::Sewi:
+        case ShrineType::Sijelo:
+          return true;
+        default:
+          break;
+      }
+
+      return false;
+    }
+
+    Aspect getAspectFromShrine(ShrineType shrine) {
+      switch (shrine) {
+        case ShrineType::Pona:
+          return Aspect::Health;
+        case ShrineType::Sewi:
+          return Aspect::Magic;
+        case ShrineType::Sijelo:
+          return Aspect::Vitality;
+        default:
+          break;
+      }
+
+      assert(false);
+      return Aspect::Health;
+    }
+
   }
 
-  WorldProcessor::WorldProcessor(const WorldData& data, WorldState& state, WorldScenery& scenery, RootScenery& root, Script& script)
+  WorldProcessor::WorldProcessor(const WorldData& data, WorldState& state, WorldScenery& scenery, RootScenery& root, Script& script, gf::Random& random)
   : m_data(data)
   , m_state(state)
   , m_scenery(scenery)
   , m_root(root)
   , m_script(script)
+  , m_random(random)
   {
 
   }
@@ -53,6 +87,10 @@ namespace akgr {
 
     auto &hero = m_state.hero;
     const uint16_t floor = hero.physics.location.floor;
+
+    auto squareDistanceToHero = [&hero](gf::Vector2f other) {
+      return gf::squareDistance(hero.physics.location.position, other);
+    };
 
     // hero (pre-update)
     {
@@ -116,7 +154,44 @@ namespace akgr {
     hero.aspect.mp.update(time, MPUpdatePeriod);
     hero.aspect.vp.update(time, VPUpdatePeriod);
 
-    // ...
+    // shrines
+
+    for (auto& shrine : m_scenery.vfx.shrineEmitters) {
+      if (!isAspectShrine(shrine.data->type)) {
+        continue;
+      }
+
+      if (shrine.data->location.floor != floor) {
+        continue;
+      }
+
+      if (squareDistanceToHero(shrine.data->location.position) > gf::square(ShrineDistance)) {
+        continue;
+      }
+
+      Aspect aspect = getAspectFromShrine(shrine.data->type);
+
+      if (!hero.aspect[aspect].increase(time)) {
+        continue;
+      }
+
+      shrine.spawnDelay += time;
+
+      while (shrine.spawnDelay > AspectParticleSpawnPeriod) {
+        assert(!shrine.particles.empty());
+        std::size_t index = m_random.computeUniformInteger<std::size_t>(0, shrine.particles.size() - 1);
+        auto& spawn = shrine.particles[index];
+
+        VfxAspectParticle particle;
+        particle.position = shrine.data->location.position + spawn.getPosition();
+        particle.color = getAspectColor(aspect);
+        particle.alive = true;
+        m_scenery.vfx.aspectEmitter.particles.push_back(particle);
+
+        shrine.spawnDelay -= AspectParticleSpawnPeriod;
+      }
+    }
+
 
 
     /*
@@ -143,16 +218,18 @@ namespace akgr {
       auto& particles = m_scenery.vfx.aspectEmitter.particles;
 
       for (auto& particle : particles) {
-        if (particle.delay > gf::Time::zero()) {
-          particle.delay -= time;
+        gf::Vector2f velocity = hero.physics.location.position - particle.position;
+        float distance = gf::euclideanLength(velocity);
+        particle.position += AspectParticleVelocity * velocity / distance * dt;
+
+        if (distance < AspectParticleFadeoutDistance) {
+          particle.alive = false;
           continue;
         }
-
-        particle.lifetime -= time;
       }
 
       particles.erase(
-          std::remove_if(particles.begin(), particles.end(), [](const auto& particle) { return particle.lifetime < gf::Time::zero(); }),
+          std::remove_if(particles.begin(), particles.end(), [](const auto& particle) { return !particle.alive; }),
           particles.end()
       );
     }
@@ -179,10 +256,6 @@ namespace akgr {
      * root
      */
 
-    auto squareDistanceToHero = [&hero](gf::Vector2f other) {
-      return gf::squareDistance(hero.physics.location.position, other);
-    };
-
     for (auto& character : m_state.characters) {
       if (character.dialog.id == gf::InvalidId) {
         continue;
@@ -204,16 +277,6 @@ namespace akgr {
 
       if (squareDistanceToHero(item.physics.location.position) < gf::square(ItemDistance + item.ref.data->shape.getPhysicalSize())) {
         m_root.helper.status = HelperStatus::Pick;
-      }
-    }
-
-    for (auto& shrine : m_data.landscape.shrines) {
-      if (shrine.location.floor != hero.physics.location.floor) {
-        continue;
-      }
-
-      if (squareDistanceToHero(shrine.location.position) < gf::square(ShrineDistance)) {
-        m_root.helper.status = HelperStatus::Use;
       }
     }
   }

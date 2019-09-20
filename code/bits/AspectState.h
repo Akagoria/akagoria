@@ -29,11 +29,11 @@
 namespace akgr {
 
   struct AspectValue {
-    int32_t value = 75;
-    int32_t max = 100;
+    int32_t value = 7500;
+    int32_t max = 10000;
     gf::Time period = gf::Time::zero();
 
-    void increase();
+    bool increase(gf::Time time);
     void update(gf::Time time, gf::Time maxPeriod);
   };
 

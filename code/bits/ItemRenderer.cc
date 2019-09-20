@@ -55,7 +55,7 @@ namespace akgr {
       gf::Vector2i textureIndex = { data.sprite.index % atlas.size.width, data.sprite.index / atlas.size.width };
 
       gf::Sprite sprite(texture);
-      sprite.setTextureRect({ textureSize * textureIndex, textureSize });
+      sprite.setTextureRect(gf::RectF::fromPositionSize(textureSize * textureIndex, textureSize));
       sprite.setAnchor(gf::Anchor::Center);
       sprite.setPosition(item.physics.location.position);
       sprite.setRotation(item.physics.angle);

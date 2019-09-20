@@ -19,6 +19,8 @@
  */
 #include "InventoryRenderer.h"
 
+#include <boost/locale.hpp>
+
 #include <gf/Coordinates.h>
 #include <gf/VectorOps.h>
 
@@ -53,7 +55,7 @@ namespace akgr {
     }
 
     auto newInventoryItemWidget = [&](const InventoryItem& item) {
-      auto widget = new ui::DoubleTextWidget(parent, item.ref.data->description, std::to_string(item.count));
+      auto widget = new ui::DoubleTextWidget(parent, boost::locale::gettext(item.ref.data->description.c_str()), std::to_string(item.count));
       widget->setSize(ui::Common::DefaultCaptionSize);
       return widget;
     };

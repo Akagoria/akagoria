@@ -20,11 +20,13 @@
 #ifndef AKGR_VFX_SCENERY_H
 #define AKGR_VFX_SCENERY_H
 
+#include <cmath>
 #include <vector>
 
 #include <gf/Random.h>
 #include <gf/Time.h>
 #include <gf/Vector.h>
+#include <gf/VectorOps.h>
 
 #include "Aspect.h"
 #include "LandscapeData.h"
@@ -38,22 +40,30 @@ namespace akgr {
     float n;
     float e;
     bool clockwise;
+
+    gf::Vector2f getPosition() const {
+      float rho = amplitude * (1.0f + e * std::cos(n * theta));
+      return rho * gf::unit(theta);
+    }
+
+    gf::Vector2f getVelocity() const {
+      float rho = amplitude * (1.0f + e * std::cos(n * theta));
+      float drho = - amplitude * e * std::sin(n * theta) * n * (clockwise ? velocity : - velocity);
+      return drho * gf::unit(theta) + rho * velocity * gf::perp(gf::unit(theta));
+    }
   };
 
   struct VfxShrineEmitter {
     const LandscapeShrineData *data;
     std::vector<VfxShrineParticle> particles;
+    gf::Time spawnDelay;
   };
 
 
   struct VfxAspectParticle {
-    gf::Time delay;
-    float angle;
-    float distance;
+    gf::Vector2f position;
     gf::Color4f color;
-    gf::Time lifetime;
-
-    static constexpr float Lifetime = 0.5f;
+    bool alive;
   };
 
   struct VfxAspectEmitter {
@@ -63,8 +73,6 @@ namespace akgr {
   struct VfxScenery {
     VfxAspectEmitter aspectEmitter;
     std::vector<VfxShrineEmitter> shrineEmitters;
-
-    void onAspectBoost(gf::Random& random, Aspect aspect);
   };
 
 }

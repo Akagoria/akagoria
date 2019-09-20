@@ -429,7 +429,7 @@ int main() {
 
   // driver
 
-  akgr::WorldProcessor worldProcessor(worldData, worldState, worldScenery, rootScenery, script);
+  akgr::WorldProcessor worldProcessor(worldData, worldState, worldScenery, rootScenery, script, random);
   akgr::WorldDriver worldDriver(worldData, worldState, worldScenery, rootScenery, commands, script, random);
 
   // game loop

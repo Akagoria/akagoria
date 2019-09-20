@@ -23,12 +23,15 @@
 
 namespace akgr {
 
-  void AspectValue::increase() {
-    value = value + max / 10;
+  bool AspectValue::increase(gf::Time time) {
+    value += (max / 20) * time.asSeconds();
 
     if (value > max) {
       value = max;
+      return false;
     }
+
+    return true;
   }
 
   void AspectValue::update(gf::Time time, gf::Time maxPeriod) {

@@ -52,7 +52,7 @@ namespace akgr {
       return gf::Color::White;
     }
 
-    const float VfxShrineParticleSize = 2.0f;
+    constexpr float VfxShrineParticleSize = 3.0f;
 
   }
 
@@ -64,8 +64,6 @@ namespace akgr {
   }
 
   void VfxRenderer::render(gf::RenderTarget& target, const gf::RenderStates& states) {
-    gf::Vector2f hero = m_state.hero.physics.location.position;
-
     gf::ShapeParticles particles;
 
     // shrines
@@ -80,29 +78,15 @@ namespace akgr {
       gf::Vector2f center = shrine.data->location.position;
 
       for (auto& particle : shrine.particles) {
-        float rho = particle.amplitude * (1.0f + particle.e * std::cos(particle.n * particle.theta));
-        gf::Vector2f position = center + rho * gf::unit(particle.theta);
-
+        gf::Vector2f position = center + particle.getPosition();
         particles.addCircle(position, VfxShrineParticleSize, getColorFromShrineType(shrine.data->type));
       }
     }
 
-
     // aspect
 
     for (auto& particle : m_scenery.vfx.aspectEmitter.particles) {
-      static constexpr float RadiusMin = 0.8f;
-      static constexpr float RadiusMax = 2.0f;
-
-      if (particle.delay > gf::Time::zero()) {
-        continue;
-      }
-
-      float t = particle.lifetime.asSeconds() / VfxAspectParticle::Lifetime;
-      float distance = gf::Ease::cubicOut(t) * particle.distance;
-      float radius = gf::lerp(RadiusMin, RadiusMax, t);
-
-      particles.addCircle(hero + distance * gf::unit(particle.angle), radius, particle.color);
+      particles.addCircle(particle.position, VfxShrineParticleSize, particle.color);
     }
 
     target.draw(particles, states);

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: akagoria\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-01 22:07+0200\n"
+"POT-Creation-Date: 2019-09-15 11:20+0200\n"
 "PO-Revision-Date: 2018-11-01 12:11+0100\n"
 "Last-Translator: Julien Bernard <julien.bernard@univ-fcomte.fr>\n"
 "Language: fr\n"
@@ -83,6 +83,15 @@ msgstr ""
 
 msgid "Welcome to Akagoria!"
 msgstr "Bienvenue à Akagoria !"
+
+msgid "Emerald"
+msgstr "Émeraude"
+
+msgid "Ruby"
+msgstr "Rubis"
+
+msgid "Short sword"
+msgstr "Épée courte"
 
 msgid "simple grenade"
 msgstr "grenade simple"
