@@ -146,6 +146,18 @@ A collision shape is represented by the a _polyline object_ or a _polygon object
 
 In this section, all the files are plain https://www.json.org/[JSON] files.
 
+[[atlases]]
+=== Atlases
+
+[source,json]
+----
+"SmallItems": {
+  "path": "sprites/items-s.png",
+  "width": 16, "height": 16
+}
+----
+
+
 [[characters]]
 === Characters
 
@@ -162,27 +174,11 @@ In this section, all the files are plain https://www.json.org/[JSON] files.
 
 [source,json]
 ----
-{
-  "resources": {
-    "SmallItems": {
-      "spritesheet": "sprites/items-s.png",
-      "width": 16, "height": 16
-    }
-  },
-  "items": {
-    "GemRuby": {
-      "description": "Ruby",
-      "shape": {
-        "type": "circle",
-        "radius": 10
-      },
-      "graphics": {
-        "resource": "SmallItems",
-        "index": 0,
-        "scale": 0.25
-      }
-    }
-  }
+"GemRuby": {
+  "description": "Ruby",
+  "trait": { "type": "rare" },
+  "shape": { "type": "circle", "radius": 10 },
+  "sprite": { "atlas": "SmallItems", "index": 0, "scale": 0.25 }
 }
 ----
 
