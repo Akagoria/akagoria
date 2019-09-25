@@ -22,10 +22,12 @@ class Kickoff {
 
   static initialize(W) {
     W.moveHero("Start")
-    W.addRequirement("IntroDialogReq")
+    // W.addRequirement("IntroDialogReq")
     W.addCharacter("Shagir", "Shagir")
     W.attachDialogToCharacter("ShagirConversation0", "Shagir")
-    W.postNotification("Welcome")
+    // W.postNotification("Welcome")
+
+    W.addCharacter("Ling", "Ling")
 
     W.addItem("GemRuby", "Ruby #1")
     W.addItem("GemEmerald", "Emerald #1")

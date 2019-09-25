@@ -58,12 +58,25 @@ namespace {
     }
   }
 
+  const char *getMood(akgr::CharacterMood mood) {
+    switch (mood) {
+      case akgr::CharacterMood::Quiet:
+        return "quiet";
+      case akgr::CharacterMood::Angry:
+        return "angry";
+    }
+
+    assert(false);
+    return "???";
+  }
+
   void viewCharactersState(const std::vector<akgr::CharacterState>& state) {
     viewNewSection("Characters");
     fmt::print("Number of characters: {}\n", state.size());
 
     for (auto& character : state) {
       fmt::print("\t{}: ({}) {} {:.0f}°\n", Id{character.ref.id}, Id{character.dialog.id},  character.physics.location, gf::radiansToDegrees(character.physics.angle));
+      fmt::print("\t\t {}, weapon: {}\n", getMood(character.mood), Id{character.weapon.id});
     }
   }
 

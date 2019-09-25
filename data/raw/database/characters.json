@@ -1,6 +1,8 @@
 {
   "Shagir": {
     "size": { "width": 60, "height": 45 }
+  },
+  "Ling": {
+    "size": { "width": 60, "height": 45 }
   }
-
 }

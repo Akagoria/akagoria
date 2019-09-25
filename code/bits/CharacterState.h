@@ -27,18 +27,27 @@
 #include "DataRef.h"
 #include "DialogData.h"
 #include "PhysicsState.h"
+#include "WeaponData.h"
 
 namespace akgr {
+
+  enum CharacterMood : uint8_t {
+    Quiet,
+    Angry,
+  };
 
   struct CharacterState {
     DataRef<CharacterData> ref;
     DataRef<DialogData> dialog;
     PhysicsBody physics;
+
+    CharacterMood mood = CharacterMood::Quiet;
+    DataRef<WeaponData> weapon;
   };
 
   template<typename Archive>
   Archive& operator|(Archive& ar, CharacterState& state) {
-    return ar | state.ref | state.dialog | state.physics;
+    return ar | state.ref | state.dialog | state.physics | state.mood | state.weapon;
   }
 
 }
