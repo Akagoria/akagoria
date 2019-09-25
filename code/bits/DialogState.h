@@ -27,7 +27,7 @@ namespace akgr {
 
   struct DialogState {
     DataRef<DialogData> ref;
-    std::size_t currentLine;
+    std::size_t currentLine = 0;
   };
 
   template<typename Archive>
