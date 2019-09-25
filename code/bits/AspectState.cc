@@ -39,7 +39,7 @@ namespace akgr {
 
     while (period > maxPeriod) {
       if (value < max) {
-        ++value;
+        value += 100;
       }
 
       period -= maxPeriod;
