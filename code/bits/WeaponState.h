@@ -17,39 +17,33 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_CHARACTER_STATE_H
-#define AKGR_CHARACTER_STATE_H
+#ifndef AKGR_WEAPON_STATE_H
+#define AKGR_WEAPON_STATE_H
 
-#include <gf/Id.h>
-#include <gf/Vector.h>
+#include <cstdint>
 
-#include "CharacterData.h"
 #include "DataRef.h"
-#include "DialogData.h"
-#include "PhysicsState.h"
-#include "WeaponState.h"
+#include "WeaponData.h"
 
 namespace akgr {
 
-  enum CharacterMood : uint8_t {
-    Quiet,
-    Angry,
+  enum class WeaponPhase : uint8_t {
+    WarmUp,
+    Ready,
+    CoolDown,
   };
 
-  struct CharacterState {
-    DataRef<CharacterData> ref;
-    DataRef<DialogData> dialog;
-    PhysicsBody physics;
-
-    CharacterMood mood = CharacterMood::Quiet;
-    WeaponState weapon;
+  struct WeaponState {
+    DataRef<WeaponData> ref;
+    WeaponPhase phase;
+    gf::Time time;
   };
 
   template<typename Archive>
-  Archive& operator|(Archive& ar, CharacterState& state) {
-    return ar | state.ref | state.dialog | state.physics | state.mood | state.weapon;
+  Archive& operator|(Archive& ar, WeaponState& state) {
+    return ar | state.ref | state.phase | state.time;
   }
 
 }
 
-#endif // AKGR_CHARACTER_STATE_H
+#endif // AKGR_WEAPON_STATE_H

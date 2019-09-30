@@ -61,9 +61,9 @@ namespace {
   const char *getMood(akgr::CharacterMood mood) {
     switch (mood) {
       case akgr::CharacterMood::Quiet:
-        return "quiet";
+        return "Quiet";
       case akgr::CharacterMood::Angry:
-        return "angry";
+        return "Angry";
     }
 
     assert(false);
@@ -76,7 +76,7 @@ namespace {
 
     for (auto& character : state) {
       fmt::print("\t{}: ({}) {} {:.0f}°\n", Id{character.ref.id}, Id{character.dialog.id},  character.physics.location, gf::radiansToDegrees(character.physics.angle));
-      fmt::print("\t\t {}, weapon: {}\n", getMood(character.mood), Id{character.weapon.id});
+      fmt::print("\t\t {}, weapon: {}\n", getMood(character.mood), Id{character.weapon.ref.id}); // TODO: display weapon state
     }
   }
 

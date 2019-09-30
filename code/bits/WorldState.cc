@@ -59,14 +59,14 @@ namespace akgr {
 
     for (auto& notification : notifications) {
       notification.ref.bind(data.notifications);
-      assert(notification.ref.data);
+      assert(notification.ref.data != nullptr);
     }
 
     // items
 
     for (auto& item : items) {
       item.ref.bind(data.items);
-      assert(item.ref.data);
+      assert(item.ref.data != nullptr);
       item.physics.body = physics.createItemBody(item.physics.location, item.physics.angle, item.ref.data->shape);
     }
 
@@ -74,28 +74,33 @@ namespace akgr {
 
     for (auto& character : characters) {
       character.ref.bind(data.characters);
-      assert(character.ref.data);
+      assert(character.ref.data != nullptr);
 
       if (character.dialog.id != gf::InvalidId) {
         character.dialog.bind(data.dialogs);
-        assert(character.dialog.data);
+        assert(character.dialog.data != nullptr);
       }
 
       character.physics.body = physics.createCharacterBody(character.physics.location, character.physics.angle);
+
+      if (character.weapon.ref.id != gf::InvalidId) {
+        character.weapon.ref.bind(data.weapons);
+        assert(character.weapon.ref.data != nullptr);
+      }
     }
 
     // hero
 
     if (hero.dialog.ref.id != gf::InvalidId) {
       hero.dialog.ref.bind(data.dialogs);
-      assert(hero.dialog.ref.data);
+      assert(hero.dialog.ref.data != nullptr);
     }
 
     hero.physics.body = physics.createHeroBody(hero.physics.location, hero.physics.angle);
 
     for (auto& item : hero.inventory.items) {
       item.ref.bind(data.items);
-      assert(item.ref.data);
+      assert(item.ref.data != nullptr);
     }
 
   }
