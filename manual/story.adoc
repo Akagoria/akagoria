@@ -1,0 +1,24 @@
+= Story of The Revenge of Kalista
+Julien Bernard <julien.bernard@univ-fcomte.fr>
+v0.5
+:toc:
+:homepage: https://akagoria.github.io/
+:stem: latexmath
+:source-highlighter: coderay
+:xrefstyle: full
+
+This document describes the story of _The Revenge of Kalista_. It is based on the link:world_description.html[description of Akagoria].
+
+== Introduction
+
+== Part 1: Arraband
+
+== Part 2: Elatan
+
+== Part 3: Inichke
+
+== Part 4: Orta
+
+== Part 5: Uchun
+
+== Conclusion
