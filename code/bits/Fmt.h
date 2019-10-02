@@ -41,7 +41,7 @@ namespace fmt {
 
     template <typename FormatContext>
     auto format(const gf::Vector2f& vec, FormatContext& ctx) {
-      return format_to(ctx.begin(), "({:g}, {:g})", vec.x, vec.y);
+      return format_to(ctx.out(), "({:g}, {:g})", vec.x, vec.y);
     }
   };
 
@@ -52,7 +52,7 @@ namespace fmt {
 
     template <typename FormatContext>
     auto format(const gf::Vector<T,2>& vec, FormatContext& ctx) {
-      return format_to(ctx.begin(), "({}, {})", vec.x, vec.y);
+      return format_to(ctx.out(), "({}, {})", vec.x, vec.y);
     }
   };
 
@@ -63,7 +63,7 @@ namespace fmt {
 
     template <typename FormatContext>
     auto format(const gf::Rect<T>& rect, FormatContext& ctx) {
-      return format_to(ctx.begin(), "[{}, {}]", rect.getPosition(), rect.getSize());
+      return format_to(ctx.out(), "[{}, {}]", rect.getPosition(), rect.getSize());
     }
   };
 
@@ -74,7 +74,7 @@ namespace fmt {
 
     template <typename FormatContext>
     auto format(const akgr::Location& loc, FormatContext& ctx) {
-      return format_to(ctx.begin(), "{}[{}]", loc.position, loc.floor);
+      return format_to(ctx.out(), "{}[{}]", loc.position, loc.floor);
     }
   };
 
@@ -85,7 +85,7 @@ namespace fmt {
 
     template <typename FormatContext>
     auto format(const Id& id, FormatContext& ctx) {
-      return format_to(ctx.begin(), "{:>16X}", id.value);
+      return format_to(ctx.out(), "{:>16X}", id.value);
     }
   };
 
