@@ -23,6 +23,7 @@
 #include <string>
 #include <queue>
 
+#include <gf/Id.h>
 #include <gf/Path.h>
 #include <gf/ResourceManager.h>
 
@@ -32,6 +33,8 @@ namespace akgr {
 
   struct WorldData;
   struct WorldState;
+
+  struct CharacterState;
 
   class Script {
   public:
@@ -101,6 +104,7 @@ namespace akgr {
      */
 
     static void addCharacter(WrenVM* vm);
+    static void setCharacterMood(WrenVM* vm);
 
     /*
      * dialog
@@ -112,6 +116,8 @@ namespace akgr {
   private:
     static const akgr::WorldData& getData(WrenVM* vm);
     static akgr::WorldState& getState(WrenVM* vm);
+
+    static CharacterState *getCharacter(WrenVM* vm, gf::Id id);
 
   private:
     gf::ResourceManager& m_resources;

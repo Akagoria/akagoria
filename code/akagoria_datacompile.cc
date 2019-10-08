@@ -792,6 +792,12 @@ namespace {
       character.size.width = value["size"]["width"].get<float>();
       character.size.height = value["size"]["height"].get<float>();
 
+      if (!value["weapon"].is_null()) {
+        character.weapon = gf::hash(value["weapon"].get<std::string>());
+      } else {
+        character.weapon = gf::InvalidId;
+      }
+
       data.emplace(gf::hash(character.name), std::move(character));
     }
   }

@@ -31,9 +31,10 @@
 
 namespace akgr {
 
+  // Note: These must be kept in sync with world.wren
   enum CharacterMood : uint8_t {
-    Quiet,
-    Angry,
+    Quiet = 0,
+    Angry = 1,
   };
 
   struct CharacterState {

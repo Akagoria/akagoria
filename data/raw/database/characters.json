@@ -1,8 +1,10 @@
 {
   "Shagir": {
-    "size": { "width": 60, "height": 45 }
+    "size": { "width": 60, "height": 45 },
+    "weapon": null
   },
   "Ling": {
-    "size": { "width": 60, "height": 45 }
+    "size": { "width": 60, "height": 45 },
+    "weapon": "SmallSword"
   }
 }

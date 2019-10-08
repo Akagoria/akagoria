@@ -29,11 +29,12 @@ namespace akgr {
   struct CharacterData {
     std::string name;
     gf::Vector2f size;
+    gf::Id weapon;
   };
 
   template<typename Archive>
   Archive& operator|(Archive& ar, CharacterData& data) {
-    return ar | data.name | data.size;
+    return ar | data.name | data.size | data.weapon;
   }
 
 }

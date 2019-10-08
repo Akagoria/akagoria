@@ -89,6 +89,8 @@ namespace akgr {
           return &Script::addItemToInventory;
         case "addCharacter(_,_)"_id:
           return &Script::addCharacter;
+        case "setCharacterMood(_,_)"_id:
+          return &Script::setCharacterMood;
         case "startDialog(_)"_id:
           return &Script::startDialog;
         case "attachDialogToCharacter(_,_)"_id:
@@ -390,9 +392,23 @@ namespace akgr {
     character.physics.angle = 0.0f; // TODO
     character.physics.body = getState(vm).physics.createCharacterBody(character.physics.location, character.physics.angle);
 
+    character.weapon.ref.id = character.ref.data->weapon;
+    character.weapon.ref.bind(getData(vm).weapons);
+
     getState(vm).characters.push_back(std::move(character));
 
     wrenSetSlotNull(vm, 0);
+  }
+
+  // setCharacterMood(character, mood)
+  void Script::setCharacterMood(WrenVM* vm) {
+    const char *characterId = wrenGetSlotString(vm, 1);
+    int mood = wrenGetSlotDouble(vm, 2);
+    assert(mood == 0 || mood == 1);
+
+    CharacterState *character = getCharacter(vm, gf::hash(characterId));
+    assert(character != nullptr);
+    character->mood = static_cast<CharacterMood>(mood);
   }
 
   // startDialog(name)
@@ -440,14 +456,26 @@ namespace akgr {
    * utils
    */
 
-  const akgr::WorldData& Script::getData(WrenVM* vm) {
+  const WorldData& Script::getData(WrenVM* vm) {
     auto script = static_cast<Script *>(wrenGetUserData(vm));
     return script->getData();
   }
 
-  akgr::WorldState& Script::getState(WrenVM* vm) {
+  WorldState& Script::getState(WrenVM* vm) {
     auto script = static_cast<Script *>(wrenGetUserData(vm));
     return script->getState();
+  }
+
+  CharacterState *Script::getCharacter(WrenVM* vm, gf::Id id) {
+    auto& state = getState(vm);
+
+    for (auto& character : state.characters) {
+      if (character.ref.id == id) {
+        return &character;
+      }
+    }
+
+    return nullptr;
   }
 
 }

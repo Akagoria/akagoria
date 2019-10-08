@@ -53,6 +53,7 @@ class World {
    */
 
   foreign static addCharacter(character, location)
+  foreign static setCharacterMood(character, mood)
 
   /*
    * dialog

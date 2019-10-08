@@ -17,24 +17,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import "constants" for Mood
 
-class Kickoff {
-
-  static initialize(W) {
-    W.moveHero("Start")
-    // W.addRequirement("IntroDialogReq")
-    W.addCharacter("Shagir", "Shagir")
-    W.attachDialogToCharacter("ShagirConversation0", "Shagir")
-    // W.postNotification("Welcome")
-
-    W.addCharacter("Ling", "Ling")
-    W.setCharacterMood("Ling", Mood.Angry)
-
-    W.addItem("GemRuby", "Ruby #1")
-    W.addItem("GemEmerald", "Emerald #1")
-    W.addItemToInventory("GemEmerald")
-    W.addItemToInventory("GemRuby")
-  }
-
+class Mood {
+  // Note: These must be kept in sync with CharacterState.h
+  static Quiet  { 0 }
+  static Angry  { 1 }
 }
+
