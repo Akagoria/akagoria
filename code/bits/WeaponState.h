@@ -35,8 +35,8 @@ namespace akgr {
 
   struct WeaponState {
     DataRef<WeaponData> ref;
-    WeaponPhase phase;
-    gf::Time time;
+    WeaponPhase phase = WeaponPhase::WarmUp;
+    gf::Time time = gf::Time::zero();
   };
 
   template<typename Archive>

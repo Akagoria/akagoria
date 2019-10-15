@@ -21,6 +21,8 @@
 
 #include <limits>
 
+#include <gf/Log.h>
+
 #include "WorldConstants.h"
 
 namespace akgr {
@@ -153,6 +155,58 @@ namespace akgr {
     hero.aspect.hp.update(time, HPUpdatePeriod);
     hero.aspect.mp.update(time, MPUpdatePeriod);
     hero.aspect.vp.update(time, VPUpdatePeriod);
+
+    // character
+
+    for (auto& character : m_state.characters) {
+      character.physics.pullLocation();
+
+      if (character.mood != CharacterMood::Angry) {
+        continue;
+      }
+
+      if (character.physics.location.floor != floor) {
+        continue;
+      }
+
+      if (character.weapon.ref.id == gf::InvalidId) {
+        gf::Log::debug("NO WEAPON!\n");
+        continue;
+      }
+
+      if (squareDistanceToHero(character.physics.location.position) > gf::square(character.weapon.ref.data->range)) {
+        gf::Log::debug("DISTANCE: %f vs %f\n", squareDistanceToHero(character.physics.location.position), gf::square(character.weapon.ref.data->range));
+        continue;
+      }
+
+      switch (character.weapon.phase) {
+        case WeaponPhase::WarmUp:
+          character.weapon.phase = WeaponPhase::Ready;
+          character.weapon.time = gf::Time::Zero;
+          break;
+
+        case WeaponPhase::Ready:
+          gf::Log::debug("ATTACK!\n");
+          character.weapon.phase = WeaponPhase::CoolDown;
+          character.weapon.time = gf::Time::Zero;
+          break;
+
+        case WeaponPhase::CoolDown:
+          character.weapon.time += time;
+
+          if (character.weapon.time > character.weapon.ref.data->cooldown) {
+            gf::Log::debug("READY!\n");
+            character.weapon.phase = WeaponPhase::WarmUp;
+            character.weapon.time = gf::Time::zero();
+          }
+          break;
+
+        default:
+          assert(false);
+          break;
+      }
+
+    }
 
     // shrines
 
