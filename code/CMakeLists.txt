@@ -80,16 +80,18 @@ add_executable(akagoria
 
 target_include_directories(akagoria
   PRIVATE
-    ${Boost_INCLUDE_DIRS}
     ${BOX2D_INCLUDE_DIRS}
     ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 target_link_libraries(akagoria
-  gf::gf0
-  wren
-  ${Boost_LIBRARIES}
-  ${BOX2D_LIBRARIES}
+  PRIVATE
+    gf::gf0
+    Threads::Threads
+    wren
+    Boost::boost
+    Boost::locale
+    ${BOX2D_LIBRARIES}
 )
 
 install(
@@ -115,8 +117,10 @@ target_include_directories(akagoria_datacompile
 )
 
 target_link_libraries(akagoria_datacompile
-  gf::gf0
-  ${Boost_LIBRARIES}
+  PRIVATE
+    gf::gf0
+    Boost::boost
+    Boost::locale
 )
 
 
@@ -128,14 +132,15 @@ add_executable(akagoria_dataview
 
 target_include_directories(akagoria_dataview
   PRIVATE
-    ${Boost_INCLUDE_DIRS}
     ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 target_link_libraries(akagoria_dataview
-  gf::gf0
-  fmt-header-only
-  ${Boost_LIBRARIES}
+  PRIVATE
+    gf::gf0
+    Boost::boost
+    Boost::locale
+    fmt-header-only
 )
 
 
@@ -152,9 +157,12 @@ target_include_directories(akagoria_stateview
 )
 
 target_link_libraries(akagoria_stateview
-  gf::gf0
-  ${BOX2D_LIBRARIES}
-  fmt-header-only
+  PRIVATE
+    gf::gf0
+    Boost::boost
+    Boost::locale
+    ${BOX2D_LIBRARIES}
+    fmt-header-only
 )
 
 
@@ -166,12 +174,13 @@ add_executable(akagoria_uimessagesview
 
 target_include_directories(akagoria_uimessagesview
   PRIVATE
-    ${Boost_INCLUDE_DIRS}
     ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 target_link_libraries(akagoria_uimessagesview
-  gf::gf0
-  fmt-header-only
-  ${Boost_LIBRARIES}
+  PRIVATE
+    gf::gf0
+    Boost::boost
+    Boost::locale
+    fmt-header-only
 )

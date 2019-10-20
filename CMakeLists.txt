@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.10)
 
 project(AKAGORIA
   VERSION 0.5.0
@@ -22,8 +22,9 @@ include(GNUInstallDirs)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/extras/cmake")
 
 find_package(gf REQUIRED)
-find_package(Boost REQUIRED COMPONENTS locale)
+find_package(Boost REQUIRED COMPONENTS locale filesystem)
 find_package(Box2D REQUIRED)
+find_package(Threads)
 find_package(L10N)
 
 if(MSVC)
