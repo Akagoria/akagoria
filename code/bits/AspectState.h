@@ -25,12 +25,13 @@
 #include <gf/Time.h>
 
 #include "Aspect.h"
+#include "Value.h"
 
 namespace akgr {
 
   struct AspectValue {
-    int32_t value = 7500;
-    int32_t max = 10000;
+    Value value = 75;
+    Value max = 100;
     gf::Time period = gf::Time::zero();
 
     bool increase(gf::Time time);

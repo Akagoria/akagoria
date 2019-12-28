@@ -23,9 +23,8 @@
 
 namespace akgr {
 
-  void AttributeValue::increase(int32_t gain, AttributeValue& anti1, AttributeValue& anti2) {
-    gain += (gain % 2);
-    int32_t loss = gain / 2;
+  void AttributeValue::increase(Value gain, AttributeValue& anti1, AttributeValue& anti2) {
+    Value loss = gain / 2;
 
     if (loss > anti1.value) {
       loss = anti1.value;
@@ -42,7 +41,7 @@ namespace akgr {
     anti2.value -= loss;
   }
 
-  void AttributeState::increase(Attribute kind, int32_t gain) {
+  void AttributeState::increase(Attribute kind, Value gain) {
     switch (kind) {
       case Attribute::Strength:
         strength.increase(gain, intelligence, wisdom);

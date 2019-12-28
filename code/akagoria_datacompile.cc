@@ -850,9 +850,9 @@ namespace {
       auto value = kv.value();
       weapon.description = value["description"].get<std::string>();
       weapon.type = getWeaponType(value["type"].get<std::string>());
-      weapon.attack = value["ATK"].get<float>();
-      weapon.required = value["REQ"].get<float>();
-      weapon.vitality = value["VP"].get<float>();
+      weapon.attack = value["ATK"].get<int32_t>();
+      weapon.required = value["REQ"].get<int32_t>();
+      weapon.vitality = value["VP"].get<int32_t>();
       weapon.range = value["range"].get<float>();
       weapon.angle = value["angle"].get<float>();
       weapon.cooldown = gf::milliseconds(value["cooldown"].get<int32_t>());

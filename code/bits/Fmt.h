@@ -27,6 +27,7 @@
 #include <gf/Vector.h>
 
 #include "LocationData.h"
+#include "Value.h"
 
 struct Id {
   gf::Id value;
@@ -75,6 +76,17 @@ namespace fmt {
     template <typename FormatContext>
     auto format(const akgr::Location& loc, FormatContext& ctx) {
       return format_to(ctx.out(), "{}[{}]", loc.position, loc.floor);
+    }
+  };
+
+  template <>
+  struct formatter<akgr::Value> {
+    template <typename ParseContext>
+    constexpr auto parse(ParseContext& ctx) { return ctx.begin(); }
+
+    template <typename FormatContext>
+    auto format(akgr::Value val, FormatContext& ctx) {
+      return format_to(ctx.out(), "{}", val.asInt());
     }
   };
 

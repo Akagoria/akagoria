@@ -25,6 +25,8 @@
 #include <gf/Id.h>
 #include <gf/Time.h>
 
+#include "Value.h"
+
 namespace akgr {
 
   enum class WeaponType : uint8_t {
@@ -37,9 +39,9 @@ namespace akgr {
     std::string name;
     std::string description;
     WeaponType type;
-    float attack;
-    float required;
-    float vitality;
+    Value attack;
+    Value required;
+    Value vitality;
     float range;
     float angle;
     gf::Time cooldown;

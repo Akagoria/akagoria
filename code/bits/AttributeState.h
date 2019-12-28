@@ -23,13 +23,14 @@
 #include <cstdint>
 
 #include "Attribute.h"
+#include "Value.h"
 
 namespace akgr {
 
   struct AttributeValue {
-    int32_t value = 5000;
+    Value value = 50;
 
-    void increase(int32_t gain, AttributeValue& anti1, AttributeValue& anti2);
+    void increase(Value gain, AttributeValue& anti1, AttributeValue& anti2);
   };
 
   template<typename Archive>
@@ -44,7 +45,7 @@ namespace akgr {
     AttributeValue wisdom;
     AttributeValue knowledge;
 
-    void increase(Attribute kind, int32_t gain);
+    void increase(Attribute kind, Value gain);
     AttributeValue& operator[](Attribute attribute);
   };
 

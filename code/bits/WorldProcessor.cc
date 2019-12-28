@@ -193,32 +193,33 @@ namespace akgr {
 
           // 1. The attack is always considered valid for a character
 
-          static constexpr int32_t CharacterAttribute = 7000; // TODO: put it in CharacterData
+          static constexpr Value CharacterAttribute = 70; // TODO: put it in CharacterData
 
           // 2. Compute success of the action
 
-          int32_t r = m_random.computeUniformInteger(0, 10000);
+          Value r = m_random.computeUniformInteger(0, 100);
 
           if (r > CharacterAttribute) {
             // attack is failed
-            gf::Log::debug("FAILED!\n");
+            gf::Log::debug("FAILED! (r = %" PRIi32 " | attr = %" PRIi32 ")\n", r.asInt(), CharacterAttribute.asInt());
             character.weapon.phase = WeaponPhase::CoolDown;
             character.weapon.time = gf::Time::Zero;
             continue;
           }
 
-          float e = 1.0f + static_cast<float>(CharacterAttribute - r) / 10000.0f;
+          Value diff = CharacterAttribute - r;
+          float e = 1.0f + diff.asFloat() / 100.0f;
 
           // 3. Compute power of the attack
 
-          int32_t atk = static_cast<int32_t>(character.weapon.ref.data->attack * e * std::sqrt(static_cast<float>(character.ref.data->level)));
+          Value atk = character.weapon.ref.data->attack * e * std::sqrt(static_cast<float>(character.ref.data->level));
 
           // 4. Compute power of the defense
 
-          int32_t def = 15; // TODO: compute the defensive points of the hero
+          Value def = 15; // TODO: compute the defensive points of the hero
 
           if (def > atk) {
-            gf::Log::debug("MISSED!\n");
+            gf::Log::debug("MISSED! (def = %" PRIi32 " | atk = %" PRIi32 ")\n", def.asInt(), atk.asInt());
             character.weapon.phase = WeaponPhase::CoolDown;
             character.weapon.time = gf::Time::Zero;
             continue;
@@ -226,7 +227,7 @@ namespace akgr {
 
           // 5. Compute the damage
 
-          hero.aspect.hp.value -= 100 * character.weapon.ref.data->attack;
+          hero.aspect.hp.value -= character.weapon.ref.data->attack;
 
           character.weapon.phase = WeaponPhase::CoolDown;
           character.weapon.time = gf::Time::Zero;
