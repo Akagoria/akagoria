@@ -30,11 +30,12 @@ namespace akgr {
     std::string name;
     gf::Vector2f size;
     gf::Id weapon;
+    int32_t level = 1;
   };
 
   template<typename Archive>
   Archive& operator|(Archive& ar, CharacterData& data) {
-    return ar | data.name | data.size | data.weapon;
+    return ar | data.name | data.size | data.weapon | data.level;
   }
 
 }

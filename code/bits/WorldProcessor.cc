@@ -174,8 +174,11 @@ namespace akgr {
         continue;
       }
 
+      // TODO: handle warmup!
+
       if (squareDistanceToHero(character.physics.location.position) > gf::square(character.weapon.ref.data->range)) {
-        gf::Log::debug("DISTANCE: %f vs %f\n", squareDistanceToHero(character.physics.location.position), gf::square(character.weapon.ref.data->range));
+        // TODO: define a vision range + beam
+        // gf::Log::debug("DISTANCE: %f vs %f\n", squareDistanceToHero(character.physics.location.position), gf::square(character.weapon.ref.data->range));
         continue;
       }
 
@@ -185,11 +188,50 @@ namespace akgr {
           character.weapon.time = gf::Time::Zero;
           break;
 
-        case WeaponPhase::Ready:
-          gf::Log::debug("ATTACK!\n");
+        case WeaponPhase::Ready: {
+          // see https://akagoria.github.io/game_system.html#_combat_resolution
+
+          // 1. The attack is always considered valid for a character
+
+          static constexpr int32_t CharacterAttribute = 7000; // TODO: put it in CharacterData
+
+          // 2. Compute success of the action
+
+          int32_t r = m_random.computeUniformInteger(0, 10000);
+
+          if (r > CharacterAttribute) {
+            // attack is failed
+            gf::Log::debug("FAILED!\n");
+            character.weapon.phase = WeaponPhase::CoolDown;
+            character.weapon.time = gf::Time::Zero;
+            continue;
+          }
+
+          float e = 1.0f + static_cast<float>(CharacterAttribute - r) / 10000.0f;
+
+          // 3. Compute power of the attack
+
+          int32_t atk = static_cast<int32_t>(character.weapon.ref.data->attack * e * std::sqrt(static_cast<float>(character.ref.data->level)));
+
+          // 4. Compute power of the defense
+
+          int32_t def = 15; // TODO: compute the defensive points of the hero
+
+          if (def > atk) {
+            gf::Log::debug("MISSED!\n");
+            character.weapon.phase = WeaponPhase::CoolDown;
+            character.weapon.time = gf::Time::Zero;
+            continue;
+          }
+
+          // 5. Compute the damage
+
+          hero.aspect.hp.value -= 100 * character.weapon.ref.data->attack;
+
           character.weapon.phase = WeaponPhase::CoolDown;
           character.weapon.time = gf::Time::Zero;
           break;
+        }
 
         case WeaponPhase::CoolDown:
           character.weapon.time += time;

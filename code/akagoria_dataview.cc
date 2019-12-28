@@ -243,7 +243,7 @@ namespace {
 
     for (auto& kv : data) {
       auto& character = kv.second;
-      fmt::print("\t{}: '{}' {}\n", Id{kv.first}, character.name, character.size);
+      fmt::print("\t{}: '{}' {} level {}\n", Id{kv.first}, character.name, character.size, character.level);
       fmt::print("\tweapon: {}\n", Id{character.weapon});
     }
   }
