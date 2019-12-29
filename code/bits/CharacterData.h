@@ -20,22 +20,26 @@
 #ifndef AKGR_CHARACTER_DATA_H
 #define AKGR_CHARACTER_DATA_H
 
+#include <cstdint>
 #include <string>
 
 #include <gf/Vector.h>
+
+#include "Value.h"
 
 namespace akgr {
 
   struct CharacterData {
     std::string name;
     gf::Vector2f size;
-    gf::Id weapon;
+    Value attribute;
     int32_t level = 1;
+    gf::Id weapon;
   };
 
   template<typename Archive>
   Archive& operator|(Archive& ar, CharacterData& data) {
-    return ar | data.name | data.size | data.weapon | data.level;
+    return ar | data.name | data.size | data.attribute | data.level | data.weapon;
   }
 
 }

@@ -1,10 +1,14 @@
 {
   "Shagir": {
     "size": { "width": 60, "height": 45 },
+    "attribute": 70, "level": 5,
     "weapon": null
   },
+
   "Ling": {
     "size": { "width": 60, "height": 45 },
+    "attribute": 70, "level": 5,
     "weapon": "SmallSword"
   }
+
 }

@@ -97,7 +97,7 @@ namespace fmt {
 
     template <typename FormatContext>
     auto format(const Id& id, FormatContext& ctx) {
-      return format_to(ctx.out(), "{:>16X}", id.value);
+      return format_to(ctx.out(), "{:0>16X}", id.value);
     }
   };
 

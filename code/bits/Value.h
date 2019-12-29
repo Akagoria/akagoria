@@ -22,8 +22,6 @@
 
 #include <cstdint>
 
-#include <gf/Types.h>
-
 namespace akgr {
 
   struct Value {

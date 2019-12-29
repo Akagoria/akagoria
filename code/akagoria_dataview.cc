@@ -233,7 +233,7 @@ namespace {
 
     for (auto& kv : data) {
       auto& notification = kv.second;
-      fmt::print("\t{}: '{}' [{:g} s]: '{}'\n", Id{kv.first}, notification.name, notification.duration.asSeconds(), notification.message);
+      fmt::print("\t{}: '{}' [{:g} s]: \"{}\" (\"{}\")\n", Id{kv.first}, notification.name, notification.duration.asSeconds(), notification.message, gf::escapeString(boost::locale::gettext(notification.message.c_str())));
     }
   }
 
@@ -243,8 +243,8 @@ namespace {
 
     for (auto& kv : data) {
       auto& character = kv.second;
-      fmt::print("\t{}: '{}' {} level {}\n", Id{kv.first}, character.name, character.size, character.level);
-      fmt::print("\tweapon: {}\n", Id{character.weapon});
+      fmt::print("\t{}: '{}' {}\n", Id{kv.first}, character.name, character.size);
+      fmt::print("\t\tattribute {}, level {}, weapon: {}\n", character.attribute, character.level, Id{character.weapon});
     }
   }
 

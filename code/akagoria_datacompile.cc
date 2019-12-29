@@ -792,6 +792,9 @@ namespace {
       character.size.width = value["size"]["width"].get<float>();
       character.size.height = value["size"]["height"].get<float>();
 
+      character.attribute = value["attribute"].get<int32_t>();
+      character.level = value["level"].get<int32_t>();
+
       if (!value["weapon"].is_null()) {
         character.weapon = gf::hash(value["weapon"].get<std::string>());
       } else {

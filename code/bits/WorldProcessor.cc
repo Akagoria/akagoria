@@ -191,35 +191,46 @@ namespace akgr {
         case WeaponPhase::Ready: {
           // see https://akagoria.github.io/game_system.html#_combat_resolution
 
+          gf::Log::debug("--{ character '%s' attack\n", character.ref.data->name.c_str());
+
           // 1. The attack is always considered valid for a character
 
-          static constexpr Value CharacterAttribute = 70; // TODO: put it in CharacterData
+          Value attribute = character.ref.data->attribute;
+          gf::Log::debug("attribute: %" PRIi32 "\n", attribute.asInt());
 
           // 2. Compute success of the action
 
-          Value r = m_random.computeUniformInteger(0, 100);
+          Value r = m_random.computeUniformFloat(0.0f, 100.0f);
+          gf::Log::debug("random: %" PRIi32 "\n", r.asInt());
 
-          if (r > CharacterAttribute) {
+          if (r > attribute) {
             // attack is failed
-            gf::Log::debug("FAILED! (r = %" PRIi32 " | attr = %" PRIi32 ")\n", r.asInt(), CharacterAttribute.asInt());
+            gf::Log::debug("FAILED!\n");
+            gf::Log::debug("--}\n");
             character.weapon.phase = WeaponPhase::CoolDown;
             character.weapon.time = gf::Time::Zero;
             continue;
           }
 
-          Value diff = CharacterAttribute - r;
-          float e = 1.0f + diff.asFloat() / 100.0f;
+          Value extent = attribute - r;
+          float e = 1.0f + extent.asFloat() / 100.0f;
 
           // 3. Compute power of the attack
 
           Value atk = character.weapon.ref.data->attack * e * std::sqrt(static_cast<float>(character.ref.data->level));
+          gf::Log::debug("weapon atk: %" PRIi32 "\n", character.weapon.ref.data->attack.asInt());
+          gf::Log::debug("extent of success: %.4g\n", e);
+          gf::Log::debug("level: %" PRIi32 " (%.4g)\n", character.ref.data->level, std::sqrt(static_cast<float>(character.ref.data->level)));
+          gf::Log::debug("atk: %" PRIi32 "\n", atk.asInt());
 
           // 4. Compute power of the defense
 
-          Value def = 15; // TODO: compute the defensive points of the hero
+          Value def = 3; // TODO: compute the defensive points of the hero
+          gf::Log::debug("def: %" PRIi32 "\n", def.asInt());
 
           if (def > atk) {
-            gf::Log::debug("MISSED! (def = %" PRIi32 " | atk = %" PRIi32 ")\n", def.asInt(), atk.asInt());
+            gf::Log::debug("MISSED!\n");
+            gf::Log::debug("--}\n");
             character.weapon.phase = WeaponPhase::CoolDown;
             character.weapon.time = gf::Time::Zero;
             continue;
@@ -227,6 +238,7 @@ namespace akgr {
 
           // 5. Compute the damage
 
+          gf::Log::debug("--}\n");
           hero.aspect.hp.value -= character.weapon.ref.data->attack;
 
           character.weapon.phase = WeaponPhase::CoolDown;
