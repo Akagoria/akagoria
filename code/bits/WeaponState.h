@@ -28,8 +28,9 @@
 namespace akgr {
 
   enum class WeaponPhase : uint8_t {
-    WarmUp,
     Ready,
+    WarmUp,
+    Launch,
     CoolDown,
   };
 

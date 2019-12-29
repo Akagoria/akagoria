@@ -174,26 +174,31 @@ namespace akgr {
         continue;
       }
 
-      // TODO: handle warmup!
-
       if (squareDistanceToHero(character.physics.location.position) > gf::square(character.weapon.ref.data->range)) {
         // TODO: define a vision range + beam
         // gf::Log::debug("DISTANCE: %f vs %f\n", squareDistanceToHero(character.physics.location.position), gf::square(character.weapon.ref.data->range));
+
+        character.weapon.phase = WeaponPhase::Ready;
         continue;
       }
 
       switch (character.weapon.phase) {
+        case WeaponPhase::Ready:
+          character.weapon.phase = WeaponPhase::WarmUp;
+          character.weapon.time = gf::Time::zero();
+          break;
+
         case WeaponPhase::WarmUp:
           character.weapon.time += time;
 
           if (character.weapon.time > character.weapon.ref.data->cooldown) {
             gf::Log::debug("END OF WARMUP!\n");
-            character.weapon.phase = WeaponPhase::Ready;
+            character.weapon.phase = WeaponPhase::Launch;
             character.weapon.time = gf::Time::zero();
           }
           break;
 
-        case WeaponPhase::Ready: {
+        case WeaponPhase::Launch: {
           // see https://akagoria.github.io/game_system.html#_combat_resolution
 
           gf::Log::debug("--{ character '%s' attack\n", character.ref.data->name.c_str());
@@ -256,13 +261,9 @@ namespace akgr {
 
           if (character.weapon.time > character.weapon.ref.data->cooldown) {
             gf::Log::debug("END OF COOLDOWN!\n");
-            character.weapon.phase = WeaponPhase::WarmUp;
+            character.weapon.phase = WeaponPhase::Ready;
             character.weapon.time = gf::Time::zero();
           }
-          break;
-
-        default:
-          assert(false);
           break;
       }
 
