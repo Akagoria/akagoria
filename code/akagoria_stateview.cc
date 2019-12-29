@@ -121,9 +121,9 @@ namespace {
     fmt::print("\n");
 
     fmt::print("\taspect:\n\t\tHP: {}/{} ({:g} s)\n\t\tMP: {}/{} ({:g} s)\n\t\tVP: {}/{} ({:g} s)\n",
-        state.aspect.hp.value, state.aspect.hp.max, state.aspect.hp.period.asSeconds(),
-        state.aspect.mp.value, state.aspect.mp.max, state.aspect.mp.period.asSeconds(),
-        state.aspect.vp.value, state.aspect.vp.max, state.aspect.vp.period.asSeconds()
+        state.aspects.hp.value, state.aspects.hp.max, state.aspects.hp.period.asSeconds(),
+        state.aspects.mp.value, state.aspects.mp.max, state.aspects.mp.period.asSeconds(),
+        state.aspects.vp.value, state.aspects.vp.max, state.aspects.vp.period.asSeconds()
     );
 
     fmt::print("\tattributes:\n\t\tSTR: {}\n\t\tDEX: {}\n\t\tINT: {}\n\t\tWIS: {}\n\t\tKNO: {}\n",

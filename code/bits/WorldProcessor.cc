@@ -152,9 +152,9 @@ namespace akgr {
 
     hero.physics.pullLocation();
 
-    hero.aspect.hp.update(time, HPUpdatePeriod);
-    hero.aspect.mp.update(time, MPUpdatePeriod);
-    hero.aspect.vp.update(time, VPUpdatePeriod);
+    hero.aspects.hp.update(time, HPUpdatePeriod);
+    hero.aspects.mp.update(time, MPUpdatePeriod);
+    hero.aspects.vp.update(time, VPUpdatePeriod);
 
     // character
 
@@ -239,7 +239,7 @@ namespace akgr {
           // 5. Compute the damage
 
           gf::Log::debug("--}\n");
-          hero.aspect.hp.value -= character.weapon.ref.data->attack;
+          hero.aspects.hp.value -= character.weapon.ref.data->attack;
 
           character.weapon.phase = WeaponPhase::CoolDown;
           character.weapon.time = gf::Time::Zero;
@@ -280,7 +280,7 @@ namespace akgr {
 
       Aspect aspect = getAspectFromShrine(shrine.data->type);
 
-      if (!hero.aspect[aspect].increase(time)) {
+      if (!hero.aspects[aspect].increase(time)) {
         continue;
       }
 

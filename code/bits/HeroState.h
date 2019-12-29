@@ -48,7 +48,7 @@ namespace akgr {
     HeroMove move;
 
     std::set<gf::Id> requirements;
-    AspectState aspect;
+    AspectState aspects;
     AttributeState attributes;
     ProgressionState progression;
 
@@ -60,7 +60,7 @@ namespace akgr {
 
   template<typename Archive>
   Archive& operator|(Archive& ar, HeroState& state) {
-    return ar | state.move | state.requirements | state.aspect | state.attributes | state.progression
+    return ar | state.move | state.requirements | state.aspects | state.attributes | state.progression
         | state.inventory | state.dialog | state.physics;
   }
 
