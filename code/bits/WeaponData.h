@@ -33,6 +33,7 @@ namespace akgr {
     Melee,
     Ranged,
     Explosive,
+    Elemental,
   };
 
   struct WeaponData {
@@ -40,16 +41,17 @@ namespace akgr {
     std::string description;
     WeaponType type;
     Value attack;
-    Value required;
-    Value vitality;
+    Value attribute; // required attribute
+    Value aspect; // cost of aspect (vp or mp)
     float range;
     float angle;
+    gf::Time warmup;
     gf::Time cooldown;
   };
 
   template<typename Archive>
   Archive& operator|(Archive& ar, WeaponData& data) {
-    return ar | data.name | data.description | data.type | data.attack | data.required | data.vitality | data.range | data.angle | data.cooldown;
+    return ar | data.name | data.description | data.type | data.attack | data.attribute | data.aspect | data.range | data.angle | data.warmup | data.cooldown;
   }
 
 }

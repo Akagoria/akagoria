@@ -176,6 +176,10 @@ namespace {
       return akgr::WeaponType::Explosive;
     }
 
+    if (name == "elemental") {
+      return akgr::WeaponType::Elemental;
+    }
+
     gf::Log::error("Unknown weapon type: '%s'\n", name.c_str());
     return akgr::WeaponType::Melee;
   }
@@ -853,11 +857,12 @@ namespace {
       auto value = kv.value();
       weapon.description = value["description"].get<std::string>();
       weapon.type = getWeaponType(value["type"].get<std::string>());
-      weapon.attack = value["ATK"].get<int32_t>();
-      weapon.required = value["REQ"].get<int32_t>();
-      weapon.vitality = value["VP"].get<int32_t>();
+      weapon.attack = value["attack"].get<int32_t>();
+      weapon.attribute = value["attribute"].get<int32_t>();
+      weapon.aspect = value["aspect"].get<int32_t>();
       weapon.range = value["range"].get<float>();
       weapon.angle = value["angle"].get<float>();
+      weapon.warmup = gf::milliseconds(value["warmup"].get<int32_t>());
       weapon.cooldown = gf::milliseconds(value["cooldown"].get<int32_t>());
 
       strings.push_back(weapon.description);

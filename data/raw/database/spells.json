@@ -1,15 +1,4 @@
 {
-  "SmallFireCone": {
-    "type": "elemantal",
-    "ATK": 10,
-    "REQ": 30,
-    "MP": 3,
-    "cast": 2000,
-    "range": 10,
-    "angle": 15,
-    "cooldown": 1000
-  },
-
   "Barrier": {
     "type": "protection",
     "REQ": 30,

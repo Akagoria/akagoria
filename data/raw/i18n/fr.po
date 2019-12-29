@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: akagoria\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-15 11:20+0200\n"
+"POT-Creation-Date: 2019-12-29 18:56+0100\n"
 "PO-Revision-Date: 2018-11-01 12:11+0100\n"
 "Last-Translator: Julien Bernard <julien.bernard@univ-fcomte.fr>\n"
 "Language: fr\n"
@@ -98,6 +98,9 @@ msgstr "grenade simple"
 
 msgid "small bow"
 msgstr "petit arc"
+
+msgid "small fire cone"
+msgstr ""
 
 msgid "small sword"
 msgstr "petite épée"

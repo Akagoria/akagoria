@@ -184,8 +184,13 @@ namespace akgr {
 
       switch (character.weapon.phase) {
         case WeaponPhase::WarmUp:
-          character.weapon.phase = WeaponPhase::Ready;
-          character.weapon.time = gf::Time::Zero;
+          character.weapon.time += time;
+
+          if (character.weapon.time > character.weapon.ref.data->cooldown) {
+            gf::Log::debug("END OF WARMUP!\n");
+            character.weapon.phase = WeaponPhase::Ready;
+            character.weapon.time = gf::Time::zero();
+          }
           break;
 
         case WeaponPhase::Ready: {
@@ -250,7 +255,7 @@ namespace akgr {
           character.weapon.time += time;
 
           if (character.weapon.time > character.weapon.ref.data->cooldown) {
-            gf::Log::debug("READY!\n");
+            gf::Log::debug("END OF COOLDOWN!\n");
             character.weapon.phase = WeaponPhase::WarmUp;
             character.weapon.time = gf::Time::zero();
           }

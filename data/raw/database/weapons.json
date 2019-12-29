@@ -2,34 +2,49 @@
   "SmallSword": {
     "description": "small sword",
     "type": "melee",
-    "ATK": 2,
-    "REQ": 30,
-    "VP": 3,
+    "attack": 2,
+    "attribute": 30,
+    "aspect": 3,
     "range": 100,
     "angle": 90,
+    "warmup": 0,
     "cooldown": 500
   },
 
   "SmallBow": {
     "description": "small bow",
     "type": "ranged",
-    "ATK": 1,
-    "REQ": 30,
-    "VP": 3,
+    "attack": 1,
+    "attribute": 30,
+    "aspect": 3,
     "range": 500,
     "angle": 15,
+    "warmup": 0,
     "cooldown": 2000
   },
 
   "Grenade": {
     "description": "simple grenade",
     "type": "explosive",
-    "ATK": 5,
-    "REQ": 30,
-    "VP": 3,
+    "attack": 5,
+    "attribute": 30,
+    "aspect": 3,
     "range": 10,
     "angle": 5,
+    "warmup": 0,
     "cooldown": 1000
+  },
+
+  "SmallFireCone": {
+    "description": "small fire cone",
+    "type": "elemental",
+    "attack": 10,
+    "attribute": 30,
+    "aspect": 3,
+    "range": 10,
+    "angle": 15,
+    "warmup": 2000,
+    "cooldown": 0
   }
 
 }

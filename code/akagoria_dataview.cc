@@ -76,6 +76,8 @@ namespace {
         return "Ranged";
       case akgr::WeaponType::Explosive:
         return "Explosive";
+      case akgr::WeaponType::Elemental:
+        return "Elemental";
     }
 
     return "???";
@@ -280,9 +282,9 @@ namespace {
 
     for (auto& kv : data) {
       auto& weapon = kv.second;
-      fmt::print("\t{}: '{}' {}, \"{}\"\n", Id{kv.first}, weapon.name, getWeaponType(weapon.type), gf::escapeString(weapon.description));
-      fmt::print("\t\tATK: {}, REQ: {}, VP: {} | range: {:g}, angle: {:.0f}° | cooldown: {} ms\n",
-          weapon.attack, weapon.required, weapon.vitality, weapon.range, weapon.angle, weapon.cooldown.asMilliseconds());
+      fmt::print("\t{}: '{}', {}, \"{}\"\n", Id{kv.first}, weapon.name, getWeaponType(weapon.type), gf::escapeString(weapon.description));
+      fmt::print("\t\tattack: {}, attribute: {}, aspect: {} | range: {:g}, angle: {:.0f}°\n", weapon.attack, weapon.attribute, weapon.aspect, weapon.range, weapon.angle);
+      fmt::print("\t\twarmup: {} ms | cooldown: {} ms\n", weapon.warmup.asMilliseconds(), weapon.cooldown.asMilliseconds());
     }
   }
 
