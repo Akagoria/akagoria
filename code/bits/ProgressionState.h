@@ -25,15 +25,12 @@
 namespace akgr {
 
   struct ProgressionState {
-    int32_t experience = 0;
     int32_t level = 1;
-
-    void addExperience(int32_t points);
   };
 
   template<typename Archive>
   Archive& operator|(Archive& ar, ProgressionState& state) {
-    return ar | state.experience | state.level;
+    return ar | state.level;
   }
 
 }

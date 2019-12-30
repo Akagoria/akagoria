@@ -67,6 +67,36 @@ namespace akgr {
       return Aspect::Health;
     }
 
+    Aspect getAspectFromWeaponType(WeaponType type) {
+      switch (type) {
+        case WeaponType::Melee:
+        case WeaponType::Ranged:
+        case WeaponType::Explosive:
+          return Aspect::Vitality;
+        case WeaponType::Elemental:
+          return Aspect::Magic;
+      }
+
+      assert(false);
+      return Aspect::Health;
+    }
+
+    Attribute getAttributeFromWeaponType(WeaponType type) {
+      switch (type) {
+        case WeaponType::Melee:
+          return Attribute::Strength;
+        case WeaponType::Ranged:
+          return Attribute::Dexterity;
+        case WeaponType::Explosive:
+          return Attribute::Knowledge;
+        case WeaponType::Elemental:
+          return Attribute::Intelligence;
+      }
+
+      assert(false);
+      return Attribute::Strength;
+    }
+
   }
 
   WorldProcessor::WorldProcessor(const WorldData& data, WorldState& state, WorldScenery& scenery, RootScenery& root, Script& script, gf::Random& random)
@@ -137,6 +167,12 @@ namespace akgr {
     m_state.physics.update(time);
     m_script.handleDeferedMessages();
 
+    hero.physics.pullLocation();
+
+    for (auto& character : m_state.characters) {
+      character.physics.pullLocation();
+    }
+
     // notifications
 
     if (!m_state.notifications.empty()) {
@@ -150,17 +186,114 @@ namespace akgr {
 
     // hero (again)
 
-    hero.physics.pullLocation();
-
     hero.aspects.hp.update(time, HPUpdatePeriod);
     hero.aspects.mp.update(time, MPUpdatePeriod);
     hero.aspects.vp.update(time, VPUpdatePeriod);
 
+    auto heroMayAttack = [&]() {
+      if (hero.weapon.phase == WeaponPhase::Ready) {
+        return;
+      }
+
+      // hero wants to attack
+
+      if (hero.weapon.ref.id == gf::InvalidId) {
+        // hero has no weapon
+        gf::Log::debug("NO WEAPON!\n");
+        hero.weapon.phase = WeaponPhase::Ready;
+        return;
+      }
+
+      if (hero.weapon.phase != WeaponPhase::Launch) {
+        // hero can not launch an attack for now
+        hero.weapon.update(time);
+        return;
+      }
+
+      // launch an attack!
+      // see https://akagoria.github.io/game_system.html#_combat_resolution
+
+      gf::Log::debug("--{ attack from *hero*\n");
+
+      // 1. Check if the attack is valid
+
+      Value aspect = hero.aspects[getAspectFromWeaponType(hero.weapon.ref.data->type)].value;
+      gf::Log::debug("aspect: %" PRIi32 "\n", aspect.asInt());
+
+      if (aspect < hero.weapon.ref.data->aspect) {
+        gf::Log::debug("INVALID! Required aspect: %" PRIi32 "\n", hero.weapon.ref.data->aspect.asInt());
+        gf::Log::debug("--}\n");
+        return;
+      }
+
+      Value attribute = hero.attributes[getAttributeFromWeaponType(hero.weapon.ref.data->type)].value;
+      gf::Log::debug("attribute: %" PRIi32 "\n", attribute.asInt());
+
+      if (attribute < hero.weapon.ref.data->attribute) {
+        gf::Log::debug("INVALID! Required attribute: %" PRIi32 "\n", hero.weapon.ref.data->attribute.asInt());
+        gf::Log::debug("--}\n");
+        return;
+      }
+
+      // 2. Compute success of the action
+
+      Value r = m_random.computeUniformFloat(0.0f, 100.0f);
+      gf::Log::debug("random: %" PRIi32 "\n", r.asInt());
+
+      if (r > attribute) {
+        // attack is failed
+        gf::Log::debug("FAILED!\n");
+        gf::Log::debug("--}\n");
+        hero.weapon.phase = WeaponPhase::CoolDown;
+        hero.weapon.timer = gf::Time::Zero;
+        return;
+      }
+
+      Value extent = attribute - r;
+      float e = 1.0f + extent.asFloat() / 100.0f;
+
+      // 3. Compute power of the attack
+
+      Value atk = hero.weapon.ref.data->attack * e * std::sqrt(static_cast<float>(hero.progression.level));
+      gf::Log::debug("weapon atk: %" PRIi32 "\n", hero.weapon.ref.data->attack.asInt());
+      gf::Log::debug("extent of success: %.4g\n", e);
+      gf::Log::debug("level: %" PRIi32 " (%.4g)\n", hero.progression.level, std::sqrt(static_cast<float>(hero.progression.level)));
+      gf::Log::debug("atk: %" PRIi32 "\n", atk.asInt());
+
+      for (auto& character : m_state.characters) {
+        if (squareDistanceToHero(character.physics.location.position) > gf::square(hero.weapon.ref.data->range)) {
+          continue;
+        }
+
+        // TODO: check the angle of the weapon
+
+        // 4. Compute power of the defense
+
+        Value def = 3; // TODO: compute the defensive points of the character
+        gf::Log::debug("def: %" PRIi32 "\n", def.asInt());
+
+        if (def > atk) {
+          gf::Log::debug("MISSED!\n");
+          continue;
+        }
+
+        // 5. Compute the damage
+
+        gf::Log::debug("SUCCESS!\n");
+        // TODO: compute the damage of the character
+        // TODO: update the attribute
+      }
+
+      hero.weapon.phase = WeaponPhase::CoolDown;
+      hero.weapon.timer = gf::Time::Zero;
+      gf::Log::debug("--}\n");
+    };
+
+    heroMayAttack();
+
     // character
 
     for (auto& character : m_state.characters) {
-      character.physics.pullLocation();
-
       if (character.mood != CharacterMood::Angry) {
         continue;
       }
@@ -185,23 +318,13 @@ namespace akgr {
       switch (character.weapon.phase) {
         case WeaponPhase::Ready:
           character.weapon.phase = WeaponPhase::WarmUp;
-          character.weapon.time = gf::Time::zero();
-          break;
-
-        case WeaponPhase::WarmUp:
-          character.weapon.time += time;
-
-          if (character.weapon.time > character.weapon.ref.data->cooldown) {
-            gf::Log::debug("END OF WARMUP!\n");
-            character.weapon.phase = WeaponPhase::Launch;
-            character.weapon.time = gf::Time::zero();
-          }
+          character.weapon.timer = gf::Time::zero();
           break;
 
         case WeaponPhase::Launch: {
           // see https://akagoria.github.io/game_system.html#_combat_resolution
 
-          gf::Log::debug("--{ character '%s' attack\n", character.ref.data->name.c_str());
+          gf::Log::debug("--{ attack from character '%s'\n", character.ref.data->name.c_str());
 
           // 1. The attack is always considered valid for a character
 
@@ -218,7 +341,7 @@ namespace akgr {
             gf::Log::debug("FAILED!\n");
             gf::Log::debug("--}\n");
             character.weapon.phase = WeaponPhase::CoolDown;
-            character.weapon.time = gf::Time::Zero;
+            character.weapon.timer = gf::Time::Zero;
             continue;
           }
 
@@ -242,7 +365,7 @@ namespace akgr {
             gf::Log::debug("MISSED!\n");
             gf::Log::debug("--}\n");
             character.weapon.phase = WeaponPhase::CoolDown;
-            character.weapon.time = gf::Time::Zero;
+            character.weapon.timer = gf::Time::Zero;
             continue;
           }
 
@@ -252,18 +375,12 @@ namespace akgr {
           hero.aspects.hp.value -= character.weapon.ref.data->attack;
 
           character.weapon.phase = WeaponPhase::CoolDown;
-          character.weapon.time = gf::Time::Zero;
+          character.weapon.timer = gf::Time::Zero;
           break;
         }
 
-        case WeaponPhase::CoolDown:
-          character.weapon.time += time;
-
-          if (character.weapon.time > character.weapon.ref.data->cooldown) {
-            gf::Log::debug("END OF COOLDOWN!\n");
-            character.weapon.phase = WeaponPhase::Ready;
-            character.weapon.time = gf::Time::zero();
-          }
+        default:
+          character.weapon.update(time);
           break;
       }
 

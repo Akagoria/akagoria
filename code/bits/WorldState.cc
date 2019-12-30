@@ -96,6 +96,11 @@ namespace akgr {
       assert(hero.dialog.ref.data != nullptr);
     }
 
+    if (hero.weapon.ref.id != gf::InvalidId) {
+      hero.weapon.ref.bind(data.weapons);
+      assert(hero.weapon.ref.data != nullptr);
+    }
+
     hero.physics.body = physics.createHeroBody(hero.physics.location, hero.physics.angle);
 
     for (auto& item : hero.inventory.items) {

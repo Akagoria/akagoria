@@ -29,6 +29,7 @@
 #include <gf/Color.h>
 #include <gf/EntityContainer.h>
 #include <gf/Event.h>
+#include <gf/Id.h>
 #include <gf/ModelContainer.h>
 #include <gf/Paths.h>
 #include <gf/Random.h>
@@ -72,6 +73,8 @@
 #include "bits/ui/Theme.h"
 
 #include "config.h"
+
+using namespace gf::literals;
 
 namespace {
 
@@ -250,6 +253,9 @@ int main() {
       assert(slot.active);
       gf::Log::debug("Loading from slot %i\n", rootScenery.selector.index.choice);
       worldState.loadFromFile(slot.path);
+    } else {
+      // TODO: remove this later
+      worldState.hero.weapon.ref.id = "SmallSword"_id;
     }
 
     worldState.bind(worldData);

@@ -17,8 +17,38 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "ProgressionState.h"
+#include "WeaponState.h"
+
+#include <cassert>
 
 namespace akgr {
 
+  void WeaponState::update(gf::Time time) {
+    switch (phase) {
+    case WeaponPhase::WarmUp:
+      timer += time;
+
+      if (timer > ref.data->cooldown) {
+        gf::Log::debug("END OF WARMUP!\n");
+        phase = WeaponPhase::Launch;
+        timer = gf::Time::zero();
+      }
+      break;
+
+    case WeaponPhase::CoolDown:
+      timer += time;
+
+      if (timer > ref.data->cooldown) {
+        gf::Log::debug("END OF COOLDOWN!\n");
+        phase = WeaponPhase::Ready;
+        timer = gf::Time::zero();
+      }
+      break;
+
+    default:
+      break;
+    }
+  }
+
 }
+

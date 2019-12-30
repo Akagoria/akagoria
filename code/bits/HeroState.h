@@ -53,6 +53,7 @@ namespace akgr {
     ProgressionState progression;
 
     InventoryState inventory;
+    WeaponState weapon;
 
     DialogState dialog;
     PhysicsBody physics;
@@ -61,7 +62,7 @@ namespace akgr {
   template<typename Archive>
   Archive& operator|(Archive& ar, HeroState& state) {
     return ar | state.move | state.requirements | state.aspects | state.attributes | state.progression
-        | state.inventory | state.dialog | state.physics;
+        | state.inventory | state.weapon | state.dialog | state.physics;
   }
 
 }

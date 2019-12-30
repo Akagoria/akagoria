@@ -139,8 +139,14 @@ namespace akgr {
             }
           }
 
-
         }
+
+        if (m_commands.fight.isActive()) {
+          if (hero.weapon.phase == WeaponPhase::Ready) {
+            hero.weapon.phase = WeaponPhase::WarmUp;
+          }
+        }
+
         break;
 
       case WorldOperation::Talk:

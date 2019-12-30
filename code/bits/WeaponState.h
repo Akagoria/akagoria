@@ -36,13 +36,15 @@ namespace akgr {
 
   struct WeaponState {
     DataRef<WeaponData> ref;
-    WeaponPhase phase = WeaponPhase::WarmUp;
-    gf::Time time = gf::Time::zero();
+    WeaponPhase phase = WeaponPhase::Ready;
+    gf::Time timer = gf::Time::zero();
+
+    void update(gf::Time time);
   };
 
   template<typename Archive>
   Archive& operator|(Archive& ar, WeaponState& state) {
-    return ar | state.ref | state.phase | state.time;
+    return ar | state.ref | state.phase | state.timer;
   }
 
 }
