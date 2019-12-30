@@ -19,7 +19,8 @@
  */
 #include "OptionsRenderer.h"
 
-#include <gf/ArrayRef.h>
+#include <initializer_list>
+
 #include <gf/Id.h>
 
 #include "ui/Common.h"
@@ -35,7 +36,7 @@ namespace akgr {
   , m_frame(nullptr)
   {
 
-    auto addOption = [this](ui::ContainerWidget* parent, const ui::WidgetIndexScenery& index, gf::Id caption, gf::ArrayRef<gf::Id> choices) {
+    auto addOption = [this](ui::ContainerWidget* parent, const ui::WidgetIndexScenery& index, gf::Id caption, std::initializer_list<gf::Id> choices) {
       auto line = parent->add<ui::BoxWidget>(ui::Aspect::Horizontal);
       line->add<ui::LabelWidget>(m_data.getUIMessage(caption))->setSize(ui::Common::DefaultCaptionSize);
       auto choice = line->add<ui::ChoiceWidget>(index);
