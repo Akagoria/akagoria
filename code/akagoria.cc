@@ -163,7 +163,7 @@ int main() {
   gf::ScreenView hudView;
   views.addView(hudView);
 
-  views.setInitialScreenSize(renderer.getSize());
+  views.setInitialFramebufferSize(renderer.getSize());
 
   gf::ZoomingViewAdaptor adaptor(renderer, mainView);
 
@@ -386,7 +386,7 @@ int main() {
   akgr::ItemRenderer item(worldData, worldState, resources);
   mainEntities.addEntity(item);
 
-  akgr::VfxRenderer vfx(worldScenery, worldState);
+  akgr::VfxRenderer vfx(worldScenery, worldState, resources);
   mainEntities.addEntity(vfx);
 
   akgr::PhysicsDebugger debug(worldState.physics);

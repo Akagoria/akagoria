@@ -25,6 +25,7 @@
 #include <gf/Easings.h>
 #include <gf/Particles.h>
 #include <gf/RenderTarget.h>
+#include <gf/Text.h>
 
 #include "Aspect.h"
 
@@ -56,9 +57,10 @@ namespace akgr {
 
   }
 
-  VfxRenderer::VfxRenderer(const WorldScenery& scenery, const WorldState& state)
+  VfxRenderer::VfxRenderer(const WorldScenery& scenery, const WorldState& state, gf::ResourceManager& resources)
   : m_scenery(scenery)
   , m_state(state)
+  , m_font(resources.getFont("fonts/DejaVuSans.ttf"))
   {
 
   }
@@ -90,6 +92,27 @@ namespace akgr {
     }
 
     target.draw(particles, states);
+
+    // damage
+
+    for (auto& damage : m_scenery.vfx.damageEmitter.damages) {
+      float alpha = gf::Ease::quartOut(damage.duration.asSeconds() / VfxDamage::Duration.asSeconds());
+
+      gf::Color4f color = damage.receiver == VfxDamageReceiver::Other ? gf::Color::Green : gf::Color::Red;
+      gf::Color4f outline = gf::Color::darker(color);
+
+      color.a = outline.a = alpha;
+
+      gf::Text text(damage.message, m_font, 60);
+      text.setColor(color);
+      text.setOutlineColor(outline);
+      text.setOutlineThickness(6.0f);
+      text.setPosition(damage.position);
+      text.setAnchor(gf::Anchor::Center);
+      text.scale(0.5f);
+      target.draw(text, states);
+    }
+
   }
 
 }

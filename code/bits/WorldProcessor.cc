@@ -97,6 +97,11 @@ namespace akgr {
       return Attribute::Strength;
     }
 
+
+    gf::Vector2f computeDamagePosition(gf::Vector2f attacker, gf::Vector2f defender) {
+      return defender + gf::normalize(defender - attacker) * 60.0f;
+    }
+
   }
 
   WorldProcessor::WorldProcessor(const WorldData& data, WorldState& state, WorldScenery& scenery, RootScenery& root, Script& script, gf::Random& random)
@@ -274,6 +279,13 @@ namespace akgr {
 
         if (def > atk) {
           gf::Log::debug("MISSED!\n");
+
+          VfxDamage damage;
+          damage.receiver = VfxDamageReceiver::Other;
+          damage.message = "0";
+          damage.duration = VfxDamage::Duration;
+          damage.position = computeDamagePosition(hero.physics.location.position, character.physics.location.position);
+          m_scenery.vfx.damageEmitter.damages.push_back(std::move(damage));
           continue;
         }
 
@@ -366,6 +378,14 @@ namespace akgr {
             gf::Log::debug("--}\n");
             character.weapon.phase = WeaponPhase::CoolDown;
             character.weapon.timer = gf::Time::Zero;
+
+            VfxDamage damage;
+            damage.receiver = VfxDamageReceiver::Hero;
+            damage.message = "0";
+            damage.duration = VfxDamage::Duration;
+            damage.position = computeDamagePosition(character.physics.location.position, hero.physics.location.position);
+            m_scenery.vfx.damageEmitter.damages.push_back(std::move(damage));
+
             continue;
           }
 
@@ -373,6 +393,13 @@ namespace akgr {
 
           gf::Log::debug("--}\n");
           hero.aspects.hp.value -= character.weapon.ref.data->attack;
+
+          VfxDamage damage;
+          damage.receiver = VfxDamageReceiver::Hero;
+          damage.message = std::to_string(character.weapon.ref.data->attack.asInt());
+          damage.duration = VfxDamage::Duration;
+          damage.position = computeDamagePosition(character.physics.location.position, hero.physics.location.position);
+          m_scenery.vfx.damageEmitter.damages.push_back(std::move(damage));
 
           character.weapon.phase = WeaponPhase::CoolDown;
           character.weapon.timer = gf::Time::Zero;
@@ -465,6 +492,15 @@ namespace akgr {
           particles.end()
       );
     }
+
+    for (auto& damage : m_scenery.vfx.damageEmitter.damages) {
+      damage.duration -= time;
+    }
+
+    m_scenery.vfx.damageEmitter.damages.erase(
+      std::remove_if(m_scenery.vfx.damageEmitter.damages.begin(), m_scenery.vfx.damageEmitter.damages.end(), [](const auto& damage) { return damage.duration < gf::Time::zero(); }),
+      m_scenery.vfx.damageEmitter.damages.end()
+    );
 
     // area
 

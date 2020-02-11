@@ -70,9 +70,28 @@ namespace akgr {
     std::vector<VfxAspectParticle> particles;
   };
 
+  enum class VfxDamageReceiver {
+    Hero,
+    Other,
+  };
+
+  struct VfxDamage {
+    VfxDamageReceiver receiver;
+    std::string message;
+    gf::Time duration;
+    gf::Vector2f position;
+
+    static constexpr gf::Time Duration = gf::milliseconds(800);
+  };
+
+  struct VfxDamageEmitter {
+    std::vector<VfxDamage> damages;
+  };
+
   struct VfxScenery {
     VfxAspectEmitter aspectEmitter;
     std::vector<VfxShrineEmitter> shrineEmitters;
+    VfxDamageEmitter damageEmitter;
   };
 
 }

@@ -21,6 +21,7 @@
 #define AKGR_VFX_RENDERER_H
 
 #include <gf/Entity.h>
+#include <gf/ResourceManager.h>
 
 #include "WorldScenery.h"
 #include "WorldState.h"
@@ -29,12 +30,13 @@ namespace akgr {
 
   class VfxRenderer : public gf::Entity {
   public:
-    VfxRenderer(const WorldScenery& scenery, const WorldState& state);
+    VfxRenderer(const WorldScenery& scenery, const WorldState& state, gf::ResourceManager& resources);
 
     virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
   private:
     const WorldScenery& m_scenery;
     const WorldState& m_state;
+    gf::Font& m_font;
   };
 }
 
