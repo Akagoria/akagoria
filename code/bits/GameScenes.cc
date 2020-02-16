@@ -9,6 +9,7 @@ namespace akgr {
   GameScenes::GameScenes(gf::Path searchDirectory)
   : gf::SceneManager("Akagoria, the revenge of Kalista", InitialScreenSize, ~gf::WindowHints::Resizable)
   , resources({ searchDirectory })
+  , world(resources)
   {
 
   }

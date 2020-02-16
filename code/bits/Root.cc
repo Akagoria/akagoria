@@ -17,27 +17,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_WORLD_H
-#define AKGR_WORLD_H
-
-#include "WorldData.h"
-#include "WorldState.h"
-#include "WorldScenery.h"
-#include "Script.h"
+#include "Root.h"
 
 namespace akgr {
 
-  struct World {
-    WorldData data;
-    WorldState state;
-    WorldScenery scenery;
-    Script script;
+  Root::Root()
+  {
 
-    World(gf::ResourceManager& resources);
-    void bind(gf::ResourceManager& resources, gf::Random& random);
-  };
+  }
 
 }
-
-
-#endif // AKGR_WORLD_H

@@ -59,6 +59,7 @@ add_executable(akagoria
   bits/PhysicsRuntime.cc
   bits/PhysicsState.cc
   bits/ProgressionState.cc
+  bits/Root.cc
   bits/RootData.cc
   bits/Script.cc
   bits/SlotSelectorRenderer.cc
@@ -69,6 +70,7 @@ add_executable(akagoria
   bits/VfxRenderer.cc
   bits/VfxScenery.cc
   bits/WeaponState.cc
+  bits/World.cc
   bits/WorldData.cc
   bits/WorldDriver.cc
   bits/WorldProcessor.cc
