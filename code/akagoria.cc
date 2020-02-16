@@ -207,7 +207,7 @@ int main() {
 
   akgr::RootData rootData;
 
-  if (!rootData.loadFromFile(resources.getAbsolutePath("ui.dat"))) {
+  if (!rootData.loadFromFile(resources.getAbsolutePath("root.dat"))) {
     return EXIT_FAILURE;
   }
 

@@ -66,7 +66,7 @@ int main(int argc, char *argv[]) {
   localeGenerator.add_messages_domain("akagoria");
   std::locale::global(localeGenerator(""));
 
-  fmt::print("Loading akagoria ui messages from '{}'...\n", argv[1]);
+  fmt::print("Loading akagoria root data from '{}'...\n", argv[1]);
   gf::Path inputFile(argv[1]);
 
   akgr::RootData data;

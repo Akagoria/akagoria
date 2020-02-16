@@ -5,6 +5,7 @@ set(AKAGORIA_DATABASE_FILES
   raw/database/dialogs.json
   raw/database/items.json
   raw/database/notifications.json
+  raw/database/spells.json
   raw/database/ui.json
   raw/database/weapons.json
 )
@@ -16,7 +17,7 @@ set(AKAGORIA_MAP_FILES
 add_custom_command(
   OUTPUT
     "${CMAKE_CURRENT_BINARY_DIR}/akagoria.dat"
-    "${CMAKE_CURRENT_BINARY_DIR}/ui.dat"
+    "${CMAKE_CURRENT_BINARY_DIR}/root.dat"
     "${CMAKE_CURRENT_BINARY_DIR}/strings.cc"
   DEPENDS
     akagoria_datacompile
@@ -52,6 +53,6 @@ install(
 install(
   FILES
     "${CMAKE_CURRENT_BINARY_DIR}/akagoria.dat"
-    "${CMAKE_CURRENT_BINARY_DIR}/ui.dat"
+    "${CMAKE_CURRENT_BINARY_DIR}/root.dat"
   DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/games/akagoria"
 )

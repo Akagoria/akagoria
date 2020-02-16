@@ -983,7 +983,7 @@ int main(int argc, char *argv[]) {
 
   compileJsonUI(databaseDirectory / "ui.json", rootData.ui, strings);
 
-  gf::Path rootOutputFile = outputDirectory / "ui.dat";
+  gf::Path rootOutputFile = outputDirectory / "root.dat";
   rootData.saveToFile(rootOutputFile);
 
 
