@@ -24,18 +24,18 @@
 #include <gf/ResourceManager.h>
 
 #include "RootScenery.h"
-#include "UIData.h"
+#include "RootData.h"
 
 namespace akgr {
 
   class CommandsHelperRenderer : public gf::Entity {
   public:
-    CommandsHelperRenderer(const UIData& data, const RootScenery& root, gf::ResourceManager& resources);
+    CommandsHelperRenderer(const RootData& data, const RootScenery& root, gf::ResourceManager& resources);
 
     virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
 
   private:
-    const UIData& m_data;
+    const RootData& m_data;
     const RootScenery& m_root;
     const gf::Texture& m_texture;
     gf::Font& m_font;

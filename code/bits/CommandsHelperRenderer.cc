@@ -108,7 +108,7 @@ namespace akgr {
 
   } // anonymous namespace
 
-  CommandsHelperRenderer::CommandsHelperRenderer(const UIData& data, const RootScenery& root, gf::ResourceManager& resources)
+  CommandsHelperRenderer::CommandsHelperRenderer(const RootData& data, const RootScenery& root, gf::ResourceManager& resources)
   : gf::Entity(50)
   , m_data(data)
   , m_root(root)

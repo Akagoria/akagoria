@@ -17,4 +17,33 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef AKGR_ROOT_DATA_H
+#define AKGR_ROOT_DATA_H
+
+#include <map>
+#include <string>
+
+#include <gf/Id.h>
+#include <gf/Path.h>
+
 #include "UIData.h"
+
+namespace akgr {
+
+  struct RootData {
+    std::map<gf::Id, UIData> ui;
+
+    bool loadFromFile(const gf::Path& filename);
+    bool saveToFile(const gf::Path& filename);
+
+    std::string getUIMessage(gf::Id id) const;
+  };
+
+  template<typename Archive>
+  Archive& operator|(Archive& ar, RootData& data) {
+    return ar | data.ui;
+  }
+
+}
+
+#endif // AKGR_ROOT_DATA_H

@@ -35,7 +35,7 @@
 
 #include <nlohmann/json.hpp>
 
-#include "bits/UIData.h"
+#include "bits/RootData.h"
 #include "bits/WorldData.h"
 
 namespace {
@@ -871,13 +871,13 @@ namespace {
     }
   }
 
-  void compileJsonUI(const gf::Path& filename, std::map<gf::Id, akgr::UIMessageData>& data, std::vector<std::string>& strings) {
+  void compileJsonUI(const gf::Path& filename, std::map<gf::Id, akgr::UIData>& data, std::vector<std::string>& strings) {
     std::ifstream ifs(filename.string());
 
     const auto j = nlohmann::json::parse(ifs);
 
     for (auto kv : j.items()) {
-      akgr::UIMessageData ui;
+      akgr::UIData ui;
       ui.name = kv.key();
 
       auto value = kv.value();
@@ -977,14 +977,14 @@ int main(int argc, char *argv[]) {
   worldData.saveToFile(worldOutputFile);
 
 
-  // ui
+  // root
 
-  akgr::UIData uiData;
+  akgr::RootData rootData;
 
-  compileJsonUI(databaseDirectory / "ui.json", uiData.messages, strings);
+  compileJsonUI(databaseDirectory / "ui.json", rootData.ui, strings);
 
-  gf::Path uiOutputFile = outputDirectory / "ui.dat";
-  uiData.saveToFile(uiOutputFile);
+  gf::Path rootOutputFile = outputDirectory / "ui.dat";
+  rootData.saveToFile(rootOutputFile);
 
 
   // strings

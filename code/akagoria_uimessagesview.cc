@@ -30,7 +30,7 @@
 #include <fmt/core.h>
 
 #include "bits/Fmt.h"
-#include "bits/UIData.h"
+#include "bits/RootData.h"
 
 #include "config.h"
 
@@ -39,7 +39,7 @@ namespace {
     fmt::print("#\n# {}\n#\n", section);
   }
 
-  void viewUIMessageData(const std::map<gf::Id, akgr::UIMessageData>& data) {
+  void viewUIData(const std::map<gf::Id, akgr::UIData>& data) {
     viewNewSection("UI Messages");
     fmt::print("Number of UI messages: {}\n", data.size());
 
@@ -49,8 +49,8 @@ namespace {
     }
   }
 
-  void viewUIData(const akgr::UIData& data) {
-    viewUIMessageData(data.messages);
+  void viewRootData(const akgr::RootData& data) {
+    viewUIData(data.ui);
   }
 
 }
@@ -69,7 +69,7 @@ int main(int argc, char *argv[]) {
   fmt::print("Loading akagoria ui messages from '{}'...\n", argv[1]);
   gf::Path inputFile(argv[1]);
 
-  akgr::UIData data;
+  akgr::RootData data;
 
   gf::Clock clock;
 
@@ -81,7 +81,7 @@ int main(int argc, char *argv[]) {
   auto duration = clock.getElapsedTime();
   fmt::print("Data successfully loaded in {:g} s\n", duration.asSeconds());
 
-  viewUIData(data);
+  viewRootData(data);
 
   return EXIT_SUCCESS;
 }

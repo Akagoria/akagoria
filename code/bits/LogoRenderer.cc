@@ -41,7 +41,7 @@ namespace akgr {
 
   }
 
-  LogoRenderer::LogoRenderer(const OpeningScenery& scenery, const UIData& data, gf::ResourceManager& resources)
+  LogoRenderer::LogoRenderer(const OpeningScenery& scenery, const RootData& data, gf::ResourceManager& resources)
   : m_scenery(scenery)
   , m_data(data)
   , m_texture(resources.getTexture("logo.png"))

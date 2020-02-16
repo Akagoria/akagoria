@@ -27,7 +27,7 @@ using namespace gf::literals;
 
 namespace akgr {
 
-  StartMenuRenderer::StartMenuRenderer(const UIData& data, const OpeningScenery& scenery, ui::Theme& theme)
+  StartMenuRenderer::StartMenuRenderer(const RootData& data, const OpeningScenery& scenery, ui::Theme& theme)
   : gf::Entity(10)
   , m_data(data)
   , m_scenery(scenery)

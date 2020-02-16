@@ -22,8 +22,8 @@
 
 #include <gf/Entity.h>
 
+#include "RootData.h"
 #include "RootScenery.h"
-#include "UIData.h"
 
 #include "ui/Theme.h"
 #include "ui/Widgets.h"
@@ -32,12 +32,12 @@ namespace akgr {
 
   class SlotSelectorRenderer : public gf::Entity {
   public:
-    SlotSelectorRenderer(const UIData& data, const RootScenery& scenery, ui::Theme& theme);
+    SlotSelectorRenderer(const RootData& data, const RootScenery& scenery, ui::Theme& theme);
 
     virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
 
   private:
-    const UIData& m_data;
+    const RootData& m_data;
     const RootScenery& m_scenery;
     ui::Theme& m_theme;
     ui::FrameWidget m_frame;

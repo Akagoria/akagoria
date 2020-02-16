@@ -29,7 +29,7 @@ using namespace gf::literals;
 
 namespace akgr {
 
-  OptionsRenderer::OptionsRenderer(const UIData& data, const RootScenery& scenery, ui::Theme& theme)
+  OptionsRenderer::OptionsRenderer(const RootData& data, const RootScenery& scenery, ui::Theme& theme)
   : m_data(data)
   , m_scenery(scenery)
   , m_theme(theme)

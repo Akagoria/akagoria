@@ -59,6 +59,7 @@ add_executable(akagoria
   bits/PhysicsRuntime.cc
   bits/PhysicsState.cc
   bits/ProgressionState.cc
+  bits/RootData.cc
   bits/Script.cc
   bits/SlotSelectorRenderer.cc
   bits/SlotSelectorScenery.cc
@@ -110,7 +111,7 @@ add_subdirectory(vendor/fmt EXCLUDE_FROM_ALL)
 
 add_executable(akagoria_datacompile
   akagoria_datacompile.cc
-  bits/UIData.cc
+  bits/RootData.cc
   bits/WorldData.cc
 )
 
@@ -172,7 +173,7 @@ target_link_libraries(akagoria_stateview
 add_executable(akagoria_uimessagesview
   akagoria_uimessagesview.cc
   bits/Fmt.cc
-  bits/UIData.cc
+  bits/RootData.cc
 )
 
 target_include_directories(akagoria_uimessagesview

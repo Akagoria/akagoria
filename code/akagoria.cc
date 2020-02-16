@@ -57,6 +57,7 @@
 #include "bits/OpeningDriver.h"
 #include "bits/OptionsRenderer.h"
 #include "bits/OpeningScenery.h"
+#include "bits/RootData.h"
 #include "bits/RootScenery.h"
 #include "bits/Script.h"
 #include "bits/SlotSelectorRenderer.h"
@@ -204,9 +205,9 @@ int main() {
    * opening
    */
 
-  akgr::UIData uiData;
+  akgr::RootData rootData;
 
-  if (!uiData.loadFromFile(resources.getAbsolutePath("ui.dat"))) {
+  if (!rootData.loadFromFile(resources.getAbsolutePath("ui.dat"))) {
     return EXIT_FAILURE;
   }
 
@@ -216,19 +217,19 @@ int main() {
 
   gf::EntityContainer openingEntities;
 
-  akgr::LogoRenderer logo(openingScenery, uiData, resources);
+  akgr::LogoRenderer logo(openingScenery, rootData, resources);
   openingEntities.addEntity(logo);
 
-  akgr::StartMenuRenderer startMenu(uiData, openingScenery, theme);
+  akgr::StartMenuRenderer startMenu(rootData, openingScenery, theme);
   openingEntities.addEntity(startMenu);
 
-  akgr::SlotSelectorRenderer openingSlotSelector(uiData, rootScenery, theme);
+  akgr::SlotSelectorRenderer openingSlotSelector(rootData, rootScenery, theme);
   openingEntities.addEntity(openingSlotSelector);
 
-  akgr::OptionsRenderer openingOptions(uiData, rootScenery, theme);
+  akgr::OptionsRenderer openingOptions(rootData, rootScenery, theme);
   openingEntities.addEntity(openingOptions);
 
-  akgr::CommandsHelperRenderer openingCommandsHelper(uiData, rootScenery, resources);
+  akgr::CommandsHelperRenderer openingCommandsHelper(rootData, rootScenery, resources);
   openingEntities.addEntity(openingCommandsHelper);
 
 
@@ -404,7 +405,7 @@ int main() {
   akgr::AspectRenderer aspect(worldState, resources);
   hudEntities.addEntity(aspect);
 
-  akgr::SlotSelectorRenderer worldSlotSelector(uiData, rootScenery, theme);
+  akgr::SlotSelectorRenderer worldSlotSelector(rootData, rootScenery, theme);
   hudEntities.addEntity(worldSlotSelector);
 
   akgr::MiniMapRenderer miniMap(worldState);
@@ -413,16 +414,16 @@ int main() {
   akgr::AreaRenderer area(resources, worldState, worldScenery);
   hudEntities.addEntity(area);
 
-  akgr::CommandsHelperRenderer worldCommandsHelper(uiData, rootScenery, resources);
+  akgr::CommandsHelperRenderer worldCommandsHelper(rootData, rootScenery, resources);
   hudEntities.addEntity(worldCommandsHelper);
 
-  akgr::GameMenuRenderer gameMenu(uiData, worldState, worldScenery, theme);
+  akgr::GameMenuRenderer gameMenu(rootData, worldState, worldScenery, theme);
   hudEntities.addEntity(gameMenu);
 
-  akgr::OptionsRenderer gameOptions(uiData, rootScenery, theme);
+  akgr::OptionsRenderer gameOptions(rootData, rootScenery, theme);
   hudEntities.addEntity(gameOptions);
 
-  akgr::InventoryRenderer inventory(uiData, worldData, worldState, worldScenery, theme, resources);
+  akgr::InventoryRenderer inventory(rootData, worldData, worldState, worldScenery, theme, resources);
   hudEntities.addEntity(inventory);
 
 

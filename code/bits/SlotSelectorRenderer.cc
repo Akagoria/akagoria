@@ -82,7 +82,7 @@ namespace akgr {
 
   }
 
-  SlotSelectorRenderer::SlotSelectorRenderer(const UIData& data, const RootScenery& scenery, ui::Theme& theme)
+  SlotSelectorRenderer::SlotSelectorRenderer(const RootData& data, const RootScenery& scenery, ui::Theme& theme)
   : m_data(data)
   , m_scenery(scenery)
   , m_theme(theme)
