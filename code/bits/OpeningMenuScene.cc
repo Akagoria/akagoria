@@ -51,13 +51,11 @@ namespace akgr {
 
         case StartMenuScenery::Choice::LoadAdventure:
 //           m_scenery.operation = OpeningOperation::SelectSlot;
-//           m_root.operation = RootOperation::SelectSlot;
           break;
 
         case StartMenuScenery::Choice::Options:
           m_scenes.replaceScene(m_scenes.openingAct->options);
 //           m_scenery.operation = OpeningOperation::ChangeOptions;
-//           m_root.operation = RootOperation::ChangeOptions;
           break;
 
         case StartMenuScenery::Choice::Quit:

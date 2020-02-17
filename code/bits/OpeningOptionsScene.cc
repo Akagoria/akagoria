@@ -49,8 +49,6 @@ namespace akgr {
 
     if (m_scenes.commands.gameUse.isActive()) {
       if (m_scenes.root.scenery.options.getChoice() == OptionsScenery::Choice::Back) {
-//         m_scenery.operation = OpeningOperation::Menu;
-//         m_root.operation = RootOperation::None;
         m_scenes.root.scenery.options.save();
         m_scenes.replaceScene(m_scenes.openingAct->menu);
       }
