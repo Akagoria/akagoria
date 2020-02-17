@@ -17,41 +17,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_COMMANDS_H
-#define AKGR_COMMANDS_H
+#ifndef AKGR_WORLD_ACT_H
+#define AKGR_WORLD_ACT_H
 
-#include <gf/Action.h>
+// #include "WorldBaseScene.h"
+// #include "WorldMenuScene.h"
 
 namespace akgr {
+  struct GameScenes;
 
-  struct Commands {
-    gf::Action windowClose;
-    gf::Action windowFullscreen;
+  struct WorldAct {
+    WorldAct(GameScenes& scenes);
 
-    gf::Action debugPhysics;
-    gf::Action debugSave;
-
-    gf::Action gameUp;
-    gf::Action gameDown;
-    gf::Action gameLeft;
-    gf::Action gameRight;
-
-    gf::Action gameUse;
-    gf::Action gameFight;
-    gf::Action gameMenu;
-
-    gf::Action menuUp;
-    gf::Action menuDown;
-    gf::Action menuLeft;
-    gf::Action menuRight;
-
-    gf::Action menuPageUp;
-    gf::Action menuPageDown;
-    gf::Action menuQuit;
-
-    Commands();
+//     WorldBaseScene base;
+//     WorldMenuScene menu;
   };
 
 }
 
-#endif // AKGR_ACTIONS_H
+#endif // AKGR_WORLD_ACT_H

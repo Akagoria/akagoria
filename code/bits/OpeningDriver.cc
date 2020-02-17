@@ -42,7 +42,7 @@ namespace akgr {
           m_scenery.menu.index.computePrevChoice();
         }
 
-        if (m_commands.use.isActive()) {
+        if (m_commands.gameUse.isActive()) {
           switch (m_scenery.menu.getChoice()) {
             case StartMenuScenery::Choice::StartAdventure:
               m_scenery.operation = OpeningOperation::Start;
@@ -72,7 +72,7 @@ namespace akgr {
           m_root.selector.index.computePrevChoice();
         }
 
-        if (m_commands.use.isActive()) {
+        if (m_commands.gameUse.isActive()) {
           if (m_root.selector.index.choice == SlotSelectorScenery::Back) {
             m_scenery.operation = OpeningOperation::Menu;
             m_root.selector.index.choice = 0;
@@ -93,7 +93,7 @@ namespace akgr {
           m_root.options.index.computePrevChoice();
         }
 
-        if (m_commands.use.isActive()) {
+        if (m_commands.gameUse.isActive()) {
           if (m_root.options.getChoice() == OptionsScenery::Choice::Back) {
             m_scenery.operation = OpeningOperation::Menu;
             m_root.operation = RootOperation::None;

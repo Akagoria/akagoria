@@ -37,5 +37,6 @@ int main() {
 //   gf::Log::setLevel(gf::Log::Info);
 
   akgr::GameScenes scenes(AKAGORIA_DATADIR);
+  scenes.startOpening();
   scenes.run();
 }

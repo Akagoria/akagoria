@@ -17,41 +17,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_COMMANDS_H
-#define AKGR_COMMANDS_H
-
-#include <gf/Action.h>
+#include "Opening.h"
 
 namespace akgr {
 
-  struct Commands {
-    gf::Action windowClose;
-    gf::Action windowFullscreen;
-
-    gf::Action debugPhysics;
-    gf::Action debugSave;
-
-    gf::Action gameUp;
-    gf::Action gameDown;
-    gf::Action gameLeft;
-    gf::Action gameRight;
-
-    gf::Action gameUse;
-    gf::Action gameFight;
-    gf::Action gameMenu;
-
-    gf::Action menuUp;
-    gf::Action menuDown;
-    gf::Action menuLeft;
-    gf::Action menuRight;
-
-    gf::Action menuPageUp;
-    gf::Action menuPageDown;
-    gf::Action menuQuit;
-
-    Commands();
-  };
-
 }
-
-#endif // AKGR_ACTIONS_H

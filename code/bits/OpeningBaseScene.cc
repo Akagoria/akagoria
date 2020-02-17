@@ -17,41 +17,37 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_COMMANDS_H
-#define AKGR_COMMANDS_H
+#include "OpeningBaseScene.h"
 
-#include <gf/Action.h>
+#include <gf/Log.h>
+
+#include "GameScenes.h"
+#include "Opening.h"
+#include "Root.h"
 
 namespace akgr {
 
-  struct Commands {
-    gf::Action windowClose;
-    gf::Action windowFullscreen;
+  OpeningBaseScene::OpeningBaseScene(GameScenes& scenes)
+  : gf::Scene(scenes.getRenderer().getSize())
+  , m_scenes(scenes)
+  , m_logo(scenes.root.data, scenes.opening.scenery, scenes.resources)
+  , m_helper(scenes.root.data, scenes.root.scenery, scenes.resources)
+  {
+    addHudEntity(m_logo);
+    addHudEntity(m_helper);
 
-    gf::Action debugPhysics;
-    gf::Action debugSave;
+    addAction(m_scenes.commands.windowClose);
+    addAction(m_scenes.commands.windowFullscreen);
+  }
 
-    gf::Action gameUp;
-    gf::Action gameDown;
-    gf::Action gameLeft;
-    gf::Action gameRight;
+  void OpeningBaseScene::doHandleActions(gf::Window& window) {
+    if (m_scenes.commands.windowFullscreen.isActive()) {
+      window.toggleFullscreen();
+    }
 
-    gf::Action gameUse;
-    gf::Action gameFight;
-    gf::Action gameMenu;
-
-    gf::Action menuUp;
-    gf::Action menuDown;
-    gf::Action menuLeft;
-    gf::Action menuRight;
-
-    gf::Action menuPageUp;
-    gf::Action menuPageDown;
-    gf::Action menuQuit;
-
-    Commands();
-  };
+    if (m_scenes.commands.windowClose.isActive()) {
+      window.close();
+    }
+  }
 
 }
-
-#endif // AKGR_ACTIONS_H

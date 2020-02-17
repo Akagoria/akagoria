@@ -51,28 +51,28 @@ namespace akgr {
 
     switch (m_state.operation) {
       case WorldOperation::Walk:
-        if (m_commands.menu.isActive()) {
+        if (m_commands.gameMenu.isActive()) {
           m_scenery.menu.index.choice = 0;
           m_state.operation = WorldOperation::Menu;
         }
 
-        if (m_commands.right.isActive()) {
+        if (m_commands.gameRight.isActive()) {
           hero.move.angular = gf::AngularMove::Right;
-        } else if (m_commands.left.isActive()) {
+        } else if (m_commands.gameLeft.isActive()) {
           hero.move.angular = gf::AngularMove::Left;
         } else {
           hero.move.angular = gf::AngularMove::None;
         }
 
-        if (m_commands.up.isActive()) {
+        if (m_commands.gameUp.isActive()) {
           hero.move.linear = gf::LinearMove::Forward;
-        } else if (m_commands.down.isActive()) {
+        } else if (m_commands.gameDown.isActive()) {
           hero.move.linear = gf::LinearMove::Backward;
         } else {
           hero.move.linear = gf::LinearMove::None;
         }
 
-        if (m_commands.use.isActive()) {
+        if (m_commands.gameUse.isActive()) {
           // check for a character conversation
 
           for (auto& character : m_state.characters) {
@@ -141,7 +141,7 @@ namespace akgr {
 
         }
 
-        if (m_commands.fight.isActive()) {
+        if (m_commands.gameFight.isActive()) {
           if (hero.weapon.phase == WeaponPhase::Ready) {
             hero.weapon.phase = WeaponPhase::WarmUp;
           }
@@ -155,7 +155,7 @@ namespace akgr {
         hero.move.angular = gf::AngularMove::None;
         hero.move.linear = gf::LinearMove::None;
 
-        if (m_commands.use.isActive()) {
+        if (m_commands.gameUse.isActive()) {
           auto& dialog = hero.dialog;
           assert(dialog.ref.data != nullptr);
 
@@ -189,7 +189,7 @@ namespace akgr {
           m_root.selector.index.computePrevChoice();
         }
 
-        if (m_commands.use.isActive()) {
+        if (m_commands.gameUse.isActive()) {
           m_state.operation = WorldOperation::Walk;
           m_root.operation = RootOperation::None;
 
@@ -221,7 +221,7 @@ namespace akgr {
         hero.move.angular = gf::AngularMove::None;
         hero.move.linear = gf::LinearMove::None;
 
-        if (m_commands.menu.isActive()) {
+        if (m_commands.gameMenu.isActive()) {
           m_state.operation = WorldOperation::Walk;
         }
 
@@ -231,7 +231,7 @@ namespace akgr {
           m_scenery.menu.index.computePrevChoice();
         }
 
-        if (m_commands.use.isActive()) {
+        if (m_commands.gameUse.isActive()) {
           switch (m_scenery.menu.getChoice()) {
             case GameMenuScenery::Choice::Inventory:
               m_state.operation = WorldOperation::Inventory;
@@ -268,7 +268,7 @@ namespace akgr {
         m_root.operation = RootOperation::ChangeOptions;
         m_root.helper.status = HelperStatus::Menu;
 
-        if (m_commands.menu.isActive()) {
+        if (m_commands.gameMenu.isActive()) {
           m_state.operation = WorldOperation::Walk;
         }
 
@@ -278,7 +278,7 @@ namespace akgr {
           m_root.options.index.computePrevChoice();
         }
 
-        if (m_commands.use.isActive()) {
+        if (m_commands.gameUse.isActive()) {
           if (m_root.options.getChoice() == OptionsScenery::Choice::Back) {
             m_state.operation = WorldOperation::Menu;
             m_root.operation = RootOperation::None;
@@ -314,7 +314,7 @@ namespace akgr {
           }
         }
 
-        if (m_commands.use.isActive()) {
+        if (m_commands.gameUse.isActive()) {
 //           m_state.operation = WorldOperation::Menu;
         }
 

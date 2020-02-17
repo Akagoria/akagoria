@@ -41,9 +41,9 @@ namespace akgr {
 
   }
 
-  LogoRenderer::LogoRenderer(const OpeningScenery& scenery, const RootData& data, gf::ResourceManager& resources)
-  : m_scenery(scenery)
-  , m_data(data)
+  LogoRenderer::LogoRenderer(const RootData& data, const OpeningScenery& scenery, gf::ResourceManager& resources)
+  : m_data(data)
+  , m_scenery(scenery)
   , m_texture(resources.getTexture("logo.png"))
   , m_mainFont(resources.getFont("fonts/Philosopher-Regular.ttf"))
   , m_additionalFont(resources.getFont("fonts/sawarabi-mincho-medium.ttf"))

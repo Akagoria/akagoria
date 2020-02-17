@@ -17,41 +17,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_COMMANDS_H
-#define AKGR_COMMANDS_H
+#ifndef AKGR_OPENING_MENU_SCENE_H
+#define AKGR_OPENING_MENU_SCENE_H
 
-#include <gf/Action.h>
+#include <gf/Scene.h>
+
+#include "StartMenuRenderer.h"
+#include "ui/Theme.h"
 
 namespace akgr {
+  struct GameScenes;
 
-  struct Commands {
-    gf::Action windowClose;
-    gf::Action windowFullscreen;
+  class OpeningMenuScene : public gf::Scene {
+  public:
+    OpeningMenuScene(GameScenes& scenes);
 
-    gf::Action debugPhysics;
-    gf::Action debugSave;
+  private:
 
-    gf::Action gameUp;
-    gf::Action gameDown;
-    gf::Action gameLeft;
-    gf::Action gameRight;
-
-    gf::Action gameUse;
-    gf::Action gameFight;
-    gf::Action gameMenu;
-
-    gf::Action menuUp;
-    gf::Action menuDown;
-    gf::Action menuLeft;
-    gf::Action menuRight;
-
-    gf::Action menuPageUp;
-    gf::Action menuPageDown;
-    gf::Action menuQuit;
-
-    Commands();
+  private:
+    GameScenes& m_scenes;
+    StartMenuRenderer m_menu;
   };
 
 }
 
-#endif // AKGR_ACTIONS_H
+#endif // AKGR_OPENING_MENU_SCENE_H

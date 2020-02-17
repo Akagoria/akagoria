@@ -52,7 +52,11 @@ add_executable(akagoria
   bits/Menu.cc
   bits/MiniMapRenderer.cc
   bits/NotificationRenderer.cc
+  bits/Opening.cc
+  bits/OpeningAct.cc
+  bits/OpeningBaseScene.cc
   bits/OpeningDriver.cc
+  bits/OpeningMenuScene.cc
   bits/OpeningProcessor.cc
   bits/OptionsRenderer.cc
   bits/OptionsScenery.cc
@@ -71,6 +75,7 @@ add_executable(akagoria
   bits/VfxScenery.cc
   bits/WeaponState.cc
   bits/World.cc
+  bits/WorldAct.cc
   bits/WorldData.cc
   bits/WorldDriver.cc
   bits/WorldProcessor.cc

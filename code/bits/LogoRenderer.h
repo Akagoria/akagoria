@@ -30,13 +30,13 @@ namespace akgr {
 
   class LogoRenderer : public gf::Entity {
   public:
-    LogoRenderer(const OpeningScenery& scenery, const RootData& data, gf::ResourceManager& resources);
+    LogoRenderer(const RootData& data, const OpeningScenery& scenery, gf::ResourceManager& resources);
 
     virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
 
   private:
-    const OpeningScenery& m_scenery;
     const RootData& m_data;
+    const OpeningScenery& m_scenery;
     const gf::Texture& m_texture;
     gf::Font& m_mainFont;
     gf::Font& m_additionalFont;
