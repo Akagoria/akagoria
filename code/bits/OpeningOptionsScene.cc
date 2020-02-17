@@ -20,6 +20,7 @@
 #include "OpeningOptionsScene.h"
 
 #include <gf/Log.h>
+#include <gf/Unused.h>
 
 #include "Akagoria.h"
 #include "OpeningAct.h"
@@ -41,6 +42,8 @@ namespace akgr {
   }
 
   void OpeningOptionsScene::doHandleActions(gf::Window& window) {
+    gf::unused(window);
+
     if (m_game.commands.menuDown.isActive()) {
       m_game.root.scenery.options.index.computeNextChoice();
     } else if (m_game.commands.menuUp.isActive()) {

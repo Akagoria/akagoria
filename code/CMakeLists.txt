@@ -55,10 +55,9 @@ add_executable(akagoria
   bits/Opening.cc
   bits/OpeningAct.cc
   bits/OpeningBaseScene.cc
-  bits/OpeningDriver.cc
   bits/OpeningMenuScene.cc
   bits/OpeningOptionsScene.cc
-  bits/OpeningProcessor.cc
+  bits/OpeningSelectorScene.cc
   bits/OptionsRenderer.cc
   bits/OptionsScenery.cc
   bits/PhysicsRuntime.cc

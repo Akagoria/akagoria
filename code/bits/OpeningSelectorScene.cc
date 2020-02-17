@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "OpeningMenuScene.h"
+#include "OpeningSelectorScene.h"
 
 #include <gf/Unused.h>
 
@@ -26,46 +26,39 @@
 
 namespace akgr {
 
-  OpeningMenuScene::OpeningMenuScene(Akagoria& game)
+  OpeningSelectorScene::OpeningSelectorScene(Akagoria& game)
   : gf::Scene(game.getRenderer().getSize())
   , m_game(game)
-  , m_menu(game.root.data, game.opening.scenery, game.theme)
+  , m_selector(game.root.data, game.root.scenery, game.theme)
   {
-    addHudEntity(m_menu);
+    addHudEntity(m_selector);
 
     addAction(m_game.commands.menuUp);
     addAction(m_game.commands.menuDown);
     addAction(m_game.commands.gameUse);
   }
 
-  void OpeningMenuScene::doHandleActions(gf::Window& window) {
+  void OpeningSelectorScene::doHandleActions(gf::Window& window) {
     gf::unused(window);
 
     if (m_game.commands.menuDown.isActive()) {
-      m_game.opening.scenery.menu.index.computeNextChoice();
+      m_game.root.scenery.selector.index.computeNextChoice();
     } else if (m_game.commands.menuUp.isActive()) {
-      m_game.opening.scenery.menu.index.computePrevChoice();
+      m_game.root.scenery.selector.index.computePrevChoice();
     }
 
     if (m_game.commands.gameUse.isActive()) {
-      switch (m_game.opening.scenery.menu.getChoice()) {
-        case StartMenuScenery::Choice::StartAdventure:
-//           m_scenery.operation = OpeningOperation::Start;
-          break;
-
-        case StartMenuScenery::Choice::LoadAdventure:
-          m_game.replaceScene(m_game.openingAct->selector);
-          break;
-
-        case StartMenuScenery::Choice::Options:
-          m_game.replaceScene(m_game.openingAct->options);
-          break;
-
-        case StartMenuScenery::Choice::Quit:
-          m_game.popAllScenes();
-          break;
+      if (m_game.root.scenery.selector.index.choice == SlotSelectorScenery::Back) {
+        m_game.root.scenery.selector.index.choice = 0;
+        m_game.replaceScene(m_game.openingAct->menu);
+      } else {
+        if (m_game.root.scenery.selector.getSlot().active) {
+//           m_scenery.operation = OpeningOperation::Load;
+//           m_root.operation = RootOperation::None;
+        }
       }
     }
+
   }
 
 }

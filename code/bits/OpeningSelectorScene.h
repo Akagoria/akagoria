@@ -17,27 +17,29 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_OPENING_DRIVER_H
-#define AKGR_OPENING_DRIVER_H
+#ifndef AKGR_OPENING_SELECTOR_SCENE_H
+#define AKGR_OPENING_SELECTOR_SCENE_H
 
-#include "Commands.h"
-#include "OpeningScenery.h"
-#include "RootScenery.h"
+#include <gf/Scene.h>
+
+#include "SlotSelectorRenderer.h"
+#include "ui/Theme.h"
 
 namespace akgr {
+  struct Akagoria;
 
-  class OpeningDriver {
+  class OpeningSelectorScene : public gf::Scene {
   public:
-    OpeningDriver(OpeningScenery& scenery, RootScenery& root, const Commands& commands);
-
-    void processCommands();
+    OpeningSelectorScene(Akagoria& game);
 
   private:
-    OpeningScenery& m_scenery;
-    RootScenery& m_root;
-    const Commands& m_commands;
+    void doHandleActions(gf::Window& window) override;
+
+  private:
+    Akagoria& m_game;
+    SlotSelectorRenderer m_selector;
   };
 
 }
 
-#endif // AKGR_OPENING_DRIVER_H
+#endif // AKGR_OPENING_SELECTOR_SCENE_H

@@ -40,9 +40,7 @@ namespace akgr {
     Akagoria& m_game;
 
     LogoRenderer m_logo;
-//     StartMenuRenderer menu;
 //     SlotSelectorRenderer selector;
-//     OptionsRenderer options;
     CommandsHelperRenderer m_helper;
   };
 

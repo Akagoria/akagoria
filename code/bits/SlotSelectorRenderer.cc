@@ -106,12 +106,7 @@ namespace akgr {
   }
 
   void SlotSelectorRenderer::render(gf::RenderTarget& target, const gf::RenderStates& states) {
-    if (m_scenery.operation != RootOperation::SelectSlot) {
-      return;
-    }
-
     m_frame.render(target, states, m_theme);
-
   }
 
 }

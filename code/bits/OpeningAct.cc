@@ -25,6 +25,7 @@ namespace akgr {
   : base(game)
   , menu(game)
   , options(game)
+  , selector(game)
   {
   }
 
