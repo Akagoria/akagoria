@@ -54,6 +54,13 @@ namespace akgr {
       getWindow().setSize(computeScreenSize(display));
     }
 
+    gf::Log::info("Preloading textures...\n");
+
+    for (auto& path : root.data.preload) {
+      resources.getTexture(path);
+    }
+
+    gf::Log::info("End of textures preloading\n");
   }
 
   Akagoria::~Akagoria() = default; // here because of unique_ptr's of incomplete type
