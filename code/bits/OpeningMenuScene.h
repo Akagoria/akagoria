@@ -33,6 +33,7 @@ namespace akgr {
     OpeningMenuScene(GameScenes& scenes);
 
   private:
+    void doHandleActions(gf::Window& window) override;
 
   private:
     GameScenes& m_scenes;

@@ -65,10 +65,6 @@ namespace akgr {
   }
 
   void OptionsRenderer::render(gf::RenderTarget& target, const gf::RenderStates& states) {
-    if (m_scenery.operation != RootOperation::ChangeOptions) {
-      return;
-    }
-
     m_frame.render(target, states, m_theme);
   }
 

@@ -22,6 +22,7 @@
 
 #include "OpeningBaseScene.h"
 #include "OpeningMenuScene.h"
+#include "OpeningOptionsScene.h"
 
 namespace akgr {
   struct GameScenes;
@@ -31,6 +32,7 @@ namespace akgr {
 
     OpeningBaseScene base;
     OpeningMenuScene menu;
+    OpeningOptionsScene options;
   };
 
 }

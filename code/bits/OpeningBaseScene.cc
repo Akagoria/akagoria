@@ -41,6 +41,8 @@ namespace akgr {
   }
 
   void OpeningBaseScene::doHandleActions(gf::Window& window) {
+    m_scenes.root.scenery.helper.status = HelperStatus::Menu;
+
     if (m_scenes.commands.windowFullscreen.isActive()) {
       window.toggleFullscreen();
     }

@@ -17,15 +17,29 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "OpeningAct.h"
+#ifndef AKGR_OPENING_OPTIONS_SCENE_H
+#define AKGR_OPENING_OPTIONS_SCENE_H
+
+#include <gf/ResourceManager.h>
+#include <gf/Scene.h>
+
+#include "OptionsRenderer.h"
 
 namespace akgr {
+  struct GameScenes;
 
-  OpeningAct::OpeningAct(GameScenes& scenes)
-  : base(scenes)
-  , menu(scenes)
-  , options(scenes)
-  {
-  }
+  class OpeningOptionsScene : public gf::Scene {
+  public:
+    OpeningOptionsScene(GameScenes& scenes);
+
+  private:
+    void doHandleActions(gf::Window& window) override;
+
+  private:
+    GameScenes& m_scenes;
+    OptionsRenderer m_options;
+  };
 
 }
+
+#endif // AKGR_OPENING_OPTIONS_SCENE_H
