@@ -27,17 +27,17 @@
 #include "CommandsHelperRenderer.h"
 
 namespace akgr {
-  struct GameScenes;
+  struct Akagoria;
 
   class OpeningBaseScene : public gf::Scene {
   public:
-    OpeningBaseScene(GameScenes& scenes);
+    OpeningBaseScene(Akagoria& game);
 
   private:
     void doHandleActions(gf::Window& window) override;
 
   private:
-    GameScenes& m_scenes;
+    Akagoria& m_game;
 
     LogoRenderer m_logo;
 //     StartMenuRenderer menu;

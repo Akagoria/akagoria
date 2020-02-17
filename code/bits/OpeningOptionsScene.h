@@ -26,17 +26,17 @@
 #include "OptionsRenderer.h"
 
 namespace akgr {
-  struct GameScenes;
+  struct Akagoria;
 
   class OpeningOptionsScene : public gf::Scene {
   public:
-    OpeningOptionsScene(GameScenes& scenes);
+    OpeningOptionsScene(Akagoria& game);
 
   private:
     void doHandleActions(gf::Window& window) override;
 
   private:
-    GameScenes& m_scenes;
+    Akagoria& m_game;
     OptionsRenderer m_options;
   };
 

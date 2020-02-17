@@ -26,17 +26,17 @@
 #include "ui/Theme.h"
 
 namespace akgr {
-  struct GameScenes;
+  struct Akagoria;
 
   class OpeningMenuScene : public gf::Scene {
   public:
-    OpeningMenuScene(GameScenes& scenes);
+    OpeningMenuScene(Akagoria& game);
 
   private:
     void doHandleActions(gf::Window& window) override;
 
   private:
-    GameScenes& m_scenes;
+    Akagoria& m_game;
     StartMenuRenderer m_menu;
   };
 

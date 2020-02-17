@@ -21,33 +21,33 @@
 
 #include <gf/Log.h>
 
-#include "GameScenes.h"
+#include "Akagoria.h"
 #include "Opening.h"
 #include "Root.h"
 
 namespace akgr {
 
-  OpeningBaseScene::OpeningBaseScene(GameScenes& scenes)
-  : gf::Scene(scenes.getRenderer().getSize())
-  , m_scenes(scenes)
-  , m_logo(scenes.root.data, scenes.opening.scenery, scenes.resources)
-  , m_helper(scenes.root.data, scenes.root.scenery, scenes.resources)
+  OpeningBaseScene::OpeningBaseScene(Akagoria& game)
+  : gf::Scene(game.getRenderer().getSize())
+  , m_game(game)
+  , m_logo(game.root.data, game.opening.scenery, game.resources)
+  , m_helper(game.root.data, game.root.scenery, game.resources)
   {
     addHudEntity(m_logo);
     addHudEntity(m_helper);
 
-    addAction(m_scenes.commands.windowClose);
-    addAction(m_scenes.commands.windowFullscreen);
+    addAction(m_game.commands.windowClose);
+    addAction(m_game.commands.windowFullscreen);
   }
 
   void OpeningBaseScene::doHandleActions(gf::Window& window) {
-    m_scenes.root.scenery.helper.status = HelperStatus::Menu;
+    m_game.root.scenery.helper.status = HelperStatus::Menu;
 
-    if (m_scenes.commands.windowFullscreen.isActive()) {
+    if (m_game.commands.windowFullscreen.isActive()) {
       window.toggleFullscreen();
     }
 
-    if (m_scenes.commands.windowClose.isActive()) {
+    if (m_game.commands.windowClose.isActive()) {
       window.close();
     }
   }

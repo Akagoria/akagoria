@@ -21,7 +21,7 @@
 
 #include <gf/Log.h>
 
-#include "bits/GameScenes.h"
+#include "bits/Akagoria.h"
 
 #include "config.h"
 
@@ -36,7 +36,7 @@ int main() {
 
 //   gf::Log::setLevel(gf::Log::Info);
 
-  akgr::GameScenes scenes(AKAGORIA_DATADIR);
-  scenes.startOpening();
-  scenes.run();
+  akgr::Akagoria game(AKAGORIA_DATADIR);
+  game.startOpening();
+  game.run();
 }

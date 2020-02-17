@@ -21,7 +21,7 @@
 
 namespace akgr {
 
-  WorldAct::WorldAct(GameScenes& scenes)
+  WorldAct::WorldAct(Akagoria& scenes)
   {
   }
 

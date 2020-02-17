@@ -21,10 +21,10 @@
 
 namespace akgr {
 
-  OpeningAct::OpeningAct(GameScenes& scenes)
-  : base(scenes)
-  , menu(scenes)
-  , options(scenes)
+  OpeningAct::OpeningAct(Akagoria& game)
+  : base(game)
+  , menu(game)
+  , options(game)
   {
   }
 

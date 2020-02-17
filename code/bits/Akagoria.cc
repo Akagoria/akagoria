@@ -1,4 +1,4 @@
-#include "GameScenes.h"
+#include "Akagoria.h"
 
 #include <stdexcept>
 
@@ -11,7 +11,7 @@ namespace akgr {
     constexpr gf::Vector2i InitialScreenSize(1024, 576);
   }
 
-  GameScenes::GameScenes(gf::Path searchDirectory)
+  Akagoria::Akagoria(gf::Path searchDirectory)
   : gf::SceneManager("Akagoria, the revenge of Kalista", InitialScreenSize, ~gf::WindowHints::Resizable)
   , resources({ searchDirectory })
   , theme(resources)
@@ -22,9 +22,9 @@ namespace akgr {
     }
   }
 
-  GameScenes::~GameScenes() = default; // here because of unique_ptr's of incomplete type
+  Akagoria::~Akagoria() = default; // here because of unique_ptr's of incomplete type
 
-  void GameScenes::startOpening() {
+  void Akagoria::startOpening() {
     openingAct = std::make_unique<OpeningAct>(*this);
     pushScene(openingAct->base);
     pushScene(openingAct->menu);

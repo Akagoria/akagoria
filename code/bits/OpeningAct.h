@@ -25,10 +25,10 @@
 #include "OpeningOptionsScene.h"
 
 namespace akgr {
-  struct GameScenes;
+  struct Akagoria;
 
   struct OpeningAct {
-    OpeningAct(GameScenes& scenes);
+    OpeningAct(Akagoria& game);
 
     OpeningBaseScene base;
     OpeningMenuScene menu;

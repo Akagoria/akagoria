@@ -21,45 +21,45 @@
 
 #include <gf/Log.h>
 
-#include "GameScenes.h"
+#include "Akagoria.h"
 #include "OpeningAct.h"
 
 namespace akgr {
 
-  OpeningOptionsScene::OpeningOptionsScene(GameScenes& scenes)
-  : gf::Scene(scenes.getRenderer().getSize())
-  , m_scenes(scenes)
-  , m_options(scenes.root.data, scenes.root.scenery, scenes.theme)
+  OpeningOptionsScene::OpeningOptionsScene(Akagoria& game)
+  : gf::Scene(game.getRenderer().getSize())
+  , m_game(game)
+  , m_options(game.root.data, game.root.scenery, game.theme)
   {
     addHudEntity(m_options);
 
-    addAction(m_scenes.commands.menuUp);
-    addAction(m_scenes.commands.menuDown);
-    addAction(m_scenes.commands.menuLeft);
-    addAction(m_scenes.commands.menuRight);
-    addAction(m_scenes.commands.gameUse);
+    addAction(m_game.commands.menuUp);
+    addAction(m_game.commands.menuDown);
+    addAction(m_game.commands.menuLeft);
+    addAction(m_game.commands.menuRight);
+    addAction(m_game.commands.gameUse);
   }
 
   void OpeningOptionsScene::doHandleActions(gf::Window& window) {
-    if (m_scenes.commands.menuDown.isActive()) {
-      m_scenes.root.scenery.options.index.computeNextChoice();
-    } else if (m_scenes.commands.menuUp.isActive()) {
-      m_scenes.root.scenery.options.index.computePrevChoice();
+    if (m_game.commands.menuDown.isActive()) {
+      m_game.root.scenery.options.index.computeNextChoice();
+    } else if (m_game.commands.menuUp.isActive()) {
+      m_game.root.scenery.options.index.computePrevChoice();
     }
 
-    if (m_scenes.commands.gameUse.isActive()) {
-      if (m_scenes.root.scenery.options.getChoice() == OptionsScenery::Choice::Back) {
-        m_scenes.root.scenery.options.save();
-        m_scenes.replaceScene(m_scenes.openingAct->menu);
+    if (m_game.commands.gameUse.isActive()) {
+      if (m_game.root.scenery.options.getChoice() == OptionsScenery::Choice::Back) {
+        m_game.root.scenery.options.save();
+        m_game.replaceScene(m_game.openingAct->menu);
       }
     }
 
-    if (m_scenes.commands.menuRight.isActive()) {
-      m_scenes.root.scenery.options.computeNextOption();
+    if (m_game.commands.menuRight.isActive()) {
+      m_game.root.scenery.options.computeNextOption();
     }
 
-    if (m_scenes.commands.menuLeft.isActive()) {
-      m_scenes.root.scenery.options.computePrevOption();
+    if (m_game.commands.menuLeft.isActive()) {
+      m_game.root.scenery.options.computePrevOption();
     }
   }
 

@@ -24,10 +24,10 @@
 // #include "WorldMenuScene.h"
 
 namespace akgr {
-  struct GameScenes;
+  struct Akagoria;
 
   struct WorldAct {
-    WorldAct(GameScenes& scenes);
+    WorldAct(Akagoria& scenes);
 
 //     WorldBaseScene base;
 //     WorldMenuScene menu;

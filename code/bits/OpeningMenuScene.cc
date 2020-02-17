@@ -19,32 +19,32 @@
  */
 #include "OpeningMenuScene.h"
 
-#include "GameScenes.h"
+#include "Akagoria.h"
 #include "OpeningAct.h"
 
 namespace akgr {
 
-  OpeningMenuScene::OpeningMenuScene(GameScenes& scenes)
-  : gf::Scene(scenes.getRenderer().getSize())
-  , m_scenes(scenes)
-  , m_menu(scenes.root.data, scenes.opening.scenery, scenes.theme)
+  OpeningMenuScene::OpeningMenuScene(Akagoria& game)
+  : gf::Scene(game.getRenderer().getSize())
+  , m_game(game)
+  , m_menu(game.root.data, game.opening.scenery, game.theme)
   {
     addHudEntity(m_menu);
 
-    addAction(m_scenes.commands.menuUp);
-    addAction(m_scenes.commands.menuDown);
-    addAction(m_scenes.commands.gameUse);
+    addAction(m_game.commands.menuUp);
+    addAction(m_game.commands.menuDown);
+    addAction(m_game.commands.gameUse);
   }
 
   void OpeningMenuScene::doHandleActions(gf::Window& window) {
-    if (m_scenes.commands.menuDown.isActive()) {
-      m_scenes.opening.scenery.menu.index.computeNextChoice();
-    } else if (m_scenes.commands.menuUp.isActive()) {
-      m_scenes.opening.scenery.menu.index.computePrevChoice();
+    if (m_game.commands.menuDown.isActive()) {
+      m_game.opening.scenery.menu.index.computeNextChoice();
+    } else if (m_game.commands.menuUp.isActive()) {
+      m_game.opening.scenery.menu.index.computePrevChoice();
     }
 
-    if (m_scenes.commands.gameUse.isActive()) {
-      switch (m_scenes.opening.scenery.menu.getChoice()) {
+    if (m_game.commands.gameUse.isActive()) {
+      switch (m_game.opening.scenery.menu.getChoice()) {
         case StartMenuScenery::Choice::StartAdventure:
 //           m_scenery.operation = OpeningOperation::Start;
           break;
@@ -54,13 +54,13 @@ namespace akgr {
           break;
 
         case StartMenuScenery::Choice::Options:
-          m_scenes.replaceScene(m_scenes.openingAct->options);
+          m_game.replaceScene(m_game.openingAct->options);
 //           m_scenery.operation = OpeningOperation::ChangeOptions;
           break;
 
         case StartMenuScenery::Choice::Quit:
 //           m_scenery.operation = OpeningOperation::Quit;
-          m_scenes.popAllScenes();
+          m_game.popAllScenes();
           break;
       }
     }

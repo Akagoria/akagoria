@@ -32,6 +32,7 @@ target_compile_definitions(wren
 add_executable(akagoria
   akagoria_s.cc
 
+  bits/Akagoria.cc
   bits/AreaRenderer.cc
   bits/Aspect.cc
   bits/AspectState.cc
@@ -43,7 +44,6 @@ add_executable(akagoria
   bits/DialogRenderer.cc
   bits/GameMenuRenderer.cc
   bits/GameMenuScenery.cc
-  bits/GameScenes.cc
   bits/HeroRenderer.cc
   bits/InventoryRenderer.cc
   bits/ItemRenderer.cc
