@@ -179,18 +179,18 @@ target_link_libraries(akagoria_stateview
 )
 
 
-add_executable(akagoria_uimessagesview
-  akagoria_uimessagesview.cc
+add_executable(akagoria_rootdataview
+  akagoria_rootdataview.cc
   bits/Fmt.cc
   bits/RootData.cc
 )
 
-target_include_directories(akagoria_uimessagesview
+target_include_directories(akagoria_rootdataview
   PRIVATE
     ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-target_link_libraries(akagoria_uimessagesview
+target_link_libraries(akagoria_rootdataview
   PRIVATE
     gf::gf0
     Boost::boost

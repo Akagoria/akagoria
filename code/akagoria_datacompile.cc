@@ -889,6 +889,16 @@ namespace {
     }
   }
 
+  void compileJsonPreload(const gf::Path& filename, std::vector<gf::Path>& data) {
+    std::ifstream ifs(filename.string());
+
+    const auto j = nlohmann::json::parse(ifs);
+
+    for (auto value : j["preload"]) {
+      gf::Path path = value.get<std::string>();
+      data.emplace_back(std::move(path));
+    }
+  }
 
   void postProcessAreas(std::map<gf::Id, akgr::AreaData>& map) {
     for (auto& kv : map) {
@@ -982,6 +992,7 @@ int main(int argc, char *argv[]) {
   akgr::RootData rootData;
 
   compileJsonUI(databaseDirectory / "ui.json", rootData.ui, strings);
+  compileJsonPreload(databaseDirectory / "preload.json", rootData.preload);
 
   gf::Path rootOutputFile = outputDirectory / "root.dat";
   rootData.saveToFile(rootOutputFile);

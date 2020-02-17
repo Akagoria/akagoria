@@ -28,8 +28,6 @@ namespace akgr {
   struct Root {
     RootData data;
     RootScenery scenery;
-
-    Root();
   };
 
 }

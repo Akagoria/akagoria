@@ -21,9 +21,5 @@
 
 namespace akgr {
 
-  Root::Root()
-  {
-
-  }
 
 }
