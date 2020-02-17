@@ -53,12 +53,11 @@ namespace akgr {
         m_game.replaceScene(m_game.openingAct->menu);
       } else {
         if (m_game.root.scenery.selector.getSlot().active) {
-//           m_scenery.operation = OpeningOperation::Load;
-//           m_root.operation = RootOperation::None;
+          m_game.opening.loading = std::async(std::launch::async, &Akagoria::loadWorld, &m_game, AdventureChoice::Saved);
+          m_game.replaceScene(m_game.openingAct->waiting);
         }
       }
     }
-
   }
 
 }

@@ -17,31 +17,36 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_LOGO_RENDERER_H
-#define AKGR_LOGO_RENDERER_H
+#include "OpeningWaitingScene.h"
 
-#include <gf/Entity.h>
-#include <gf/ResourceManager.h>
+#include <cstdlib>
 
-#include "OpeningScenery.h"
-#include "RootData.h"
+#include <gf/Unused.h>
+
+#include "Akagoria.h"
+#include "OpeningAct.h"
 
 namespace akgr {
 
-  class LogoRenderer : public gf::Entity {
-  public:
-    LogoRenderer(const RootData& data, gf::ResourceManager& resources);
+  OpeningWaitingScene::OpeningWaitingScene(Akagoria& game)
+  : gf::Scene(game.getRenderer().getSize())
+  , m_game(game)
+  , m_waiting(game.root.data, game.resources)
+  {
+    addHudEntity(m_waiting);
+  }
 
-    virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
+  void OpeningWaitingScene::doUpdate(gf::Time time) {
+    gf::unused(time);
 
-  private:
-    const RootData& m_data;
-    const gf::Texture& m_texture;
-    gf::Font& m_mainFont;
-    gf::Font& m_additionalFont;
-    gf::Font& m_subtitleFont;
-  };
+    if (m_game.opening.loading.valid() && m_game.opening.loading.wait_for(std::chrono::seconds::zero()) == std::future_status::ready) {
+
+      if (!m_game.opening.loading.get()) {
+        std::exit(EXIT_FAILURE);
+      }
+
+      m_game.popAllScenes(); // TODO
+    }
+  }
 
 }
-
-#endif // AKGR_LOGO_RENDERER_H

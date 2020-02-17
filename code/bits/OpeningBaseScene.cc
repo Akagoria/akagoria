@@ -30,7 +30,7 @@ namespace akgr {
   OpeningBaseScene::OpeningBaseScene(Akagoria& game)
   : gf::Scene(game.getRenderer().getSize())
   , m_game(game)
-  , m_logo(game.root.data, game.opening.scenery, game.resources)
+  , m_logo(game.root.data, game.resources)
   , m_helper(game.root.data, game.root.scenery, game.resources)
   {
     addHudEntity(m_logo);

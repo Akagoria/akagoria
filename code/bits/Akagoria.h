@@ -39,6 +39,11 @@ namespace akgr {
   struct OpeningAct;
   struct WorldAct;
 
+  enum class AdventureChoice {
+    New,
+    Saved,
+  };
+
   struct Akagoria : public gf::SceneManager {
     Akagoria(gf::Path searchDirectory);
     ~Akagoria();
@@ -50,6 +55,10 @@ namespace akgr {
     Akagoria& operator=(Akagoria&&) = delete;
 
     void startOpening();
+
+
+    bool loadWorld(AdventureChoice choice);
+
 
     gf::ResourceManager resources;
     gf::Random random;

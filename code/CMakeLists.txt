@@ -58,6 +58,7 @@ add_executable(akagoria
   bits/OpeningMenuScene.cc
   bits/OpeningOptionsScene.cc
   bits/OpeningSelectorScene.cc
+  bits/OpeningWaitingScene.cc
   bits/OptionsRenderer.cc
   bits/OptionsScenery.cc
   bits/PhysicsRuntime.cc
@@ -73,6 +74,7 @@ add_executable(akagoria
   bits/UIData.cc
   bits/VfxRenderer.cc
   bits/VfxScenery.cc
+  bits/WaitingRenderer.cc
   bits/WeaponState.cc
   bits/World.cc
   bits/WorldAct.cc

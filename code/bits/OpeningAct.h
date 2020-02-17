@@ -24,6 +24,7 @@
 #include "OpeningMenuScene.h"
 #include "OpeningOptionsScene.h"
 #include "OpeningSelectorScene.h"
+#include "OpeningWaitingScene.h"
 
 namespace akgr {
   struct Akagoria;
@@ -35,6 +36,7 @@ namespace akgr {
     OpeningMenuScene menu;
     OpeningOptionsScene options;
     OpeningSelectorScene selector;
+    OpeningWaitingScene waiting;
   };
 
 }

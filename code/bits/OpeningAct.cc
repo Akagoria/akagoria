@@ -26,6 +26,7 @@ namespace akgr {
   , menu(game)
   , options(game)
   , selector(game)
+  , waiting(game)
   {
   }
 

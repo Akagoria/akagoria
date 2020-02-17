@@ -17,8 +17,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_LOGO_RENDERER_H
-#define AKGR_LOGO_RENDERER_H
+#ifndef AKGR_WAITING_RENDERER_H
+#define AKGR_WAITING_RENDERER_H
 
 #include <gf/Entity.h>
 #include <gf/ResourceManager.h>
@@ -28,20 +28,17 @@
 
 namespace akgr {
 
-  class LogoRenderer : public gf::Entity {
+  class WaitingRenderer : public gf::Entity {
   public:
-    LogoRenderer(const RootData& data, gf::ResourceManager& resources);
+    WaitingRenderer(const RootData& data, gf::ResourceManager& resources);
 
     virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
 
   private:
     const RootData& m_data;
-    const gf::Texture& m_texture;
     gf::Font& m_mainFont;
-    gf::Font& m_additionalFont;
-    gf::Font& m_subtitleFont;
   };
 
 }
 
-#endif // AKGR_LOGO_RENDERER_H
+#endif // AKGR_WAITING_RENDERER_H

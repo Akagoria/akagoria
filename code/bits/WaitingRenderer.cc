@@ -17,36 +17,35 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "StartMenuRenderer.h"
+#include "WaitingRenderer.h"
 
+#include <gf/Color.h>
+#include <gf/Coordinates.h>
 #include <gf/Id.h>
-
-#include "ui/Common.h"
+#include <gf/RenderTarget.h>
+#include <gf/Text.h>
 
 using namespace gf::literals;
 
 namespace akgr {
 
-  StartMenuRenderer::StartMenuRenderer(const RootData& data, const OpeningScenery& scenery, ui::Theme& theme)
-  : gf::Entity(10)
-  , m_data(data)
-  , m_scenery(scenery)
-  , m_theme(theme)
-  , m_frame(nullptr)
+  WaitingRenderer::WaitingRenderer(const RootData& data, gf::ResourceManager& resources)
+  : m_data(data)
+  , m_mainFont(resources.getFont("fonts/Philosopher-Regular.ttf"))
   {
-    auto menu = m_frame.add<ui::MenuWidget>(m_scenery.menu.index);
-
-    for (gf::Id id : { "MenuStart"_id, "MenuLoad"_id, "MenuOptions"_id, "MenuQuit"_id }) {
-      auto label = menu->add<ui::LabelWidget>(m_data.getUIMessage(id));
-      label->setSize(ui::Common::DefaultCaptionSize);
-    }
-
-    m_frame.setPosition(ui::Common::Position);
-    m_frame.computeLayout();
   }
 
-  void StartMenuRenderer::render(gf::RenderTarget& target, const gf::RenderStates& states) {
-    m_frame.render(target, states, m_theme);
+  void WaitingRenderer::render(gf::RenderTarget& target, const gf::RenderStates& states) {
+    gf::Coordinates coords(target);
+
+    unsigned loadingCharacterSize = coords.getRelativeCharacterSize(0.05f);
+    gf::Vector2f loadingPosition = coords.getRelativePoint({ 0.5f, 0.85f });
+
+    gf::Text loadingText(m_data.getUIMessage("SplashLoading"_id), m_mainFont, loadingCharacterSize);
+    loadingText.setLetterSpacing(1.5f);
+    loadingText.setPosition(loadingPosition);
+    loadingText.setAnchor(gf::Anchor::Center);
+    target.draw(loadingText, states);
   }
 
 }

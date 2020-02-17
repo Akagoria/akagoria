@@ -26,11 +26,4 @@ namespace akgr {
   {
   }
 
-  void World::bind(gf::ResourceManager& resources, gf::Random& random) {
-    state.bind(data);
-    scenery.bind(data, resources, random);
-    script.bind();
-    script.initialize();
-  }
-
 }

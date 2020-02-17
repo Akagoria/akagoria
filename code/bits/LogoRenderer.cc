@@ -41,9 +41,8 @@ namespace akgr {
 
   }
 
-  LogoRenderer::LogoRenderer(const RootData& data, const OpeningScenery& scenery, gf::ResourceManager& resources)
+  LogoRenderer::LogoRenderer(const RootData& data, gf::ResourceManager& resources)
   : m_data(data)
-  , m_scenery(scenery)
   , m_texture(resources.getTexture("logo.png"))
   , m_mainFont(resources.getFont("fonts/Philosopher-Regular.ttf"))
   , m_additionalFont(resources.getFont("fonts/sawarabi-mincho-medium.ttf"))
@@ -98,18 +97,6 @@ namespace akgr {
     subtitleText.setPosition(subtitlePosition);
     subtitleText.setAnchor(gf::Anchor::Center);
     target.draw(subtitleText, states);
-
-    if (m_scenery.operation == OpeningOperation::Wait) {
-      unsigned loadingCharacterSize = coords.getRelativeCharacterSize(0.05f);
-      gf::Vector2f loadingPosition = coords.getRelativePoint({ 0.5f, 0.85f });
-
-      gf::Text loadingText(m_data.getUIMessage("SplashLoading"_id), m_mainFont, loadingCharacterSize);
-      loadingText.setLetterSpacing(1.5f);
-      loadingText.setPosition(loadingPosition);
-      loadingText.setAnchor(gf::Anchor::Center);
-      target.draw(loadingText, states);
-    }
-
   }
 
 }

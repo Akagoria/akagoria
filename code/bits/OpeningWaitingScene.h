@@ -17,31 +17,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_LOGO_RENDERER_H
-#define AKGR_LOGO_RENDERER_H
+#ifndef AKGR_OPENING_WAITING_SCENE_H
+#define AKGR_OPENING_WAITING_SCENE_H
 
-#include <gf/Entity.h>
-#include <gf/ResourceManager.h>
+#include <gf/Scene.h>
 
-#include "OpeningScenery.h"
-#include "RootData.h"
+#include "WaitingRenderer.h"
 
 namespace akgr {
+  struct Akagoria;
 
-  class LogoRenderer : public gf::Entity {
+  class OpeningWaitingScene : public gf::Scene {
   public:
-    LogoRenderer(const RootData& data, gf::ResourceManager& resources);
-
-    virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
+    OpeningWaitingScene(Akagoria& game);
 
   private:
-    const RootData& m_data;
-    const gf::Texture& m_texture;
-    gf::Font& m_mainFont;
-    gf::Font& m_additionalFont;
-    gf::Font& m_subtitleFont;
+    void doUpdate(gf::Time time) override;
+
+  private:
+    Akagoria& m_game;
+    WaitingRenderer m_waiting;
   };
 
 }
 
-#endif // AKGR_LOGO_RENDERER_H
+#endif // AKGR_OPENING_WAITING_SCENE_H

@@ -20,12 +20,15 @@
 #ifndef AKGR_OPENING_H
 #define AKGR_OPENING_H
 
+#include <future>
+
 #include "OpeningScenery.h"
 
 namespace akgr {
 
   struct Opening {
     OpeningScenery scenery;
+    std::future<bool> loading;
   };
 
 }

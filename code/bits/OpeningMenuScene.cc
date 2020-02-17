@@ -50,7 +50,8 @@ namespace akgr {
     if (m_game.commands.gameUse.isActive()) {
       switch (m_game.opening.scenery.menu.getChoice()) {
         case StartMenuScenery::Choice::StartAdventure:
-//           m_scenery.operation = OpeningOperation::Start;
+          m_game.opening.loading = std::async(std::launch::async, &Akagoria::loadWorld, &m_game, AdventureChoice::New);
+          m_game.replaceScene(m_game.openingAct->waiting);
           break;
 
         case StartMenuScenery::Choice::LoadAdventure:

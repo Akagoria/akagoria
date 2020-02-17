@@ -24,19 +24,7 @@
 
 namespace akgr {
 
-  enum class OpeningOperation {
-    Menu,
-    SelectSlot,
-    ChangeOptions,
-    Start,
-    Load,
-    Wait,
-    Continue,
-    Quit,
-  };
-
   struct OpeningScenery {
-    OpeningOperation operation = OpeningOperation::Menu;
     StartMenuScenery menu;
   };
 

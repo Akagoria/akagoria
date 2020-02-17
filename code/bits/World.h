@@ -34,7 +34,6 @@ namespace akgr {
     Script script;
 
     World(gf::ResourceManager& resources);
-    void bind(gf::ResourceManager& resources, gf::Random& random);
   };
 
 }
