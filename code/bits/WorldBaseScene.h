@@ -17,31 +17,47 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_OPENING_BASE_SCENE_H
-#define AKGR_OPENING_BASE_SCENE_H
+#ifndef AKGR_WORLD_BASE_SCENE_H
+#define AKGR_WORLD_BASE_SCENE_H
 
-#include <gf/ResourceManager.h>
 #include <gf/Scene.h>
 
-#include "LogoRenderer.h"
+#include "CharacterRenderer.h"
 #include "CommandsHelperRenderer.h"
+#include "HeroRenderer.h"
+#include "ItemRenderer.h"
+#include "MapRenderer.h"
+#include "PhysicsRuntime.h"
+#include "VfxRenderer.h"
 
 namespace akgr {
   struct Akagoria;
 
-  class OpeningBaseScene : public gf::Scene {
+  class WorldBaseScene : public gf::Scene {
   public:
-    OpeningBaseScene(Akagoria& game);
+    WorldBaseScene(Akagoria& game);
 
   private:
     void doHandleActions(gf::Window& window) override;
+    void doUpdate(gf::Time time) override;
 
   private:
     Akagoria& m_game;
-    LogoRenderer m_logo;
+
+    MapTileRenderer m_ground;
+    MapTileRenderer m_lowTile;
+    MapSpriteRenderer m_lowSprite;
+    MapTileRenderer m_highTile;
+    MapSpriteRenderer m_highSprite;
+    HeroRenderer m_hero;
+    CharacterRenderer m_character;
+    ItemRenderer m_item;
+    VfxRenderer m_vfx;
     CommandsHelperRenderer m_helper;
+    PhysicsDebugger m_debug;
+    PhysicsListener m_listener;
   };
 
 }
 
-#endif // AKGR_OPENING_BASE_SCENE_H
+#endif // AKGR_WORLD_BASE_SCENE_H

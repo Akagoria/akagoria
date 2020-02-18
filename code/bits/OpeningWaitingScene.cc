@@ -45,7 +45,7 @@ namespace akgr {
         std::exit(EXIT_FAILURE);
       }
 
-      m_game.popAllScenes(); // TODO
+      m_game.startWorld();
     }
   }
 

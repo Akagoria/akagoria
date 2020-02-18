@@ -53,11 +53,13 @@ namespace akgr {
       PhysicsDebugger(PhysicsState& state)
       : gf::Entity(10000)
       , m_state(state)
+      , m_debug(false)
       {
 
       }
 
       void setDebug(bool debug);
+      void toggleDebug();
 
       virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
 
@@ -134,6 +136,7 @@ namespace akgr {
       };
 
       PhysicsDraw m_draw;
+      bool m_debug;
     };
 
 

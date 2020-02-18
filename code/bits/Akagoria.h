@@ -55,9 +55,8 @@ namespace akgr {
     Akagoria& operator=(Akagoria&&) = delete;
 
     void startOpening();
-
-
     bool loadWorld(AdventureChoice choice);
+    void startWorld();
 
 
     gf::ResourceManager resources;

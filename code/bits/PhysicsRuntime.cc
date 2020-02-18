@@ -73,7 +73,13 @@ namespace akgr {
   }
 
   void PhysicsDebugger::setDebug(bool debug) {
-    m_state.world.SetDebugDraw(debug ? &m_draw : nullptr);
+    m_debug = debug;
+    m_state.world.SetDebugDraw(m_debug ? &m_draw : nullptr);
+  }
+
+  void PhysicsDebugger::toggleDebug() {
+    m_debug = !m_debug;
+    m_state.world.SetDebugDraw(m_debug ? &m_draw : nullptr);
   }
 
   void PhysicsDebugger::render(gf::RenderTarget& target, const gf::RenderStates& states) {

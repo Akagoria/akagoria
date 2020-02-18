@@ -20,16 +20,16 @@
 #ifndef AKGR_WORLD_ACT_H
 #define AKGR_WORLD_ACT_H
 
-// #include "WorldBaseScene.h"
+#include "WorldBaseScene.h"
 // #include "WorldMenuScene.h"
 
 namespace akgr {
   struct Akagoria;
 
   struct WorldAct {
-    WorldAct(Akagoria& scenes);
+    WorldAct(Akagoria& game);
 
-//     WorldBaseScene base;
+    WorldBaseScene base;
 //     WorldMenuScene menu;
   };
 
