@@ -29,8 +29,9 @@
 namespace akgr {
 
   namespace {
+    constexpr gf::Vector2f ViewSize(800.0f, 800.0f);
 
-    constexpr gf::Time AreaUpdatePeriod = gf::seconds(1);
+
     constexpr gf::Time HPUpdatePeriod = gf::seconds(11);
     constexpr gf::Time MPUpdatePeriod = gf::seconds(29);
     constexpr gf::Time VPUpdatePeriod = gf::seconds(29);
@@ -149,6 +150,8 @@ namespace akgr {
     addAction(m_game.commands.gameMenu);
 
     m_game.world.state.physics.world.SetContactListener(&m_listener);
+
+    setWorldViewSize(ViewSize);
   }
 
 
@@ -361,17 +364,6 @@ namespace akgr {
 
     for (auto& character : m_game.world.state.characters) {
       character.physics.pullLocation();
-    }
-
-    // notifications
-
-    if (!m_game.world.state.notifications.empty()) {
-      auto& current = m_game.world.state.notifications.front();
-      current.elapsed += time;
-
-      if (current.elapsed > current.ref.data->duration) {
-        m_game.world.state.notifications.erase(m_game.world.state.notifications.begin());
-      }
     }
 
     // hero (again)
@@ -686,24 +678,6 @@ namespace akgr {
       std::remove_if(m_game.world.scenery.vfx.damageEmitter.damages.begin(), m_game.world.scenery.vfx.damageEmitter.damages.end(), [](const auto& damage) { return damage.duration < gf::Time::zero(); }),
       m_game.world.scenery.vfx.damageEmitter.damages.end()
     );
-
-    // area
-
-    m_game.world.scenery.area.period += time;
-
-    if (m_game.world.scenery.area.current == nullptr || m_game.world.scenery.area.period > AreaUpdatePeriod) {
-      m_game.world.scenery.area.period -= AreaUpdatePeriod;
-
-      auto distanceToHero = [&hero](const auto& kv) {
-        return gf::naturalDistance(hero.physics.location.position, kv.second.position.center);
-      };
-
-      auto it = std::min_element(m_game.world.data.areas.begin(), m_game.world.data.areas.end(), [&](const auto& lhs, const auto& rhs) {
-        return distanceToHero(lhs) < distanceToHero(rhs);
-      });
-
-      m_game.world.scenery.area.current = &it->second;
-    }
 
     /*
      * root

@@ -23,6 +23,7 @@ namespace akgr {
 
   WorldAct::WorldAct(Akagoria& game)
   : base(game)
+  , hud(game)
   {
   }
 

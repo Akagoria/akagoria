@@ -109,6 +109,7 @@ namespace akgr {
   void Akagoria::startWorld() {
     worldAct = std::make_unique<WorldAct>(*this);
     replaceAllScenes(worldAct->base); // TODO: put a segue?
+    pushScene(worldAct->hud);
   }
 
 }

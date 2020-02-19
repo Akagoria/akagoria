@@ -21,6 +21,7 @@
 #define AKGR_WORLD_ACT_H
 
 #include "WorldBaseScene.h"
+#include "WorldHudScene.h"
 // #include "WorldMenuScene.h"
 
 namespace akgr {
@@ -30,6 +31,7 @@ namespace akgr {
     WorldAct(Akagoria& game);
 
     WorldBaseScene base;
+    WorldHudScene hud;
 //     WorldMenuScene menu;
   };
 
