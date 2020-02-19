@@ -17,28 +17,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_WORLD_ACT_H
-#define AKGR_WORLD_ACT_H
+#ifndef AKGR_WORLD_SELECTOR_SCENE_H
+#define AKGR_WORLD_SELECTOR_SCENE_H
 
-#include "WorldBaseScene.h"
-#include "WorldDialogScene.h"
-#include "WorldSelectorScene.h"
-#include "WorldTravelScene.h"
-// #include "WorldMenuScene.h"
+#include <gf/Scene.h>
+
+#include "SlotSelectorRenderer.h"
 
 namespace akgr {
   struct Akagoria;
 
-  struct WorldAct {
-    WorldAct(Akagoria& game);
+  class WorldSelectorScene : public gf::Scene {
+  public:
+    WorldSelectorScene(Akagoria& game);
 
-    WorldBaseScene base;
-    WorldTravelScene travel;
-    WorldDialogScene dialog;
-    WorldSelectorScene selector;
-//     WorldMenuScene menu;
+  private:
+    void doHandleActions(gf::Window& window) override;
+
+  private:
+    Akagoria& m_game;
+    SlotSelectorRenderer m_selector;
   };
 
 }
 
-#endif // AKGR_WORLD_ACT_H
+#endif // AKGR_WORLD_SELECTOR_SCENE_H

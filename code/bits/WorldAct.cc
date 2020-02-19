@@ -25,6 +25,7 @@ namespace akgr {
   : base(game)
   , travel(game)
   , dialog(game)
+  , selector(game)
   {
   }
 

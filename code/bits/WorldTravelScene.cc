@@ -141,8 +141,7 @@ namespace akgr {
         if (squareDistanceToHero(shrine.location.position) < gf::square(ShrineDistance)) {
           switch (shrine.type) {
             case ShrineType::Ale:
-//               m_game.world.state.operation = WorldOperation::Save;
-              // TODO
+              m_game.replaceScene(m_game.worldAct->selector);
               break;
             case ShrineType::Ike:
               gf::Log::info("Ike Shrine!\n");
