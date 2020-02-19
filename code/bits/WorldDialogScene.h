@@ -17,15 +17,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "WorldAct.h"
+#ifndef AKGR_WORLD_DIALOG_SCENE_H
+#define AKGR_WORLD_DIALOG_SCENE_H
+
+#include <gf/Scene.h>
+
+#include "DialogRenderer.h"
 
 namespace akgr {
+  struct Akagoria;
 
-  WorldAct::WorldAct(Akagoria& game)
-  : base(game)
-  , hud(game)
-  , dialog(game)
-  {
-  }
+  class WorldDialogScene : public gf::Scene {
+  public:
+    WorldDialogScene(Akagoria& game);
+
+  private:
+    void doHandleActions(gf::Window& window) override;
+
+  private:
+    Akagoria& m_game;
+    DialogRenderer m_dialog;
+  };
 
 }
+
+#endif // AKGR_WORLD_DIALOG_SCENE_H

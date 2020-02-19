@@ -22,8 +22,8 @@
 #include <gf/Log.h>
 
 #include "Akagoria.h"
-#include "Root.h"
-#include "World.h"
+#include "WorldAct.h"
+#include "WorldConstants.h"
 
 namespace akgr {
 
@@ -45,7 +45,130 @@ namespace akgr {
     addHudEntity(m_aspect);
     addHudEntity(m_map);
     addHudEntity(m_notifications);
+
+    addAction(m_game.commands.gameUp);
+    addAction(m_game.commands.gameDown);
+    addAction(m_game.commands.gameLeft);
+    addAction(m_game.commands.gameRight);
+    addAction(m_game.commands.gameUse);
+    addAction(m_game.commands.gameFight);
+    addAction(m_game.commands.gameMenu);
   }
+
+  void WorldHudScene::doHandleActions(gf::Window& window) {
+    if (!isActive()) {
+      return;
+    }
+
+    auto& hero = m_game.world.state.hero;
+
+    auto squareDistanceToHero = [&hero](gf::Vector2f other) {
+      return gf::squareDistance(hero.physics.location.position, other);
+    };
+
+    if (m_game.commands.gameMenu.isActive()) {
+      gf::Log::info("Menu\n");
+//       m_game.world.scenery.menu.index.choice = 0;
+//       m_game.world.state.operation = WorldOperation::Menu;
+    }
+
+    if (m_game.commands.gameRight.isActive()) {
+      hero.move.angular = gf::AngularMove::Right;
+    } else if (m_game.commands.gameLeft.isActive()) {
+      hero.move.angular = gf::AngularMove::Left;
+    } else {
+      hero.move.angular = gf::AngularMove::None;
+    }
+
+    if (m_game.commands.gameUp.isActive()) {
+      hero.move.linear = gf::LinearMove::Forward;
+    } else if (m_game.commands.gameDown.isActive()) {
+      hero.move.linear = gf::LinearMove::Backward;
+    } else {
+      hero.move.linear = gf::LinearMove::None;
+    }
+
+    if (m_game.commands.gameUse.isActive()) {
+      gf::Log::debug("use in hud\n");
+
+      // check for a character conversation
+
+      for (auto& character : m_game.world.state.characters) {
+        if (character.dialog.id == gf::InvalidId) {
+          continue;
+        }
+
+        if (character.physics.location.floor != hero.physics.location.floor) {
+          continue;
+        }
+
+        if (squareDistanceToHero(character.physics.location.position) < gf::square(DialogDistance)) {
+          hero.dialog.ref = character.dialog;
+          assert(hero.dialog.ref.data != nullptr);
+
+          character.dialog.id = gf::InvalidId;
+          character.dialog.data = nullptr;
+
+          gf::Log::debug("Start dialog!\n");
+
+          m_game.replaceScene(m_game.worldAct->dialog);
+        }
+      }
+
+      // check for an item
+
+      auto& items = m_game.world.state.items;
+
+      for (auto& item : items) {
+        if (item.physics.location.floor != hero.physics.location.floor) {
+          continue;
+        }
+
+        if (squareDistanceToHero(item.physics.location.position) < gf::square(ItemDistance + item.ref.data->shape.getPhysicalSize())) {
+          // put in inventory
+          hero.inventory.addItem(item.ref);
+
+          // remove from the world
+          m_game.world.state.physics.world.DestroyBody(item.physics.body);
+          item.physics.body = nullptr;
+        }
+      }
+
+      items.erase(std::remove_if(items.begin(), items.end(), [](const auto& item) { return item.physics.body == nullptr; }), items.end());
+
+      // check for a shrine
+
+      for (auto& shrine : m_game.world.data.landscape.shrines) {
+        if (shrine.location.floor != hero.physics.location.floor) {
+          continue;
+        }
+
+        if (squareDistanceToHero(shrine.location.position) < gf::square(ShrineDistance)) {
+          switch (shrine.type) {
+            case ShrineType::Ale:
+//               m_game.world.state.operation = WorldOperation::Save;
+              // TODO
+              break;
+            case ShrineType::Ike:
+              gf::Log::info("Ike Shrine!\n");
+              break;
+            case ShrineType::Moli:
+              gf::Log::info("Moli Shrine!\n");
+              break;
+            default:
+              break;
+          }
+
+        }
+      }
+    }
+
+    if (m_game.commands.gameFight.isActive()) {
+      if (hero.weapon.phase == WeaponPhase::Ready) {
+        hero.weapon.phase = WeaponPhase::WarmUp;
+      }
+    }
+  } // end of doHandleActions
 
   void WorldHudScene::doUpdate(gf::Time time) {
     auto &hero = m_game.world.state.hero;

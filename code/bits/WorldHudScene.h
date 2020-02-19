@@ -35,6 +35,7 @@ namespace akgr {
     WorldHudScene(Akagoria& game);
 
   private:
+    void doHandleActions(gf::Window& window) override;
     void doUpdate(gf::Time time) override;
 
   private:
