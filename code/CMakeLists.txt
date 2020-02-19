@@ -81,10 +81,9 @@ add_executable(akagoria
   bits/WorldBaseScene.cc
   bits/WorldDialogScene.cc
   bits/WorldData.cc
-  bits/WorldDriver.cc
+  bits/WorldInventoryScene.cc
   bits/WorldMenuScene.cc
   bits/WorldOptionsScene.cc
-  bits/WorldProcessor.cc
   bits/WorldScenery.cc
   bits/WorldSelectorScene.cc
   bits/WorldState.cc

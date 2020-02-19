@@ -58,8 +58,7 @@ namespace akgr {
     if (m_game.commands.gameUse.isActive()) {
       switch (m_game.world.scenery.menu.getChoice()) {
         case GameMenuScenery::Choice::Inventory:
-          // TODO
-          gf::Log::debug("Inventory\n");
+          m_game.replaceScene(m_game.worldAct->inventory);
           break;
 
         case GameMenuScenery::Choice::Quests:

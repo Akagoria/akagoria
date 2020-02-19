@@ -423,7 +423,8 @@ namespace akgr {
     const char *dialogId = wrenGetSlotString(vm, 1);
 
     auto& state = getState(vm);
-    state.operation = WorldOperation::Talk;
+    // TODO
+//     state.operation = WorldOperation::Talk;
 
     auto& dialog = state.hero.dialog;
     dialog.ref.id = gf::hash(dialogId);

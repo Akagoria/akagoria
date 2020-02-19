@@ -147,29 +147,8 @@ namespace {
     }
   }
 
-  const char *getWorldOperation(akgr::WorldOperation op) {
-    switch (op) {
-      case akgr::WorldOperation::Walk:
-        return "Walk";
-      case akgr::WorldOperation::Talk:
-        return "Talk";
-      case akgr::WorldOperation::Save:
-        return "Save";
-      case akgr::WorldOperation::Menu:
-        return "Menu";
-      case akgr::WorldOperation::Options:
-        return "Options";
-      case akgr::WorldOperation::Inventory:
-        return "Inventory";
-    }
-
-    assert(false);
-    return "???";
-  }
-
   void viewState(const akgr::WorldState& state) {
     viewNewSection("STATE");
-    fmt::print("operation: {}\n", getWorldOperation(state.operation));
 
 //     viewPhysicsState(state.physics);
     viewNotificationsState(state.notifications);

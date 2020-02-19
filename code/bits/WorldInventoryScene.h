@@ -17,34 +17,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_WORLD_PROCESSOR_H
-#define AKGR_WORLD_PROCESSOR_H
+#ifndef AKGR_WORLD_INVENTORY_SCENE_H
+#define AKGR_WORLD_INVENTORY_SCENE_H
 
-#include <gf/Model.h>
+#include <gf/Scene.h>
 
-#include "RootScenery.h"
-#include "Script.h"
-#include "WorldData.h"
-#include "WorldScenery.h"
-#include "WorldState.h"
+#include "InventoryRenderer.h"
 
 namespace akgr {
+  struct Akagoria;
 
-  class WorldProcessor : gf::Model {
+  class WorldInventoryScene : public gf::Scene {
   public:
-    WorldProcessor(const WorldData& data, WorldState& state, WorldScenery& scenery, RootScenery& root, Script& script, gf::Random& random);
-
-    virtual void update(gf::Time time) override;
+    WorldInventoryScene(Akagoria& game);
 
   private:
-    const WorldData& m_data;
-    WorldState& m_state;
-    WorldScenery& m_scenery;
-    RootScenery& m_root;
-    Script& m_script;
-    gf::Random& m_random;
+    void doHandleActions(gf::Window& window) override;
+
+  private:
+    Akagoria& m_game;
+    InventoryRenderer m_inventory;
   };
 
 }
 
-#endif // AKGR_WORLD_PROCESSOR_H
+#endif // AKGR_WORLD_INVENTORY_SCENE_H

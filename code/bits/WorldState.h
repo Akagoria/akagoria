@@ -45,7 +45,7 @@ namespace akgr {
   };
 
   struct WorldState {
-    WorldOperation operation = WorldOperation::Walk;
+//     WorldOperation operation = WorldOperation::Walk;
     PhysicsState physics;
     std::vector<NotificationState> notifications;
     std::vector<ItemState> items;
@@ -60,7 +60,7 @@ namespace akgr {
 
   template<typename Archive>
   Archive& operator|(Archive& ar, WorldState& state) {
-    return ar /* | state.physics */ | state.operation | state.notifications | state.items | state.characters | state.hero;
+    return ar /* | state.physics */ | state.notifications | state.items | state.characters | state.hero;
   }
 
 }

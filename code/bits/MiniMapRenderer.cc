@@ -39,10 +39,6 @@ namespace akgr {
   }
 
   void MiniMapRenderer::render(gf::RenderTarget& target, const gf::RenderStates& states) {
-    if (m_state.operation != WorldOperation::Walk) {
-      return;
-    }
-
     gf::Coordinates coords(target);
 
     gf::Vector2f position = coords.getRelativePoint(MiniMapPosition);

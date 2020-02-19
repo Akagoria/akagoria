@@ -28,6 +28,7 @@ namespace akgr {
   , selector(game)
   , menu(game)
   , options(game)
+  , inventory(game)
   {
   }
 

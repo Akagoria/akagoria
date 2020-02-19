@@ -102,10 +102,6 @@ namespace akgr {
   }
 
   void AspectRenderer::render(gf::RenderTarget& target, const gf::RenderStates& states) {
-    if (m_state.operation != WorldOperation::Walk) {
-      return;
-    }
-
     drawAspect(target, states, m_state.hero.aspects.hp, { 0.015f, 0.015f }, getAspectColor(Aspect::Health),
         m_texture, gf::RectF::fromPositionSize({ 0.0f, 0.0f }, { 0.125f, 0.125f }), m_font, "HP");
     drawAspect(target, states, m_state.hero.aspects.mp, { 0.015f, 0.055f }, getAspectColor(Aspect::Magic),

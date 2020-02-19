@@ -22,6 +22,7 @@
 
 #include "WorldBaseScene.h"
 #include "WorldDialogScene.h"
+#include "WorldInventoryScene.h"
 #include "WorldMenuScene.h"
 #include "WorldOptionsScene.h"
 #include "WorldSelectorScene.h"
@@ -39,6 +40,7 @@ namespace akgr {
     WorldSelectorScene selector;
     WorldMenuScene menu;
     WorldOptionsScene options;
+    WorldInventoryScene inventory;
   };
 
 }

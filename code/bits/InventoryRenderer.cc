@@ -110,9 +110,9 @@ namespace akgr {
   }
 
 
-  InventoryRenderer::InventoryRenderer(const UIData& ui, const WorldData& data, const WorldState& state, const WorldScenery& scenery, ui::Theme& theme, gf::ResourceManager& resources)
+  InventoryRenderer::InventoryRenderer(const RootData& root, const WorldData& data, const WorldState& state, const WorldScenery& scenery, ui::Theme& theme, gf::ResourceManager& resources)
   : gf::Entity(10)
-  , m_ui(ui)
+  , m_root(root)
   , m_data(data)
   , m_state(state)
   , m_scenery(scenery)
@@ -124,16 +124,12 @@ namespace akgr {
     m_frame.add<ui::CatalogueWidget>(m_model, scenery.inventory.list);
 
     m_frame.setPosition(ui::Common::Position);
-    m_frame.setSize({ 1.0f, 1.0f });
+    m_frame.setSize({ 1.0f, 0.95f });
     m_frame.setPositioning(ui::Positioning::Minimum);
     m_frame.computeLayout();
   }
 
   void InventoryRenderer::render(gf::RenderTarget& target, const gf::RenderStates& states) {
-    if (m_state.operation != WorldOperation::Inventory) {
-      return;
-    }
-
     m_frame.computeLayout();
     m_frame.render(target, states, m_theme);
 
