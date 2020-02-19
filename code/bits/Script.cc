@@ -278,7 +278,7 @@ namespace akgr {
   void Script::moveHero(WrenVM* vm) {
     const char *locationId = wrenGetSlotString(vm, 1);
 
-    DataRef<LocationData> locationRef = { };
+    DataRef<LocationData> locationRef;
     locationRef.id = gf::hash(locationId);
     locationRef.bind(getData(vm).locations);
     assert(locationRef.data);
@@ -309,7 +309,7 @@ namespace akgr {
   void Script::postNotification(WrenVM* vm) {
     const char *notificationId = wrenGetSlotString(vm, 1);
 
-    akgr::NotificationState notification = { };
+    akgr::NotificationState notification;
     notification.ref.id = gf::hash(notificationId);
     notification.ref.bind(getData(vm).notifications);
     assert(notification.ref.data);
@@ -340,7 +340,7 @@ namespace akgr {
     const char *itemId = wrenGetSlotString(vm, 1);
     const char *locationId = wrenGetSlotString(vm, 2);
 
-    DataRef<LocationData> locationRef = { };
+    DataRef<LocationData> locationRef;
     locationRef.id = gf::hash(locationId);
     locationRef.bind(getData(vm).locations);
     checkRef(locationRef.data, locationId);
@@ -378,7 +378,7 @@ namespace akgr {
     const char *characterId = wrenGetSlotString(vm, 1);
     const char *locationId = wrenGetSlotString(vm, 2);
 
-    DataRef<LocationData> locationRef = { };
+    DataRef<LocationData> locationRef;
     locationRef.id = gf::hash(locationId);
     locationRef.bind(getData(vm).locations);
     checkRef(locationRef.data, locationId);
@@ -392,8 +392,13 @@ namespace akgr {
     character.physics.angle = 0.0f; // TODO
     character.physics.body = getState(vm).physics.createCharacterBody(character.physics.location, character.physics.angle);
 
-    character.weapon.ref.id = character.ref.data->weapon;
-    character.weapon.ref.bind(getData(vm).weapons);
+    gf::Id weapon = character.ref.data->weapon;
+
+    if (weapon != gf::InvalidId) {
+      character.weapon.ref.id = weapon;
+      character.weapon.ref.bind(getData(vm).weapons);
+      checkRef(character.weapon.ref.data, "<<weapon>>");
+    }
 
     getState(vm).characters.push_back(std::move(character));
 

@@ -39,6 +39,7 @@ namespace akgr {
 
       if (it == database.end()) {
         gf::Log::error("Could not bind reference %" PRIX64 "\n", id);
+        data = nullptr;
         return;
       }
 
