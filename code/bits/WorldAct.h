@@ -22,7 +22,7 @@
 
 #include "WorldBaseScene.h"
 #include "WorldDialogScene.h"
-#include "WorldHudScene.h"
+#include "WorldTravelScene.h"
 // #include "WorldMenuScene.h"
 
 namespace akgr {
@@ -32,7 +32,7 @@ namespace akgr {
     WorldAct(Akagoria& game);
 
     WorldBaseScene base;
-    WorldHudScene hud;
+    WorldTravelScene travel;
     WorldDialogScene dialog;
 //     WorldMenuScene menu;
   };

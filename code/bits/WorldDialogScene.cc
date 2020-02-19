@@ -19,7 +19,7 @@
  */
 #include "WorldDialogScene.h"
 
-#include <gf/Log.h>
+#include <gf/Unused.h>
 
 #include "Akagoria.h"
 #include "WorldAct.h"
@@ -37,6 +37,8 @@ namespace akgr {
   }
 
   void WorldDialogScene::doHandleActions(gf::Window& window) {
+    gf::unused(window);
+
     auto& hero = m_game.world.state.hero;
 
     m_game.root.scenery.helper.status = HelperStatus::Continue;
@@ -50,8 +52,6 @@ namespace akgr {
 
       ++dialog.currentLine;
 
-      gf::Log::debug("use: %zu\n", dialog.currentLine);
-
       if (dialog.currentLine >= dialog.ref.data->content.size()) {
         // end of the dialog
         std::string name = dialog.ref.data->name;
@@ -60,7 +60,7 @@ namespace akgr {
         dialog.currentLine = 0;
         m_game.world.script.onDialog(name);
 
-        m_game.replaceScene(m_game.worldAct->hud);
+        m_game.replaceScene(m_game.worldAct->travel);
       }
     }
 

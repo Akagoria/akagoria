@@ -17,8 +17,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_WORLD_HUD_SCENE_H
-#define AKGR_WORLD_HUD_SCENE_H
+#ifndef AKGR_WORLD_TRAVEL_SCENE_H
+#define AKGR_WORLD_TRAVEL_SCENE_H
 
 #include <gf/Scene.h>
 
@@ -30,9 +30,9 @@
 namespace akgr {
   struct Akagoria;
 
-  class WorldHudScene : public gf::Scene {
+  class WorldTravelScene : public gf::Scene {
   public:
-    WorldHudScene(Akagoria& game);
+    WorldTravelScene(Akagoria& game);
 
   private:
     void doHandleActions(gf::Window& window) override;
@@ -56,4 +56,4 @@ namespace akgr {
 
 }
 
-#endif // AKGR_WORLD_HUD_SCENE_H
+#endif // AKGR_WORLD_TRAVEL_SCENE_H

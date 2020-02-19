@@ -17,9 +17,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "WorldHudScene.h"
+#include "WorldTravelScene.h"
 
 #include <gf/Log.h>
+#include <gf/Unused.h>
 
 #include "Akagoria.h"
 #include "WorldAct.h"
@@ -33,7 +34,7 @@ namespace akgr {
 
   }
 
-  WorldHudScene::WorldHudScene(Akagoria& game)
+  WorldTravelScene::WorldTravelScene(Akagoria& game)
   : gf::Scene(game.getRenderer().getSize())
   , m_game(game)
   , m_area(game.resources, game.world.state, game.world.scenery)
@@ -55,10 +56,8 @@ namespace akgr {
     addAction(m_game.commands.gameMenu);
   }
 
-  void WorldHudScene::doHandleActions(gf::Window& window) {
-    if (!isActive()) {
-      return;
-    }
+  void WorldTravelScene::doHandleActions(gf::Window& window) {
+    gf::unused(window);
 
     auto& hero = m_game.world.state.hero;
 
@@ -89,8 +88,6 @@ namespace akgr {
     }
 
     if (m_game.commands.gameUse.isActive()) {
-      gf::Log::debug("use in hud\n");
-
       // check for a character conversation
 
       for (auto& character : m_game.world.state.characters) {
@@ -108,8 +105,6 @@ namespace akgr {
 
           character.dialog.id = gf::InvalidId;
           character.dialog.data = nullptr;
-
-          gf::Log::debug("Start dialog!\n");
 
           m_game.replaceScene(m_game.worldAct->dialog);
         }
@@ -170,7 +165,7 @@ namespace akgr {
     }
   } // end of doHandleActions
 
-  void WorldHudScene::doUpdate(gf::Time time) {
+  void WorldTravelScene::doUpdate(gf::Time time) {
     auto &hero = m_game.world.state.hero;
 
     // notifications
