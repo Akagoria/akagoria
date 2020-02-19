@@ -17,33 +17,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_GAME_MENU_RENDERER_H
-#define AKGR_GAME_MENU_RENDERER_H
+#ifndef AKGR_WORLD_MENU_SCENE_H
+#define AKGR_WORLD_MENU_SCENE_H
 
-#include <gf/Entity.h>
+#include <gf/Scene.h>
 
-#include "RootData.h"
-#include "WorldScenery.h"
-
-#include "ui/Theme.h"
-#include "ui/Widgets.h"
-
+#include "GameMenuRenderer.h"
 
 namespace akgr {
+  struct Akagoria;
 
-  class GameMenuRenderer : public gf::Entity {
+  class WorldMenuScene : public gf::Scene {
   public:
-    GameMenuRenderer(const RootData& data, const WorldScenery& scenery, ui::Theme& theme);
-
-    virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
+    WorldMenuScene(Akagoria& game);
 
   private:
-    const RootData& m_data;
-    const WorldScenery& m_scenery;
-    ui::Theme& m_theme;
-    ui::FrameWidget m_frame;
+    void doHandleActions(gf::Window& window) override;
+
+  private:
+    Akagoria& m_game;
+    GameMenuRenderer m_menu;
   };
 
 }
 
-#endif // AKGR_GAME_MENU_RENDERER_H
+#endif // AKGR_WORLD_MENU_SCENE_H

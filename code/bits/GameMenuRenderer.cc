@@ -27,10 +27,9 @@ using namespace gf::literals;
 
 namespace akgr {
 
-  GameMenuRenderer::GameMenuRenderer(const RootData& data, const WorldState& state, const WorldScenery& scenery, ui::Theme& theme)
+  GameMenuRenderer::GameMenuRenderer(const RootData& data, const WorldScenery& scenery, ui::Theme& theme)
   : gf::Entity(10)
   , m_data(data)
-  , m_state(state)
   , m_scenery(scenery)
   , m_theme(theme)
   , m_frame(nullptr)
@@ -47,10 +46,6 @@ namespace akgr {
   }
 
   void GameMenuRenderer::render(gf::RenderTarget& target, const gf::RenderStates& states) {
-    if (m_state.operation != WorldOperation::Menu) {
-      return;
-    }
-
     m_frame.render(target, states, m_theme);
   }
 

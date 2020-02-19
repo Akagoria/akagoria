@@ -66,9 +66,8 @@ namespace akgr {
     };
 
     if (m_game.commands.gameMenu.isActive()) {
-      gf::Log::info("Menu\n");
-//       m_game.world.scenery.menu.index.choice = 0;
-//       m_game.world.state.operation = WorldOperation::Menu;
+      m_game.world.scenery.menu.index.choice = 0;
+      m_game.replaceScene(m_game.worldAct->menu);
     }
 
     if (m_game.commands.gameRight.isActive()) {

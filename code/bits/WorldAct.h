@@ -22,9 +22,9 @@
 
 #include "WorldBaseScene.h"
 #include "WorldDialogScene.h"
+#include "WorldMenuScene.h"
 #include "WorldSelectorScene.h"
 #include "WorldTravelScene.h"
-// #include "WorldMenuScene.h"
 
 namespace akgr {
   struct Akagoria;
@@ -36,7 +36,7 @@ namespace akgr {
     WorldTravelScene travel;
     WorldDialogScene dialog;
     WorldSelectorScene selector;
-//     WorldMenuScene menu;
+    WorldMenuScene menu;
   };
 
 }
