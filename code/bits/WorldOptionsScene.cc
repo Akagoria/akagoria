@@ -17,9 +17,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "WorldMenuScene.h"
+#include "WorldOptionsScene.h"
 
-#include <gf/Log.h>
 #include <gf/Unused.h>
 
 #include "Akagoria.h"
@@ -27,65 +26,45 @@
 
 namespace akgr {
 
-  WorldMenuScene::WorldMenuScene(Akagoria& game)
+  WorldOptionsScene::WorldOptionsScene(Akagoria& game)
   : gf::Scene(game.getRenderer().getSize())
   , m_game(game)
-  , m_menu(game.root.data, game.world.scenery, game.theme)
+  , m_options(game.root.data, game.root.scenery, game.theme)
   {
-    addHudEntity(m_menu);
+    addHudEntity(m_options);
 
     addAction(m_game.commands.menuUp);
     addAction(m_game.commands.menuDown);
+    addAction(m_game.commands.menuLeft);
+    addAction(m_game.commands.menuRight);
     addAction(m_game.commands.gameUse);
   }
 
-  void WorldMenuScene::doHandleActions(gf::Window& window) {
+  void WorldOptionsScene::doHandleActions(gf::Window& window) {
     gf::unused(window);
-
-    auto& hero = m_game.world.state.hero;
 
     m_game.root.scenery.helper.status = HelperStatus::Menu;
 
-    hero.move.angular = gf::AngularMove::None;
-    hero.move.linear = gf::LinearMove::None;
-
     if (m_game.commands.menuDown.isActive()) {
-      m_game.world.scenery.menu.index.computeNextChoice();
+      m_game.root.scenery.options.index.computeNextChoice();
     } else if (m_game.commands.menuUp.isActive()) {
-      m_game.world.scenery.menu.index.computePrevChoice();
+      m_game.root.scenery.options.index.computePrevChoice();
     }
 
     if (m_game.commands.gameUse.isActive()) {
-      switch (m_game.world.scenery.menu.getChoice()) {
-        case GameMenuScenery::Choice::Inventory:
-          // TODO
-          gf::Log::debug("Inventory\n");
-          break;
-
-        case GameMenuScenery::Choice::Quests:
-          // TODO
-          gf::Log::debug("Quests\n");
-          break;
-
-        case GameMenuScenery::Choice::Skills:
-          // TODO
-          gf::Log::debug("Skills\n");
-          break;
-
-        case GameMenuScenery::Choice::Options:
-          m_game.replaceScene(m_game.worldAct->options);
-          break;
-
-        case GameMenuScenery::Choice::BackToAdventure:
-          m_game.replaceScene(m_game.worldAct->travel);
-          break;
-
-        case GameMenuScenery::Choice::BackToRealLife:
-          m_game.popAllScenes();
-          break;
+      if (m_game.root.scenery.options.getChoice() == OptionsScenery::Choice::Back) {
+        m_game.root.scenery.options.save();
+        m_game.replaceScene(m_game.worldAct->menu);
       }
     }
 
+    if (m_game.commands.menuRight.isActive()) {
+      m_game.root.scenery.options.computeNextOption();
+    }
+
+    if (m_game.commands.menuLeft.isActive()) {
+      m_game.root.scenery.options.computePrevOption();
+    }
   }
 
 }

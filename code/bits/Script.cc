@@ -414,6 +414,8 @@ namespace akgr {
     CharacterState *character = getCharacter(vm, gf::hash(characterId));
     assert(character != nullptr);
     character->mood = static_cast<CharacterMood>(mood);
+
+    wrenSetSlotNull(vm, 0);
   }
 
   // startDialog(name)

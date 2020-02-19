@@ -27,6 +27,7 @@ namespace akgr {
   , dialog(game)
   , selector(game)
   , menu(game)
+  , options(game)
   {
   }
 

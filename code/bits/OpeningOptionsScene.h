@@ -20,7 +20,6 @@
 #ifndef AKGR_OPENING_OPTIONS_SCENE_H
 #define AKGR_OPENING_OPTIONS_SCENE_H
 
-#include <gf/ResourceManager.h>
 #include <gf/Scene.h>
 
 #include "OptionsRenderer.h"

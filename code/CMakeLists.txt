@@ -83,6 +83,7 @@ add_executable(akagoria
   bits/WorldData.cc
   bits/WorldDriver.cc
   bits/WorldMenuScene.cc
+  bits/WorldOptionsScene.cc
   bits/WorldProcessor.cc
   bits/WorldScenery.cc
   bits/WorldSelectorScene.cc

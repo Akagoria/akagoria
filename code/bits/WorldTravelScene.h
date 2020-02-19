@@ -45,7 +45,6 @@ namespace akgr {
     MiniMapRenderer m_map;
     NotificationRenderer m_notifications;
 
-//     GameMenuRenderer gameMenu(rootData, worldState, worldScenery, theme);
 //     InventoryRenderer inventory(rootData, worldData, worldState, worldScenery, theme, resources);
 //     OptionsRenderer gameOptions(rootData, rootScenery, theme);
 
