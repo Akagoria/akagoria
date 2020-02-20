@@ -30,7 +30,7 @@ target_compile_definitions(wren
 #
 
 add_executable(akagoria
-  akagoria_s.cc
+  akagoria.cc
 
   bits/Akagoria.cc
   bits/AreaRenderer.cc
