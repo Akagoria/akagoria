@@ -45,7 +45,6 @@ namespace akgr {
   };
 
   struct WorldState {
-//     WorldOperation operation = WorldOperation::Walk;
     PhysicsState physics;
     std::vector<NotificationState> notifications;
     std::vector<ItemState> items;

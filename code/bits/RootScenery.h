@@ -26,19 +26,11 @@
 
 namespace akgr {
 
-  enum class RootOperation {
-    None,
-    ChangeOptions,
-    SelectSlot,
-  };
-
   struct RootScenery {
     RootScenery() {
       options.load();
       selector.load();
     }
-
-    RootOperation operation = RootOperation::None;
 
     OptionsScenery options;
     SlotSelectorScenery selector;
