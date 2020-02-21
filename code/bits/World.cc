@@ -21,8 +21,8 @@
 
 namespace akgr {
 
-  World::World(gf::ResourceManager& resources)
-  : script(resources, data, state)
+  World::World(gf::ResourceManager& resources, Akagoria& game)
+  : script(resources, game)
   {
   }
 

@@ -29,6 +29,8 @@
 #include <gf/Path.h>
 #include <gf/Unused.h>
 
+#include "Akagoria.h"
+#include "WorldAct.h"
 #include "WorldData.h"
 #include "WorldState.h"
 
@@ -134,10 +136,9 @@ namespace akgr {
 
   }
 
-  Script::Script(gf::ResourceManager& resources, const akgr::WorldData& data, akgr::WorldState& state)
+  Script::Script(gf::ResourceManager& resources, Akagoria& game)
   : m_resources(resources)
-  , m_data(data)
-  , m_state(state)
+  , m_game(game)
   , m_vm(nullptr)
   , m_classAdventure(nullptr)
   , m_methodInitialize(nullptr)
@@ -309,7 +310,7 @@ namespace akgr {
   void Script::postNotification(WrenVM* vm) {
     const char *notificationId = wrenGetSlotString(vm, 1);
 
-    akgr::NotificationState notification;
+    NotificationState notification;
     notification.ref.id = gf::hash(notificationId);
     notification.ref.bind(getData(vm).notifications);
     assert(notification.ref.data);
@@ -422,16 +423,14 @@ namespace akgr {
   void Script::startDialog(WrenVM* vm) {
     const char *dialogId = wrenGetSlotString(vm, 1);
 
-    auto& state = getState(vm);
-    // TODO
-//     state.operation = WorldOperation::Talk;
-
-    auto& dialog = state.hero.dialog;
+    auto& dialog = getState(vm).hero.dialog;
     dialog.ref.id = gf::hash(dialogId);
     dialog.ref.bind(getData(vm).dialogs);
     checkRef(dialog.ref.data, dialogId);
 
     dialog.currentLine = 0;
+
+    getGame(vm).replaceScene(getGame(vm).worldAct->dialog);
 
     gf::Log::debug("Dialog '%s' started\n", dialogId);
 
@@ -463,15 +462,27 @@ namespace akgr {
   /*
    * utils
    */
+  const WorldData& Script::getData() {
+    return m_game.world.data;
+  }
+
+  WorldState& Script::getState() {
+    return m_game.world.state;
+  }
 
   const WorldData& Script::getData(WrenVM* vm) {
     auto script = static_cast<Script *>(wrenGetUserData(vm));
-    return script->getData();
+    return script->m_game.world.data;
   }
 
   WorldState& Script::getState(WrenVM* vm) {
     auto script = static_cast<Script *>(wrenGetUserData(vm));
-    return script->getState();
+    return script->m_game.world.state;
+  }
+
+  Akagoria& Script::getGame(WrenVM* vm) {
+    auto script = static_cast<Script *>(wrenGetUserData(vm));
+    return script->m_game;
   }
 
   CharacterState *Script::getCharacter(WrenVM* vm, gf::Id id) {

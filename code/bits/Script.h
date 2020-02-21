@@ -30,6 +30,7 @@
 #include <wren.hpp>
 
 namespace akgr {
+  struct Akagoria;
 
   struct WorldData;
   struct WorldState;
@@ -38,7 +39,7 @@ namespace akgr {
 
   class Script {
   public:
-    Script(gf::ResourceManager& resources, const akgr::WorldData& data, akgr::WorldState& state);
+    Script(gf::ResourceManager& resources, Akagoria& game);
     ~Script();
 
     Script(const Script&) = delete;
@@ -49,13 +50,8 @@ namespace akgr {
 
     void bind();
 
-    const akgr::WorldData& getData() {
-      return m_data;
-    }
-
-    akgr::WorldState& getState() {
-      return m_state;
-    }
+    const WorldData& getData();
+    WorldState& getState();
 
     char *loadModule(gf::Path path);
 
@@ -114,15 +110,15 @@ namespace akgr {
     static void attachDialogToCharacter(WrenVM* vm);
 
   private:
-    static const akgr::WorldData& getData(WrenVM* vm);
-    static akgr::WorldState& getState(WrenVM* vm);
+    static const WorldData& getData(WrenVM* vm);
+    static WorldState& getState(WrenVM* vm);
+    static Akagoria& getGame(WrenVM* vm);
 
     static CharacterState *getCharacter(WrenVM* vm, gf::Id id);
 
   private:
     gf::ResourceManager& m_resources;
-    const akgr::WorldData& m_data;
-    akgr::WorldState& m_state;
+    Akagoria& m_game;
 
     WrenVM *m_vm;
     WrenHandle *m_classAdventure;

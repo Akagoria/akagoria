@@ -40,7 +40,7 @@ namespace akgr {
   : gf::SceneManager("Akagoria, the revenge of Kalista", InitialScreenSize, ~gf::WindowHints::Resizable)
   , resources({ searchDirectory })
   , theme(resources)
-  , world(resources)
+  , world(resources, *this)
   {
     if (!root.data.loadFromFile(resources.getAbsolutePath("root.dat"))) {
       throw std::runtime_error("Could not load 'root.dat'.");

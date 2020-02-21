@@ -26,6 +26,7 @@
 #include "Script.h"
 
 namespace akgr {
+  struct Akagoria;
 
   struct World {
     WorldData data;
@@ -33,7 +34,7 @@ namespace akgr {
     WorldScenery scenery;
     Script script;
 
-    World(gf::ResourceManager& resources);
+    World(gf::ResourceManager& resources, Akagoria& game);
   };
 
 }
