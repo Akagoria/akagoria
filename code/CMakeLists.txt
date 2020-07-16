@@ -104,7 +104,7 @@ target_include_directories(akagoria
 
 target_link_libraries(akagoria
   PRIVATE
-    gf::gf0
+    gf::graphics
     Threads::Threads
     wren
     Boost::boost
@@ -136,7 +136,7 @@ target_include_directories(akagoria_datacompile
 
 target_link_libraries(akagoria_datacompile
   PRIVATE
-    gf::gf0
+    gf::graphics
     Boost::boost
     Boost::locale
 )
@@ -155,7 +155,7 @@ target_include_directories(akagoria_dataview
 
 target_link_libraries(akagoria_dataview
   PRIVATE
-    gf::gf0
+    gf::graphics
     Boost::boost
     Boost::locale
     fmt-header-only
@@ -176,7 +176,7 @@ target_include_directories(akagoria_stateview
 
 target_link_libraries(akagoria_stateview
   PRIVATE
-    gf::gf0
+    gf::graphics
     Boost::boost
     Boost::locale
     ${BOX2D_LIBRARIES}
@@ -197,7 +197,7 @@ target_include_directories(akagoria_rootdataview
 
 target_link_libraries(akagoria_rootdataview
   PRIVATE
-    gf::gf0
+    gf::graphics
     Boost::boost
     Boost::locale
     fmt-header-only
