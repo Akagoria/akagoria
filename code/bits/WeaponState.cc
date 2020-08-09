@@ -28,7 +28,7 @@ namespace akgr {
     case WeaponPhase::WarmUp:
       timer += time;
 
-      if (timer > ref.data->cooldown) {
+      if (timer > ref.data->warmup) {
         gf::Log::debug("END OF WARMUP!\n");
         phase = WeaponPhase::Launch;
         timer = gf::Time::zero();
