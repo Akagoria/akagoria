@@ -7,3 +7,6 @@
 [submodule "code/vendor/wren"]
 	path = code/vendor/wren
 	url = https://github.com/munificent/wren.git
+[submodule "code/vendor/gf-box2d"]
+	path = code/vendor/gf-box2d
+	url = https://github.com/GamedevFramework/gf-box2d.git
