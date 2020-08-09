@@ -83,7 +83,7 @@ namespace akgr {
   }
 
   void PhysicsDebugger::render(gf::RenderTarget& target, const gf::RenderStates& states) {
-    m_state.world.DrawDebugData();
+    m_state.world.DebugDraw();
 
     for (auto& polygon : m_draw.polygons) {
       gf::ConvexShape shape(polygon.shape);
@@ -192,11 +192,11 @@ namespace akgr {
     solidPolygons.push_back({ std::move(polygon), toColor(color) });
   }
 
-  void PhysicsDebugger::PhysicsDraw::DrawCircle(const b2Vec2& center, float32 radius, const b2Color& color) {
+  void PhysicsDebugger::PhysicsDraw::DrawCircle(const b2Vec2& center, float radius, const b2Color& color) {
     circles.push_back({ gf::CircF(toVec(center), radius / PhysicsScale), toColor(color) });
   }
 
-  void PhysicsDebugger::PhysicsDraw::DrawSolidCircle(const b2Vec2& center, float32 radius, const b2Vec2& axis, const b2Color& color) {
+  void PhysicsDebugger::PhysicsDraw::DrawSolidCircle(const b2Vec2& center, float radius, const b2Vec2& axis, const b2Color& color) {
     solidCircles.push_back({ gf::CircF(toVec(center), radius / PhysicsScale), toVec(axis), toColor(color) });
   }
 
@@ -208,7 +208,7 @@ namespace akgr {
     transforms.push_back({ toVec(xf.p), toVec(xf.q.GetXAxis()), toVec(xf.q.GetYAxis()) });
   }
 
-  void PhysicsDebugger::PhysicsDraw::DrawPoint(const b2Vec2& p, float32 size, const b2Color& color) {
+  void PhysicsDebugger::PhysicsDraw::DrawPoint(const b2Vec2& p, float size, const b2Color& color) {
     points.push_back({ toVec(p), size, toColor(color) });
   }
 }

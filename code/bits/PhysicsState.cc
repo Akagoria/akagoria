@@ -19,6 +19,8 @@
  */
 #include "PhysicsState.h"
 
+#include <gf/Log.h>
+
 #include "WorldData.h"
 
 namespace akgr {
@@ -97,7 +99,7 @@ namespace akgr {
         shape.CreateLoop(line.data(), line.size());
       } else {
         assert(polyline.isChain());
-        shape.CreateChain(line.data(), line.size());
+        shape.CreateChain(line.data(), line.size(), line.front(), line.back());
       }
 
       return createFixture(world, location, angle, shape, b2_staticBody, isSensor);

@@ -23,7 +23,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/extras/cmake")
 
 find_package(gf REQUIRED)
 find_package(Boost REQUIRED COMPONENTS locale)
-find_package(Box2D REQUIRED)
+find_package(box2d REQUIRED)
 find_package(Threads)
 find_package(L10N)
 

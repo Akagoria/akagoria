@@ -98,7 +98,6 @@ add_executable(akagoria
 
 target_include_directories(akagoria
   PRIVATE
-    ${BOX2D_INCLUDE_DIRS}
     ${CMAKE_CURRENT_BINARY_DIR}
 )
 
@@ -109,7 +108,7 @@ target_link_libraries(akagoria
     wren
     Boost::boost
     Boost::locale
-    ${BOX2D_LIBRARIES}
+    box2d::box2d
 )
 
 install(
@@ -169,17 +168,12 @@ add_executable(akagoria_stateview
   bits/WorldState.cc
 )
 
-target_include_directories(akagoria_stateview
-  PRIVATE
-    ${BOX2D_INCLUDE_DIRS}
-)
-
 target_link_libraries(akagoria_stateview
   PRIVATE
     gf::graphics
     Boost::boost
     Boost::locale
-    ${BOX2D_LIBRARIES}
+    box2d::box2d
     fmt-header-only
 )
 
