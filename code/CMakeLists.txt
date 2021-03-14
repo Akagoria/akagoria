@@ -1,4 +1,4 @@
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h @ONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/config.h.in" "${CMAKE_CURRENT_BINARY_DIR}/config.h" @ONLY)
 
 #
 # wren
@@ -94,11 +94,15 @@ add_executable(akagoria
   bits/ui/Theme.cc
   bits/ui/Widget.cc
   bits/ui/Widgets.cc
+
+  vendor/gf-box2d/gfb2d/PhysicsModel.cc
+  vendor/gf-box2d/gfb2d/PhysicsDebugger.cc
 )
 
 target_include_directories(akagoria
   PRIVATE
-    ${CMAKE_CURRENT_BINARY_DIR}
+    "${CMAKE_CURRENT_BINARY_DIR}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/vendor/gf-box2d"
 )
 
 target_link_libraries(akagoria
@@ -149,7 +153,7 @@ add_executable(akagoria_dataview
 
 target_include_directories(akagoria_dataview
   PRIVATE
-    ${CMAKE_CURRENT_BINARY_DIR}
+    "${CMAKE_CURRENT_BINARY_DIR}"
 )
 
 target_link_libraries(akagoria_dataview
@@ -166,6 +170,13 @@ add_executable(akagoria_stateview
   bits/Fmt.cc
   bits/PhysicsState.cc
   bits/WorldState.cc
+
+  vendor/gf-box2d/gfb2d/PhysicsModel.cc
+)
+
+target_include_directories(akagoria_stateview
+  PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/vendor/gf-box2d"
 )
 
 target_link_libraries(akagoria_stateview
@@ -186,7 +197,7 @@ add_executable(akagoria_rootdataview
 
 target_include_directories(akagoria_rootdataview
   PRIVATE
-    ${CMAKE_CURRENT_BINARY_DIR}
+    "${CMAKE_CURRENT_BINARY_DIR}"
 )
 
 target_link_libraries(akagoria_rootdataview

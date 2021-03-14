@@ -22,6 +22,8 @@
 
 #include <gf/Scene.h>
 
+#include <gfb2d/PhysicsDebugger.h>
+
 #include "CharacterRenderer.h"
 #include "CommandsHelperRenderer.h"
 #include "HeroRenderer.h"
@@ -54,7 +56,8 @@ namespace akgr {
     ItemRenderer m_item;
     VfxRenderer m_vfx;
     CommandsHelperRenderer m_helper;
-    PhysicsDebugger m_debug;
+
+    gfb2d::PhysicsDebugger m_debug;
     PhysicsListener m_listener;
   };
 

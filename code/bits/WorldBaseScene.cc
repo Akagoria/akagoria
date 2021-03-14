@@ -117,7 +117,7 @@ namespace akgr {
   , m_item(game.world.data, game.world.state, game.resources)
   , m_vfx(game.world.scenery, game.world.state, game.resources)
   , m_helper(game.root.data, game.root.scenery, game.resources)
-  , m_debug(game.world.state.physics)
+  , m_debug(game.world.state.physics.model)
   , m_listener(game.world.script)
   {
     addWorldEntity(m_ground);
@@ -139,7 +139,7 @@ namespace akgr {
     addAction(m_game.commands.debugPhysics);
     addAction(m_game.commands.debugSave);
 
-    m_game.world.state.physics.world.SetContactListener(&m_listener);
+    m_game.world.state.physics.model.world.SetContactListener(&m_listener);
 
     setWorldViewSize(ViewSize);
   }

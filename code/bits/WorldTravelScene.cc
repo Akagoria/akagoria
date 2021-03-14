@@ -123,7 +123,7 @@ namespace akgr {
           hero.inventory.addItem(item.ref);
 
           // remove from the world
-          m_game.world.state.physics.world.DestroyBody(item.physics.body);
+          m_game.world.state.physics.model.world.DestroyBody(item.physics.body);
           item.physics.body = nullptr;
         }
       }

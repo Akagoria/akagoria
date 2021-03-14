@@ -57,77 +57,18 @@ namespace akgr {
       return static_cast<uint16_t>(1 << (floor + 8));
     }
 
+    void updateFloorBits(b2Fixture *fixture, int32_t floor) {
+      b2Filter filter = fixture->GetFilterData();
+      filter.categoryBits = filter.maskBits = bitsFromFloor(floor);
+      fixture->SetFilterData(filter);
+    }
+
     void updateFloorBits(b2Body *body, int32_t floor) {
-      uint16_t floorBits = bitsFromFloor(floor);
-
       for (b2Fixture *fixture = body->GetFixtureList(); fixture != nullptr; fixture = fixture->GetNext()) {
-        b2Filter filter = fixture->GetFilterData();
-        filter.categoryBits = floorBits;
-        filter.maskBits = floorBits;
-        fixture->SetFilterData(filter);
+        updateFloorBits(fixture, floor);
       }
     }
 
-    template<typename T>
-    b2Fixture *createFixture(b2World& world, const Location& location, float angle, T& shape, b2BodyType type, bool isSensor) {
-      b2BodyDef bodyDef;
-      bodyDef.type = type;
-      bodyDef.position = { location.position.x * PhysicsScale, location.position.y * PhysicsScale };
-      bodyDef.angle = angle;
-      auto body = world.CreateBody(&bodyDef);
-
-      b2FixtureDef fixtureDef;
-      fixtureDef.isSensor = isSensor;
-      fixtureDef.filter.categoryBits = fixtureDef.filter.maskBits = bitsFromFloor(location.floor);
-      fixtureDef.density = 1.0f;
-      fixtureDef.friction = 0.0f;
-      fixtureDef.restitution = 0.0f;
-      fixtureDef.shape = &shape;
-
-      return body->CreateFixture(&fixtureDef);
-    }
-
-    void createPolylineFixture(b2World& world, const Location& location, float angle, const gf::Polyline& polyline, bool isSensor) {
-      std::vector<b2Vec2> line;
-
-      for (auto& point : polyline) {
-        line.emplace_back(point.x * PhysicsScale, point.y * PhysicsScale);
-      }
-
-      b2ChainShape shape;
-      if (polyline.isLoop()) {
-        shape.CreateLoop(line.data(), line.size());
-      } else {
-        assert(polyline.isChain());
-        shape.CreateChain(line.data(), line.size(), line.front(), line.back());
-      }
-
-      createFixture(world, location, angle, shape, b2_staticBody, isSensor);
-    }
-
-    b2Fixture *createPolygonFixture(b2World& world, const Location& location, float angle, const gf::Polygon& polygon, bool isSensor) {
-      std::vector<b2Vec2> line;
-
-      for (auto& point : polygon) {
-        line.emplace_back(point.x * PhysicsScale, point.y * PhysicsScale);
-      }
-
-      b2PolygonShape shape;
-      shape.Set(line.data(), line.size());
-      return createFixture(world, location, angle, shape, b2_staticBody, isSensor);
-    }
-
-//     b2Fixture *createCircleFixture(b2World& world, const Location& location, float radius) {
-//       b2CircleShape shape;
-//       shape.m_radius = radius * PhysicsScale;
-//       return createFixture(world, location, shape, b2_staticBody, /* isSensor */ false);
-//     }
-//
-//     b2Fixture *createRectangleFixture(b2World& world, const Location& location, float width, float height) {
-//       b2PolygonShape shape;
-//       shape.SetAsBox(width * PhysicsScale * 0.5f, height * PhysicsScale * 0.5f);
-//       return createFixture(world, location, shape, b2_staticBody, /* isSensor */ false);
-//     }
 
   }
 
@@ -172,55 +113,37 @@ namespace akgr {
    */
 
   PhysicsState::PhysicsState()
-  : world({ 0.0f, 0.0f })
+  : model(PhysicsScale, { 0.0f, 0.0f })
   {
 
   }
 
-  PhysicsState::~PhysicsState() = default;
-
   void PhysicsState::update(gf::Time time) {
-    static constexpr int32 VelocityIterations = 10; // 6;
-    static constexpr int32 PositionIterations = 8; // 2;
-    world.Step(time.asSeconds(), VelocityIterations, PositionIterations);
+    model.update(time);
   }
 
   void PhysicsState::bind(const WorldData& data) {
+    auto createCollisionFixture = [this](const Location& location, float angle, const gf::Polyline& line) {
+      auto body = model.createSimpleBody(location.position, angle, gfb2d::BodyType::Static);
+      auto fixture = model.createPolylineFixture(body, line);
+      updateFloorBits(fixture, location.floor);
+    };
+
     for (auto& collision : data.physics.collisions) {
-      createPolylineFixture(world, collision.location, 0.0f, collision.line, /* isSensor */ false);
+      createCollisionFixture(collision.location, 0.0f, collision.line);
     }
 
     for (auto& thing : data.physics.things) {
-      createPolylineFixture(world, thing.location, gf::degreesToRadians(thing.angle), thing.line, /* isSensor */ false);
+      createCollisionFixture(thing.location, gf::degreesToRadians(thing.angle), thing.line);
     }
   }
 
   b2Body *PhysicsState::createHeroBody(const Location& location, float angle) {
-//     static constexpr float HeroWidth = 60.0f;
-//     static constexpr float HeroHeight = 55.0f;
-
     static constexpr float HeroRadius = 35.0f;
 
-    b2BodyDef bodyDef;
-    bodyDef.type = b2_dynamicBody; // TODO: or b2_kinematicBody?
-    bodyDef.position = { location.position.x * PhysicsScale, location.position.y * PhysicsScale };
-    bodyDef.angle = angle;
-    auto body = world.CreateBody(&bodyDef);
-
-//     b2PolygonShape shape;
-//     shape.SetAsBox(HeroWidth * PhysicsScale * 0.5f, HeroHeight * PhysicsScale * 0.5f);
-    b2CircleShape shape;
-    shape.m_radius = HeroRadius * PhysicsScale;
-
-    b2FixtureDef fixtureDef;
-    fixtureDef.isSensor = false;
-    fixtureDef.filter.categoryBits = fixtureDef.filter.maskBits = bitsFromFloor(location.floor);
-    fixtureDef.density = 1.0f;
-    fixtureDef.friction = 0.0f;
-    fixtureDef.restitution = 0.0f;
-    fixtureDef.shape = &shape;
-    body->CreateFixture(&fixtureDef);
-
+    auto body = model.createSimpleBody(location.position, angle, gfb2d::BodyType::Dynamic);
+    auto fixture = model.createCircleFixture(body, HeroRadius);
+    updateFloorBits(fixture, location.floor);
     return body;
   }
 
@@ -228,61 +151,28 @@ namespace akgr {
     static constexpr float CharacterWidth = 60.0f;
     static constexpr float CharacterHeight = 55.0f;
 
-    b2BodyDef bodyDef;
-    bodyDef.type = b2_kinematicBody;
-    bodyDef.position = { location.position.x * PhysicsScale, location.position.y * PhysicsScale };
-    bodyDef.angle = angle;
-    auto body = world.CreateBody(&bodyDef);
-
-    b2PolygonShape shape;
-    shape.SetAsBox(CharacterWidth * PhysicsScale * 0.5f, CharacterHeight * PhysicsScale * 0.5f);
-
-    b2FixtureDef fixtureDef;
-    fixtureDef.isSensor = false;
-    fixtureDef.filter.categoryBits = fixtureDef.filter.maskBits = bitsFromFloor(location.floor);
-    fixtureDef.density = 1.0f;
-    fixtureDef.friction = 0.0f;
-    fixtureDef.restitution = 0.0f;
-    fixtureDef.shape = &shape;
-    body->CreateFixture(&fixtureDef);
-
+    auto body = model.createSimpleBody(location.position, angle, gfb2d::BodyType::Kinematic);
+    auto fixture = model.createRectangleFixture(body, { CharacterWidth, CharacterHeight });
+    updateFloorBits(fixture, location.floor);
     return body;
   }
 
   b2Body *PhysicsState::createItemBody(const Location& location, float angle, const Shape& shape) {
-    b2BodyDef bodyDef;
-    bodyDef.type = b2_staticBody;
-    bodyDef.position = { location.position.x * PhysicsScale, location.position.y * PhysicsScale };
-    bodyDef.angle = angle;
-    auto body = world.CreateBody(&bodyDef);
-
-//     b2PolygonShape shape;
-//     shape.SetAsBox(CharacterWidth * PhysicsScale * 0.5f, CharacterHeight * PhysicsScale * 0.5f);
-
-    b2FixtureDef fixtureDef;
-    fixtureDef.isSensor = false;
-    fixtureDef.filter.categoryBits = fixtureDef.filter.maskBits = bitsFromFloor(location.floor);
-    fixtureDef.density = 1.0f;
-    fixtureDef.friction = 0.0f;
-    fixtureDef.restitution = 0.0f;
+    auto body = model.createSimpleBody(location.position, angle, gfb2d::BodyType::Static);
 
     switch (shape.type) {
       case ShapeType::None:
         break;
 
       case ShapeType::Rectangle: {
-        b2PolygonShape polygon;
-        polygon.SetAsBox(shape.rectangle.width * PhysicsScale * 0.5f, shape.rectangle.height * PhysicsScale * 0.5f);
-        fixtureDef.shape = &polygon;
-        body->CreateFixture(&fixtureDef);
+        auto fixture = model.createRectangleFixture(body, { shape.rectangle.width, shape.rectangle.height });
+        updateFloorBits(fixture, location.floor);
         break;
       }
 
       case ShapeType::Circle: {
-        b2CircleShape circle;
-        circle.m_radius = shape.circle.radius * PhysicsScale;
-        fixtureDef.shape = &circle;
-        body->CreateFixture(&fixtureDef);
+        auto fixture = model.createCircleFixture(body, shape.circle.radius);
+        updateFloorBits(fixture, location.floor);
         break;
       }
     }
@@ -291,7 +181,10 @@ namespace akgr {
   }
 
   b2Fixture *PhysicsState::createFixtureForZone(const Zone& zone) {
-    return createPolygonFixture(world, zone.location, 0.0f, zone.polygon, /* isSensor */ true);
+    auto body = model.createSimpleBody(zone.location.position, 0.0f, gfb2d::BodyType::Static);
+    auto fixture = model.createPolygonFixture(body, zone.polygon, gfb2d::FixtureFlags::Sensor);
+    updateFloorBits(fixture, zone.location.floor);
+    return fixture;
   }
 
 }

@@ -22,9 +22,9 @@
 
 #include <memory>
 
-#include <box2d/box2d.h>
-
 #include <gf/Time.h>
+
+#include <gfb2d/PhysicsModel.h>
 
 #include "LocationTypes.h"
 #include "Shape.h"
@@ -52,7 +52,6 @@ namespace akgr {
 
   struct PhysicsState {
     PhysicsState();
-    ~PhysicsState();
 
     void update(gf::Time time);
     void bind(const WorldData& data);
@@ -63,7 +62,7 @@ namespace akgr {
 
     b2Fixture *createFixtureForZone(const Zone& zone);
 
-    b2World world;
+    gfb2d::PhysicsModel model;
   };
 
 }
