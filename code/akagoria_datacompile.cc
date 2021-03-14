@@ -25,6 +25,7 @@
 #include <fstream>
 
 #include <gf/Clock.h>
+#include <gf/Geometry.h>
 #include <gf/Id.h>
 #include <gf/Log.h>
 #include <gf/Math.h>
@@ -45,86 +46,17 @@ using namespace gf::literals;
 
 namespace {
 
-  struct Segment {
-    gf::Vector2i p1;
-    gf::Vector2i p2;
+  std::vector<akgr::Collision> computeAutoCollision(const std::vector<gf::SegmentI>& segments, int32_t currentFloor, int& currentCount) {
+    auto lines = gf::buildLines(segments);
 
-    void reverse() {
-      std::swap(p1, p2);
-    }
-  };
-
-  bool operator<(const Segment& lhs, const Segment& rhs) {
-    return std::tie(lhs.p1.x, lhs.p1.y, lhs.p2.x, lhs.p2.y) < std::tie(rhs.p1.x, rhs.p1.y, rhs.p2.x, rhs.p2.y);
-  }
-
-  template<typename Iterator>
-  Iterator findNextSegment(Iterator begin, Iterator end, gf::Vector2i endPoint, bool& needReverse) {
-    for (auto it = begin; it != end; ++it) {
-      if (it->p1 == endPoint) {
-        needReverse = false;
-        return it;
-      }
-
-      if (it->p2 == endPoint) {
-        needReverse = true;
-        return it;
-      }
-    }
-
-    return end;
-  }
-
-  std::vector<akgr::Collision> computeAutoCollision(const std::vector<Segment>& segments, int32_t currentFloor, int& currentCount) {
-    // not optimized at all
     std::vector<akgr::Collision> collisions;
-    std::set<Segment> remaining(segments.begin(), segments.end());
 
-    for (auto it = remaining.begin(); it != remaining.end(); /* not here */) {
-      // start a new line
-      gf::Polyline polyline(gf::Polyline::Loop);
-
-      Segment first = *it;
-      polyline.addPoint(first.p1);
-
-      gf::Vector2i endPoint = first.p2;
-
-      for (;;) {
-        polyline.addPoint(endPoint);
-
-        bool needReverse;
-        auto next = findNextSegment(std::next(it), remaining.end(), endPoint, needReverse);
-
-        if (next == remaining.end()) {
-          // the line is a chain
-          polyline.setType(gf::Polyline::Chain);
-          break;
-        }
-
-        Segment chosen = *next;
-        remaining.erase(next);
-
-        if (needReverse) {
-          chosen.reverse();
-        }
-
-        assert(chosen.p1 == endPoint);
-        endPoint = chosen.p2;
-
-        if (endPoint == first.p1) {
-          // the line is a loop
-          break;
-        }
-      }
-
-      auto prev = it++;
-      remaining.erase(prev);
-
+    for (auto& line : lines) {
       akgr::Collision collision;
       collision.name = "Auto-collision #" + std::to_string(currentCount++);
       collision.location.floor = currentFloor;
       collision.location.position = gf::Vector2f(0, 0);
-      collision.line = std::move(polyline);
+      collision.line = std::move(line);
       collisions.push_back(std::move(collision));
     }
 
@@ -321,9 +253,9 @@ namespace {
               assert(!fence.empty());
               assert(fence.size() == 2);
 
-              Segment segment;
-              segment.p1 = base * map.tileSize + computeEndPoint(fence[0], map.tileSize);
-              segment.p2 = base * map.tileSize + computeEndPoint(fence[1], map.tileSize);
+              gf::SegmentI segment;
+              segment.p0 = base * map.tileSize + computeEndPoint(fence[0], map.tileSize);
+              segment.p1 = base * map.tileSize + computeEndPoint(fence[1], map.tileSize);
 
               fences.push_back(segment);
             }
@@ -645,7 +577,7 @@ namespace {
     int32_t currentFloor;
     akgr::Floor currentFloorData;
 
-    std::vector<Segment> fences;
+    std::vector<gf::SegmentI> fences;
     int currentAutoCount = 0;
 
     uint32_t currentTilesetId;
