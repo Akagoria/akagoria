@@ -80,9 +80,7 @@ namespace akgr {
     assert(0 <= index && static_cast<std::size_t>(index) <= m_scenery.layers.size());
     auto& layer = m_scenery.layers[index];
 
-    if (layer.hasTexture()) {
-      target.draw(layer, states);
-    }
+    target.draw(layer, states);
   }
 
 

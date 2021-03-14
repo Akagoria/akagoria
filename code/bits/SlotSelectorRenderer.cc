@@ -45,10 +45,12 @@ namespace akgr {
       str += "Slot #" + std::to_string(index + 1) + '\n';
       str += boost::locale::gettext(slot.meta.area.c_str()) + '\n';
 
+      auto time = std::chrono::system_clock::to_time_t(slot.time); // TODO: need std::chrono::time_point_cast?
+
       static constexpr std::size_t TimeInfoSize = 1024;
 
       std::array<char, TimeInfoSize> timeInfo;
-      std::strftime(timeInfo.data(), timeInfo.size(), "%F %T", std::localtime(&slot.time));
+      std::strftime(timeInfo.data(), timeInfo.size(), "%F %T", std::localtime(&time));
       str += timeInfo.data();
 
       return str;
@@ -77,7 +79,7 @@ namespace akgr {
     private:
       const Slot& m_slot;
       int m_index;
-      std::time_t m_last;
+      std::filesystem::file_time_type m_last;
     };
 
   }

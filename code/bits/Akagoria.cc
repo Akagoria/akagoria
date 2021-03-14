@@ -112,4 +112,8 @@ namespace akgr {
     pushScene(worldAct->travel);
   }
 
+  void Akagoria::doGlobalProcessEvent(const gf::Event& event) {
+    tracker.processEvent(event);
+  }
+
 }

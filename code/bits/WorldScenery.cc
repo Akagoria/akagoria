@@ -30,28 +30,28 @@ namespace akgr {
 
     gf::TileLayer bindTextureLayer(const MapData& map, const TextureLayer& textureLayer, gf::ResourceManager& resources) {
       if (textureLayer.tiles.isEmpty()) {
-        return gf::TileLayer({ 0u, 0u });
+        return gf::TileLayer();
       }
 
       assert(map.mapSize == textureLayer.tiles.getSize());
-      gf::TileLayer layer(map.mapSize);
+      gf::TileLayer layer = gf::TileLayer::createOrthogonal(map.mapSize);
       layer.setTileSize(map.tileSize);
 
-      for (auto pos : textureLayer.tiles.getPositionRange()) {
-        layer.setTile(pos, textureLayer.tiles(pos));
-      }
-
       const Tileset& tileset = map.tilesets[textureLayer.tilesetId];
-
-      layer.setTilesetTileSize(tileset.tileSize);
-      layer.setMargin(tileset.margin);
-      layer.setSpacing(tileset.spacing);
-
       const gf::Texture& texture = resources.getTexture(tileset.path);
       // texture.setSmooth(false);
       // texture.generateMipmap();
-      layer.setTexture(texture);
-      assert(layer.hasTexture());
+
+      auto id = layer.createTilesetId();
+      auto& ts = layer.getTileset(id);
+      ts.setTileSize(tileset.tileSize);
+      ts.setMargin(tileset.margin);
+      ts.setSpacing(tileset.spacing);
+      ts.setTexture(texture);
+
+      for (auto pos : textureLayer.tiles.getPositionRange()) {
+        layer.setTile(pos, id, textureLayer.tiles(pos));
+      }
 
       return layer;
     }

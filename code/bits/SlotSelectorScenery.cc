@@ -19,6 +19,8 @@
  */
 #include "SlotSelectorScenery.h"
 
+#include <filesystem>
+
 #include <gf/Log.h>
 #include <gf/Paths.h>
 #include <gf/Serialization.h>
@@ -44,14 +46,14 @@ namespace akgr {
 
   void Slot::loadFromFile(const gf::Path& filename) {
     path = filename;
-    active = boost::filesystem::exists(path);
+    active = std::filesystem::exists(path);
 
     if (active) {
-      time = boost::filesystem::last_write_time(path);
+      time = std::filesystem::last_write_time(path);
 
       gf::Path metaPath = getMetaPath(path);
 
-      if (boost::filesystem::exists(metaPath)) {
+      if (std::filesystem::exists(metaPath)) {
         gf::FileInputStream file(metaPath);
         gf::Deserializer ar(file);
         ar | meta;

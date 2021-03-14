@@ -87,7 +87,7 @@ namespace akgr {
       return body->CreateFixture(&fixtureDef);
     }
 
-    b2Fixture *createPolylineFixture(b2World& world, const Location& location, float angle, const gf::Polyline& polyline, bool isSensor) {
+    void createPolylineFixture(b2World& world, const Location& location, float angle, const gf::Polyline& polyline, bool isSensor) {
       std::vector<b2Vec2> line;
 
       for (auto& point : polyline) {
@@ -102,7 +102,7 @@ namespace akgr {
         shape.CreateChain(line.data(), line.size(), line.front(), line.back());
       }
 
-      return createFixture(world, location, angle, shape, b2_staticBody, isSensor);
+      createFixture(world, location, angle, shape, b2_staticBody, isSensor);
     }
 
     b2Fixture *createPolygonFixture(b2World& world, const Location& location, float angle, const gf::Polygon& polygon, bool isSensor) {

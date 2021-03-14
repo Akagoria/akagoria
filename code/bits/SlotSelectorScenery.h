@@ -20,8 +20,8 @@
 #ifndef AKGR_SLOT_SELECTOR_SCENERY_H
 #define AKGR_SLOT_SELECTOR_SCENERY_H
 
-#include <ctime>
 #include <string>
+#include <filesystem>
 
 #include <gf/Path.h>
 #include <gf/Time.h>
@@ -42,7 +42,7 @@ namespace akgr {
   struct Slot {
     bool active = false;
     gf::Path path;
-    std::time_t time = 0;
+    std::filesystem::file_time_type time;
     SlotMeta meta;
 
     void loadFromFile(const gf::Path& path);

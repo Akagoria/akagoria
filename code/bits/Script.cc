@@ -23,6 +23,7 @@
 #include <cstdio>
 #include <cstring>
 #include <iostream>
+#include <fstream>
 
 #include <gf/Id.h>
 #include <gf/Log.h>

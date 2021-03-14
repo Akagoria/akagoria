@@ -20,6 +20,7 @@
 #include "OptionsScenery.h"
 
 #include <cassert>
+#include <filesystem>
 
 #include <gf/Log.h>
 #include <gf/Paths.h>
@@ -93,7 +94,7 @@ namespace akgr {
   void OptionsScenery::load() {
     gf::Path optionsPath = getOptionsPath();
 
-    if (boost::filesystem::exists(optionsPath)) {
+    if (std::filesystem::exists(optionsPath)) {
       gf::FileInputStream file(optionsPath);
       gf::Deserializer ar(file);
       ar | data;

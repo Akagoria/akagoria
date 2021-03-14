@@ -23,7 +23,7 @@ class Kickoff {
 
   static initialize(W) {
     W.moveHero("Start")
-    // W.addRequirement("IntroDialogReq")
+    W.addRequirement("IntroDialogReq")
     W.addCharacter("Shagir", "Shagir")
     W.attachDialogToCharacter("ShagirConversation0", "Shagir")
     // W.postNotification("Welcome")

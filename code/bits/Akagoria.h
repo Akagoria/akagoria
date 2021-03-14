@@ -73,6 +73,9 @@ namespace akgr {
 
     std::unique_ptr<OpeningAct> openingAct;
     std::unique_ptr<WorldAct> worldAct;
+
+  private:
+    void doGlobalProcessEvent(const gf::Event& event) override;
   };
 
 }

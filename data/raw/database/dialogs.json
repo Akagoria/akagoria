@@ -3,7 +3,14 @@
     "type": "Story",
     "content": [
       { "speaker": "Kalista", "words": "Ouch! What a terrible headache!\nWhere am I? Why am I here?\nI am sooo hungry, I must find something to eat..." },
+      { "speaker": "Kalista", "words": "What!?! I lost my power!\nWho is responsible? I will find him!\nI WANT MY POWER BACK!" },
       { "speaker": "Kalista", "words": "I think there is a village not so far from here.\nI can see some smoke in the south...\nLet's go!" }
+    ]
+  },
+  "Intro2": {
+    "type": "Story",
+    "content": [
+      { "speaker": "Kalista", "words": "I don't recognize anything. What happended?\nI have been asleep for a very long time.\nA too long time... But how much?" }
     ]
   },
   "ShagirConversation0": {
@@ -19,6 +26,15 @@
     "content": [
       { "speaker": "Kalista", "words": "Where do I have to go to find the village?\nI do not remember what you told me." },
       { "speaker": "Shagir", "words": "Go south, you will find a lovely place called Arabband." }
+    ]
+  },
+  "Arraband1": {
+    "type": "Story",
+    "content": [
+      { "speaker": "Kalista", "words": "What happened here?" },
+      { "speaker": "Villager #1", "words": "It has rained a lot in the last few days.\nThis rock has fallen from the moutain.\nIt's too heavy, nobody can move it." },
+      { "speaker": "Kalista", "words": "Really? I don't want to stay here.\n Who is in charge here?" },
+      { "speaker": "Villager #1", "words": "Nobody, but you can probably ask Grubee, the blacksmith.\nHe lives in the center of the village." }
     ]
   }
 }

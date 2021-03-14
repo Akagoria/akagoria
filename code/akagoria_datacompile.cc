@@ -21,6 +21,8 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cinttypes>
+#include <filesystem>
+#include <fstream>
 
 #include <gf/Clock.h>
 #include <gf/Log.h>
@@ -114,8 +116,6 @@ namespace {
 
       auto prev = it++;
       remaining.erase(prev);
-
-      polyline.simplify();
 
       akgr::Collision collision;
       collision.name = "Auto-collision #" + std::to_string(currentCount++);
@@ -695,7 +695,7 @@ namespace {
     data.map.tileSize = layers.tileSize;
 
     for (auto& tileset : data.map.tilesets) {
-      tileset.path = boost::filesystem::relative(tileset.path, inputDirectory);
+      tileset.path = std::filesystem::relative(tileset.path, inputDirectory);
     }
   }
 
@@ -950,14 +950,14 @@ int main(int argc, char *argv[]) {
 
   gf::Path inputDirectory(argv[1]);
 
-  if (!boost::filesystem::is_directory(inputDirectory)) {
+  if (!std::filesystem::is_directory(inputDirectory)) {
     std::fprintf(stderr, "Input directory is not a directory: '%s'\n", argv[1]);
     return EXIT_FAILURE;
   }
 
   gf::Path outputDirectory(argv[2]);
 
-  if (!boost::filesystem::is_directory(outputDirectory)) {
+  if (!std::filesystem::is_directory(outputDirectory)) {
     std::fprintf(stderr, "Output directory is not a directory: '%s'\n", argv[2]);
     return EXIT_FAILURE;
   }
@@ -1009,7 +1009,7 @@ int main(int argc, char *argv[]) {
   auto duration = clock.getElapsedTime();
   std::printf("Data successfully compiled in %g s\n", duration.asSeconds());
 
-  auto size = boost::filesystem::file_size(worldOutputFile);
+  auto size = std::filesystem::file_size(worldOutputFile);
   double sizeInKib = size / 1024.0;
   double sizeInMib = sizeInKib / 1024.0;
   std::printf("Archive size: %" PRIuMAX " bytes, %.2f KiB, %.2f MiB\n", size, sizeInKib, sizeInMib);
