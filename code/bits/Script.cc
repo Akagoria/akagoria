@@ -62,9 +62,17 @@ namespace akgr {
       return content;
     }
 
-    char* vmLoadModule(WrenVM* vm, const char* name) {
+    void vmLoadModuleComplete([[maybe_unused]] WrenVM* vm, [[maybe_unused]] const char* name, WrenLoadModuleResult result) {
+      std::free(const_cast<char *>(result.source));
+    }
+
+    WrenLoadModuleResult vmLoadModule(WrenVM* vm, const char* name) {
       auto script = static_cast<Script *>(wrenGetUserData(vm));
-      return script->loadModule(name);
+      WrenLoadModuleResult res;
+      res.source = script->loadModule(name);
+      res.onComplete = vmLoadModuleComplete;
+      res.userData = nullptr;
+      return res;
     }
 
     WrenForeignMethodFn vmBindForeignMethod(WrenVM* vm, const char* module, const char* className, bool isStatic, const char* signature) {
