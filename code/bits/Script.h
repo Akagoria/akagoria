@@ -53,7 +53,7 @@ namespace akgr {
     const WorldData& getData();
     WorldState& getState();
 
-    char *loadModule(gf::Path path);
+    const char *loadModule(gf::Path path);
 
     void initialize();
     void start();
@@ -128,6 +128,8 @@ namespace akgr {
     WrenHandle *m_methodOnDialog;
 
     std::queue<std::string> m_messages;
+
+    std::vector<std::string> m_sources;
   };
 
 }

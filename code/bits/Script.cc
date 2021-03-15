@@ -62,15 +62,11 @@ namespace akgr {
       return content;
     }
 
-    void vmLoadModuleComplete([[maybe_unused]] WrenVM* vm, [[maybe_unused]] const char* name, WrenLoadModuleResult result) {
-      std::free(const_cast<char *>(result.source));
-    }
-
     WrenLoadModuleResult vmLoadModule(WrenVM* vm, const char* name) {
       auto script = static_cast<Script *>(wrenGetUserData(vm));
       WrenLoadModuleResult res;
       res.source = script->loadModule(name);
-      res.onComplete = vmLoadModuleComplete;
+      res.onComplete = nullptr;
       res.userData = nullptr;
       return res;
     }
@@ -173,6 +169,7 @@ namespace akgr {
   void Script::bind() {
     gf::Path file = m_resources.getAbsolutePath("scripts/adventure.wren");
     std::string script = loadFile(file);
+    m_sources.push_back(std::move(script));
 
     WrenConfiguration configuration;
     wrenInitConfiguration(&configuration);
@@ -187,7 +184,7 @@ namespace akgr {
 
     wrenSetUserData(m_vm, this);
 
-    WrenInterpretResult result = wrenInterpret(m_vm, Module, script.c_str());
+    WrenInterpretResult result = wrenInterpret(m_vm, Module, m_sources.back().c_str());
 
     if (result != WREN_RESULT_SUCCESS) {
       gf::Log::error("Could not load the main script.\n");
@@ -210,15 +207,11 @@ namespace akgr {
   }
 
 
-  char *Script::loadModule(gf::Path path) {
+  const char *Script::loadModule(gf::Path path) {
     gf::Path file = m_resources.getAbsolutePath("scripts" / path.replace_extension(".wren"));
     std::string script = loadFile(file);
-    std::size_t size = script.size();
-
-    auto copy = static_cast<char *>(std::calloc(size + 1, sizeof(char)));
-    std::memcpy(copy, script.data(), size);
-
-    return copy;
+    m_sources.push_back(std::move(script));
+    return m_sources.back().c_str();
   }
 
 
