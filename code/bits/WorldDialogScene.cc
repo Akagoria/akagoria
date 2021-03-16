@@ -48,13 +48,13 @@ namespace akgr {
 
     if (m_game.commands.gameUse.isActive()) {
       auto& dialog = hero.dialog;
-      assert(dialog.ref.data != nullptr);
+      assert(dialog.ref);
 
       ++dialog.currentLine;
 
-      if (dialog.currentLine >= dialog.ref.data->content.size()) {
+      if (dialog.currentLine >= dialog.ref().content.size()) {
         // end of the dialog
-        std::string name = dialog.ref.data->name;
+        const std::string& name = dialog.ref().name;
         dialog.ref.data = nullptr;
         dialog.ref.id = gf::InvalidId;
         dialog.currentLine = 0;

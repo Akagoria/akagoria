@@ -262,7 +262,7 @@ namespace akgr {
 
       // hero wants to attack
 
-      if (hero.weapon.ref.id == gf::InvalidId) {
+      if (!hero.weapon.ref) {
         // hero has no weapon
         gf::Log::debug("NO WEAPON!\n");
         hero.weapon.phase = WeaponPhase::Ready;
@@ -282,20 +282,20 @@ namespace akgr {
 
       // 1. Check if the attack is valid
 
-      Value aspect = hero.aspects[getAspectFromWeaponType(hero.weapon.ref.data->type)].value;
+      Value aspect = hero.aspects[getAspectFromWeaponType(hero.weapon.ref().type)].value;
       gf::Log::debug("aspect: %" PRIi32 "\n", aspect.asInt());
 
-      if (aspect < hero.weapon.ref.data->aspect) {
-        gf::Log::debug("INVALID! Required aspect: %" PRIi32 "\n", hero.weapon.ref.data->aspect.asInt());
+      if (aspect < hero.weapon.ref().aspect) {
+        gf::Log::debug("INVALID! Required aspect: %" PRIi32 "\n", hero.weapon.ref().aspect.asInt());
         gf::Log::debug("--}\n");
         return;
       }
 
-      Value attribute = hero.attributes[getAttributeFromWeaponType(hero.weapon.ref.data->type)].value;
+      Value attribute = hero.attributes[getAttributeFromWeaponType(hero.weapon.ref().type)].value;
       gf::Log::debug("attribute: %" PRIi32 "\n", attribute.asInt());
 
-      if (attribute < hero.weapon.ref.data->attribute) {
-        gf::Log::debug("INVALID! Required attribute: %" PRIi32 "\n", hero.weapon.ref.data->attribute.asInt());
+      if (attribute < hero.weapon.ref().attribute) {
+        gf::Log::debug("INVALID! Required attribute: %" PRIi32 "\n", hero.weapon.ref().attribute.asInt());
         gf::Log::debug("--}\n");
         return;
       }
@@ -319,14 +319,14 @@ namespace akgr {
 
       // 3. Compute power of the attack
 
-      Value atk = hero.weapon.ref.data->attack * e * std::sqrt(static_cast<float>(hero.progression.level));
-      gf::Log::debug("weapon atk: %" PRIi32 "\n", hero.weapon.ref.data->attack.asInt());
+      Value atk = hero.weapon.ref().attack * e * std::sqrt(static_cast<float>(hero.progression.level));
+      gf::Log::debug("weapon atk: %" PRIi32 "\n", hero.weapon.ref().attack.asInt());
       gf::Log::debug("extent of success: %.4g\n", e);
       gf::Log::debug("level: %" PRIi32 " (%.4g)\n", hero.progression.level, std::sqrt(static_cast<float>(hero.progression.level)));
       gf::Log::debug("atk: %" PRIi32 "\n", atk.asInt());
 
       for (auto& character : m_game.world.state.characters) {
-        if (squareDistanceToHero(character.physics.location.position) > gf::square(hero.weapon.ref.data->range)) {
+        if (squareDistanceToHero(character.physics.location.position) > gf::square(hero.weapon.ref().range)) {
           continue;
         }
 
@@ -374,14 +374,14 @@ namespace akgr {
         continue;
       }
 
-      if (character.weapon.ref.id == gf::InvalidId) {
+      if (!character.weapon.ref) {
         gf::Log::debug("NO WEAPON!\n");
         continue;
       }
 
-      if (squareDistanceToHero(character.physics.location.position) > gf::square(character.weapon.ref.data->range)) {
+      if (squareDistanceToHero(character.physics.location.position) > gf::square(character.weapon.ref().range)) {
         // TODO: define a vision range + beam
-        // gf::Log::debug("DISTANCE: %f vs %f\n", squareDistanceToHero(character.physics.location.position), gf::square(character.weapon.ref.data->range));
+        // gf::Log::debug("DISTANCE: %f vs %f\n", squareDistanceToHero(character.physics.location.position), gf::square(character.weapon.ref().range));
 
         character.weapon.phase = WeaponPhase::Ready;
         continue;
@@ -396,11 +396,11 @@ namespace akgr {
         case WeaponPhase::Launch: {
           // see https://akagoria.github.io/game_system.html#_combat_resolution
 
-          gf::Log::debug("--{ attack from character '%s'\n", character.ref.data->name.c_str());
+          gf::Log::debug("--{ attack from character '%s'\n", character.ref().name.c_str());
 
           // 1. The attack is always considered valid for a character
 
-          Value attribute = character.ref.data->attribute;
+          Value attribute = character.ref().attribute;
           gf::Log::debug("attribute: %" PRIi32 "\n", attribute.asInt());
 
           // 2. Compute success of the action
@@ -422,10 +422,10 @@ namespace akgr {
 
           // 3. Compute power of the attack
 
-          Value atk = character.weapon.ref.data->attack * e * std::sqrt(static_cast<float>(character.ref.data->level));
-          gf::Log::debug("weapon atk: %" PRIi32 "\n", character.weapon.ref.data->attack.asInt());
+          Value atk = character.weapon.ref().attack * e * std::sqrt(static_cast<float>(character.ref().level));
+          gf::Log::debug("weapon atk: %" PRIi32 "\n", character.weapon.ref().attack.asInt());
           gf::Log::debug("extent of success: %.4g\n", e);
-          gf::Log::debug("level: %" PRIi32 " (%.4g)\n", character.ref.data->level, std::sqrt(static_cast<float>(character.ref.data->level)));
+          gf::Log::debug("level: %" PRIi32 " (%.4g)\n", character.ref().level, std::sqrt(static_cast<float>(character.ref().level)));
           gf::Log::debug("atk: %" PRIi32 "\n", atk.asInt());
 
           // 4. Compute power of the defense
@@ -452,11 +452,11 @@ namespace akgr {
           // 5. Compute the damage
 
           gf::Log::debug("--}\n");
-          hero.aspects.hp.value -= character.weapon.ref.data->attack;
+          hero.aspects.hp.value -= character.weapon.ref().attack;
 
           VfxDamage damage;
           damage.receiver = VfxDamageReceiver::Hero;
-          damage.message = std::to_string(character.weapon.ref.data->attack.asInt());
+          damage.message = std::to_string(character.weapon.ref().attack.asInt());
           damage.duration = VfxDamage::Duration;
           damage.position = computeDamagePosition(character.physics.location.position, hero.physics.location.position);
           m_game.world.scenery.vfx.damageEmitter.damages.push_back(std::move(damage));
@@ -567,7 +567,7 @@ namespace akgr {
      */
 
     for (auto& character : m_game.world.state.characters) {
-      if (character.dialog.id == gf::InvalidId) {
+      if (!character.dialog) {
         continue;
       }
 
@@ -585,7 +585,7 @@ namespace akgr {
         continue;
       }
 
-      if (squareDistanceToHero(item.physics.location.position) < gf::square(ItemDistance + item.ref.data->shape.getPhysicalSize())) {
+      if (squareDistanceToHero(item.physics.location.position) < gf::square(ItemDistance + item.ref().shape.getPhysicalSize())) {
         m_game.root.scenery.helper.status = HelperStatus::Pick;
       }
     }

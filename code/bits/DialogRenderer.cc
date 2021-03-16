@@ -53,8 +53,8 @@ namespace akgr {
       return;
     }
 
-    assert(dialog.currentLine < dialog.ref.data->content.size());
-    auto& line = dialog.ref.data->content[dialog.currentLine];
+    assert(dialog.currentLine < dialog.ref().content.size());
+    auto& line = dialog.ref().content[dialog.currentLine];
 
     auto renderTextBox = [&](const std::string& string, float characterSize, gf::Vector2f position, gf::Vector2f size) {
       ui::FrameWidget frame(nullptr);

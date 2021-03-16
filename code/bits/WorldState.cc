@@ -67,7 +67,7 @@ namespace akgr {
     for (auto& item : items) {
       item.ref.bind(data.items);
       assert(item.ref.data != nullptr);
-      item.physics.body = physics.createItemBody(item.physics.location, item.physics.angle, item.ref.data->shape);
+      item.physics.body = physics.createItemBody(item.physics.location, item.physics.angle, item.ref().shape);
     }
 
     // characters

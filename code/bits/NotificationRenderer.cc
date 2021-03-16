@@ -49,7 +49,7 @@ namespace akgr {
     auto& notification = m_state.notifications.front();
 
     ui::FrameWidget frame(nullptr);
-    auto text = frame.add<ui::TextWidget>(boost::locale::gettext(notification.ref.data->message.c_str()), ui::Common::DefaultCharacterSize, gf::Alignment::Center);
+    auto text = frame.add<ui::TextWidget>(boost::locale::gettext(notification.ref().message.c_str()), ui::Common::DefaultCharacterSize, gf::Alignment::Center);
     text->setSize(NotificationSize);
     frame.setPosition(NotificationPosition);
     frame.setMargin({ 0.01f, 0.01f });

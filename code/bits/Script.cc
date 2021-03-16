@@ -355,7 +355,7 @@ namespace akgr {
 
     item.physics.location = locationRef.data->location;
     item.physics.angle = 0.0f; // TODO
-    item.physics.body = getState(vm).physics.createItemBody(item.physics.location, item.physics.angle, item.ref.data->shape);
+    item.physics.body = getState(vm).physics.createItemBody(item.physics.location, item.physics.angle, item.ref().shape);
 
     getState(vm).items.push_back(std::move(item));
 

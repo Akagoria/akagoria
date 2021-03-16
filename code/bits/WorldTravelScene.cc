@@ -118,7 +118,7 @@ namespace akgr {
           continue;
         }
 
-        if (squareDistanceToHero(item.physics.location.position) < gf::square(ItemDistance + item.ref.data->shape.getPhysicalSize())) {
+        if (squareDistanceToHero(item.physics.location.position) < gf::square(ItemDistance + item.ref().shape.getPhysicalSize())) {
           // put in inventory
           hero.inventory.addItem(item.ref);
 
@@ -172,7 +172,7 @@ namespace akgr {
       auto& current = m_game.world.state.notifications.front();
       current.elapsed += time;
 
-      if (current.elapsed > current.ref.data->duration) {
+      if (current.elapsed > current.ref().duration) {
         m_game.world.state.notifications.erase(m_game.world.state.notifications.begin());
       }
     }

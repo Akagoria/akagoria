@@ -20,6 +20,7 @@
 #ifndef AKGR_DATA_REF_H
 #define AKGR_DATA_REF_H
 
+#include <cassert>
 #include <cinttypes>
 #include <map>
 #include <memory>
@@ -44,6 +45,15 @@ namespace akgr {
       }
 
       data = std::addressof(it->second);
+    }
+
+    operator bool() const noexcept {
+      return id != gf::InvalidId;
+    }
+
+    const T& operator()() const {
+      assert(data != nullptr);
+      return *data;
     }
 
   };
