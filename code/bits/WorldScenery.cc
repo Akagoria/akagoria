@@ -20,6 +20,7 @@
 #include "WorldScenery.h"
 
 #include "WorldData.h"
+#include "WorldState.h"
 
 namespace akgr {
 
@@ -77,7 +78,11 @@ namespace akgr {
 
   }
 
-  void WorldScenery::bind(const WorldData& data, gf::ResourceManager& resources, gf::Random& random) {
+  void WorldScenery::bind(const WorldData& data, const WorldState& state, gf::ResourceManager& resources, gf::Random& random) {
+    // inventory
+
+    inventory.list.updateCount(state.hero.inventory.items.size());
+
     // map
 
     for (auto& floor : data.map.floors) {
@@ -88,7 +93,7 @@ namespace akgr {
       map.highSprites.layers.push_back(bindSpriteLayer(data.map, floor.highSprites, resources));
     }
 
-    // shrines
+    // vfx
 
     for (auto& shrine : data.landscape.shrines) {
       VfxShrineEmitter emitter;

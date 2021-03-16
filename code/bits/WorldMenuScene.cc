@@ -58,6 +58,7 @@ namespace akgr {
     if (m_game.commands.gameUse.isActive()) {
       switch (m_game.world.scenery.menu.getChoice()) {
         case GameMenuScenery::Choice::Inventory:
+          m_game.world.scenery.inventory.list.updateCount(hero.inventory.items.size());
           m_game.replaceScene(m_game.worldAct->inventory);
           break;
 

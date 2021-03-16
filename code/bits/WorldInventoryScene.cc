@@ -47,20 +47,21 @@ namespace akgr {
     auto& hero = m_game.world.state.hero;
 
     m_game.root.scenery.helper.status = HelperStatus::Inventory;
+    m_game.world.scenery.inventory.list.updateCount(hero.inventory.items.size());
 
     if (m_game.commands.menuDown.isActive()) {
-      m_game.world.scenery.inventory.list.computeNextChoice(hero.inventory.items.size());
+      m_game.world.scenery.inventory.list.computeNextChoice();
     } else if (m_game.commands.menuUp.isActive()) {
-      m_game.world.scenery.inventory.list.computePrevChoice(hero.inventory.items.size());
+      m_game.world.scenery.inventory.list.computePrevChoice();
     }
 
     if (m_game.commands.menuPageDown.isActive()) {
-      for (std::size_t i = 0; i < m_game.world.scenery.inventory.list.length / 2; ++i) {
-        m_game.world.scenery.inventory.list.computeNextChoice(hero.inventory.items.size());
+      for (std::size_t i = 0; i < m_game.world.scenery.inventory.list.itemsPerPage / 2; ++i) {
+        m_game.world.scenery.inventory.list.computeNextChoice();
       }
     } else if (m_game.commands.menuPageUp.isActive()) {
-      for (std::size_t i = 0; i < m_game.world.scenery.inventory.list.length / 2; ++i) {
-        m_game.world.scenery.inventory.list.computePrevChoice(hero.inventory.items.size());
+      for (std::size_t i = 0; i < m_game.world.scenery.inventory.list.itemsPerPage / 2; ++i) {
+        m_game.world.scenery.inventory.list.computePrevChoice();
       }
     }
 

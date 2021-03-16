@@ -372,11 +372,7 @@ namespace akgr {
     void CatalogueWidget::render(gf::RenderTarget& target, const gf::RenderStates& states, Theme& theme) {
       std::size_t count = getModel().getWidgetCount();
 
-      if (count > m_scenery.length) {
-        gf::Log::debug("count: %zu, m_scenery.length: %zu\n", count, m_scenery.length);
-      }
-
-      assert(count <= m_scenery.length);
+      assert(count <= m_scenery.itemsPerPage);
 
       if (count == 0) {
         return;
@@ -386,7 +382,7 @@ namespace akgr {
         getModel().getWidget(i)->render(target, states, theme);
       }
 
-      std::size_t i = m_scenery.choice - m_scenery.start;
+      std::size_t i = m_scenery.choice % m_scenery.itemsPerPage;
       assert(i < count);
       auto widget = getModel().getWidget(i);
       assert(widget);

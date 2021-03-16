@@ -33,6 +33,7 @@
 
 namespace akgr {
   struct WorldData;
+  struct WorldState;
 
   struct WorldScenery {
     GameMenuScenery menu;
@@ -42,7 +43,7 @@ namespace akgr {
     AreaScenery area;
     VfxScenery vfx;
 
-    void bind(const WorldData& data, gf::ResourceManager& resources, gf::Random& random);
+    void bind(const WorldData& data, const WorldState& state, gf::ResourceManager& resources, gf::Random& random);
   };
 
 }

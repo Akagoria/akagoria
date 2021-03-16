@@ -23,6 +23,7 @@
 
 #include <gf/Coordinates.h>
 #include <gf/VectorOps.h>
+#include <gf/Log.h>
 
 #include "Menu.h"
 
@@ -45,51 +46,29 @@ namespace akgr {
   }
 
   void InventoryModel::update(ui::Widget* parent) {
-    std::size_t count = m_items.size();
+    assert(m_scenery.count == m_items.size());
+    assert(m_scenery.choice < m_scenery.count);
 
     clear();
-    std::size_t visible = std::min(count, m_scenery.length);
 
-    if (visible == 0) {
+    if (m_scenery.count == 0) {
       return;
     }
 
     auto newInventoryItemWidget = [&](const InventoryItem& item) {
-      auto widget = new ui::DoubleTextWidget(parent, boost::locale::gettext(item.ref.data->description.c_str()), std::to_string(item.count));
+      auto widget = new ui::DoubleTextWidget(parent, boost::locale::gettext(item.ref().description.c_str()), std::to_string(item.count));
       widget->setSize(ui::Common::DefaultCaptionSize);
       return widget;
     };
 
-    auto newDotsWidget = [&]() {
-      auto widget = new ui::LabelWidget(parent, "...");
-      widget->setSize(ui::Common::DefaultCaptionSize);
-      return widget;
-    };
+    uint32_t page = m_scenery.choice / m_scenery.itemsPerPage;
+    uint32_t start = page * m_scenery.itemsPerPage;
+    uint32_t end = std::min(start + m_scenery.itemsPerPage, m_scenery.count);
 
-    if (m_scenery.start > 0) {
-      m_widgets.push_back(newDotsWidget());
-    } else {
-      m_widgets.push_back(newInventoryItemWidget(m_items.front()));
+    for (uint32_t i = start; i < end; ++i) {
+      assert(i < m_scenery.count);
+      m_widgets.push_back(newInventoryItemWidget(m_items[i]));
     }
-
-    for (std::size_t i = 1; i < visible - 1; ++i) {
-      assert(m_scenery.start + i < count);
-      m_widgets.push_back(newInventoryItemWidget(m_items[m_scenery.start + i]));
-    }
-
-    if (count > m_scenery.length) {
-      if (m_scenery.start + m_scenery.length < count) {
-        m_widgets.push_back(newDotsWidget());
-      } else {
-        assert(visible == m_scenery.length);
-        m_widgets.push_back(newInventoryItemWidget(m_items.back()));
-      }
-    } else {
-      assert(visible == count);
-      m_widgets.push_back(newInventoryItemWidget(m_items.back()));
-    }
-
-    assert(m_widgets.size() == visible);
   }
 
   std::size_t InventoryModel::getWidgetCount() {
@@ -126,51 +105,11 @@ namespace akgr {
     m_frame.setPosition(ui::Common::Position);
     m_frame.setSize({ 1.0f, 0.95f });
     m_frame.setPositioning(ui::Positioning::Minimum);
-    m_frame.computeLayout();
   }
 
   void InventoryRenderer::render(gf::RenderTarget& target, const gf::RenderStates& states) {
     m_frame.computeLayout();
     m_frame.render(target, states, m_theme);
-
-#if 0
-
-    gf::Coordinates coords(target);
-
-    gf::Vector2f previewPosition = coords.getRelativePoint(InventoryPreviewPosition);
-    float previewSize = coords.getRelativeSize(InventoryPreviewSize).width;
-
-    assert(m_scenery.inventory.current < m_scenery.inventory.size);
-    const InventoryItem& item =  m_state.hero.inventory.items[m_scenery.inventory.current];
-
-    const ItemData& data = *item.ref.data;
-
-    {
-      auto it = m_data.catalogue.resources.find(data.graphics.resource);
-
-      if (it == m_data.catalogue.resources.end()) {
-        gf::Log::error("Unknown graphics resource for item '%s'\n", data.name.c_str());
-        return;
-      }
-
-      const ItemResource& resource = it->second;
-      const gf::Texture& texture = m_resources.getTexture(resource.path);
-
-      gf::Vector2f textureSize = 1.0f / resource.size;
-      gf::Vector2i textureIndex = { data.graphics.index % resource.size.width, data.graphics.index / resource.size.width };
-
-      gf::Vector2f size = texture.getSize() * textureSize;
-
-      gf::Sprite sprite(texture);
-      sprite.setTextureRect({ textureSize * textureIndex, textureSize });
-      sprite.setAnchor(gf::Anchor::TopRight);
-      sprite.setPosition(previewPosition);
-      sprite.setScale(previewSize / size);
-      target.draw(sprite, states);
-    }
-
-#endif
-
   }
 
 }
