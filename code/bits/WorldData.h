@@ -29,6 +29,7 @@
 #include "AtlasData.h"
 #include "CharacterData.h"
 #include "DialogData.h"
+#include "Dict.h"
 #include "ItemData.h"
 #include "LandscapeData.h"
 #include "LocationData.h"
@@ -43,17 +44,17 @@ namespace akgr {
     MapData map;
     PhysicsData physics;
     LandscapeData landscape;
-    std::map<gf::Id, AreaData> areas;
-    std::map<gf::Id, LocationData> locations;
+    Dict<AreaData> areas;
+    Dict<LocationData> locations;
 
-    std::map<gf::Id, AtlasData> atlases;
+    Dict<AtlasData> atlases;
 
-    std::map<gf::Id, DialogData> dialogs;
-    std::map<gf::Id, NotificationData> notifications;
-    std::map<gf::Id, CharacterData> characters;
-    std::map<gf::Id, ItemData> items;
+    Dict<DialogData> dialogs;
+    Dict<NotificationData> notifications;
+    Dict<CharacterData> characters;
+    Dict<ItemData> items;
 
-    std::map<gf::Id, WeaponData> weapons;
+    Dict<WeaponData> weapons;
 
     bool loadFromFile(const gf::Path& filename);
     bool saveToFile(const gf::Path& filename);

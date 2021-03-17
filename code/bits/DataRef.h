@@ -28,6 +28,8 @@
 #include <gf/Id.h>
 #include <gf/Log.h>
 
+#include "Dict.h"
+
 namespace akgr {
 
   template<typename T>
@@ -35,7 +37,7 @@ namespace akgr {
     gf::Id id = gf::InvalidId;
     const T *data = nullptr;
 
-    void bind(const std::map<gf::Id, T>& database) {
+    void bind(const Dict<T>& database) {
       auto it = database.find(id);
 
       if (it == database.end()) {
