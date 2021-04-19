@@ -49,18 +49,8 @@ namespace {
     }
   }
 
-  void viewPreloadData(const std::vector<gf::Path>& data) {
-    viewNewSection("Preload");
-    fmt::print("Number of preloads: {}\n", data.size());
-
-    for (auto& item : data) {
-      fmt::print("\t'{}'\n", item.string());
-    }
-  }
-
   void viewRootData(const akgr::RootData& data) {
     viewUIData(data.ui);
-    viewPreloadData(data.preload);
   }
 
 }

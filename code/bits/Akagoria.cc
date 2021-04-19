@@ -6,6 +6,7 @@
 #include <gf/Clock.h>
 #include <gf/Id.h>
 #include <gf/Log.h>
+#include <gf/SharedGraphics.h>
 
 #include "OpeningAct.h"
 #include "WorldAct.h"
@@ -53,25 +54,19 @@ namespace akgr {
     } else {
       getWindow().setSize(computeScreenSize(display));
     }
-
-    gf::Log::info("Preloading textures...\n");
-
-    for (auto& path : root.data.preload) {
-      resources.getTexture(path);
-    }
-
-    gf::Log::info("End of textures preloading\n");
   }
 
   Akagoria::~Akagoria() = default; // here because of unique_ptr's of incomplete type
 
   void Akagoria::startOpening() {
     openingAct = std::make_unique<OpeningAct>(*this);
-    pushScene(openingAct->base);
-    pushScene(openingAct->menu);
+    gf::Ref<gf::Scene> scenes[] = { openingAct->base, openingAct->menu };
+    pushScenes(scenes);
   }
 
   bool Akagoria::loadWorld(AdventureChoice choice) {
+    gf::SharedGraphics shared(getWindow());
+
     gf::Log::info("Game loading...\n");
     gf::Clock loadingClock;
 
@@ -108,8 +103,8 @@ namespace akgr {
 
   void Akagoria::startWorld() {
     worldAct = std::make_unique<WorldAct>(*this);
-    replaceAllScenes(worldAct->base); // TODO: put a segue?
-    pushScene(worldAct->travel);
+    gf::Ref<gf::Scene> scenes[] = { worldAct->base, worldAct->travel };
+    replaceAllScenes(scenes); // TODO: put a segue?
   }
 
   void Akagoria::doGlobalProcessEvent(const gf::Event& event) {

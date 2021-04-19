@@ -33,7 +33,6 @@ namespace akgr {
 
   struct RootData {
     Dict<UIData> ui;
-    std::vector<gf::Path> preload;
 
     bool loadFromFile(const gf::Path& filename);
     bool saveToFile(const gf::Path& filename);
@@ -43,7 +42,7 @@ namespace akgr {
 
   template<typename Archive>
   Archive& operator|(Archive& ar, RootData& data) {
-    return ar | data.ui | data.preload;
+    return ar | data.ui;
   }
 
 }
