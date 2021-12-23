@@ -53,6 +53,8 @@ namespace {
     switch (type) {
       case akgr::ShrineType::Ale:
         return "Ale";
+      case akgr::ShrineType::Anpa:
+        return "Anpa";
       case akgr::ShrineType::Ike:
         return "Ike";
       case akgr::ShrineType::Moli:
@@ -63,6 +65,8 @@ namespace {
         return "Sewi";
       case akgr::ShrineType::Sijelo:
         return "Sijelo";
+      case akgr::ShrineType::Wawa:
+        return "Wawa";
     }
 
     return "???";
@@ -191,6 +195,21 @@ namespace {
     }
   }
 
+  void viewHeroData(const akgr::HeroData& data) {
+    viewNewSection("Hero");
+
+    fmt::print("Number of animations: {}\n", data.animations.size());
+
+    for (auto& [ id, animation ] : data.animations) {
+      fmt::print("\t{}: '{}' [{}]\n", Id{id}, animation.name, animation.frames.size());
+
+      for (auto& frame : animation.frames) {
+        fmt::print("\t\t{} [{}] {} ms\n", Id{frame.atlas}, frame.index, frame.duration);
+      }
+    }
+
+  }
+
   void viewAtlasData(const std::map<gf::Id, akgr::AtlasData>& data) {
     viewNewSection("Atlases");
     fmt::print("Number of atlases: {}\n", data.size());
@@ -295,6 +314,7 @@ namespace {
     viewAreaData(data.areas);
     viewLocationData(data.locations);
 
+    viewHeroData(data.hero);
     viewAtlasData(data.atlases);
     viewDialogData(data.dialogs);
     viewNotificationData(data.notifications);

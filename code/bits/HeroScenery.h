@@ -17,29 +17,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_ITEM_RENDERER_H
-#define AKGR_ITEM_RENDERER_H
+#ifndef AKGR_HERO_SCENERY_H
+#define AKGR_HERO_SCENERY_H
 
-#include <gf/ResourceManager.h>
-
-#include "FloorRenderer.h"
-#include "WorldData.h"
-#include "WorldState.h"
+#include <gf/Id.h>
 
 namespace akgr {
 
-  class ItemRenderer : public FloorRenderer {
-  public:
-    ItemRenderer(const WorldData& data, const WorldState& state, gf::ResourceManager& resources);
-
-    void renderFloor(gf::RenderTarget& target, const gf::RenderStates& states, int32_t floor) override;
-
-  private:
-    const WorldData& m_data;
-    const WorldState& m_state;
-    gf::ResourceManager& m_resources;
+  struct HeroScenery {
+    gf::Id currentAnimation;
   };
 
 }
 
-#endif // AKGR_ITEM_RENDERER_H
+#endif // AKGR_HERO_SCENERY_H

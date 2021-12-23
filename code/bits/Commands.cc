@@ -30,6 +30,7 @@ namespace akgr {
   , gameDown("Down")
   , gameLeft("Left")
   , gameRight("Right")
+  , gameMove("Move")
   , gameUse("Use")
   , gameFight("Fight")
   , gameMenu("Menu")
@@ -51,27 +52,30 @@ namespace akgr {
 
     gameUp.addScancodeKeyControl(gf::Scancode::W);
     gameUp.addScancodeKeyControl(gf::Scancode::Up);
-    gameUp.addGamepadAxisControl(gf::AnyGamepad, gf::GamepadAxis::LeftY, gf::GamepadAxisDirection::Negative);
+//     gameUp.addGamepadAxisControl(gf::AnyGamepad, gf::GamepadAxis::LeftY, gf::GamepadAxisDirection::Negative);
     gameUp.addGamepadButtonControl(gf::AnyGamepad, gf::GamepadButton::DPadUp);
     gameUp.setContinuous();
 
     gameDown.addScancodeKeyControl(gf::Scancode::S);
     gameDown.addScancodeKeyControl(gf::Scancode::Down);
-    gameDown.addGamepadAxisControl(gf::AnyGamepad, gf::GamepadAxis::LeftY, gf::GamepadAxisDirection::Positive);
+//     gameDown.addGamepadAxisControl(gf::AnyGamepad, gf::GamepadAxis::LeftY, gf::GamepadAxisDirection::Positive);
     gameDown.addGamepadButtonControl(gf::AnyGamepad, gf::GamepadButton::DPadDown);
     gameDown.setContinuous();
 
     gameLeft.addScancodeKeyControl(gf::Scancode::A);
     gameLeft.addScancodeKeyControl(gf::Scancode::Left);
-    gameLeft.addGamepadAxisControl(gf::AnyGamepad, gf::GamepadAxis::LeftX, gf::GamepadAxisDirection::Negative);
+//     gameLeft.addGamepadAxisControl(gf::AnyGamepad, gf::GamepadAxis::LeftX, gf::GamepadAxisDirection::Negative);
     gameLeft.addGamepadButtonControl(gf::AnyGamepad, gf::GamepadButton::DPadLeft);
     gameLeft.setContinuous();
 
     gameRight.addScancodeKeyControl(gf::Scancode::D);
     gameRight.addScancodeKeyControl(gf::Scancode::Right);
-    gameRight.addGamepadAxisControl(gf::AnyGamepad, gf::GamepadAxis::LeftX, gf::GamepadAxisDirection::Positive);
+//     gameRight.addGamepadAxisControl(gf::AnyGamepad, gf::GamepadAxis::LeftX, gf::GamepadAxisDirection::Positive);
     gameRight.addGamepadButtonControl(gf::AnyGamepad, gf::GamepadButton::DPadRight);
     gameRight.setContinuous();
+
+    gameMove.addControl(gamepad);
+    gameMove.setContinuous();
 
     gameUse.addKeycodeKeyControl(gf::Keycode::E);
     gameUse.addGamepadButtonControl(gf::AnyGamepad, gf::GamepadButton::A);

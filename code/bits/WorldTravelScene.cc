@@ -51,9 +51,12 @@ namespace akgr {
     addAction(m_game.commands.gameDown);
     addAction(m_game.commands.gameLeft);
     addAction(m_game.commands.gameRight);
+    addAction(m_game.commands.gameMove);
     addAction(m_game.commands.gameUse);
     addAction(m_game.commands.gameFight);
     addAction(m_game.commands.gameMenu);
+
+    setClearColor(gf::Color::Black);
   }
 
   void WorldTravelScene::doHandleActions(gf::Window& window) {
@@ -71,19 +74,34 @@ namespace akgr {
     }
 
     if (m_game.commands.gameRight.isActive()) {
+      hero.move.method = HeroMoveMethod::Relative;
       hero.move.angular = gf::AngularMove::Right;
     } else if (m_game.commands.gameLeft.isActive()) {
+      hero.move.method = HeroMoveMethod::Relative;
       hero.move.angular = gf::AngularMove::Left;
     } else {
       hero.move.angular = gf::AngularMove::None;
     }
 
     if (m_game.commands.gameUp.isActive()) {
+      hero.move.method = HeroMoveMethod::Relative;
       hero.move.linear = gf::LinearMove::Forward;
     } else if (m_game.commands.gameDown.isActive()) {
+      hero.move.method = HeroMoveMethod::Relative;
       hero.move.linear = gf::LinearMove::Backward;
     } else {
       hero.move.linear = gf::LinearMove::None;
+    }
+
+    if (m_game.commands.gameMove.isActive()) {
+      hero.move.method = HeroMoveMethod::Absolute;
+      hero.move.linear = gf::LinearMove::Forward;
+      hero.move.angular = gf::AngularMove::None;
+      hero.physics.angle = m_game.commands.gamepad.getAngle() + gf::Pi2;
+    } else {
+      if (hero.move.method == HeroMoveMethod::Absolute) {
+        hero.move.linear = gf::LinearMove::None;
+      }
     }
 
     if (m_game.commands.gameUse.isActive()) {

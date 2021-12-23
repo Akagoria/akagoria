@@ -20,18 +20,17 @@
 #ifndef AKGR_CHARACTER_RENDERER_H
 #define AKGR_CHARACTER_RENDERER_H
 
-#include <gf/Entity.h>
-
+#include "FloorRenderer.h"
 #include "WorldData.h"
 #include "WorldState.h"
 
 namespace akgr {
 
-  class CharacterRenderer : public gf::Entity {
+  class CharacterRenderer : public FloorRenderer {
   public:
     CharacterRenderer(const WorldData& data, const WorldState& state);
 
-    virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
+    virtual void renderFloor(gf::RenderTarget& target, const gf::RenderStates& states, int32_t floor) override;
 
   private:
     const WorldData& m_data;

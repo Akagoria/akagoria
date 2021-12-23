@@ -19,6 +19,8 @@
  */
 #include "WorldScenery.h"
 
+#include <iostream>
+
 #include "WorldData.h"
 #include "WorldState.h"
 
@@ -35,8 +37,7 @@ namespace akgr {
       }
 
       assert(map.mapSize == textureLayer.tiles.getSize());
-      gf::TileLayer layer = gf::TileLayer::createOrthogonal(map.mapSize);
-      layer.setTileSize(map.tileSize);
+      gf::TileLayer layer = gf::TileLayer::createOrthogonal(map.mapSize, map.tileSize);
 
       const Tileset& tileset = map.tilesets[textureLayer.tilesetId];
       const gf::Texture& texture = resources.getTexture(tileset.path);

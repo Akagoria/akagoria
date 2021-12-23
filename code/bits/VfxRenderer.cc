@@ -41,9 +41,13 @@ namespace akgr {
           return gf::Color::White;
         case ShrineType::Moli:
           return gf::Color::Black;
+        case ShrineType::Sewi:
+          return gf::Color::Orange;
+        case ShrineType::Anpa:
+          return gf::Color::darker(gf::Color::Magenta);
         case ShrineType::Pona:
           return getAspectColor(Aspect::Health);
-        case ShrineType::Sewi:
+        case ShrineType::Wawa:
           return getAspectColor(Aspect::Magic);
         case ShrineType::Sijelo:
           return getAspectColor(Aspect::Vitality);
@@ -57,20 +61,17 @@ namespace akgr {
 
   }
 
-  VfxRenderer::VfxRenderer(const WorldScenery& scenery, const WorldState& state, gf::ResourceManager& resources)
+  VfxRenderer::VfxRenderer(const WorldScenery& scenery, gf::ResourceManager& resources)
   : m_scenery(scenery)
-  , m_state(state)
   , m_font(resources.getFont("fonts/DejaVuSans.ttf"))
   {
 
   }
 
-  void VfxRenderer::render(gf::RenderTarget& target, const gf::RenderStates& states) {
+  void VfxRenderer::renderFloor(gf::RenderTarget& target, const gf::RenderStates& states, int32_t floor) {
     gf::ShapeParticles particles;
 
     // shrines
-
-    auto floor = m_state.hero.physics.location.floor;
 
     for (auto& shrine : m_scenery.vfx.shrineEmitters) {
       if (shrine.data->location.floor != floor) {

@@ -1,0 +1,19 @@
+{
+  "animations": {
+    "static": [
+      { "atlas": "Hero", "index": 0, "duration": 1000 }
+    ],
+    "forward": [
+      { "atlas": "Hero", "index": 0, "duration": 150 },
+      { "atlas": "Hero", "index": 1, "duration": 200 },
+      { "atlas": "Hero", "index": 0, "duration": 150 },
+      { "atlas": "Hero", "index": 2, "duration": 200 }
+    ],
+    "backward": [
+      { "atlas": "Hero", "index": 0, "duration": 200 },
+      { "atlas": "Hero", "index": 2, "duration": 300 },
+      { "atlas": "Hero", "index": 0, "duration": 200 },
+      { "atlas": "Hero", "index": 1, "duration": 300 }
+    ]
+  }
+}

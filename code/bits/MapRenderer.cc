@@ -61,20 +61,19 @@ namespace akgr {
    * MapTileRenderer
    */
 
-  MapTileRenderer::MapTileRenderer(Plane plane, const WorldData& data, const WorldState& state, MapTileScenery& scenery)
-  : gf::Entity(getPriorityFromPlaneForTiles(plane))
+  MapTileRenderer::MapTileRenderer(Plane plane, const WorldData& data, MapTileScenery& scenery)
+  : FloorRenderer(getPriorityFromPlaneForTiles(plane))
   , m_data(data)
-  , m_state(state)
   , m_scenery(scenery)
   {
 
   }
 
-  void MapTileRenderer::render(gf::RenderTarget& target, const gf::RenderStates& states) {
-    int32_t index = m_state.hero.physics.location.floor - m_data.map.floorMin;
+  void MapTileRenderer::renderFloor(gf::RenderTarget& target, const gf::RenderStates& states, int32_t floor) {
+    int32_t index = floor - m_data.map.floorMin;
 
     if (!(0 <= index && static_cast<std::size_t>(index) <= m_scenery.layers.size())) {
-      gf::Log::debug("Floor: %" PRIi32 ", FloorMin: %" PRIi32 " Index: %" PRIi32 "\n", m_state.hero.physics.location.floor, m_data.map.floorMin, index);
+      gf::Log::debug("Floor: %" PRIi32 ", FloorMin: %" PRIi32 " Index: %" PRIi32 "\n", floor, m_data.map.floorMin, index);
     }
 
     assert(0 <= index && static_cast<std::size_t>(index) <= m_scenery.layers.size());
@@ -88,17 +87,15 @@ namespace akgr {
    * MapSpriteRenderer
    */
 
-  MapSpriteRenderer::MapSpriteRenderer(Plane plane, const WorldData& data, const WorldState& state, MapSpriteScenery& scenery)
-  : gf::Entity(getPriorityFromPlaneForSprites(plane))
+  MapSpriteRenderer::MapSpriteRenderer(Plane plane, const WorldData& data, MapSpriteScenery& scenery)
+  : FloorRenderer(getPriorityFromPlaneForSprites(plane))
   , m_data(data)
-  , m_state(state)
   , m_scenery(scenery)
   {
-
   }
 
-  void MapSpriteRenderer::render(gf::RenderTarget& target, const gf::RenderStates& states) {
-    int32_t index = m_state.hero.physics.location.floor - m_data.map.floorMin;
+  void MapSpriteRenderer::renderFloor(gf::RenderTarget& target, const gf::RenderStates& states, int32_t floor) {
+    int32_t index = floor - m_data.map.floorMin;
     assert(0 <= index && static_cast<std::size_t>(index) <= m_scenery.layers.size());
 
     auto& sprites = m_scenery.layers[index];

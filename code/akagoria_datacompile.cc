@@ -63,24 +63,6 @@ namespace {
     return collisions;
   }
 
-  gf::Vector2i computeEndPoint(char c, gf::Vector2u tileSize) {
-    switch (c) {
-      case 'U':
-        return gf::Vector2i(tileSize.width / 2, 0);
-      case 'R':
-        return gf::Vector2i(tileSize.width, tileSize.height / 2);
-      case 'D':
-        return gf::Vector2i(tileSize.width / 2, tileSize.height);
-      case 'L':
-        return gf::Vector2i(0, tileSize.height / 2);
-      default:
-        assert(false);
-        break;
-    }
-
-    return { 0, 0 };
-  }
-
   /*
    * common
    */
@@ -235,10 +217,13 @@ namespace {
           auto tilesetId = getTilesetId(tileset->image->source, tileset->tileSize, tileset->spacing, tileset->margin);
 
           if (textureLayer.tilesetId == InvalidTilesetId) {
+            assert(tilesetId != InvalidTilesetId);
             textureLayer.tilesetId = tilesetId;
           } else {
             assert(textureLayer.tilesetId == tilesetId);
           }
+
+//           gf::Log::debug("debug: %i (%i,%i) [%i]\n", gid, i, j, tileset->firstGid);
 
           auto tile = tileset->getTile(gid);
           assert(tile);
@@ -251,11 +236,14 @@ namespace {
             for (int i = 0; i < fenceCount; ++i) {
               auto fence = tile->properties.getStringProperty("fence" + std::to_string(i), "");
               assert(!fence.empty());
-              assert(fence.size() == 2);
+
+              std::vector<std::string> coords;
+              boost::algorithm::split(coords, fence, boost::algorithm::is_any_of(","), boost::algorithm::token_compress_on);
+              assert(coords.size() == 4);
 
               gf::SegmentI segment;
-              segment.p0 = base * map.tileSize + computeEndPoint(fence[0], map.tileSize);
-              segment.p1 = base * map.tileSize + computeEndPoint(fence[1], map.tileSize);
+              segment.p0 = base * map.tileSize + gf::vec(std::stoi(coords[0]), std::stoi(coords[1]));
+              segment.p1 = base * map.tileSize + gf::vec(std::stoi(coords[2]), std::stoi(coords[3]));
 
               fences.push_back(segment);
             }
@@ -265,7 +253,9 @@ namespace {
         k++;
       }
 
-      textureLayer.tiles = std::move(tiles);
+      if (textureLayer.tilesetId != InvalidTilesetId) {
+        textureLayer.tiles = std::move(tiles);
+      }
     }
 
     virtual void visitTileLayer(const gf::TmxLayers& map, const gf::TmxTileLayer& layer) override {
@@ -311,12 +301,20 @@ namespace {
         return akgr::ShrineType::Moli;
       }
 
-      if (type == "pona") {
-        return akgr::ShrineType::Pona;
+      if (type == "anpa") {
+        return akgr::ShrineType::Anpa;
       }
 
       if (type == "sewi") {
         return akgr::ShrineType::Sewi;
+      }
+
+      if (type == "pona") {
+        return akgr::ShrineType::Pona;
+      }
+
+      if (type == "wawa") {
+        return akgr::ShrineType::Wawa;
       }
 
       if (type == "sijelo") {
@@ -402,6 +400,10 @@ namespace {
         thing.location.floor = currentFloor;
         thing.angle = sprite.rotation;
         thing.line = tmxObjectToPolyline(shape);
+
+        if (thing.line.getWinding() == gf::Winding::Counterclockwise) {
+          thing.line.reverse();
+        }
 
         for (auto& point : thing.line) {
           point += shape.position - size / 2;
@@ -542,6 +544,8 @@ namespace {
       currentFloor = layer.properties.getIntProperty("floor", InvalidFloor);
       assert(currentFloor != InvalidFloor);
 
+      gf::Log::debug("New floor: %" PRIi32 "\n", currentFloor);
+
       auto& floors = data.map.floors;
 
       if (floors.empty()) {
@@ -568,6 +572,8 @@ namespace {
       }
 
       auto collisions = computeAutoCollision(fences, currentFloor, currentAutoCount);
+      gf::Log::debug("fences: %zu -- collisions: %zu\n", fences.size(), collisions.size());
+
       data.physics.collisions.insert(data.physics.collisions.end(), collisions.begin(), collisions.end());
 
       data.map[currentFloor] = std::move(currentFloorData);
@@ -637,6 +643,32 @@ namespace {
   /*
    * json files
    */
+
+  void compileJsonHero(const gf::Path& filename, akgr::HeroData& data) {
+    std::ifstream ifs(filename.string());
+
+    const auto j = nlohmann::json::parse(ifs);
+
+    for (auto kv : j["animations"].items()) {
+      akgr::AtlasAnimation animation;
+      animation.name = kv.key();
+
+      auto value = kv.value();
+
+      for (auto item : value) {
+        akgr::AtlasFrame frame;
+
+        frame.atlas = gf::hash(item["atlas"].get<std::string>());
+        frame.index = item["index"].get<int32_t>();
+        frame.duration = item["duration"].get<int32_t>();
+
+        animation.frames.push_back(std::move(frame));
+      }
+
+      data.animations.emplace(gf::hash(animation.name), std::move(animation));
+    }
+
+  }
 
   void compileJsonAtlases(const gf::Path& filename, std::map<gf::Id, akgr::AtlasData>& data) {
     std::ifstream ifs(filename.string());
@@ -926,6 +958,7 @@ int main(int argc, char *argv[]) {
 
   gf::Path databaseDirectory = inputDirectory / "database";
 
+  compileJsonHero(databaseDirectory / "hero.json", worldData.hero);
   compileJsonAtlases(databaseDirectory / "atlases.json", worldData.atlases);
   compileJsonDialogs(databaseDirectory / "dialogs.json", worldData.dialogs, strings);
   compileJsonNotifications(databaseDirectory / "notifications.json", worldData.notifications, strings);

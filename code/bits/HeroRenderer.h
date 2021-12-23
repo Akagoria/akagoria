@@ -25,15 +25,18 @@
 #include <gf/Move.h>
 #include <gf/ResourceManager.h>
 
+#include "FloorRenderer.h"
+
 namespace akgr {
+  struct WorldData;
   struct WorldState;
 
-  class HeroRenderer : public gf::Entity {
+  class HeroRenderer : public FloorRenderer {
   public:
-    HeroRenderer(const WorldState& state, gf::ResourceManager& resources);
+    HeroRenderer(const WorldData& data, const WorldState& state, gf::ResourceManager& resources);
 
-    virtual void update(gf::Time time) override;
-    virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
+    void update(gf::Time time) override;
+    void renderFloor(gf::RenderTarget& target, const gf::RenderStates& states, int32_t floor) override;
 
   private:
     const WorldState& m_state;

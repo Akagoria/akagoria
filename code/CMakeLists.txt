@@ -42,8 +42,10 @@ add_executable(akagoria
   bits/Commands.cc
   bits/CommandsHelperRenderer.cc
   bits/DialogRenderer.cc
+  bits/FloorRenderer.cc
   bits/GameMenuRenderer.cc
   bits/GameMenuScenery.cc
+  bits/GamepadControl.cc
   bits/HeroRenderer.cc
   bits/InventoryRenderer.cc
   bits/ItemRenderer.cc
@@ -72,6 +74,7 @@ add_executable(akagoria
   bits/StartMenuRenderer.cc
   bits/StartMenuScenery.cc
   bits/UIData.cc
+  bits/UniverseRenderer.cc
   bits/VfxRenderer.cc
   bits/VfxScenery.cc
   bits/WaitingRenderer.cc

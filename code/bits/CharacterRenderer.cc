@@ -39,9 +39,9 @@ namespace akgr {
 
   }
 
-  void CharacterRenderer::render(gf::RenderTarget& target, const gf::RenderStates& states) {
+  void CharacterRenderer::renderFloor(gf::RenderTarget& target, const gf::RenderStates& states, int32_t floor) {
     for (auto& character : m_state.characters) {
-      if (character.physics.location.floor != m_state.hero.physics.location.floor) {
+      if (character.physics.location.floor != floor) {
         continue;
       }
 

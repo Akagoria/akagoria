@@ -26,11 +26,13 @@ namespace akgr {
 
   enum class ShrineType : uint8_t {
     Ale,
+    Anpa,
     Ike,
     Moli,
     Pona,
     Sewi,
     Sijelo,
+    Wawa,
   };
 
 }

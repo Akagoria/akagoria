@@ -30,12 +30,11 @@ namespace akgr {
   , m_state(state)
   , m_resources(resources)
   {
-
   }
 
-  void ItemRenderer::render(gf::RenderTarget& target, const gf::RenderStates& states) {
+  void ItemRenderer::renderFloor(gf::RenderTarget& target, const gf::RenderStates& states, int32_t floor) {
     for (auto& item : m_state.items) {
-      if (item.physics.location.floor != m_state.hero.physics.location.floor) {
+      if (item.physics.location.floor != floor) {
         continue;
       }
 

@@ -33,8 +33,13 @@
 #include "ProgressionState.h"
 
 namespace akgr {
+  enum class HeroMoveMethod {
+    Relative,
+    Absolute,
+  };
 
   struct HeroMove {
+    HeroMoveMethod method = HeroMoveMethod::Relative;
     gf::LinearMove linear = gf::LinearMove::None;
     gf::AngularMove angular = gf::AngularMove::None;
   };

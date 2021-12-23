@@ -93,6 +93,14 @@ namespace akgr {
       world.script.start();
     }
 
+    worldAct = std::make_unique<WorldAct>(*this);
+
+    // preload atlases
+
+    for (auto & [ id, atlas ] : world.data.atlases) {
+      resources.getTexture(atlas.path);
+    }
+
     std::this_thread::sleep_for(std::chrono::milliseconds(500)); // TODO: remove this in the future
 
     auto loadingTime = loadingClock.getElapsedTime();
@@ -102,7 +110,6 @@ namespace akgr {
   }
 
   void Akagoria::startWorld() {
-    worldAct = std::make_unique<WorldAct>(*this);
     gf::Ref<gf::Scene> scenes[] = { worldAct->base, worldAct->travel };
     replaceAllScenes(scenes); // TODO: put a segue?
   }

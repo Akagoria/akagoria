@@ -41,7 +41,7 @@ namespace akgr {
     bool isAspectShrine(ShrineType shrine) {
       switch (shrine) {
         case ShrineType::Pona:
-        case ShrineType::Sewi:
+        case ShrineType::Wawa:
         case ShrineType::Sijelo:
           return true;
         default:
@@ -55,7 +55,7 @@ namespace akgr {
       switch (shrine) {
         case ShrineType::Pona:
           return Aspect::Health;
-        case ShrineType::Sewi:
+        case ShrineType::Wawa:
           return Aspect::Magic;
         case ShrineType::Sijelo:
           return Aspect::Vitality;
@@ -107,31 +107,15 @@ namespace akgr {
   WorldBaseScene::WorldBaseScene(Akagoria& game)
   : gf::Scene(game.getRenderer().getSize())
   , m_game(game)
-  , m_ground(Plane::Ground, game.world.data, game.world.state, game.world.scenery.map.groundTiles)
-  , m_lowTile(Plane::Low, game.world.data, game.world.state, game.world.scenery.map.lowTiles)
-  , m_lowSprite(Plane::Low, game.world.data, game.world.state, game.world.scenery.map.lowSprites)
-  , m_highTile(Plane::High, game.world.data, game.world.state, game.world.scenery.map.highTiles)
-  , m_highSprite(Plane::High, game.world.data, game.world.state, game.world.scenery.map.highSprites)
-  , m_hero(game.world.state, game.resources)
-  , m_character(game.world.data, game.world.state)
-  , m_item(game.world.data, game.world.state, game.resources)
-  , m_vfx(game.world.scenery, game.world.state, game.resources)
+  , m_universe(game.world.data, game.world.state, game.world.scenery, game.resources)
   , m_helper(game.root.data, game.root.scenery, game.resources)
   , m_debug(game.world.state.physics.model)
   , m_listener(game.world.script)
   {
-    addWorldEntity(m_ground);
-    addWorldEntity(m_lowTile);
-    addWorldEntity(m_lowSprite);
-    addWorldEntity(m_highTile);
-    addWorldEntity(m_highSprite);
-    addWorldEntity(m_hero);
-    addWorldEntity(m_character);
-    addWorldEntity(m_item);
-    addWorldEntity(m_vfx);
-    addWorldEntity(m_debug);
-
+    addWorldEntity(m_universe);
     addHudEntity(m_helper);
+
+    addWorldEntity(m_debug);
 
     addAction(m_game.commands.windowClose);
     addAction(m_game.commands.windowFullscreen);
@@ -201,10 +185,10 @@ namespace akgr {
     };
 
     // hero (pre-update)
-    {
-      static constexpr float Hop = 150.0f;
-      static constexpr float Turn = 3.0f;
+    static constexpr float Hop = 150.0f;
+    static constexpr float Turn = 3.0f;
 
+    if (hero.move.method == HeroMoveMethod::Relative) {
       float angle = hero.physics.angle;
       float velocity = 0.0f;
 
@@ -235,6 +219,15 @@ namespace akgr {
       }
 
       angle = std::fmod(angle, 2 * gf::Pi);
+      hero.physics.setAngleAndVelocity(angle, velocity);
+    } else {
+      float angle = hero.physics.angle;
+      float velocity = 0.0f;
+
+      if (hero.move.linear == gf::LinearMove::Forward) {
+        velocity = -Hop;
+      }
+
       hero.physics.setAngleAndVelocity(angle, velocity);
     }
 

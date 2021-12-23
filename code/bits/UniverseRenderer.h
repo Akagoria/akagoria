@@ -17,29 +17,45 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_ITEM_RENDERER_H
-#define AKGR_ITEM_RENDERER_H
+#ifndef AKGR_UNIVERSE_RENDERER_H
+#define AKGR_UNIVERSE_RENDERER_H
 
-#include <gf/ResourceManager.h>
+#include <gf/Entity.h>
 
+#include "CharacterRenderer.h"
 #include "FloorRenderer.h"
-#include "WorldData.h"
+#include "HeroRenderer.h"
+#include "ItemRenderer.h"
+#include "MapRenderer.h"
+#include "VfxRenderer.h"
+#include "WorldScenery.h"
 #include "WorldState.h"
 
 namespace akgr {
 
-  class ItemRenderer : public FloorRenderer {
+  class UniverseRenderer : public gf::Entity {
   public:
-    ItemRenderer(const WorldData& data, const WorldState& state, gf::ResourceManager& resources);
+    UniverseRenderer(const WorldData& data, const WorldState& state, WorldScenery& scenery, gf::ResourceManager& resources);
 
-    void renderFloor(gf::RenderTarget& target, const gf::RenderStates& states, int32_t floor) override;
+    void update(gf::Time time) override;
+    void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
 
   private:
-    const WorldData& m_data;
     const WorldState& m_state;
-    gf::ResourceManager& m_resources;
-  };
 
+    MapTileRenderer m_ground;
+    MapTileRenderer m_lowTile;
+    MapSpriteRenderer m_lowSprite;
+    MapTileRenderer m_highTile;
+    MapSpriteRenderer m_highSprite;
+    HeroRenderer m_hero;
+    CharacterRenderer m_character;
+    ItemRenderer m_item;
+    VfxRenderer m_vfx;
+
+    FloorRendererContainer m_renderers;
+  };
 }
 
-#endif // AKGR_ITEM_RENDERER_H
+
+#endif // AKGR_UNIVERSE_RENDERER_H

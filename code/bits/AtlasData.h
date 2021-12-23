@@ -50,6 +50,29 @@ namespace akgr {
     return ar | data.atlas | data.index | data.scale;
   }
 
+
+  struct AtlasFrame {
+    gf::Id atlas;
+    int32_t index;
+    int32_t duration;
+  };
+
+  template<typename Archive>
+  Archive& operator|(Archive& ar, AtlasFrame& data) {
+    return ar | data.atlas | data.index | data.duration;
+  }
+
+
+  struct AtlasAnimation {
+    std::string name;
+    std::vector<AtlasFrame> frames;
+  };
+
+  template<typename Archive>
+  Archive& operator|(Archive& ar, AtlasAnimation& data) {
+    return ar | data.name | data.frames;
+  }
+
 }
 
 #endif // AKGR_ATLAS_DATA_H

@@ -20,22 +20,22 @@
 #ifndef AKGR_VFX_RENDERER_H
 #define AKGR_VFX_RENDERER_H
 
-#include <gf/Entity.h>
 #include <gf/ResourceManager.h>
 
+#include "FloorRenderer.h"
 #include "WorldScenery.h"
 #include "WorldState.h"
 
 namespace akgr {
 
-  class VfxRenderer : public gf::Entity {
+  class VfxRenderer : public FloorRenderer {
   public:
-    VfxRenderer(const WorldScenery& scenery, const WorldState& state, gf::ResourceManager& resources);
+    VfxRenderer(const WorldScenery& scenery, gf::ResourceManager& resources);
 
-    virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
+    void renderFloor(gf::RenderTarget& target, const gf::RenderStates& states, int32_t floor) override;
+
   private:
     const WorldScenery& m_scenery;
-    const WorldState& m_state;
     gf::Font& m_font;
   };
 }

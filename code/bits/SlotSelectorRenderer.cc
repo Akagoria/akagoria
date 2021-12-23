@@ -45,7 +45,9 @@ namespace akgr {
       str += "Slot #" + std::to_string(index + 1) + '\n';
       str += boost::locale::gettext(slot.meta.area.c_str()) + '\n';
 
-      auto time = std::chrono::system_clock::to_time_t(slot.time); // TODO: need std::chrono::time_point_cast?
+      std::time_t time = std::chrono::duration_cast<std::chrono::seconds>(slot.time.time_since_epoch()).count();
+
+//       auto time = std::chrono::system_clock::to_time_t(std::chrono::time_point_cast<std::chrono::system_clock::duration>(slot.time)); // TODO: need std::chrono::time_point_cast?
 
       static constexpr std::size_t TimeInfoSize = 1024;
 

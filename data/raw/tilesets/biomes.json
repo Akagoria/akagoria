@@ -1,91 +1,1979 @@
 {
-  "biomes": [
-    { "id": "DeepWater",                "name": "Deep Water",                 "color": [   2,  43,  68, 255 ], "pigment": { "style": "plain" } },
-    { "id": "Water",                    "name": "Water",                      "color": [   9,  62,  92, 255 ], "pigment": { "style": "plain" } },
-    { "id": "ShallowWater",             "name": "Shallow Water",              "color": [  17,  82, 112, 255 ], "pigment": { "style": "plain" } },
-    { "id": "Shore",                    "name": "Shore",                      "color": [  69, 108, 118, 255 ], "pigment": { "style": "plain" } },
-    { "id": "Sand",                     "name": "Sand",                       "color": [ 223, 223, 168, 255 ], "pigment": { "style": "randomize", "ratio": 0.05, "deviation": 0.3 } },
-    { "id": "SubtropicalDesert",        "name": "Subtropical Desert",         "color": [ 210, 185, 139, 255 ], "pigment": { "style": "randomize", "ratio": 0.05, "deviation": 0.2 } },
-    { "id": "TemperateDesert",          "name": "Temperate Desert",           "color": [ 201, 210, 155, 255 ], "pigment": { "style": "randomize", "ratio": 0.05, "deviation": 0.2 } },
-    { "id": "TropicalSeasonalForest",   "name": "Tropical Seasonal Forest",   "color": [  85, 153,  68, 255 ], "pigment": { "style": "randomize", "ratio": 0.2,  "deviation": 0.1 } },
-    { "id": "TropicalRainForest",       "name": "Tropical Rain Forest",       "color": [  51, 119,  85, 255 ], "pigment": { "style": "randomize", "ratio": 0.2,  "deviation": 0.1 } },
-    { "id": "TemperateRainForest",      "name": "Temperate Rain Forest",      "color": [  68, 136,  85, 255 ], "pigment": { "style": "randomize", "ratio": 0.2,  "deviation": 0.1 } },
-    { "id": "TemperateDeciduousForest", "name": "Temperate Deciduous Forest", "color": [ 103, 148,  89, 255 ], "pigment": { "style": "randomize", "ratio": 0.2,  "deviation": 0.1 } },
-    { "id": "Grassland",                "name": "Grassland",                  "color": [ 136, 170,  85, 255 ], "pigment": { "style": "randomize", "ratio": 0.5,  "deviation": 0.05 } },
-    { "id": "Shrubland",                "name": "Shrubland",                  "color": [ 136, 153, 119, 255 ], "pigment": { "style": "randomize", "ratio": 0.05, "deviation": 0.1 } },
-    { "id": "Taiga",                    "name": "Taiga",                      "color": [ 153, 170, 119, 255 ], "pigment": { "style": "randomize", "ratio": 0.1,  "deviation": 0.1 } },
-    { "id": "Scorched",                 "name": "Scorched",                   "color": [  85,  85,  85, 255 ], "pigment": { "style": "randomize", "ratio": 0.05, "deviation": 0.05 } },
-    { "id": "Bare",                     "name": "Bare",                       "color": [ 136, 136, 136, 255 ], "pigment": { "style": "randomize", "ratio": 0.05, "deviation": 0.05 } },
-    { "id": "Tundra",                   "name": "Tundra",                     "color": [ 187, 187, 170, 255 ], "pigment": { "style": "randomize", "ratio": 0.1,  "deviation": 0.1 } },
-    { "id": "Snow",                     "name": "Snow",                       "color": [ 221, 221, 228, 255 ], "pigment": { "style": "randomize", "ratio": 0.01, "deviation": 0.05 } },
-    { "id": "Unreachable",              "name": "Unreachable",                "color": [  64,  64,  64, 160 ], "pigment": { "style": "striped" } },
-    { "id": "Road",                     "name": "Road",                       "color": [ 128, 128, 128, 255 ], "pigment": { "style": "randomize", "ratio": 0.2,  "deviation": 0.1 } },
-    { "id": "Track",                    "name": "Track",                      "color": [ 212, 180, 143, 255 ], "pigment": { "style": "randomize", "ratio": 0.2,  "deviation": 0.1 } },
-    { "id": "River",                    "name": "River",                      "color": [  92, 144, 157, 255 ], "pigment": { "style": "randomize", "ratio": 0.05, "deviation": 0.2 } }
-  ],
-  "biomes-old": [
-    { "id": "Unreachable",              "name": "Unreachable",                "color": [  95, 145, 192, 160 ], "pigment": { "style": "plain" } },
-    { "id": "River",                    "name": "River",                      "color": [  85, 170, 255, 255 ], "pigment": { "style": "randomize", "ratio": 0.05, "deviation": 0.2 } },
-    { "id": "River",                    "name": "River",                      "color": [  79, 117, 207, 255 ], "pigment": { "style": "randomize", "ratio": 0.05, "deviation": 0.2 } }
-  ],
-  "duos": [
-    { "biomes": [ "DeepWater", "Water" ],                                 "offset": 7   },
-    { "biomes": [ "Water", "ShallowWater" ],                              "offset": 6   },
-    { "biomes": [ "ShallowWater", "Shore" ],                              "offset": 5   },
-    { "biomes": [ "Shore", "Sand" ],                                      "offset": 4,  "fence": true },
-    { "biomes": [ "Sand", "SubtropicalDesert" ],                          "offset": 2   },
-    { "biomes": [ "Sand", "Grassland" ],                                  "offset": 3   },
-    { "biomes": [ "Sand", "TropicalSeasonalForest" ],                     "offset": 4   },
-    { "biomes": [ "Sand", "TropicalRainForest" ],                         "offset": 5   },
-    { "biomes": [ "SubtropicalDesert", "TemperateDesert" ],               "offset": -2  },
-    { "biomes": [ "SubtropicalDesert", "Grassland" ],                     "offset": -4  },
-    { "biomes": [ "Grassland", "TropicalSeasonalForest" ],                "offset": 3   },
-    { "biomes": [ "Grassland", "TemperateDeciduousForest" ],              "offset": 5   },
-    { "biomes": [ "Grassland", "Shrubland" ],                             "offset": -7  },
-    { "biomes": [ "TropicalSeasonalForest", "TropicalRainForest" ],       "offset": 6   },
-    { "biomes": [ "TropicalSeasonalForest", "TemperateDeciduousForest" ], "offset": 1   },
-    { "biomes": [ "TropicalRainForest", "TemperateRainForest" ],          "offset": -5  },
-    { "biomes": [ "TemperateDesert", "Grassland" ],                       "offset": -2  },
-    { "biomes": [ "TemperateDesert", "Shrubland" ],                       "offset": 5   },
-    { "biomes": [ "TemperateDesert", "Bare" ],                            "offset": -7  },
-    { "biomes": [ "TemperateDesert", "Scorched" ],                        "offset": 3   },
-    { "biomes": [ "TemperateDeciduousForest", "TemperateRainForest" ],    "offset": 2   },
-    { "biomes": [ "TemperateDeciduousForest", "Taiga" ],                  "offset": 3   },
-    { "biomes": [ "TemperateDeciduousForest", "Shrubland" ],              "offset": -1  },
-    { "biomes": [ "TemperateRainForest", "Taiga" ],                       "offset": 7   },
-    { "biomes": [ "Shrubland", "Taiga" ],                                 "offset": 2   },
-    { "biomes": [ "Shrubland", "Snow" ],                                  "offset": 6   },
-    { "biomes": [ "Shrubland", "Tundra" ],                                "offset": -4  },
-    { "biomes": [ "Taiga", "Snow" ],                                      "offset": -5  },
-    { "biomes": [ "Scorched", "Bare" ],                                   "offset": -2  },
-    { "biomes": [ "Bare", "Tundra" ],                                     "offset": -1  },
-    { "biomes": [ "Tundra", "Snow" ],                                     "offset": 6   },
-    { "biomes": [ "Shrubland", "Bare" ],                                  "offset": 4   },
-    { "biomes": [ "River", "Shore" ],                                     "offset": -3, "border": { "effect": "blur" } }
-  ],
-  "trios": [
-    [ "Sand", "SubtropicalDesert", "Grassland" ],
-    [ "Sand", "Grassland", "TropicalSeasonalForest" ],
-    [ "Sand", "TropicalSeasonalForest", "TropicalRainForest" ],
-    [ "TropicalRainForest", "TemperateRainForest", "TemperateDeciduousForest" ],
-    [ "TropicalRainForest", "TropicalSeasonalForest", "TemperateDeciduousForest" ],
-    [ "TropicalSeasonalForest", "TemperateDeciduousForest", "Grassland" ],
-    [ "Grassland", "SubtropicalDesert", "TemperateDesert" ],
-    [ "TemperateRainForest", "TemperateDeciduousForest", "Taiga" ],
-    [ "TemperateDeciduousForest", "Taiga", "Shrubland" ],
-    [ "TemperateDeciduousForest", "Grassland", "Shrubland" ],
-    [ "Grassland", "Shrubland", "TemperateDesert" ],
-    [ "Taiga", "Shrubland", "Snow" ],
-    [ "Shrubland", "Snow", "Tundra" ],
-    [ "Shrubland", "Tundra", "Bare" ],
-    [ "Shrubland", "TemperateDesert", "Bare" ],
-    [ "TemperateDesert", "Bare", "Scorched" ],
-    [ "River", "Shore", "Sand" ]
-  ],
-  "overlays": [
-    { "biome": "Unreachable",   "offset": 5,    "border": { "effect": "sharpen" },  "fence": true },
-    { "biome": "Road",          "offset": 2,    "border": { "effect": "fade"    }   },
-    { "biome": "Track",         "offset": 1,    "border": { "effect": "fade"    }   },
-    { "biome": "River",         "offset": 0,    "border": { "effect": "outline" },  "fence": true }
-  ]
+	"settings": {
+		"locked": false,
+		"max_atom_count": 128,
+		"max_wang2_count": 256,
+		"max_wang3_count": 128,
+		"tile": {
+			"size": 32,
+			"spacing": 1
+		}
+	},
+	"atoms": [
+		{
+			"id": "Sea/DeepWater",
+			"color": [
+				2,
+				43,
+				68,
+				255
+			],
+			"pigment": {
+				"style": "plain"
+			}
+		},
+		{
+			"id": "Sea/Water",
+			"color": [
+				9,
+				62,
+				92,
+				255
+			],
+			"pigment": {
+				"style": "plain"
+			}
+		},
+		{
+			"id": "Sea/ShallowWater",
+			"color": [
+				17,
+				82,
+				112,
+				255
+			],
+			"pigment": {
+				"style": "plain"
+			}
+		},
+		{
+			"id": "Sea/Shore",
+			"color": [
+				69,
+				108,
+				118,
+				255
+			],
+			"pigment": {
+				"style": "plain"
+			}
+		},
+		{
+			"id": "Coast/Beach",
+			"color": [
+				223,
+				223,
+				168,
+				255
+			],
+			"pigment": {
+				"style": "randomize",
+				"ratio": 0.05,
+				"deviation": 0.3,
+				"size": 1
+			}
+		},
+		{
+			"id": "Coast/Cliff",
+			"color": [
+				170,
+				176,
+				172,
+				255
+			],
+			"pigment": {
+				"style": "randomize",
+				"ratio": 0.02,
+				"deviation": 0.3,
+				"size": 1
+			}
+		},
+		{
+			"id": "Grassland/Meadow",
+			"color": [
+				136,
+				170,
+				85,
+				255
+			],
+			"pigment": {
+				"style": "randomize",
+				"ratio": 0.5,
+				"deviation": 0.1,
+				"size": 1
+			}
+		},
+		{
+			"id": "Grassland/Prairie",
+			"color": [
+				89,
+				156,
+				59,
+				255
+			],
+			"pigment": {
+				"style": "randomize",
+				"ratio": 0.35,
+				"deviation": 0.1,
+				"size": 1
+			}
+		},
+		{
+			"id": "Grassland/Shrubland",
+			"color": [
+				136,
+				153,
+				119,
+				255
+			],
+			"pigment": {
+				"style": "randomize",
+				"ratio": 0.2,
+				"deviation": 0.1,
+				"size": 1
+			}
+		},
+		{
+			"id": "DeepForest/Coniferous",
+			"color": [
+				68,
+				136,
+				85,
+				255
+			],
+			"pigment": {
+				"style": "randomize",
+				"ratio": 0.2,
+				"deviation": 0.1,
+				"size": 1
+			}
+		},
+		{
+			"id": "DeepForest/Broadleaf",
+			"color": [
+				51,
+				119,
+				85,
+				255
+			],
+			"pigment": {
+				"style": "randomize",
+				"ratio": 0.2,
+				"deviation": 0.1,
+				"size": 1
+			}
+		},
+		{
+			"id": "LightForest/Woodland",
+			"color": [
+				85,
+				153,
+				68,
+				255
+			],
+			"pigment": {
+				"style": "randomize",
+				"ratio": 0.2,
+				"deviation": 0.05,
+				"size": 4
+			}
+		},
+		{
+			"id": "LightForest/Savannah",
+			"color": [
+				103,
+				148,
+				89,
+				255
+			],
+			"pigment": {
+				"style": "randomize",
+				"ratio": 0.2,
+				"deviation": 0.1,
+				"size": 1
+			}
+		},
+		{
+			"id": "Marsh/Mangrove",
+			"color": [
+				201,
+				210,
+				155,
+				255
+			],
+			"pigment": {
+				"style": "randomize",
+				"ratio": 0.05,
+				"deviation": 0.2,
+				"size": 1
+			}
+		},
+		{
+			"id": "Marsh/Wetland",
+			"color": [
+				153,
+				170,
+				119,
+				255
+			],
+			"pigment": {
+				"style": "randomize",
+				"ratio": 0.1,
+				"deviation": 0.1,
+				"size": 1
+			}
+		},
+		{
+			"id": "Marsh/Water",
+			"color": [
+				99,
+				142,
+				130,
+				255
+			],
+			"pigment": {
+				"style": "randomize",
+				"ratio": 0.25,
+				"deviation": 0.05,
+				"size": 2
+			}
+		},
+		{
+			"id": "Desert/Dry",
+			"color": [
+				228,
+				186,
+				109,
+				255
+			],
+			"pigment": {
+				"style": "randomize",
+				"ratio": 0.05,
+				"deviation": 0.2,
+				"size": 1
+			}
+		},
+		{
+			"id": "Desert/Sand",
+			"color": [
+				228,
+				210,
+				111,
+				255
+			],
+			"pigment": {
+				"style": "randomize",
+				"ratio": 0.6,
+				"deviation": 0.05,
+				"size": 1
+			}
+		},
+		{
+			"id": "Desert/Unreachable",
+			"color": [
+				177,
+				148,
+				57,
+				255
+			],
+			"pigment": {
+				"style": "randomize",
+				"ratio": 0.22,
+				"deviation": 0.09,
+				"size": 3
+			}
+		},
+		{
+			"id": "Moutain/Rocky",
+			"color": [
+				136,
+				136,
+				136,
+				255
+			],
+			"pigment": {
+				"style": "randomize",
+				"ratio": 0.26,
+				"deviation": 0.06,
+				"size": 4
+			}
+		},
+		{
+			"id": "Moutain/Steppe",
+			"color": [
+				187,
+				187,
+				170,
+				255
+			],
+			"pigment": {
+				"style": "randomize",
+				"ratio": 0.07,
+				"deviation": 0.1,
+				"size": 1
+			}
+		},
+		{
+			"id": "Moutain/Snow",
+			"color": [
+				221,
+				221,
+				228,
+				255
+			],
+			"pigment": {
+				"style": "randomize",
+				"ratio": 0.01,
+				"deviation": 0.05,
+				"size": 2
+			}
+		},
+		{
+			"id": "Moutain/Unreachable",
+			"color": [
+				105,
+				104,
+				104,
+				255
+			],
+			"pigment": {
+				"style": "randomize",
+				"ratio": 0.22,
+				"deviation": 0.09,
+				"size": 3
+			}
+		},
+		{
+			"id": "Underground/Mud",
+			"color": [
+				141,
+				84,
+				53,
+				255
+			],
+			"pigment": {
+				"style": "randomize",
+				"ratio": 0.2,
+				"deviation": 0.07,
+				"size": 2
+			}
+		},
+		{
+			"id": "Underground/Basalt",
+			"color": [
+				61,
+				52,
+				48,
+				255
+			],
+			"pigment": {
+				"style": "randomize",
+				"ratio": 0.2,
+				"deviation": 0.1,
+				"size": 3
+			}
+		},
+		{
+			"id": "Underground/Lava",
+			"color": [
+				243,
+				60,
+				7,
+				255
+			],
+			"pigment": {
+				"style": "randomize",
+				"ratio": 0.25,
+				"deviation": 0.05,
+				"size": 5
+			}
+		},
+		{
+			"id": "Road/Gravel",
+			"color": [
+				128,
+				128,
+				128,
+				255
+			],
+			"pigment": {
+				"style": "randomize",
+				"ratio": 0.2,
+				"deviation": 0.1,
+				"size": 1
+			}
+		},
+		{
+			"id": "Road/Paved",
+			"color": [
+				117,
+				117,
+				117,
+				255
+			],
+			"pigment": {
+				"style": "paved",
+				"width": 8,
+				"length": 8,
+				"modulation": -0.5
+			}
+		},
+		{
+			"id": "Road/Track",
+			"color": [
+				167,
+				131,
+				89,
+				255
+			],
+			"pigment": {
+				"style": "randomize",
+				"ratio": 0.2,
+				"deviation": 0.1,
+				"size": 1
+			}
+		},
+		{
+			"id": "Road/Trail",
+			"color": [
+				119,
+				87,
+				18,
+				255
+			],
+			"pigment": {
+				"style": "randomize",
+				"ratio": 0.05,
+				"deviation": 0.09,
+				"size": 3
+			}
+		},
+		{
+			"id": "Water/River",
+			"color": [
+				92,
+				144,
+				157,
+				255
+			],
+			"pigment": {
+				"style": "randomize",
+				"ratio": 0.2,
+				"deviation": 0.1,
+				"size": 3
+			}
+		},
+		{
+			"id": "Water/Lake",
+			"color": [
+				29,
+				119,
+				165,
+				255
+			],
+			"pigment": {
+				"style": "randomize",
+				"ratio": 0.15,
+				"deviation": 0.05,
+				"size": 1
+			}
+		},
+		{
+			"id": "Road/Bridge",
+			"color": [
+				128,
+				128,
+				128,
+				255
+			],
+			"pigment": {
+				"style": "randomize",
+				"ratio": 0.2,
+				"deviation": 0.1,
+				"size": 1
+			}
+		},
+		{
+			"id": "Water/Ford",
+			"color": [
+				92,
+				144,
+				157,
+				192
+			],
+			"pigment": {
+				"style": "randomize",
+				"ratio": 0.2,
+				"deviation": 0.1,
+				"size": 3
+			}
+		}
+	],
+	"wang2": [
+		{
+			"borders": [
+				{
+					"id": "Sea/DeepWater",
+					"effect": "blend",
+					"distance": 11
+				},
+				{
+					"id": "Sea/Water",
+					"effect": "blend",
+					"distance": 10
+				}
+			],
+			"offset": 7,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.6
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Sea/Water",
+					"effect": "blend",
+					"distance": 8
+				},
+				{
+					"id": "Sea/ShallowWater",
+					"effect": "blend",
+					"distance": 13
+				}
+			],
+			"offset": 6,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.6
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Sea/ShallowWater",
+					"effect": "blend",
+					"distance": 10
+				},
+				{
+					"id": "Sea/Shore",
+					"effect": "blend",
+					"distance": 11
+				}
+			],
+			"offset": 5,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.6
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Sea/Shore",
+					"effect": "blend",
+					"distance": 6
+				},
+				{
+					"id": "Coast/Beach",
+					"effect": "blend",
+					"distance": 9
+				}
+			],
+			"offset": -3,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": true
+		},
+		{
+			"borders": [
+				{
+					"id": "Sea/Shore",
+					"effect": "sharpen",
+					"distance": 3
+				},
+				{
+					"id": "Coast/Cliff",
+					"effect": "outline",
+					"distance": 5,
+					"factor": 0.35
+				}
+			],
+			"offset": -2,
+			"displacement": {
+				"iterations": 4,
+				"initialFactor": 0.25,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Coast/Beach",
+					"effect": "sharpen",
+					"distance": 3
+				},
+				{
+					"id": "Coast/Cliff",
+					"effect": "outline",
+					"distance": 5,
+					"factor": 0.35
+				}
+			],
+			"offset": 2,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": true
+		},
+		{
+			"borders": [
+				{
+					"id": "Coast/Beach",
+					"effect": "blur"
+				},
+				{
+					"id": "Water/River",
+					"effect": "outline",
+					"distance": 5,
+					"factor": 0.2
+				}
+			],
+			"offset": -4,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.6
+			},
+			"limit": true
+		},
+		{
+			"borders": [
+				{
+					"id": "Coast/Beach",
+					"effect": "blend",
+					"distance": 11
+				},
+				{
+					"id": "Grassland/Meadow",
+					"effect": "blend",
+					"distance": 5
+				}
+			],
+			"offset": -4,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.6
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Coast/Cliff",
+					"effect": "outline",
+					"distance": 5,
+					"factor": 0.35
+				},
+				{
+					"id": "Grassland/Meadow",
+					"effect": "sharpen",
+					"distance": 3
+				}
+			],
+			"offset": 2,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.25,
+				"reductionFactor": 0.5
+			},
+			"limit": true
+		},
+		{
+			"borders": [
+				{
+					"id": "Grassland/Meadow",
+					"effect": "blend",
+					"distance": 10
+				},
+				{
+					"id": "Grassland/Shrubland",
+					"effect": "blend",
+					"distance": 10
+				}
+			],
+			"offset": -7,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.6
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Grassland/Meadow",
+					"effect": "blend",
+					"distance": 10
+				},
+				{
+					"id": "Grassland/Prairie",
+					"effect": "blend",
+					"distance": 10
+				}
+			],
+			"offset": 2,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Grassland/Prairie",
+					"effect": "blend",
+					"distance": 9
+				},
+				{
+					"id": "Grassland/Shrubland",
+					"effect": "blend",
+					"distance": 11
+				}
+			],
+			"offset": 3,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Grassland/Prairie",
+					"effect": "blend",
+					"distance": 7
+				},
+				{
+					"id": "DeepForest/Broadleaf",
+					"effect": "blend",
+					"distance": 7
+				}
+			],
+			"offset": -4,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Grassland/Shrubland",
+					"effect": "none"
+				},
+				{
+					"id": "Marsh/Wetland",
+					"effect": "none"
+				}
+			],
+			"offset": 2,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.6
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Grassland/Shrubland",
+					"effect": "blend",
+					"distance": 5
+				},
+				{
+					"id": "Desert/Dry",
+					"effect": "blend",
+					"distance": 5
+				}
+			],
+			"offset": 0,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "DeepForest/Broadleaf",
+					"effect": "blur"
+				},
+				{
+					"id": "DeepForest/Coniferous",
+					"effect": "blur"
+				}
+			],
+			"offset": -5,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.6
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "DeepForest/Broadleaf",
+					"effect": "blend",
+					"distance": 10
+				},
+				{
+					"id": "LightForest/Woodland",
+					"effect": "blend",
+					"distance": 10
+				}
+			],
+			"offset": 0,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Marsh/Mangrove",
+					"effect": "blur"
+				},
+				{
+					"id": "Grassland/Meadow",
+					"effect": "blur"
+				}
+			],
+			"offset": -2,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.6
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Marsh/Mangrove",
+					"effect": "blend",
+					"distance": 10
+				},
+				{
+					"id": "Coast/Beach",
+					"effect": "blend",
+					"distance": 11
+				}
+			],
+			"offset": 5,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.6
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Marsh/Mangrove",
+					"effect": "blend",
+					"distance": 10
+				},
+				{
+					"id": "Sea/Shore",
+					"effect": "blur"
+				}
+			],
+			"offset": -7,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.6
+			},
+			"limit": true
+		},
+		{
+			"borders": [
+				{
+					"id": "Marsh/Mangrove",
+					"effect": "blend",
+					"distance": 8
+				},
+				{
+					"id": "Marsh/Wetland",
+					"effect": "blend",
+					"distance": 10
+				}
+			],
+			"offset": 0,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Marsh/Wetland",
+					"effect": "blend",
+					"distance": 8
+				},
+				{
+					"id": "Grassland/Meadow",
+					"effect": "blend",
+					"distance": 11
+				}
+			],
+			"offset": 0,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Marsh/Water",
+					"effect": "outline",
+					"distance": 4,
+					"factor": 0.2
+				},
+				{
+					"id": "Marsh/Mangrove",
+					"effect": "sharpen",
+					"distance": 3
+				}
+			],
+			"offset": 0,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": true
+		},
+		{
+			"borders": [
+				{
+					"id": "Marsh/Water",
+					"effect": "outline",
+					"distance": 4,
+					"factor": 0.2
+				},
+				{
+					"id": "Marsh/Wetland",
+					"effect": "sharpen",
+					"distance": 3
+				}
+			],
+			"offset": 0,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "LightForest/Savannah",
+					"effect": "none"
+				},
+				{
+					"id": "Grassland/Shrubland",
+					"effect": "none"
+				}
+			],
+			"offset": -1,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.6
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "LightForest/Savannah",
+					"effect": "blend",
+					"distance": 6
+				},
+				{
+					"id": "Desert/Dry",
+					"effect": "blend",
+					"distance": 6
+				}
+			],
+			"offset": 3,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.6
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "LightForest/Woodland",
+					"effect": "blend",
+					"distance": 9
+				},
+				{
+					"id": "Grassland/Prairie",
+					"effect": "blend",
+					"distance": 9
+				}
+			],
+			"offset": 0,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "LightForest/Woodland",
+					"effect": "blend",
+					"distance": 9
+				},
+				{
+					"id": "Grassland/Shrubland",
+					"effect": "blend",
+					"distance": 9
+				}
+			],
+			"offset": 0,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "LightForest/Woodland",
+					"effect": "blend",
+					"distance": 8
+				},
+				{
+					"id": "LightForest/Savannah",
+					"effect": "blend",
+					"distance": 8
+				}
+			],
+			"offset": 0,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "DeepForest/Coniferous",
+					"effect": "blur"
+				},
+				{
+					"id": "LightForest/Savannah",
+					"effect": "blur"
+				}
+			],
+			"offset": -3,
+			"displacement": {
+				"iterations": 4,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Desert/Dry",
+					"effect": "blend",
+					"distance": 9
+				},
+				{
+					"id": "Desert/Sand",
+					"effect": "blend",
+					"distance": 10
+				}
+			],
+			"offset": 0,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Desert/Dry",
+					"effect": "sharpen",
+					"distance": 2
+				},
+				{
+					"id": "Desert/Unreachable",
+					"effect": "outline",
+					"distance": 4,
+					"factor": 0.2
+				}
+			],
+			"offset": -4,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": true
+		},
+		{
+			"borders": [
+				{
+					"id": "Desert/Sand",
+					"effect": "sharpen",
+					"distance": 3
+				},
+				{
+					"id": "Desert/Unreachable",
+					"effect": "outline",
+					"distance": 4,
+					"factor": 0.2
+				}
+			],
+			"offset": 3,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": true
+		},
+		{
+			"borders": [
+				{
+					"id": "Moutain/Rocky",
+					"effect": "none"
+				},
+				{
+					"id": "DeepForest/Coniferous",
+					"effect": "none"
+				}
+			],
+			"offset": 3,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Moutain/Rocky",
+					"effect": "blur"
+				},
+				{
+					"id": "DeepForest/Broadleaf",
+					"effect": "blur"
+				}
+			],
+			"offset": 0,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Moutain/Rocky",
+					"effect": "blur"
+				},
+				{
+					"id": "LightForest/Woodland",
+					"effect": "blend",
+					"distance": 9
+				}
+			],
+			"offset": 0,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Moutain/Rocky",
+					"effect": "blur"
+				},
+				{
+					"id": "Moutain/Steppe",
+					"effect": "blur"
+				}
+			],
+			"offset": -1,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.6
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Moutain/Rocky",
+					"effect": "blur"
+				},
+				{
+					"id": "Moutain/Snow",
+					"effect": "blur"
+				}
+			],
+			"offset": -3,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Moutain/Rocky",
+					"effect": "none"
+				},
+				{
+					"id": "Moutain/Unreachable",
+					"effect": "outline",
+					"distance": 4,
+					"factor": 0.2
+				}
+			],
+			"offset": 0,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": true
+		},
+		{
+			"borders": [
+				{
+					"id": "Moutain/Steppe",
+					"effect": "blend",
+					"distance": 9
+				},
+				{
+					"id": "Moutain/Snow",
+					"effect": "blend",
+					"distance": 7
+				}
+			],
+			"offset": 6,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.6
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Moutain/Steppe",
+					"effect": "blend",
+					"distance": 2
+				},
+				{
+					"id": "LightForest/Woodland",
+					"effect": "blend",
+					"distance": 10
+				}
+			],
+			"offset": 2,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Moutain/Steppe",
+					"effect": "blend",
+					"distance": 2
+				},
+				{
+					"id": "LightForest/Savannah",
+					"effect": "blend",
+					"distance": 8
+				}
+			],
+			"offset": -5,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Moutain/Steppe",
+					"effect": "blend",
+					"distance": 12
+				},
+				{
+					"id": "Desert/Dry",
+					"effect": "blend",
+					"distance": 11
+				}
+			],
+			"offset": 6,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Moutain/Snow",
+					"effect": "blend",
+					"distance": 10
+				},
+				{
+					"id": "Moutain/Unreachable",
+					"effect": "outline",
+					"distance": 4,
+					"factor": 0.2
+				}
+			],
+			"offset": 4,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": true
+		},
+		{
+			"borders": [
+				{
+					"id": "Underground/Mud",
+					"effect": "outline",
+					"distance": 5,
+					"factor": 0.35
+				},
+				{
+					"id": "Void",
+					"effect": "none"
+				}
+			],
+			"offset": 5,
+			"displacement": {
+				"iterations": 1,
+				"initialFactor": 0.35,
+				"reductionFactor": 0.7
+			},
+			"limit": true
+		},
+		{
+			"borders": [
+				{
+					"id": "Underground/Mud",
+					"effect": "blur"
+				},
+				{
+					"id": "Underground/Basalt",
+					"effect": "blur"
+				}
+			],
+			"offset": -3,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Underground/Basalt",
+					"effect": "outline",
+					"distance": 5,
+					"factor": 0.4
+				},
+				{
+					"id": "Void",
+					"effect": "none"
+				}
+			],
+			"offset": 0,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": true
+		},
+		{
+			"borders": [
+				{
+					"id": "Underground/Basalt",
+					"effect": "none"
+				},
+				{
+					"id": "Underground/Lava",
+					"effect": "outline",
+					"distance": 5,
+					"factor": 0.2
+				}
+			],
+			"offset": 0,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": true
+		},
+		{
+			"borders": [
+				{
+					"id": "Underground/Lava",
+					"effect": "outline",
+					"distance": 5,
+					"factor": 0.2
+				},
+				{
+					"id": "Void",
+					"effect": "none"
+				}
+			],
+			"offset": 2,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Road/Gravel",
+					"effect": "fade",
+					"distance": 12
+				},
+				{
+					"id": "Void",
+					"effect": "none"
+				}
+			],
+			"offset": 4,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.6
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Road/Paved",
+					"effect": "fade",
+					"distance": 10
+				},
+				{
+					"id": "Void",
+					"effect": "none"
+				}
+			],
+			"offset": 6,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Road/Paved",
+					"effect": "blend",
+					"distance": 10
+				},
+				{
+					"id": "Road/Gravel",
+					"effect": "blend",
+					"distance": 9
+				}
+			],
+			"offset": -4,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Road/Trail",
+					"effect": "fade",
+					"distance": 11
+				},
+				{
+					"id": "Void",
+					"effect": "none"
+				}
+			],
+			"offset": 5,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Road/Track",
+					"effect": "fade",
+					"distance": 11
+				},
+				{
+					"id": "Void",
+					"effect": "none"
+				}
+			],
+			"offset": 6,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.6
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Road/Track",
+					"effect": "blur"
+				},
+				{
+					"id": "Road/Trail",
+					"effect": "blur"
+				}
+			],
+			"offset": 2,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Water/River",
+					"effect": "outline",
+					"distance": 5,
+					"factor": 0.2
+				},
+				{
+					"id": "Void",
+					"effect": "none"
+				}
+			],
+			"offset": 4,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.6
+			},
+			"limit": true
+		},
+		{
+			"borders": [
+				{
+					"id": "Water/River",
+					"effect": "blend",
+					"distance": 11
+				},
+				{
+					"id": "Sea/Shore",
+					"effect": "blend",
+					"distance": 13
+				}
+			],
+			"offset": -3,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.6
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Water/River",
+					"effect": "blend",
+					"distance": 8
+				},
+				{
+					"id": "Water/Lake",
+					"effect": "blend",
+					"distance": 9
+				}
+			],
+			"offset": 0,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Water/Lake",
+					"effect": "outline",
+					"distance": 5,
+					"factor": 0.2
+				},
+				{
+					"id": "Void",
+					"effect": "none"
+				}
+			],
+			"offset": 2,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": true
+		},
+		{
+			"borders": [
+				{
+					"id": "Water/River",
+					"effect": "none"
+				},
+				{
+					"id": "Road/Bridge",
+					"effect": "outline",
+					"distance": 1,
+					"factor": 0.2
+				}
+			],
+			"offset": -8,
+			"displacement": {
+				"iterations": 1,
+				"initialFactor": 0.15,
+				"reductionFactor": 0.5
+			},
+			"limit": true
+		},
+		{
+			"borders": [
+				{
+					"id": "Road/Bridge",
+					"effect": "none"
+				},
+				{
+					"id": "Void",
+					"effect": "none"
+				}
+			],
+			"offset": 0,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Road/Bridge",
+					"effect": "none"
+				},
+				{
+					"id": "Road/Gravel",
+					"effect": "none"
+				}
+			],
+			"offset": 0,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Water/Ford",
+					"effect": "blend",
+					"distance": 5
+				},
+				{
+					"id": "Water/River",
+					"effect": "blend",
+					"distance": 5
+				}
+			],
+			"offset": 4,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": true
+		},
+		{
+			"borders": [
+				{
+					"id": "Water/Ford",
+					"effect": "none"
+				},
+				{
+					"id": "Void",
+					"effect": "none"
+				}
+			],
+			"offset": 0,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		}
+	],
+	"wang3": [
+		[
+			"Coast/Beach",
+			"Coast/Cliff",
+			"Sea/Shore"
+		],
+		[
+			"Coast/Beach",
+			"Water/River",
+			"Sea/Shore"
+		],
+		[
+			"Coast/Beach",
+			"Marsh/Mangrove",
+			"Sea/Shore"
+		],
+		[
+			"Coast/Beach",
+			"Grassland/Meadow",
+			"Coast/Cliff"
+		],
+		[
+			"Coast/Beach",
+			"Grassland/Meadow",
+			"Marsh/Mangrove"
+		],
+		[
+			"Grassland/Meadow",
+			"Grassland/Shrubland",
+			"Grassland/Prairie"
+		],
+		[
+			"Marsh/Wetland",
+			"Grassland/Meadow",
+			"Grassland/Shrubland"
+		],
+		[
+			"Grassland/Shrubland",
+			"LightForest/Woodland",
+			"Grassland/Prairie"
+		],
+		[
+			"LightForest/Woodland",
+			"DeepForest/Broadleaf",
+			"Grassland/Prairie"
+		],
+		[
+			"Grassland/Shrubland",
+			"Desert/Dry",
+			"LightForest/Savannah"
+		],
+		[
+			"DeepForest/Coniferous",
+			"Moutain/Rocky",
+			"DeepForest/Broadleaf"
+		],
+		[
+			"Moutain/Rocky",
+			"LightForest/Woodland",
+			"DeepForest/Broadleaf"
+		],
+		[
+			"Marsh/Wetland",
+			"Grassland/Meadow",
+			"Marsh/Mangrove"
+		],
+		[
+			"Marsh/Wetland",
+			"Marsh/Water",
+			"Marsh/Mangrove"
+		],
+		[
+			"Grassland/Shrubland",
+			"LightForest/Woodland",
+			"LightForest/Savannah"
+		],
+		[
+			"Desert/Dry",
+			"Moutain/Steppe",
+			"LightForest/Savannah"
+		],
+		[
+			"Moutain/Steppe",
+			"LightForest/Woodland",
+			"LightForest/Savannah"
+		],
+		[
+			"Desert/Dry",
+			"Desert/Unreachable",
+			"Desert/Sand"
+		],
+		[
+			"Moutain/Rocky",
+			"Moutain/Steppe",
+			"LightForest/Woodland"
+		],
+		[
+			"Moutain/Rocky",
+			"Moutain/Steppe",
+			"Moutain/Snow"
+		],
+		[
+			"Moutain/Rocky",
+			"Moutain/Snow",
+			"Moutain/Unreachable"
+		],
+		[
+			"Underground/Mud",
+			"Underground/Basalt",
+			"Void"
+		],
+		[
+			"Underground/Lava",
+			"Underground/Basalt",
+			"Void"
+		],
+		[
+			"Road/Gravel",
+			"Road/Paved",
+			"Void"
+		],
+		[
+			"Road/Gravel",
+			"Road/Bridge",
+			"Void"
+		],
+		[
+			"Road/Track",
+			"Road/Trail",
+			"Void"
+		],
+		[
+			"Water/Lake",
+			"Water/River",
+			"Void"
+		],
+		[
+			"Road/Bridge",
+			"Water/River",
+			"Void"
+		],
+		[
+			"Water/Ford",
+			"Water/River",
+			"Void"
+		]
+	]
 }

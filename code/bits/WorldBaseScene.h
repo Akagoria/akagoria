@@ -24,13 +24,9 @@
 
 #include <gfb2d/PhysicsDebugger.h>
 
-#include "CharacterRenderer.h"
 #include "CommandsHelperRenderer.h"
-#include "HeroRenderer.h"
-#include "ItemRenderer.h"
-#include "MapRenderer.h"
+#include "UniverseRenderer.h"
 #include "PhysicsRuntime.h"
-#include "VfxRenderer.h"
 
 namespace akgr {
   struct Akagoria;
@@ -46,15 +42,7 @@ namespace akgr {
   private:
     Akagoria& m_game;
 
-    MapTileRenderer m_ground;
-    MapTileRenderer m_lowTile;
-    MapSpriteRenderer m_lowSprite;
-    MapTileRenderer m_highTile;
-    MapSpriteRenderer m_highSprite;
-    HeroRenderer m_hero;
-    CharacterRenderer m_character;
-    ItemRenderer m_item;
-    VfxRenderer m_vfx;
+    UniverseRenderer m_universe;
     CommandsHelperRenderer m_helper;
 
     gfb2d::PhysicsDebugger m_debug;

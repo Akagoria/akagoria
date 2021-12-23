@@ -22,9 +22,13 @@
 
 #include <gf/Action.h>
 
+#include "GamepadControl.h"
+
 namespace akgr {
 
   struct Commands {
+    GamepadControl gamepad;
+
     gf::Action windowClose;
     gf::Action windowFullscreen;
 
@@ -35,6 +39,8 @@ namespace akgr {
     gf::Action gameDown;
     gf::Action gameLeft;
     gf::Action gameRight;
+
+    gf::Action gameMove;
 
     gf::Action gameUse;
     gf::Action gameFight;

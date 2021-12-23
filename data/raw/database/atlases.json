@@ -2,5 +2,9 @@
   "SmallItems": {
     "path": "sprites/items-s.png",
     "width": 16, "height": 16
+  },
+  "Hero": {
+    "path": "sprites/kalista.png",
+    "width": 4, "height": 4
   }
 }

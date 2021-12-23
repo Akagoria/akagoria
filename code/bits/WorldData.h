@@ -30,6 +30,7 @@
 #include "CharacterData.h"
 #include "DialogData.h"
 #include "Dict.h"
+#include "HeroData.h"
 #include "ItemData.h"
 #include "LandscapeData.h"
 #include "LocationData.h"
@@ -44,16 +45,17 @@ namespace akgr {
     MapData map;
     PhysicsData physics;
     LandscapeData landscape;
+
     Dict<AreaData> areas;
     Dict<LocationData> locations;
 
-    Dict<AtlasData> atlases;
+    HeroData hero;
 
+    Dict<AtlasData> atlases;
     Dict<DialogData> dialogs;
     Dict<NotificationData> notifications;
     Dict<CharacterData> characters;
     Dict<ItemData> items;
-
     Dict<WeaponData> weapons;
 
     bool loadFromFile(const gf::Path& filename);
@@ -63,7 +65,7 @@ namespace akgr {
   template<typename Archive>
   Archive& operator|(Archive& ar, WorldData& data) {
     return ar | data.map | data.physics | data.landscape | data.areas | data.locations
-        | data.atlases | data.dialogs | data.notifications | data.characters | data.items | data.weapons;
+        | data.hero | data.atlases | data.dialogs | data.notifications | data.characters | data.items | data.weapons;
   }
 
 }

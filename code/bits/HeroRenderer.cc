@@ -20,52 +20,84 @@
 #include "HeroRenderer.h"
 
 #include <gf/AnimatedSprite.h>
+#include <gf/Log.h>
 #include <gf/RenderTarget.h>
 
+#include "WorldData.h"
 #include "WorldState.h"
 
 namespace akgr {
 
-  HeroRenderer::HeroRenderer(const WorldState& state, gf::ResourceManager& resources)
+  namespace {
+    gf::Animation loadAnimation(const WorldData& data, gf::ResourceManager& resources, std::string name) {
+      gf::Animation animation;
+
+      auto it = data.hero.animations.find(gf::hash(name));
+
+      if (it == data.hero.animations.end()) {
+        gf::Log::error("Unkown animation for hero: '%s'\n", name.c_str());
+        return animation;
+      }
+
+      const AtlasAnimation& atlasAnimation = it->second;
+
+      for (auto & frame : atlasAnimation.frames) {
+        auto it = data.atlases.find(frame.atlas);
+
+        if (it == data.atlases.end()) {
+          gf::Log::error("Unknown atlas for animation (hero): '%s'\n", name.c_str());
+          continue;
+        }
+
+        const AtlasData& atlas = it->second;
+        gf::Texture& texture = resources.getTexture(atlas.path);
+        texture.setSmooth(true);
+
+        gf::Vector2f textureSize = 1.0f / atlas.size;
+        gf::Vector2i textureIndex = { frame.index % atlas.size.width, frame.index / atlas.size.width };
+
+        animation.addFrame(texture, gf::RectF::fromPositionSize(textureSize * textureIndex, textureSize), gf::milliseconds(frame.duration));
+      }
+
+      return animation;
+    }
+
+
+  }
+
+  HeroRenderer::HeroRenderer(const WorldData& data, const WorldState& state, gf::ResourceManager& resources)
   : m_state(state)
+  , m_staticAnimation(loadAnimation(data, resources, "static"))
+  , m_forwardAnimation(loadAnimation(data, resources, "forward"))
+  , m_backwardAnimation(loadAnimation(data, resources, "backward"))
   , m_currentAnimation(&m_staticAnimation)
   {
-    auto& texture = resources.getTexture("sprites/kalista.png");
-    texture.setSmooth(true);
-
-    m_staticAnimation.addFrame(texture, gf::RectF::fromPositionSize({ 0.0f, 0.0f }, { 0.25f, 0.25f }), gf::seconds(1.0f));
-
-    m_forwardAnimation.addFrame(texture, gf::RectF::fromPositionSize({ 0.0f,  0.0f }, { 0.25f, 0.25f }), gf::seconds(0.15f));
-    m_forwardAnimation.addFrame(texture, gf::RectF::fromPositionSize({ 0.25f, 0.0f }, { 0.25f, 0.25f }), gf::seconds(0.20f));
-    m_forwardAnimation.addFrame(texture, gf::RectF::fromPositionSize({ 0.0f,  0.0f }, { 0.25f, 0.25f }), gf::seconds(0.15f));
-    m_forwardAnimation.addFrame(texture, gf::RectF::fromPositionSize({ 0.5f,  0.0f }, { 0.25f, 0.25f }), gf::seconds(0.20f));
-
-    m_backwardAnimation.addFrame(texture, gf::RectF::fromPositionSize({ 0.0f,  0.0f }, { 0.25f, 0.25f }), gf::seconds(0.20f));
-    m_backwardAnimation.addFrame(texture, gf::RectF::fromPositionSize({ 0.5f,  0.0f }, { 0.25f, 0.25f }), gf::seconds(0.30f));
-    m_backwardAnimation.addFrame(texture, gf::RectF::fromPositionSize({ 0.0f,  0.0f }, { 0.25f, 0.25f }), gf::seconds(0.20f));
-    m_backwardAnimation.addFrame(texture, gf::RectF::fromPositionSize({ 0.25f, 0.0f }, { 0.25f, 0.25f }), gf::seconds(0.30f));
   }
 
   void HeroRenderer::update(gf::Time time) {
-    switch (m_state.hero.move.linear) {
-      case gf::LinearMove::None:
-        m_currentAnimation = &m_staticAnimation;
-        break;
+     switch (m_state.hero.move.linear) {
+       case gf::LinearMove::None:
+         m_currentAnimation = &m_staticAnimation;
+         break;
 
-      case gf::LinearMove::Forward:
-        m_currentAnimation = &m_forwardAnimation;
-        break;
+       case gf::LinearMove::Forward:
+         m_currentAnimation = &m_forwardAnimation;
+         break;
 
-      case gf::LinearMove::Backward:
-        m_currentAnimation = &m_backwardAnimation;
-        break;
-    }
+       case gf::LinearMove::Backward:
+         m_currentAnimation = &m_backwardAnimation;
+         break;
+     }
 
-    assert(m_currentAnimation);
-    m_currentAnimation->update(time);
+     assert(m_currentAnimation);
+     m_currentAnimation->update(time);
   }
 
-  void HeroRenderer::render(gf::RenderTarget& target, const gf::RenderStates& states) {
+  void HeroRenderer::renderFloor(gf::RenderTarget& target, const gf::RenderStates& states, int32_t floor) {
+    if (floor != m_state.hero.physics.location.floor) {
+      return;
+    }
+
     gf::AnimatedSprite sprite;
     sprite.setAnimation(*m_currentAnimation);
     sprite.setPosition(m_state.hero.physics.location.position);

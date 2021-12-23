@@ -22,8 +22,7 @@
 
 #include <vector>
 
-#include <gf/Entity.h>
-
+#include "FloorRenderer.h"
 #include "WorldData.h"
 #include "WorldState.h"
 #include "WorldScenery.h"
@@ -36,29 +35,26 @@ namespace akgr {
     Ground,
   };
 
-  class MapTileRenderer : public gf::Entity {
+  class MapTileRenderer : public FloorRenderer {
   public:
-    MapTileRenderer(Plane plane, const WorldData& data, const WorldState& state, MapTileScenery& scenery);
+    MapTileRenderer(Plane plane, const WorldData& data, MapTileScenery& scenery);
 
-    virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
+    void renderFloor(gf::RenderTarget& target, const gf::RenderStates& states, int32_t floor) override;
 
   private:
     const WorldData& m_data;
-    const WorldState& m_state;
     MapTileScenery& m_scenery;
   };
 
 
-  class MapSpriteRenderer : public gf::Entity {
+  class MapSpriteRenderer : public FloorRenderer {
   public:
+    MapSpriteRenderer(Plane plane, const WorldData& data, MapSpriteScenery& scenery);
 
-    MapSpriteRenderer(Plane plane, const WorldData& data, const WorldState& state, MapSpriteScenery& scenery);
-
-    virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
+    void renderFloor(gf::RenderTarget& target, const gf::RenderStates& states, int32_t floor) override;
 
   private:
     const WorldData& m_data;
-    const WorldState& m_state;
     MapSpriteScenery& m_scenery;
   };
 
