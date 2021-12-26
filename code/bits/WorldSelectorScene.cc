@@ -66,7 +66,7 @@ namespace akgr {
         Slot& slot = m_game.root.scenery.selector.getSlot();
         m_game.world.state.saveToFile(slot.path);
 
-        slot.meta.area = m_game.world.scenery.area.current->name;
+        slot.meta.area = m_game.world.scenery.area.current->name.tag;
         slot.save();
 
         auto savingTime = savingClock.getElapsedTime();

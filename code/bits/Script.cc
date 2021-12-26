@@ -395,7 +395,7 @@ namespace akgr {
     character.physics.angle = 0.0f; // TODO
     character.physics.body = getState(vm).physics.createCharacterBody(character.physics.location, character.physics.angle);
 
-    gf::Id weapon = character.ref.data->weapon;
+    gf::Id weapon = character.ref.data->weapon.id;
 
     if (weapon != gf::InvalidId) {
       character.weapon.ref.id = weapon;

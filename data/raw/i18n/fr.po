@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: akagoria\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-28 17:02+0100\n"
+"POT-Creation-Date: 2021-12-26 22:14+0100\n"
 "PO-Revision-Date: 2018-11-01 12:11+0100\n"
 "Last-Translator: Julien Bernard <julien.bernard@univ-fcomte.fr>\n"
 "Language: fr\n"
@@ -22,25 +22,6 @@ msgstr "Montagnes Rocheuses"
 
 msgid "Plains of the South"
 msgstr "Plaines du Sud"
-
-msgid "What happened here?"
-msgstr ""
-
-msgid ""
-"It has rained a lot in the last few days.\n"
-"This rock has fallen from the moutain.\n"
-"It's too heavy, nobody can move it."
-msgstr ""
-
-msgid ""
-"Really? I don't want to stay here.\n"
-" Who is in charge here?"
-msgstr ""
-
-msgid ""
-"Nobody, but you can probably ask Grubee, the blacksmith.\n"
-"He lives in the center of the village."
-msgstr ""
 
 msgid ""
 "Ouch! What a terrible headache!\n"
@@ -69,8 +50,9 @@ msgstr ""
 "Je peux voir de la fumée au sud...\n"
 "Allons-y !"
 
+#, fuzzy
 msgid ""
-"I don't recognize anything. What happended?\n"
+"I don't recognize anything. What happened?\n"
 "I have been asleep for a very long time.\n"
 "A too long time... But how much?"
 msgstr ""
@@ -115,56 +97,72 @@ msgstr ""
 msgid "Go south, you will find a lovely place called Arabband."
 msgstr "Allez au sud, vous trouverez un charmant village appelé Arabband."
 
-msgid "A Pona Shrine gives you some health"
+msgid "What happened here?"
+msgstr ""
+
+msgid ""
+"It has rained a lot in the last few days.\n"
+"This rock has fallen from the moutain.\n"
+"It's too heavy, nobody can move it."
+msgstr ""
+
+msgid ""
+"Really? I don't want to stay here.\n"
+" Who is in charge here?"
+msgstr ""
+
+msgid ""
+"Nobody, but you can probably ask Grubee, the blacksmith.\n"
+"He lives in the center of the village."
 msgstr ""
 
 msgid "Welcome to Akagoria!"
 msgstr "Bienvenue à Akagoria !"
 
-msgid "Emerald"
-msgstr "Émeraude"
+msgid "A Pona Shrine gives you some health"
+msgstr ""
 
 msgid "Ruby"
 msgstr "Rubis"
 
+msgid "Emerald"
+msgstr "Émeraude"
+
 msgid "Short sword"
 msgstr "Épée courte"
-
-msgid "simple grenade"
-msgstr "grenade simple"
-
-msgid "small bow"
-msgstr "petit arc"
-
-msgid "small fire cone"
-msgstr ""
 
 msgid "small sword"
 msgstr "petite épée"
 
-msgid "The end"
-msgstr "Fin"
+msgid "small bow"
+msgstr "petit arc"
 
-msgid "Continue"
-msgstr "Continuer"
+msgid "simple grenade"
+msgstr "grenade simple"
 
-msgid "Pick"
-msgstr "Prendre"
+msgid "small fire cone"
+msgstr ""
 
-msgid "Quit"
-msgstr "Quitter"
+msgid "The revenge of Kalista"
+msgstr "La revanche de Kalista"
 
-msgid "Select"
-msgstr "Sélectionner"
+msgid "Loading..."
+msgstr "Chargement..."
 
-msgid "Talk"
-msgstr "Parler"
+msgid "Start an adventure"
+msgstr "Démarrer une aventure"
 
-msgid "Use"
-msgstr "Utiliser"
+msgid "Continue an adventure"
+msgstr "Continuer une aventure"
 
-msgid "Back"
-msgstr "Retour"
+msgid "Inventory"
+msgstr "Inventaire"
+
+msgid "Quests"
+msgstr "Quêtes"
+
+msgid "Skills"
+msgstr "Talents"
 
 msgid "Back to adventure"
 msgstr "Retour à l'aventure"
@@ -172,20 +170,32 @@ msgstr "Retour à l'aventure"
 msgid "Back to real life"
 msgstr "Retour à la vraie vie"
 
-msgid "Inventory"
-msgstr "Inventaire"
-
-msgid "Continue an adventure"
-msgstr "Continuer une aventure"
-
 msgid "Options"
 msgstr "Options"
+
+msgid "Quit"
+msgstr "Quitter"
+
+msgid "Back"
+msgstr "Retour"
+
+msgid "Input device"
+msgstr "Périphérique d'entrée"
+
+msgid "Keyboard"
+msgstr "Clavier"
+
+msgid "Gamepad"
+msgstr "Manette"
 
 msgid "Display"
 msgstr "Affichage"
 
 msgid "Fullscreen"
 msgstr "Plein écran"
+
+msgid "Window (960x540)"
+msgstr "Fenêtre (960x540)"
 
 msgid "Window (1024x576)"
 msgstr "Fenêtre (1024x576)"
@@ -196,29 +206,20 @@ msgstr "Fenêtre (1152x648)"
 msgid "Window (1280x720)"
 msgstr "Fenêtre (1280x720)"
 
-msgid "Window (960x540)"
-msgstr "Fenêtre (960x540)"
+msgid "Continue"
+msgstr "Continuer"
 
-msgid "Input device"
-msgstr "Périphérique d'entrée"
+msgid "Pick"
+msgstr "Prendre"
 
-msgid "Gamepad"
-msgstr "Manette"
+msgid "Select"
+msgstr "Sélectionner"
 
-msgid "Keyboard"
-msgstr "Clavier"
+msgid "Talk"
+msgstr "Parler"
 
-msgid "Quests"
-msgstr "Quêtes"
+msgid "Use"
+msgstr "Utiliser"
 
-msgid "Skills"
-msgstr "Talents"
-
-msgid "Start an adventure"
-msgstr "Démarrer une aventure"
-
-msgid "Loading..."
-msgstr "Chargement..."
-
-msgid "The revenge of Kalista"
-msgstr "La revanche de Kalista"
+msgid "The end"
+msgstr "Fin"

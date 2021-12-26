@@ -2,11 +2,12 @@
 #define AKGR_HERO_DATA_H
 
 #include "AtlasData.h"
+#include "Dict.h"
 
 namespace akgr {
 
   struct HeroData {
-    std::map<gf::Id, AtlasAnimation> animations;
+    Dict<AtlasAnimation> animations;
   };
 
   template<typename Archive>

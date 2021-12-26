@@ -25,10 +25,12 @@
 #include <gf/Path.h>
 #include <gf/Vector.h>
 
+#include "SId.h"
+
 namespace akgr {
 
   struct AtlasData {
-    std::string name;
+    SId name;
     gf::Path path;
     gf::Vector<int32_t, 2> size;
   };
@@ -40,7 +42,7 @@ namespace akgr {
 
 
   struct AtlasSprite {
-    gf::Id atlas;
+    SId atlas;
     int32_t index;
     float scale;
   };
@@ -52,7 +54,7 @@ namespace akgr {
 
 
   struct AtlasFrame {
-    gf::Id atlas;
+    SId atlas;
     int32_t index;
     int32_t duration;
   };
@@ -64,7 +66,7 @@ namespace akgr {
 
 
   struct AtlasAnimation {
-    std::string name;
+    SId name;
     std::vector<AtlasFrame> frames;
   };
 

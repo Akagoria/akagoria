@@ -44,6 +44,173 @@
 
 using namespace gf::literals;
 
+namespace gf {
+
+  void from_json(const nlohmann::json& j, Time& time) {
+    int32_t ms;
+    j.get_to(ms);
+    time = gf::milliseconds(ms);
+  }
+
+}
+
+namespace akgr {
+  // Value.h
+
+  void from_json(const nlohmann::json& j, Value& value) {
+    int32_t raw;
+    j.get_to(raw);
+    value = Value(raw);
+  }
+
+  // SId.h
+
+  void from_json(const nlohmann::json& j, SId& sid) {
+    if (j.is_null()) {
+      sid.tag = "";
+      sid.id = gf::InvalidId;
+    } else {
+      j.get_to(sid.tag);
+      sid.id = gf::hash(sid.tag);
+    }
+  }
+
+  // Shape.h
+
+  NLOHMANN_JSON_SERIALIZE_ENUM(ShapeType, {
+    { ShapeType::None, "none" },
+    { ShapeType::Circle, "circle" },
+    { ShapeType::Rectangle, "rectangle" },
+  })
+
+  void from_json(const nlohmann::json& j, Shape& shape) {
+    j.at("type").get_to(shape.type);
+
+    switch (shape.type) {
+      case ShapeType::None:
+        break;
+      case ShapeType::Circle:
+        j.at("radius").get_to(shape.circle.radius);
+        break;
+      case ShapeType::Rectangle:
+        j.at("width").get_to(shape.rectangle.width);
+        j.at("height").get_to(shape.rectangle.height);
+        break;
+    }
+  }
+
+  // AtlasData.h
+
+  void from_json(const nlohmann::json& j, AtlasData& data) {
+    j.at("name").get_to(data.name);
+    j.at("path").get_to(data.path);
+    j.at("width").get_to(data.size.width);
+    j.at("height").get_to(data.size.height);
+  }
+
+  void from_json(const nlohmann::json& j, AtlasSprite& data) {
+    j.at("atlas").get_to(data.atlas);
+    j.at("index").get_to(data.index);
+    j.at("scale").get_to(data.scale);
+  }
+
+  void from_json(const nlohmann::json& j, AtlasFrame& data) {
+    j.at("atlas").get_to(data.atlas);
+    j.at("index").get_to(data.index);
+    j.at("duration").get_to(data.duration);
+  }
+
+  void from_json(const nlohmann::json& j, AtlasAnimation& data) {
+    j.at("name").get_to(data.name);
+    j.at("frames").get_to(data.frames);
+  }
+
+  // CharacterData.h
+
+  void from_json(const nlohmann::json& j, CharacterData& data) {
+    j.at("name").get_to(data.name);
+    j.at("size").at("width").get_to(data.size.width);
+    j.at("size").at("height").get_to(data.size.height);
+    j.at("attribute").get_to(data.attribute);
+    j.at("level").get_to(data.level);
+    j.at("weapon").get_to(data.weapon);
+  }
+
+  // Dialog.h
+
+  void from_json(const nlohmann::json& j, DialogLine& data) {
+    j.at("speaker").get_to(data.speaker);
+    j.at("words").get_to(data.words);
+  }
+
+  NLOHMANN_JSON_SERIALIZE_ENUM(DialogType, {
+    { DialogType::Simple, "Simple" },
+    { DialogType::Quest, "Quest" },
+    { DialogType::Story, "Story" },
+  })
+
+  void from_json(const nlohmann::json& j, DialogData& data) {
+    j.at("name").get_to(data.name);
+    j.at("type").get_to(data.type);
+    j.at("content").get_to(data.content);
+  }
+
+  // HeroData.h
+
+  void from_json(const nlohmann::json& j, HeroData& data) {
+    j.at("animations").get_to(data.animations);
+    dictSort(data.animations);
+  }
+
+  // ItemData.h
+
+  void from_json(const nlohmann::json& j, ItemData& data) {
+    j.at("name").get_to(data.name);
+    j.at("description").get_to(data.description);
+    j.at("shape").get_to(data.shape);
+    j.at("sprite").get_to(data.sprite);
+  }
+
+  // NotificationData.h
+
+  void from_json(const nlohmann::json& j, NotificationData& data) {
+    j.at("name").get_to(data.name);
+    j.at("message").get_to(data.message);
+    j.at("duration").get_to(data.duration);
+  }
+
+  // WeaponData.h
+
+  NLOHMANN_JSON_SERIALIZE_ENUM(WeaponType, {
+    { WeaponType::Melee, "melee" },
+    { WeaponType::Ranged, "ranged" },
+    { WeaponType::Explosive, "explosive" },
+    { WeaponType::Elemental, "elemental" },
+  })
+
+  void from_json(const nlohmann::json& j, WeaponData& data) {
+    j.at("name").get_to(data.name);
+    j.at("description").get_to(data.description);
+    j.at("type").get_to(data.type);
+    j.at("attack").get_to(data.attack);
+    j.at("attribute").get_to(data.attribute);
+    j.at("aspect").get_to(data.aspect);
+    j.at("range").get_to(data.range);
+    j.at("angle").get_to(data.angle);
+    j.at("warmup").get_to(data.warmup);
+    j.at("cooldown").get_to(data.cooldown);
+  }
+
+  // UIData.h
+
+  void from_json(const nlohmann::json& j, UIData& data) {
+    j.at("name").get_to(data.name);
+    j.at("message").get_to(data.message);
+  }
+
+}
+
+
 namespace {
 
   std::vector<akgr::Collision> computeAutoCollision(const std::vector<gf::SegmentI>& segments, int32_t currentFloor, int& currentCount) {
@@ -63,43 +230,6 @@ namespace {
     return collisions;
   }
 
-  /*
-   * common
-   */
-
-  akgr::ShapeType getShapeType(const std::string& name) {
-    if (name == "circle") {
-      return akgr::ShapeType::Circle;
-    }
-
-    if (name == "rectangle") {
-      return akgr::ShapeType::Rectangle;
-    }
-
-    gf::Log::error("Unknown shape type: '%s'\n", name.c_str());
-    return akgr::ShapeType::None;
-  }
-
-  akgr::WeaponType getWeaponType(const std::string& name) {
-    if (name == "melee") {
-      return akgr::WeaponType::Melee;
-    }
-
-    if (name == "ranged") {
-      return akgr::WeaponType::Ranged;
-    }
-
-    if (name == "explosive") {
-      return akgr::WeaponType::Explosive;
-    }
-
-    if (name == "elemental") {
-      return akgr::WeaponType::Elemental;
-    }
-
-    gf::Log::error("Unknown weapon type: '%s'\n", name.c_str());
-    return akgr::WeaponType::Melee;
-  }
 
   /*
    * tmx file
@@ -497,9 +627,9 @@ namespace {
           area.position.center = object->position;
           area.position.radius = 0.0f;
 
-          strings.push_back(area.name);
+          strings.push_back(area.name.tag);
 
-          data.areas.insert({ gf::hash(area.name), std::move(area) });
+          data.areas.push_back(std::move(area));
         }
 
         return;
@@ -517,7 +647,7 @@ namespace {
           locationData.location.position = object->position;
           locationData.location.floor = currentFloor;
 
-          data.locations.insert({ gf::hash(locationData.name), std::move(locationData) });
+          data.locations.push_back(std::move(locationData));
         }
 
         return;
@@ -638,6 +768,9 @@ namespace {
     for (auto& tileset : data.map.tilesets) {
       tileset.path = std::filesystem::relative(tileset.path, inputDirectory);
     }
+
+    dictSort(data.areas);
+    dictSort(data.locations);
   }
 
   /*
@@ -645,248 +778,116 @@ namespace {
    */
 
   void compileJsonHero(const gf::Path& filename, akgr::HeroData& data) {
+    std::printf("Reading '%s'...\n", filename.string().c_str());
     std::ifstream ifs(filename.string());
-
-    const auto j = nlohmann::json::parse(ifs);
-
-    for (auto kv : j["animations"].items()) {
-      akgr::AtlasAnimation animation;
-      animation.name = kv.key();
-
-      auto value = kv.value();
-
-      for (auto item : value) {
-        akgr::AtlasFrame frame;
-
-        frame.atlas = gf::hash(item["atlas"].get<std::string>());
-        frame.index = item["index"].get<int32_t>();
-        frame.duration = item["duration"].get<int32_t>();
-
-        animation.frames.push_back(std::move(frame));
-      }
-
-      data.animations.emplace(gf::hash(animation.name), std::move(animation));
-    }
-
+    data = nlohmann::json::parse(ifs);
   }
 
-  void compileJsonAtlases(const gf::Path& filename, std::map<gf::Id, akgr::AtlasData>& data) {
+  void compileJsonAtlases(const gf::Path& filename, akgr::Dict<akgr::AtlasData>& data) {
+    std::printf("Reading '%s'...\n", filename.string().c_str());
     std::ifstream ifs(filename.string());
-
-    const auto j = nlohmann::json::parse(ifs);
-
-    for (auto kv : j.items()) {
-      akgr::AtlasData atlas;
-      atlas.name = kv.key();
-
-      auto value = kv.value();
-      atlas.path = value["path"].get<std::string>();
-      atlas.size.width = value["width"].get<int32_t>();
-      atlas.size.height = value["height"].get<int32_t>();
-
-      data.emplace(gf::hash(atlas.name), std::move(atlas));
-    }
+    nlohmann::json::parse(ifs).get_to(data);
+    dictSort(data);
   }
 
-  akgr::DialogData::Type getDialogType(const std::string& type) {
-    if (type == "Simple") {
-      return akgr::DialogData::Simple;
-    }
-
-    if (type == "Quest") {
-      return akgr::DialogData::Quest;
-    }
-
-    if (type == "Story") {
-      return akgr::DialogData::Story;
-    }
-
-    assert(false);
-    return akgr::DialogData::Simple;
-  }
-
-  void compileJsonDialogs(const gf::Path& filename, std::map<gf::Id, akgr::DialogData>& data, std::vector<std::string>& strings) {
+  void compileJsonDialogs(const gf::Path& filename, akgr::Dict<akgr::DialogData>& data, std::vector<std::string>& strings) {
+    std::printf("Reading '%s'...\n", filename.string().c_str());
     std::ifstream ifs(filename.string());
+    nlohmann::json::parse(ifs).get_to(data);
 
-    const auto j = nlohmann::json::parse(ifs);
-
-    for (auto kv : j.items()) {
-      akgr::DialogData dialog;
-      dialog.name = kv.key();
-
-      auto value = kv.value();
-      dialog.type = getDialogType(value["type"].get<std::string>());
-
-      for (auto item : value["content"]) {
-        akgr::DialogData::Line line;
-        line.speaker = item["speaker"].get<std::string>();
-        line.words = item["words"].get<std::string>();
-
+    for (auto & dialog : data) {
+      for (auto & line : dialog.content) {
         strings.push_back(line.words);
-
-        dialog.content.push_back(std::move(line));
       }
-
-      data.emplace(gf::hash(dialog.name), std::move(dialog));
     }
+
+    dictSort(data);
   }
 
-  void compileJsonNotifications(const gf::Path& filename, std::map<gf::Id, akgr::NotificationData>& data, std::vector<std::string>& strings) {
+  void compileJsonNotifications(const gf::Path& filename, akgr::Dict<akgr::NotificationData>& data, std::vector<std::string>& strings) {
+    std::printf("Reading '%s'...\n", filename.string().c_str());
     std::ifstream ifs(filename.string());
+    nlohmann::json::parse(ifs).get_to(data);
 
-    const auto j = nlohmann::json::parse(ifs);
-
-    for (auto kv : j.items()) {
-      akgr::NotificationData notification;
-      notification.name = kv.key();
-
-      auto value = kv.value();
-      notification.message = value["message"].get<std::string>();
-      notification.duration = gf::seconds(value["duration"].get<float>());
-
+    for (auto & notification : data) {
       strings.push_back(notification.message);
-
-      data.emplace(gf::hash(notification.name), std::move(notification));
     }
+
+    dictSort(data);
   }
 
-  void compileJsonCharacters(const gf::Path& filename, std::map<gf::Id, akgr::CharacterData>& data) {
+  void compileJsonCharacters(const gf::Path& filename, akgr::Dict<akgr::CharacterData>& data) {
+    std::printf("Reading '%s'...\n", filename.string().c_str());
     std::ifstream ifs(filename.string());
-
-    const auto j = nlohmann::json::parse(ifs);
-
-    for (auto kv : j.items()) {
-      akgr::CharacterData character;
-      character.name = kv.key();
-
-      auto value = kv.value();
-      character.size.width = value["size"]["width"].get<float>();
-      character.size.height = value["size"]["height"].get<float>();
-
-      character.attribute = value["attribute"].get<int32_t>();
-      character.level = value["level"].get<int32_t>();
-
-      if (!value["weapon"].is_null()) {
-        character.weapon = gf::hash(value["weapon"].get<std::string>());
-      } else {
-        character.weapon = gf::InvalidId;
-      }
-
-      data.emplace(gf::hash(character.name), std::move(character));
-    }
+    nlohmann::json::parse(ifs).get_to(data);
+    dictSort(data);
   }
 
-  void compileJsonItems(const gf::Path& filename, std::map<gf::Id, akgr::ItemData>& data, std::vector<std::string>& strings) {
+  void compileJsonItems(const gf::Path& filename, akgr::Dict<akgr::ItemData>& data, std::vector<std::string>& strings) {
+    std::printf("Reading '%s'...\n", filename.string().c_str());
     std::ifstream ifs(filename.string());
+    nlohmann::json::parse(ifs).get_to(data);
 
-    const auto j = nlohmann::json::parse(ifs);
-
-    for (auto kv : j.items()) {
-      akgr::ItemData item;
-      item.name = kv.key();
-
-      auto value = kv.value();
-      item.description = value["description"].get<std::string>();
-      item.shape.type = getShapeType(value["shape"]["type"].get<std::string>());
-
+    for (auto & item : data) {
       strings.push_back(item.description);
-
-      switch (item.shape.type) {
-        case akgr::ShapeType::None:
-          break;
-        case akgr::ShapeType::Circle:
-          item.shape.circle.radius = value["shape"]["radius"].get<float>();
-          break;
-        case akgr::ShapeType::Rectangle:
-          item.shape.rectangle.width = value["shape"]["width"].get<float>();
-          item.shape.rectangle.height = value["shape"]["height"].get<float>();
-          break;
-      }
-
-      item.sprite.atlas = gf::hash(value["sprite"]["atlas"].get<std::string>());
-      item.sprite.index = value["sprite"]["index"].get<int>();
-      item.sprite.scale = value["sprite"]["scale"].get<float>();
-
-      data.emplace(gf::hash(item.name), std::move(item));
     }
 
+    dictSort(data);
   }
 
-  void compileJsonWeapons(const gf::Path& filename, std::map<gf::Id, akgr::WeaponData>& data, std::vector<std::string>& strings) {
+  void compileJsonWeapons(const gf::Path& filename, akgr::Dict<akgr::WeaponData>& data, std::vector<std::string>& strings) {
+    std::printf("Reading '%s'...\n", filename.string().c_str());
     std::ifstream ifs(filename.string());
+    nlohmann::json::parse(ifs).get_to(data);
 
-    const auto j = nlohmann::json::parse(ifs);
-
-    for (auto kv : j.items()) {
-      akgr::WeaponData weapon;
-      weapon.name = kv.key();
-
-      auto value = kv.value();
-      weapon.description = value["description"].get<std::string>();
-      weapon.type = getWeaponType(value["type"].get<std::string>());
-      weapon.attack = value["attack"].get<int32_t>();
-      weapon.attribute = value["attribute"].get<int32_t>();
-      weapon.aspect = value["aspect"].get<int32_t>();
-      weapon.range = value["range"].get<float>();
-      weapon.angle = value["angle"].get<float>();
-      weapon.warmup = gf::milliseconds(value["warmup"].get<int32_t>());
-      weapon.cooldown = gf::milliseconds(value["cooldown"].get<int32_t>());
-
+    for (auto & weapon : data) {
       strings.push_back(weapon.description);
-
-      data.emplace(gf::hash(weapon.name), std::move(weapon));
     }
+
+    dictSort(data);
   }
 
-  void compileJsonUI(const gf::Path& filename, std::map<gf::Id, akgr::UIData>& data, std::vector<std::string>& strings) {
+  void compileJsonUI(const gf::Path& filename, akgr::Dict<akgr::UIData>& data, std::vector<std::string>& strings) {
+    std::printf("Reading '%s'...\n", filename.string().c_str());
     std::ifstream ifs(filename.string());
+    nlohmann::json::parse(ifs).get_to(data);
 
-    const auto j = nlohmann::json::parse(ifs);
-
-    for (auto kv : j.items()) {
-      akgr::UIData ui;
-      ui.name = kv.key();
-
-      auto value = kv.value();
-      ui.message = value.get<std::string>();
-
+    for (auto & ui : data) {
       strings.push_back(ui.message);
-
-      data.emplace(gf::hash(ui.name), std::move(ui));
     }
+
+    dictSort(data);
   }
 
-  void postProcessAreas(std::map<gf::Id, akgr::AreaData>& map) {
-    for (auto& kv : map) {
-      gf::Id currentId = kv.first;
-      akgr::AreaData& currentArea = kv.second;
+  void postProcessAreas(akgr::Dict<akgr::AreaData>& map) {
+    for (auto & currentArea : map) {
+      gf::Id currentId = currentArea.name.id;
 
       auto min = std::min_element(map.begin(), map.end(), [currentId, &currentArea](const auto& lhs, const auto& rhs) {
-        if (lhs.first == currentId) {
+        if (lhs.name.id == currentId) {
           return false;
         }
 
-        if (rhs.first == currentId) {
+        if (rhs.name.id == currentId) {
           return true;
         }
 
-        return gf::squareDistance(currentArea.position.center, lhs.second.position.center) < gf::squareDistance(currentArea.position.center, rhs.second.position.center);
+        return gf::squareDistance(currentArea.position.center, lhs.position.center) < gf::squareDistance(currentArea.position.center, rhs.position.center);
       });
 
-      currentArea.position.radius = gf::squareDistance(currentArea.position.center, min->second.position.center) / 2;
+      currentArea.position.radius = gf::squareDistance(currentArea.position.center, min->position.center) / 2;
     }
   }
 
-  void postProcessCollisions(akgr::PhysicsData& physics, const std::map<gf::Id, akgr::LocationData>& locations) {
-    auto it = locations.find("Center of the World"_id);
+  void postProcessCollisions(akgr::PhysicsData& physics, const akgr::Dict<akgr::LocationData>& locations) {
+    auto data = dictFind(locations, "Center of the World"_id);
 
-    if (it == locations.end()) {
+    if (data == nullptr) {
       gf::Log::error("No 'Center of the World' found in the map.\n");
       return;
     }
 
-    auto & [ id, data ] = *it;
-    gf::Vector2f cotw = data.location.position;
+    gf::Vector2f cotw = data->location.position;
 
     for (auto& collision : physics.collisions) {
       if (collision.line.isChain()) {

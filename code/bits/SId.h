@@ -17,41 +17,39 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_ITEM_DATA_H
-#define AKGR_ITEM_DATA_H
+#ifndef AKGR_SID_H
+#define AKGR_SID_H
 
 #include <string>
 
-#include "AtlasData.h"
-#include "Shape.h"
-#include "SId.h"
+#include <gf/Id.h>
 
 namespace akgr {
 
-  enum class ItemType : uint8_t {
-    MeleeWeapon,
-    Armor,
-    RangedWeapon,
-    Explosive,
-    Potion,
-    Recipes,
-    Ingredient,
-    Manuscript, // books and parchments
-    Rare, // quest objects, rare objects
-  };
+  struct SId {
+    std::string tag;
+    gf::Id id;
 
-  struct ItemData {
-    SId name;
-    std::string description;
-    Shape shape;
-    AtlasSprite sprite;
+    SId& operator=(const std::string& other) {
+      tag = other;
+      id = gf::hash(tag);
+      return *this;
+    }
   };
 
   template<typename Archive>
-  Archive& operator|(Archive& ar, ItemData& data) {
-    return ar | data.name | data.description | data.shape | data.sprite;
+  Archive& operator|(Archive& ar, SId& data) {
+    ar | data.tag;
+
+    if (data.tag.empty()) {
+      data.id = gf::InvalidId;
+    } else {
+      data.id = gf::hash(data.tag);
+    }
+
+    return ar;
   }
 
 }
 
-#endif // AKGR_ITEM_DATA_H
+#endif // AKGR_SID_H

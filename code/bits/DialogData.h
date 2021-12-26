@@ -23,30 +23,31 @@
 #include <string>
 #include <vector>
 
+#include "SId.h"
+
 namespace akgr {
 
-  struct DialogData {
-    enum Type : uint8_t {
-      Simple  = 1,
-      Quest   = 2,
-      Story   = 3,
-    };
-
-    std::string name;
-    Type type;
-
-    struct Line {
-      std::string speaker;
-      std::string words;
-    };
-
-    std::vector<Line> content;
+  struct DialogLine {
+    std::string speaker;
+    std::string words;
   };
 
   template<typename Archive>
-  Archive& operator|(Archive& ar, DialogData::Line& data) {
+  Archive& operator|(Archive& ar, DialogLine& data) {
     return ar | data.speaker | data.words;
   }
+
+  enum class DialogType : uint8_t {
+    Simple  = 1,
+    Quest   = 2,
+    Story   = 3,
+  };
+
+  struct DialogData {
+    SId name;
+    DialogType type;
+    std::vector<DialogLine> content;
+  };
 
   template<typename Archive>
   Archive& operator|(Archive& ar, DialogData& data) {

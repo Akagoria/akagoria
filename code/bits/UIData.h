@@ -22,10 +22,12 @@
 
 #include <string>
 
+#include "SId.h"
+
 namespace akgr {
 
   struct UIData {
-    std::string name;
+    SId name;
     std::string message;
   };
 

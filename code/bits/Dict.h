@@ -20,14 +20,48 @@
 #ifndef AKGR_DICT_H
 #define AKGR_DICT_H
 
-#include <map>
-
-#include <gf/Id.h>
+#include <cassert>
+#include <algorithm>
+#include <vector>
 
 namespace akgr {
 
   template<typename T>
-  using Dict = std::map<gf::Id, T>;
+  using Dict = std::vector<T>;
+
+  template<typename T>
+  struct DictCompare {
+    bool operator()(const T& lhs, const T& rhs) {
+      return lhs.name.id < rhs.name.id;
+    }
+
+    bool operator()(const T& lhs, gf::Id rhs) {
+      return lhs.name.id < rhs;
+    }
+
+    bool operator()(gf::Id lhs, const T& rhs) {
+      return lhs < rhs.name.id;
+    }
+  };
+
+  template<typename T>
+  inline
+  void dictSort(Dict<T>& dict) {
+    std::sort(dict.begin(), dict.end(), DictCompare<T>{});
+  }
+
+  template<typename T>
+  inline
+  const T *dictFind(const Dict<T>& dict, gf::Id id) {
+    auto [ begin, end ] = std::equal_range(dict.begin(), dict.end(), id, DictCompare<T>{});
+
+    if (begin == end) {
+      return nullptr;
+    }
+
+    assert(end - begin == 1);
+    return std::addressof(*begin);
+  }
 
 }
 

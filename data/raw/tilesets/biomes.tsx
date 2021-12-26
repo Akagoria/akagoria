@@ -32,9 +32,9 @@
 	<terrain name="Road/Paved" tile="432"/>
 	<terrain name="Road/Track" tile="436"/>
 	<terrain name="Road/Trail" tile="440"/>
-	<terrain name="Water/River" tile="444"/>
-	<terrain name="Water/Lake" tile="448"/>
-	<terrain name="Road/Bridge" tile="452"/>
+	<terrain name="Road/Bridge" tile="444"/>
+	<terrain name="Water/River" tile="448"/>
+	<terrain name="Water/Lake" tile="452"/>
 	<terrain name="Water/Ford" tile="456"/>
 </terraintypes>
 <tile id="0" terrain="0,0,0,0"/>
@@ -821,89 +821,89 @@
 		<property name="fence0" value="14,0,0,14" />
 	</properties>
 </tile>
-<tile id="2184" terrain="4,4,30,4">
+<tile id="2184" terrain="4,4,31,4">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="20,32,0,12" />
 	</properties>
 </tile>
-<tile id="2185" terrain="4,30,4,30">
+<tile id="2185" terrain="4,31,4,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="12,0,12,32" />
 	</properties>
 </tile>
-<tile id="2186" terrain="30,4,30,30">
+<tile id="2186" terrain="31,4,31,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="20,0,32,12" />
 	</properties>
 </tile>
-<tile id="2187" terrain="4,4,30,30">
+<tile id="2187" terrain="4,4,31,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,12,32,12" />
 	</properties>
 </tile>
-<tile id="2292" terrain="30,4,4,30">
+<tile id="2292" terrain="31,4,4,31">
 	<properties>
 		<property name="fence_count" value="2" type="int"/>
 		<property name="fence0" value="20,0,32,12" />
 		<property name="fence1" value="12,32,0,20" />
 	</properties>
 </tile>
-<tile id="2293" terrain="4,30,30,30">
+<tile id="2293" terrain="4,31,31,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="12,0,0,12" />
 	</properties>
 </tile>
-<tile id="2294" terrain="30,30,30,30"/>
-<tile id="2295" terrain="30,30,30,4">
+<tile id="2294" terrain="31,31,31,31"/>
+<tile id="2295" terrain="31,31,31,4">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="20,32,32,20" />
 	</properties>
 </tile>
-<tile id="2400" terrain="4,30,4,4">
+<tile id="2400" terrain="4,31,4,4">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="12,0,32,20" />
 	</properties>
 </tile>
-<tile id="2401" terrain="30,30,4,4">
+<tile id="2401" terrain="31,31,4,4">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,20,32,20" />
 	</properties>
 </tile>
-<tile id="2402" terrain="30,30,4,30">
+<tile id="2402" terrain="31,31,4,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="12,32,0,20" />
 	</properties>
 </tile>
-<tile id="2403" terrain="30,4,30,4">
+<tile id="2403" terrain="31,4,31,4">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="20,0,20,32" />
 	</properties>
 </tile>
 <tile id="2508" terrain="4,4,4,4"/>
-<tile id="2509" terrain="4,4,4,30">
+<tile id="2509" terrain="4,4,4,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="12,32,32,12" />
 	</properties>
 </tile>
-<tile id="2510" terrain="4,30,30,4">
+<tile id="2510" terrain="4,31,31,4">
 	<properties>
 		<property name="fence_count" value="2" type="int"/>
 		<property name="fence0" value="12,0,32,20" />
 		<property name="fence1" value="20,32,0,12" />
 	</properties>
 </tile>
-<tile id="2511" terrain="30,4,4,4">
+<tile id="2511" terrain="31,4,4,4">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="20,0,0,20" />
@@ -2397,417 +2397,417 @@
 <tile id="3349" terrain="28,28,28,29"/>
 <tile id="3350" terrain="28,29,29,28"/>
 <tile id="3351" terrain="29,28,28,28"/>
-<tile id="3028" terrain="30,30,,30">
+<tile id="3028" terrain="30,30,,30"/>
+<tile id="3029" terrain="30,,30,"/>
+<tile id="3030" terrain=",30,,"/>
+<tile id="3031" terrain="30,30,,"/>
+<tile id="3136" terrain=",30,30,"/>
+<tile id="3137" terrain="30,,,"/>
+<tile id="3138" terrain=",,,"/>
+<tile id="3139" terrain=",,,30"/>
+<tile id="3244" terrain="30,,30,30"/>
+<tile id="3245" terrain=",,30,30"/>
+<tile id="3246" terrain=",,30,"/>
+<tile id="3247" terrain=",30,,30"/>
+<tile id="3352" terrain="30,30,30,30"/>
+<tile id="3353" terrain="30,30,30,"/>
+<tile id="3354" terrain="30,,,30"/>
+<tile id="3355" terrain=",30,30,30"/>
+<tile id="3032" terrain="30,30,26,30"/>
+<tile id="3033" terrain="30,26,30,26"/>
+<tile id="3034" terrain="26,30,26,26"/>
+<tile id="3035" terrain="30,30,26,26"/>
+<tile id="3140" terrain="26,30,30,26"/>
+<tile id="3141" terrain="30,26,26,26"/>
+<tile id="3142" terrain="26,26,26,26"/>
+<tile id="3143" terrain="26,26,26,30"/>
+<tile id="3248" terrain="30,26,30,30"/>
+<tile id="3249" terrain="26,26,30,30"/>
+<tile id="3250" terrain="26,26,30,26"/>
+<tile id="3251" terrain="26,30,26,30"/>
+<tile id="3356" terrain="30,30,30,30"/>
+<tile id="3357" terrain="30,30,30,26"/>
+<tile id="3358" terrain="30,26,26,30"/>
+<tile id="3359" terrain="26,30,30,30"/>
+<tile id="3036" terrain="31,31,,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="12,32,0,20" />
 	</properties>
 </tile>
-<tile id="3029" terrain="30,,30,">
+<tile id="3037" terrain="31,,31,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="20,0,20,32" />
 	</properties>
 </tile>
-<tile id="3030" terrain=",30,,">
+<tile id="3038" terrain=",31,,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="12,0,32,20" />
 	</properties>
 </tile>
-<tile id="3031" terrain="30,30,,">
+<tile id="3039" terrain="31,31,,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,20,32,20" />
 	</properties>
 </tile>
-<tile id="3136" terrain=",30,30,">
+<tile id="3144" terrain=",31,31,">
 	<properties>
 		<property name="fence_count" value="2" type="int"/>
 		<property name="fence0" value="12,0,32,20" />
 		<property name="fence1" value="20,32,0,12" />
 	</properties>
 </tile>
-<tile id="3137" terrain="30,,,">
+<tile id="3145" terrain="31,,,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="20,0,0,20" />
 	</properties>
 </tile>
-<tile id="3138" terrain=",,,"/>
-<tile id="3139" terrain=",,,30">
+<tile id="3146" terrain=",,,"/>
+<tile id="3147" terrain=",,,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="12,32,32,12" />
 	</properties>
 </tile>
-<tile id="3244" terrain="30,,30,30">
+<tile id="3252" terrain="31,,31,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="20,0,32,12" />
 	</properties>
 </tile>
-<tile id="3245" terrain=",,30,30">
+<tile id="3253" terrain=",,31,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,12,32,12" />
 	</properties>
 </tile>
-<tile id="3246" terrain=",,30,">
+<tile id="3254" terrain=",,31,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="20,32,0,12" />
 	</properties>
 </tile>
-<tile id="3247" terrain=",30,,30">
+<tile id="3255" terrain=",31,,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="12,0,12,32" />
 	</properties>
 </tile>
-<tile id="3352" terrain="30,30,30,30"/>
-<tile id="3353" terrain="30,30,30,">
+<tile id="3360" terrain="31,31,31,31"/>
+<tile id="3361" terrain="31,31,31,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="20,32,32,20" />
 	</properties>
 </tile>
-<tile id="3354" terrain="30,,,30">
+<tile id="3362" terrain="31,,,31">
 	<properties>
 		<property name="fence_count" value="2" type="int"/>
 		<property name="fence0" value="20,0,32,12" />
 		<property name="fence1" value="12,32,0,20" />
 	</properties>
 </tile>
-<tile id="3355" terrain=",30,30,30">
+<tile id="3363" terrain=",31,31,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="12,0,0,12" />
 	</properties>
 </tile>
-<tile id="3032" terrain="30,30,3,30"/>
-<tile id="3033" terrain="30,3,30,3"/>
-<tile id="3034" terrain="3,30,3,3"/>
-<tile id="3035" terrain="30,30,3,3"/>
-<tile id="3140" terrain="3,30,30,3"/>
-<tile id="3141" terrain="30,3,3,3"/>
-<tile id="3142" terrain="3,3,3,3"/>
-<tile id="3143" terrain="3,3,3,30"/>
-<tile id="3248" terrain="30,3,30,30"/>
-<tile id="3249" terrain="3,3,30,30"/>
-<tile id="3250" terrain="3,3,30,3"/>
-<tile id="3251" terrain="3,30,3,30"/>
-<tile id="3356" terrain="30,30,30,30"/>
-<tile id="3357" terrain="30,30,30,3"/>
-<tile id="3358" terrain="30,3,3,30"/>
-<tile id="3359" terrain="3,30,30,30"/>
-<tile id="3036" terrain="30,30,31,30"/>
-<tile id="3037" terrain="30,31,30,31"/>
-<tile id="3038" terrain="31,30,31,31"/>
-<tile id="3039" terrain="30,30,31,31"/>
-<tile id="3144" terrain="31,30,30,31"/>
-<tile id="3145" terrain="30,31,31,31"/>
-<tile id="3146" terrain="31,31,31,31"/>
-<tile id="3147" terrain="31,31,31,30"/>
-<tile id="3252" terrain="30,31,30,30"/>
-<tile id="3253" terrain="31,31,30,30"/>
-<tile id="3254" terrain="31,31,30,31"/>
-<tile id="3255" terrain="31,30,31,30"/>
-<tile id="3360" terrain="30,30,30,30"/>
-<tile id="3361" terrain="30,30,30,31"/>
-<tile id="3362" terrain="30,31,31,30"/>
-<tile id="3363" terrain="31,30,30,30"/>
-<tile id="3040" terrain="31,31,,31">
+<tile id="3040" terrain="31,31,3,31"/>
+<tile id="3041" terrain="31,3,31,3"/>
+<tile id="3042" terrain="3,31,3,3"/>
+<tile id="3043" terrain="31,31,3,3"/>
+<tile id="3148" terrain="3,31,31,3"/>
+<tile id="3149" terrain="31,3,3,3"/>
+<tile id="3150" terrain="3,3,3,3"/>
+<tile id="3151" terrain="3,3,3,31"/>
+<tile id="3256" terrain="31,3,31,31"/>
+<tile id="3257" terrain="3,3,31,31"/>
+<tile id="3258" terrain="3,3,31,3"/>
+<tile id="3259" terrain="3,31,3,31"/>
+<tile id="3364" terrain="31,31,31,31"/>
+<tile id="3365" terrain="31,31,31,3"/>
+<tile id="3366" terrain="31,3,3,31"/>
+<tile id="3367" terrain="3,31,31,31"/>
+<tile id="3044" terrain="31,31,32,31"/>
+<tile id="3045" terrain="31,32,31,32"/>
+<tile id="3046" terrain="32,31,32,32"/>
+<tile id="3047" terrain="31,31,32,32"/>
+<tile id="3152" terrain="32,31,31,32"/>
+<tile id="3153" terrain="31,32,32,32"/>
+<tile id="3154" terrain="32,32,32,32"/>
+<tile id="3155" terrain="32,32,32,31"/>
+<tile id="3260" terrain="31,32,31,31"/>
+<tile id="3261" terrain="32,32,31,31"/>
+<tile id="3262" terrain="32,32,31,32"/>
+<tile id="3263" terrain="32,31,32,31"/>
+<tile id="3368" terrain="31,31,31,31"/>
+<tile id="3369" terrain="31,31,31,32"/>
+<tile id="3370" terrain="31,32,32,31"/>
+<tile id="3371" terrain="32,31,31,31"/>
+<tile id="3048" terrain="32,32,,32">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="14,32,0,18" />
 	</properties>
 </tile>
-<tile id="3041" terrain="31,,31,">
+<tile id="3049" terrain="32,,32,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="18,0,18,32" />
 	</properties>
 </tile>
-<tile id="3042" terrain=",31,,">
+<tile id="3050" terrain=",32,,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="14,0,32,18" />
 	</properties>
 </tile>
-<tile id="3043" terrain="31,31,,">
+<tile id="3051" terrain="32,32,,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,18,32,18" />
 	</properties>
 </tile>
-<tile id="3148" terrain=",31,31,">
+<tile id="3156" terrain=",32,32,">
 	<properties>
 		<property name="fence_count" value="2" type="int"/>
 		<property name="fence0" value="14,0,32,18" />
 		<property name="fence1" value="18,32,0,14" />
 	</properties>
 </tile>
-<tile id="3149" terrain="31,,,">
+<tile id="3157" terrain="32,,,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="18,0,0,18" />
 	</properties>
 </tile>
-<tile id="3150" terrain=",,,"/>
-<tile id="3151" terrain=",,,31">
+<tile id="3158" terrain=",,,"/>
+<tile id="3159" terrain=",,,32">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="14,32,32,14" />
 	</properties>
 </tile>
-<tile id="3256" terrain="31,,31,31">
+<tile id="3264" terrain="32,,32,32">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="18,0,32,14" />
 	</properties>
 </tile>
-<tile id="3257" terrain=",,31,31">
+<tile id="3265" terrain=",,32,32">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,14,32,14" />
 	</properties>
 </tile>
-<tile id="3258" terrain=",,31,">
+<tile id="3266" terrain=",,32,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="18,32,0,14" />
 	</properties>
 </tile>
-<tile id="3259" terrain=",31,,31">
+<tile id="3267" terrain=",32,,32">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="14,0,14,32" />
 	</properties>
 </tile>
-<tile id="3364" terrain="31,31,31,31"/>
-<tile id="3365" terrain="31,31,31,">
+<tile id="3372" terrain="32,32,32,32"/>
+<tile id="3373" terrain="32,32,32,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="18,32,32,18" />
 	</properties>
 </tile>
-<tile id="3366" terrain="31,,,31">
+<tile id="3374" terrain="32,,,32">
 	<properties>
 		<property name="fence_count" value="2" type="int"/>
 		<property name="fence0" value="18,0,32,14" />
 		<property name="fence1" value="14,32,0,18" />
 	</properties>
 </tile>
-<tile id="3367" terrain=",31,31,31">
+<tile id="3375" terrain=",32,32,32">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="14,0,0,14" />
 	</properties>
 </tile>
-<tile id="3044" terrain="30,30,32,30">
+<tile id="3052" terrain="31,31,30,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="24,32,0,8" />
+		<property name="fence0" value="16,32,0,16" />
 	</properties>
 </tile>
-<tile id="3045" terrain="30,32,30,32">
+<tile id="3053" terrain="31,30,31,30">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="8,0,8,32" />
+		<property name="fence0" value="16,0,16,32" />
 	</properties>
 </tile>
-<tile id="3046" terrain="32,30,32,32">
+<tile id="3054" terrain="30,31,30,30">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="24,0,32,8" />
+		<property name="fence0" value="16,0,32,16" />
 	</properties>
 </tile>
-<tile id="3047" terrain="30,30,32,32">
+<tile id="3055" terrain="31,31,30,30">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="0,8,32,8" />
+		<property name="fence0" value="0,16,32,16" />
 	</properties>
 </tile>
-<tile id="3152" terrain="32,30,30,32">
+<tile id="3160" terrain="30,31,31,30">
 	<properties>
 		<property name="fence_count" value="2" type="int"/>
-		<property name="fence0" value="24,0,32,8" />
-		<property name="fence1" value="8,32,0,24" />
+		<property name="fence0" value="16,0,32,16" />
+		<property name="fence1" value="16,32,0,16" />
 	</properties>
 </tile>
-<tile id="3153" terrain="30,32,32,32">
+<tile id="3161" terrain="31,30,30,30">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="8,0,0,8" />
+		<property name="fence0" value="16,0,0,16" />
 	</properties>
 </tile>
-<tile id="3154" terrain="32,32,32,32"/>
-<tile id="3155" terrain="32,32,32,30">
+<tile id="3162" terrain="30,30,30,30"/>
+<tile id="3163" terrain="30,30,30,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="24,32,32,24" />
+		<property name="fence0" value="16,32,32,16" />
 	</properties>
 </tile>
-<tile id="3260" terrain="30,32,30,30">
+<tile id="3268" terrain="31,30,31,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="8,0,32,24" />
+		<property name="fence0" value="16,0,32,16" />
 	</properties>
 </tile>
-<tile id="3261" terrain="32,32,30,30">
+<tile id="3269" terrain="30,30,31,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="0,24,32,24" />
+		<property name="fence0" value="0,16,32,16" />
 	</properties>
 </tile>
-<tile id="3262" terrain="32,32,30,32">
+<tile id="3270" terrain="30,30,31,30">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="8,32,0,24" />
+		<property name="fence0" value="16,32,0,16" />
 	</properties>
 </tile>
-<tile id="3263" terrain="32,30,32,30">
+<tile id="3271" terrain="30,31,30,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="24,0,24,32" />
+		<property name="fence0" value="16,0,16,32" />
 	</properties>
 </tile>
-<tile id="3368" terrain="30,30,30,30"/>
-<tile id="3369" terrain="30,30,30,32">
+<tile id="3376" terrain="31,31,31,31"/>
+<tile id="3377" terrain="31,31,31,30">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="8,32,32,8" />
+		<property name="fence0" value="16,32,32,16" />
 	</properties>
 </tile>
-<tile id="3370" terrain="30,32,32,30">
+<tile id="3378" terrain="31,30,30,31">
 	<properties>
 		<property name="fence_count" value="2" type="int"/>
-		<property name="fence0" value="8,0,32,24" />
-		<property name="fence1" value="24,32,0,8" />
+		<property name="fence0" value="16,0,32,16" />
+		<property name="fence1" value="16,32,0,16" />
 	</properties>
 </tile>
-<tile id="3371" terrain="32,30,30,30">
+<tile id="3379" terrain="30,31,31,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="24,0,0,24" />
+		<property name="fence0" value="16,0,0,16" />
 	</properties>
 </tile>
-<tile id="3048" terrain="32,32,,32"/>
-<tile id="3049" terrain="32,,32,"/>
-<tile id="3050" terrain=",32,,"/>
-<tile id="3051" terrain="32,32,,"/>
-<tile id="3156" terrain=",32,32,"/>
-<tile id="3157" terrain="32,,,"/>
-<tile id="3158" terrain=",,,"/>
-<tile id="3159" terrain=",,,32"/>
-<tile id="3264" terrain="32,,32,32"/>
-<tile id="3265" terrain=",,32,32"/>
-<tile id="3266" terrain=",,32,"/>
-<tile id="3267" terrain=",32,,32"/>
-<tile id="3372" terrain="32,32,32,32"/>
-<tile id="3373" terrain="32,32,32,"/>
-<tile id="3374" terrain="32,,,32"/>
-<tile id="3375" terrain=",32,32,32"/>
-<tile id="3052" terrain="32,32,26,32"/>
-<tile id="3053" terrain="32,26,32,26"/>
-<tile id="3054" terrain="26,32,26,26"/>
-<tile id="3055" terrain="32,32,26,26"/>
-<tile id="3160" terrain="26,32,32,26"/>
-<tile id="3161" terrain="32,26,26,26"/>
-<tile id="3162" terrain="26,26,26,26"/>
-<tile id="3163" terrain="26,26,26,32"/>
-<tile id="3268" terrain="32,26,32,32"/>
-<tile id="3269" terrain="26,26,32,32"/>
-<tile id="3270" terrain="26,26,32,26"/>
-<tile id="3271" terrain="26,32,26,32"/>
-<tile id="3376" terrain="32,32,32,32"/>
-<tile id="3377" terrain="32,32,32,26"/>
-<tile id="3378" terrain="32,26,26,32"/>
-<tile id="3379" terrain="26,32,32,32"/>
-<tile id="3056" terrain="33,33,30,33">
+<tile id="3056" terrain="33,33,31,33">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="12,32,0,20" />
 	</properties>
 </tile>
-<tile id="3057" terrain="33,30,33,30">
+<tile id="3057" terrain="33,31,33,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="20,0,20,32" />
 	</properties>
 </tile>
-<tile id="3058" terrain="30,33,30,30">
+<tile id="3058" terrain="31,33,31,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="12,0,32,20" />
 	</properties>
 </tile>
-<tile id="3059" terrain="33,33,30,30">
+<tile id="3059" terrain="33,33,31,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,20,32,20" />
 	</properties>
 </tile>
-<tile id="3164" terrain="30,33,33,30">
+<tile id="3164" terrain="31,33,33,31">
 	<properties>
 		<property name="fence_count" value="2" type="int"/>
 		<property name="fence0" value="12,0,32,20" />
 		<property name="fence1" value="20,32,0,12" />
 	</properties>
 </tile>
-<tile id="3165" terrain="33,30,30,30">
+<tile id="3165" terrain="33,31,31,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="20,0,0,20" />
 	</properties>
 </tile>
-<tile id="3166" terrain="30,30,30,30"/>
-<tile id="3167" terrain="30,30,30,33">
+<tile id="3166" terrain="31,31,31,31"/>
+<tile id="3167" terrain="31,31,31,33">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="12,32,32,12" />
 	</properties>
 </tile>
-<tile id="3272" terrain="33,30,33,33">
+<tile id="3272" terrain="33,31,33,33">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="20,0,32,12" />
 	</properties>
 </tile>
-<tile id="3273" terrain="30,30,33,33">
+<tile id="3273" terrain="31,31,33,33">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,12,32,12" />
 	</properties>
 </tile>
-<tile id="3274" terrain="30,30,33,30">
+<tile id="3274" terrain="31,31,33,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="20,32,0,12" />
 	</properties>
 </tile>
-<tile id="3275" terrain="30,33,30,33">
+<tile id="3275" terrain="31,33,31,33">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="12,0,12,32" />
 	</properties>
 </tile>
 <tile id="3380" terrain="33,33,33,33"/>
-<tile id="3381" terrain="33,33,33,30">
+<tile id="3381" terrain="33,33,33,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="20,32,32,20" />
 	</properties>
 </tile>
-<tile id="3382" terrain="33,30,30,33">
+<tile id="3382" terrain="33,31,31,33">
 	<properties>
 		<property name="fence_count" value="2" type="int"/>
 		<property name="fence0" value="20,0,32,12" />
 		<property name="fence1" value="12,32,0,20" />
 	</properties>
 </tile>
-<tile id="3383" terrain="30,33,33,33">
+<tile id="3383" terrain="31,33,33,33">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="12,0,0,12" />
@@ -3049,221 +3049,221 @@
 		<property name="fence0" value="18,0,19,32" />
 	</properties>
 </tile>
-<tile id="6486" terrain="3,3,30,4">
+<tile id="6486" terrain="3,3,31,4">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="32,13,20,32" />
 	</properties>
 </tile>
-<tile id="6487" terrain="3,3,4,30">
+<tile id="6487" terrain="3,3,4,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,13,12,32" />
 	</properties>
 </tile>
-<tile id="6488" terrain="3,30,30,4">
+<tile id="6488" terrain="3,31,31,4">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="32,20,20,32" />
 	</properties>
 </tile>
-<tile id="6489" terrain="30,30,4,3">
+<tile id="6489" terrain="31,31,4,3">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,20,19,32" />
 	</properties>
 </tile>
-<tile id="6490" terrain="30,4,3,4">
+<tile id="6490" terrain="31,4,3,4">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="20,0,13,32" />
 	</properties>
 </tile>
-<tile id="6491" terrain="4,3,4,30">
+<tile id="6491" terrain="4,3,4,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="19,0,12,32" />
 	</properties>
 </tile>
-<tile id="6594" terrain="30,4,30,3">
+<tile id="6594" terrain="31,4,31,3">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="20,0,32,19" />
 	</properties>
 </tile>
-<tile id="6595" terrain="4,30,3,4">
+<tile id="6595" terrain="4,31,3,4">
 	<properties>
 		<property name="fence_count" value="2" type="int"/>
 		<property name="fence0" value="0,19,13,32" />
 		<property name="fence1" value="32,20,12,0" />
 	</properties>
 </tile>
-<tile id="6596" terrain="30,4,4,3">
+<tile id="6596" terrain="31,4,4,3">
 	<properties>
 		<property name="fence_count" value="2" type="int"/>
 		<property name="fence0" value="0,20,20,0" />
 		<property name="fence1" value="32,19,19,32" />
 	</properties>
 </tile>
-<tile id="6597" terrain="4,3,3,30">
+<tile id="6597" terrain="4,3,3,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,19,19,0" />
 	</properties>
 </tile>
-<tile id="6598" terrain="3,4,30,3">
+<tile id="6598" terrain="3,4,31,3">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="32,19,13,0" />
 	</properties>
 </tile>
-<tile id="6599" terrain="4,30,3,30">
+<tile id="6599" terrain="4,31,3,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="12,0,0,19" />
 	</properties>
 </tile>
-<tile id="6702" terrain="30,3,4,30">
+<tile id="6702" terrain="31,3,4,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,20,12,32" />
 	</properties>
 </tile>
-<tile id="6703" terrain="3,4,30,30">
+<tile id="6703" terrain="3,4,31,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="32,12,13,0" />
 	</properties>
 </tile>
-<tile id="6704" terrain="4,3,30,3">
+<tile id="6704" terrain="4,3,31,3">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="19,0,0,12" />
 	</properties>
 </tile>
-<tile id="6705" terrain="3,30,3,4">
+<tile id="6705" terrain="3,31,3,4">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="13,32,32,20" />
 	</properties>
 </tile>
-<tile id="6706" terrain="30,3,4,4">
+<tile id="6706" terrain="31,3,4,4">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,20,32,13" />
 	</properties>
 </tile>
-<tile id="6707" terrain="3,30,4,4">
+<tile id="6707" terrain="3,31,4,4">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,13,32,20" />
 	</properties>
 </tile>
-<tile id="6810" terrain="4,30,30,3">
+<tile id="6810" terrain="4,31,31,3">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,12,12,0" />
 	</properties>
 </tile>
-<tile id="6811" terrain="30,30,3,4">
+<tile id="6811" terrain="31,31,3,4">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="32,20,13,32" />
 	</properties>
 </tile>
-<tile id="6812" terrain="30,3,4,3">
+<tile id="6812" terrain="31,3,4,3">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="19,32,0,20" />
 	</properties>
 </tile>
-<tile id="6813" terrain="3,4,3,30">
+<tile id="6813" terrain="3,4,3,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="13,0,32,12" />
 	</properties>
 </tile>
-<tile id="6814" terrain="4,4,30,3">
+<tile id="6814" terrain="4,4,31,3">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,12,32,19" />
 	</properties>
 </tile>
-<tile id="6815" terrain="4,4,3,30">
+<tile id="6815" terrain="4,4,3,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,19,32,12" />
 	</properties>
 </tile>
-<tile id="6918" terrain="30,3,30,4">
+<tile id="6918" terrain="31,3,31,4">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="20,32,32,13" />
 	</properties>
 </tile>
-<tile id="6919" terrain="3,4,4,30">
+<tile id="6919" terrain="3,4,4,31">
 	<properties>
 		<property name="fence_count" value="2" type="int"/>
 		<property name="fence0" value="0,13,13,0" />
 		<property name="fence1" value="32,12,12,32" />
 	</properties>
 </tile>
-<tile id="6920" terrain="4,3,30,4">
+<tile id="6920" terrain="4,3,31,4">
 	<properties>
 		<property name="fence_count" value="2" type="int"/>
 		<property name="fence0" value="0,12,20,32" />
 		<property name="fence1" value="32,13,19,0" />
 	</properties>
 </tile>
-<tile id="6921" terrain="3,30,4,3">
+<tile id="6921" terrain="3,31,4,3">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,13,19,32" />
 	</properties>
 </tile>
-<tile id="6922" terrain="30,3,3,4">
+<tile id="6922" terrain="31,3,3,4">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="32,13,13,32" />
 	</properties>
 </tile>
-<tile id="6923" terrain="3,30,4,30">
+<tile id="6923" terrain="3,31,4,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="12,32,0,13" />
 	</properties>
 </tile>
-<tile id="7026" terrain="30,4,3,3">
+<tile id="7026" terrain="31,4,3,3">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="32,19,20,0" />
 	</properties>
 </tile>
-<tile id="7027" terrain="4,30,3,3">
+<tile id="7027" terrain="4,31,3,3">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,19,12,0" />
 	</properties>
 </tile>
-<tile id="7028" terrain="30,4,3,30">
+<tile id="7028" terrain="31,4,3,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="32,12,20,0" />
 	</properties>
 </tile>
-<tile id="7029" terrain="4,3,30,30">
+<tile id="7029" terrain="4,3,31,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,12,19,0" />
 	</properties>
 </tile>
-<tile id="7030" terrain="3,4,30,4">
+<tile id="7030" terrain="3,4,31,4">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="13,0,20,32" />
 	</properties>
 </tile>
-<tile id="7031" terrain="4,30,4,3">
+<tile id="7031" terrain="4,31,4,3">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="12,0,19,32" />
@@ -5205,42 +5205,42 @@
 <tile id="7701" terrain="26,,27,27"/>
 <tile id="7702" terrain=",26,27,26"/>
 <tile id="7703" terrain="26,27,26,"/>
-<tile id="7164" terrain=",,32,26"/>
-<tile id="7165" terrain=",,26,32"/>
-<tile id="7166" terrain=",32,32,26"/>
-<tile id="7167" terrain="32,32,26,"/>
-<tile id="7168" terrain="32,26,,26"/>
-<tile id="7169" terrain="26,,26,32"/>
-<tile id="7272" terrain="32,26,32,"/>
-<tile id="7273" terrain="26,32,,26"/>
-<tile id="7274" terrain="32,26,26,"/>
-<tile id="7275" terrain="26,,,32"/>
-<tile id="7276" terrain=",26,32,"/>
-<tile id="7277" terrain="26,32,,32"/>
-<tile id="7380" terrain="32,,26,32"/>
-<tile id="7381" terrain=",26,32,32"/>
-<tile id="7382" terrain="26,,32,"/>
-<tile id="7383" terrain=",32,,26"/>
-<tile id="7384" terrain="32,,26,26"/>
-<tile id="7385" terrain=",32,26,26"/>
-<tile id="7488" terrain="26,32,32,"/>
-<tile id="7489" terrain="32,32,,26"/>
-<tile id="7490" terrain="32,,26,"/>
-<tile id="7491" terrain=",26,,32"/>
-<tile id="7492" terrain="26,26,32,"/>
-<tile id="7493" terrain="26,26,,32"/>
-<tile id="7596" terrain="32,,32,26"/>
-<tile id="7597" terrain=",26,26,32"/>
-<tile id="7598" terrain="26,,32,26"/>
-<tile id="7599" terrain=",32,26,"/>
-<tile id="7600" terrain="32,,,26"/>
-<tile id="7601" terrain=",32,26,32"/>
-<tile id="7704" terrain="32,26,,"/>
-<tile id="7705" terrain="26,32,,"/>
-<tile id="7706" terrain="32,26,,32"/>
-<tile id="7707" terrain="26,,32,32"/>
-<tile id="7708" terrain=",26,32,26"/>
-<tile id="7709" terrain="26,32,26,"/>
+<tile id="7164" terrain=",,30,26"/>
+<tile id="7165" terrain=",,26,30"/>
+<tile id="7166" terrain=",30,30,26"/>
+<tile id="7167" terrain="30,30,26,"/>
+<tile id="7168" terrain="30,26,,26"/>
+<tile id="7169" terrain="26,,26,30"/>
+<tile id="7272" terrain="30,26,30,"/>
+<tile id="7273" terrain="26,30,,26"/>
+<tile id="7274" terrain="30,26,26,"/>
+<tile id="7275" terrain="26,,,30"/>
+<tile id="7276" terrain=",26,30,"/>
+<tile id="7277" terrain="26,30,,30"/>
+<tile id="7380" terrain="30,,26,30"/>
+<tile id="7381" terrain=",26,30,30"/>
+<tile id="7382" terrain="26,,30,"/>
+<tile id="7383" terrain=",30,,26"/>
+<tile id="7384" terrain="30,,26,26"/>
+<tile id="7385" terrain=",30,26,26"/>
+<tile id="7488" terrain="26,30,30,"/>
+<tile id="7489" terrain="30,30,,26"/>
+<tile id="7490" terrain="30,,26,"/>
+<tile id="7491" terrain=",26,,30"/>
+<tile id="7492" terrain="26,26,30,"/>
+<tile id="7493" terrain="26,26,,30"/>
+<tile id="7596" terrain="30,,30,26"/>
+<tile id="7597" terrain=",26,26,30"/>
+<tile id="7598" terrain="26,,30,26"/>
+<tile id="7599" terrain=",30,26,"/>
+<tile id="7600" terrain="30,,,26"/>
+<tile id="7601" terrain=",30,26,30"/>
+<tile id="7704" terrain="30,26,,"/>
+<tile id="7705" terrain="26,30,,"/>
+<tile id="7706" terrain="30,26,,30"/>
+<tile id="7707" terrain="26,,30,30"/>
+<tile id="7708" terrain=",26,30,26"/>
+<tile id="7709" terrain="26,30,26,"/>
 <tile id="7170" terrain=",,29,28"/>
 <tile id="7171" terrain=",,28,29"/>
 <tile id="7172" terrain=",29,29,28"/>
@@ -5277,661 +5277,661 @@
 <tile id="7713" terrain="28,,29,29"/>
 <tile id="7714" terrain=",28,29,28"/>
 <tile id="7715" terrain="28,29,28,"/>
-<tile id="7176" terrain=",,30,31">
+<tile id="7176" terrain=",,31,30">
+	<properties>
+		<property name="fence_count" value="1" type="int"/>
+		<property name="fence0" value="0,12,16,32" />
+	</properties>
+</tile>
+<tile id="7177" terrain=",,30,31">
+	<properties>
+		<property name="fence_count" value="1" type="int"/>
+		<property name="fence0" value="32,12,16,32" />
+	</properties>
+</tile>
+<tile id="7178" terrain=",31,31,30">
+	<properties>
+		<property name="fence_count" value="2" type="int"/>
+		<property name="fence0" value="0,12,12,0" />
+		<property name="fence1" value="32,16,16,32" />
+	</properties>
+</tile>
+<tile id="7179" terrain="31,31,30,">
+	<properties>
+		<property name="fence_count" value="1" type="int"/>
+		<property name="fence0" value="0,16,32,20" />
+	</properties>
+</tile>
+<tile id="7180" terrain="31,30,,30">
+	<properties>
+		<property name="fence_count" value="1" type="int"/>
+		<property name="fence0" value="16,0,0,20" />
+	</properties>
+</tile>
+<tile id="7181" terrain="30,,30,31">
+	<properties>
+		<property name="fence_count" value="1" type="int"/>
+		<property name="fence0" value="16,32,32,12" />
+	</properties>
+</tile>
+<tile id="7284" terrain="31,30,31,">
+	<properties>
+		<property name="fence_count" value="1" type="int"/>
+		<property name="fence0" value="16,0,20,32" />
+	</properties>
+</tile>
+<tile id="7285" terrain="30,31,,30">
+	<properties>
+		<property name="fence_count" value="1" type="int"/>
+		<property name="fence0" value="32,16,16,0" />
+	</properties>
+</tile>
+<tile id="7286" terrain="31,30,30,">
+	<properties>
+		<property name="fence_count" value="1" type="int"/>
+		<property name="fence0" value="0,16,16,0" />
+	</properties>
+</tile>
+<tile id="7287" terrain="30,,,31">
+	<properties>
+		<property name="fence_count" value="1" type="int"/>
+		<property name="fence0" value="32,12,12,32" />
+	</properties>
+</tile>
+<tile id="7288" terrain=",30,31,">
+	<properties>
+		<property name="fence_count" value="1" type="int"/>
+		<property name="fence0" value="0,12,20,32" />
+	</properties>
+</tile>
+<tile id="7289" terrain="30,31,,31">
+	<properties>
+		<property name="fence_count" value="1" type="int"/>
+		<property name="fence0" value="16,0,12,32" />
+	</properties>
+</tile>
+<tile id="7392" terrain="31,,30,31">
+	<properties>
+		<property name="fence_count" value="2" type="int"/>
+		<property name="fence0" value="0,16,16,32" />
+		<property name="fence1" value="32,12,20,0" />
+	</properties>
+</tile>
+<tile id="7393" terrain=",30,31,31">
+	<properties>
+		<property name="fence_count" value="1" type="int"/>
+		<property name="fence0" value="0,12,32,16" />
+	</properties>
+</tile>
+<tile id="7394" terrain="30,,31,">
+	<properties>
+		<property name="fence_count" value="1" type="int"/>
+		<property name="fence0" value="20,32,0,16" />
+	</properties>
+</tile>
+<tile id="7395" terrain=",31,,30">
+	<properties>
+		<property name="fence_count" value="1" type="int"/>
+		<property name="fence0" value="12,0,32,16" />
+	</properties>
+</tile>
+<tile id="7396" terrain="31,,30,30">
+	<properties>
+		<property name="fence_count" value="1" type="int"/>
+		<property name="fence0" value="0,16,20,0" />
+	</properties>
+</tile>
+<tile id="7397" terrain=",31,30,30">
+	<properties>
+		<property name="fence_count" value="1" type="int"/>
+		<property name="fence0" value="32,16,12,0" />
+	</properties>
+</tile>
+<tile id="7500" terrain="30,31,31,">
+	<properties>
+		<property name="fence_count" value="2" type="int"/>
+		<property name="fence0" value="0,16,16,0" />
+		<property name="fence1" value="32,20,20,32" />
+	</properties>
+</tile>
+<tile id="7501" terrain="31,31,,30">
+	<properties>
+		<property name="fence_count" value="1" type="int"/>
+		<property name="fence0" value="0,20,32,16" />
+	</properties>
+</tile>
+<tile id="7502" terrain="31,,30,">
+	<properties>
+		<property name="fence_count" value="1" type="int"/>
+		<property name="fence0" value="20,0,0,16" />
+	</properties>
+</tile>
+<tile id="7503" terrain=",30,,31">
+	<properties>
+		<property name="fence_count" value="1" type="int"/>
+		<property name="fence0" value="12,32,32,16" />
+	</properties>
+</tile>
+<tile id="7504" terrain="30,30,31,">
+	<properties>
+		<property name="fence_count" value="1" type="int"/>
+		<property name="fence0" value="0,16,20,32" />
+	</properties>
+</tile>
+<tile id="7505" terrain="30,30,,31">
+	<properties>
+		<property name="fence_count" value="1" type="int"/>
+		<property name="fence0" value="32,16,12,32" />
+	</properties>
+</tile>
+<tile id="7608" terrain="31,,31,30">
+	<properties>
+		<property name="fence_count" value="1" type="int"/>
+		<property name="fence0" value="20,0,16,32" />
+	</properties>
+</tile>
+<tile id="7609" terrain=",30,30,31">
+	<properties>
+		<property name="fence_count" value="1" type="int"/>
+		<property name="fence0" value="32,16,16,32" />
+	</properties>
+</tile>
+<tile id="7610" terrain="30,,31,30">
+	<properties>
+		<property name="fence_count" value="1" type="int"/>
+		<property name="fence0" value="0,16,16,32" />
+	</properties>
+</tile>
+<tile id="7611" terrain=",31,30,">
+	<properties>
+		<property name="fence_count" value="1" type="int"/>
+		<property name="fence0" value="32,20,12,0" />
+	</properties>
+</tile>
+<tile id="7612" terrain="31,,,30">
+	<properties>
+		<property name="fence_count" value="1" type="int"/>
+		<property name="fence0" value="0,20,20,0" />
+	</properties>
+</tile>
+<tile id="7613" terrain=",31,30,31">
+	<properties>
+		<property name="fence_count" value="1" type="int"/>
+		<property name="fence0" value="12,0,16,32" />
+	</properties>
+</tile>
+<tile id="7716" terrain="31,30,,">
+	<properties>
+		<property name="fence_count" value="1" type="int"/>
+		<property name="fence0" value="0,20,16,0" />
+	</properties>
+</tile>
+<tile id="7717" terrain="30,31,,">
+	<properties>
+		<property name="fence_count" value="1" type="int"/>
+		<property name="fence0" value="32,20,16,0" />
+	</properties>
+</tile>
+<tile id="7718" terrain="31,30,,31">
+	<properties>
+		<property name="fence_count" value="2" type="int"/>
+		<property name="fence0" value="0,20,12,32" />
+		<property name="fence1" value="32,16,16,0" />
+	</properties>
+</tile>
+<tile id="7719" terrain="30,,31,31">
+	<properties>
+		<property name="fence_count" value="1" type="int"/>
+		<property name="fence0" value="0,16,32,12" />
+	</properties>
+</tile>
+<tile id="7720" terrain=",30,31,30">
+	<properties>
+		<property name="fence_count" value="1" type="int"/>
+		<property name="fence0" value="16,32,0,12" />
+	</properties>
+</tile>
+<tile id="7721" terrain="30,31,30,">
+	<properties>
+		<property name="fence_count" value="1" type="int"/>
+		<property name="fence0" value="16,0,32,20" />
+	</properties>
+</tile>
+<tile id="7182" terrain=",,31,32">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,12,32,14" />
 	</properties>
 </tile>
-<tile id="7177" terrain=",,31,30">
+<tile id="7183" terrain=",,32,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,14,32,12" />
 	</properties>
 </tile>
-<tile id="7178" terrain=",30,30,31">
+<tile id="7184" terrain=",31,31,32">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,12,12,0" />
 	</properties>
 </tile>
-<tile id="7179" terrain="30,30,31,">
+<tile id="7185" terrain="31,31,32,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="32,20,18,32" />
 	</properties>
 </tile>
-<tile id="7180" terrain="30,31,,31">
+<tile id="7186" terrain="31,32,,32">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="14,32,0,20" />
 	</properties>
 </tile>
-<tile id="7181" terrain="31,,31,30">
+<tile id="7187" terrain="32,,32,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="18,0,32,12" />
 	</properties>
 </tile>
-<tile id="7284" terrain="30,31,30,">
+<tile id="7290" terrain="31,32,31,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="20,32,32,18" />
 	</properties>
 </tile>
-<tile id="7285" terrain="31,30,,31">
+<tile id="7291" terrain="32,31,,32">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,18,14,32" />
 	</properties>
 </tile>
-<tile id="7286" terrain="30,31,31,">
+<tile id="7292" terrain="31,32,32,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="32,18,18,32" />
 	</properties>
 </tile>
-<tile id="7287" terrain="31,,,30">
+<tile id="7293" terrain="32,,,31">
 	<properties>
 		<property name="fence_count" value="2" type="int"/>
 		<property name="fence0" value="0,18,18,0" />
 		<property name="fence1" value="32,12,12,32" />
 	</properties>
 </tile>
-<tile id="7288" terrain=",31,30,">
+<tile id="7294" terrain=",32,31,">
 	<properties>
 		<property name="fence_count" value="2" type="int"/>
 		<property name="fence0" value="0,12,20,32" />
 		<property name="fence1" value="32,18,14,0" />
 	</properties>
 </tile>
-<tile id="7289" terrain="31,30,,30">
+<tile id="7295" terrain="32,31,,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="12,32,0,18" />
 	</properties>
 </tile>
-<tile id="7392" terrain="30,,31,30">
+<tile id="7398" terrain="31,,32,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="32,12,20,0" />
 	</properties>
 </tile>
-<tile id="7393" terrain=",31,30,30">
+<tile id="7399" terrain=",32,31,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,12,14,0" />
 	</properties>
 </tile>
-<tile id="7394" terrain="31,,30,">
+<tile id="7400" terrain="32,,31,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="18,0,20,32" />
 	</properties>
 </tile>
-<tile id="7395" terrain=",30,,31">
+<tile id="7401" terrain=",31,,32">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="12,0,14,32" />
 	</properties>
 </tile>
-<tile id="7396" terrain="30,,31,31">
+<tile id="7402" terrain="31,,32,32">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="32,14,20,0" />
 	</properties>
 </tile>
-<tile id="7397" terrain=",30,31,31">
+<tile id="7403" terrain=",31,32,32">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,14,12,0" />
 	</properties>
 </tile>
-<tile id="7500" terrain="31,30,30,">
+<tile id="7506" terrain="32,31,31,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="32,20,20,32" />
 	</properties>
 </tile>
-<tile id="7501" terrain="30,30,,31">
+<tile id="7507" terrain="31,31,,32">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,20,14,32" />
 	</properties>
 </tile>
-<tile id="7502" terrain="30,,31,">
+<tile id="7508" terrain="31,,32,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="20,0,18,32" />
 	</properties>
 </tile>
-<tile id="7503" terrain=",31,,30">
+<tile id="7509" terrain=",32,,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="14,0,12,32" />
 	</properties>
 </tile>
-<tile id="7504" terrain="31,31,30,">
+<tile id="7510" terrain="32,32,31,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="32,18,20,32" />
 	</properties>
 </tile>
-<tile id="7505" terrain="31,31,,30">
+<tile id="7511" terrain="32,32,,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,18,12,32" />
 	</properties>
 </tile>
-<tile id="7608" terrain="30,,30,31">
+<tile id="7614" terrain="31,,31,32">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="20,0,32,14" />
 	</properties>
 </tile>
-<tile id="7609" terrain=",31,31,30">
+<tile id="7615" terrain=",32,32,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,14,14,0" />
 	</properties>
 </tile>
-<tile id="7610" terrain="31,,30,31">
+<tile id="7616" terrain="32,,31,32">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="32,14,18,0" />
 	</properties>
 </tile>
-<tile id="7611" terrain=",30,31,">
+<tile id="7617" terrain=",31,32,">
 	<properties>
 		<property name="fence_count" value="2" type="int"/>
 		<property name="fence0" value="0,14,18,32" />
 		<property name="fence1" value="32,20,12,0" />
 	</properties>
 </tile>
-<tile id="7612" terrain="30,,,31">
+<tile id="7618" terrain="31,,,32">
 	<properties>
 		<property name="fence_count" value="2" type="int"/>
 		<property name="fence0" value="0,20,20,0" />
 		<property name="fence1" value="32,14,14,32" />
 	</properties>
 </tile>
-<tile id="7613" terrain=",30,31,30">
+<tile id="7619" terrain=",31,32,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="12,0,0,14" />
 	</properties>
 </tile>
-<tile id="7716" terrain="30,31,,">
+<tile id="7722" terrain="31,32,,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,20,32,18" />
 	</properties>
 </tile>
-<tile id="7717" terrain="31,30,,">
+<tile id="7723" terrain="32,31,,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,18,32,20" />
 	</properties>
 </tile>
-<tile id="7718" terrain="30,31,,30">
+<tile id="7724" terrain="31,32,,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,20,12,32" />
 	</properties>
 </tile>
-<tile id="7719" terrain="31,,30,30">
+<tile id="7725" terrain="32,,31,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="32,12,18,0" />
 	</properties>
 </tile>
-<tile id="7720" terrain=",31,30,31">
+<tile id="7726" terrain=",32,31,32">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="14,0,0,12" />
 	</properties>
 </tile>
-<tile id="7721" terrain="31,30,31,">
+<tile id="7727" terrain="32,31,32,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="18,32,32,20" />
 	</properties>
 </tile>
-<tile id="7182" terrain=",,30,32">
-	<properties>
-		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="0,12,8,32" />
-	</properties>
-</tile>
-<tile id="7183" terrain=",,32,30">
-	<properties>
-		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="32,12,24,32" />
-	</properties>
-</tile>
-<tile id="7184" terrain=",30,30,32">
-	<properties>
-		<property name="fence_count" value="2" type="int"/>
-		<property name="fence0" value="0,12,12,0" />
-		<property name="fence1" value="32,8,8,32" />
-	</properties>
-</tile>
-<tile id="7185" terrain="30,30,32,">
-	<properties>
-		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="0,8,32,20" />
-	</properties>
-</tile>
-<tile id="7186" terrain="30,32,,32">
-	<properties>
-		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="8,0,0,20" />
-	</properties>
-</tile>
-<tile id="7187" terrain="32,,32,30">
-	<properties>
-		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="24,32,32,12" />
-	</properties>
-</tile>
-<tile id="7290" terrain="30,32,30,">
-	<properties>
-		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="8,0,20,32" />
-	</properties>
-</tile>
-<tile id="7291" terrain="32,30,,32">
-	<properties>
-		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="32,8,24,0" />
-	</properties>
-</tile>
-<tile id="7292" terrain="30,32,32,">
-	<properties>
-		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="0,8,8,0" />
-	</properties>
-</tile>
-<tile id="7293" terrain="32,,,30">
-	<properties>
-		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="32,12,12,32" />
-	</properties>
-</tile>
-<tile id="7294" terrain=",32,30,">
-	<properties>
-		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="0,12,20,32" />
-	</properties>
-</tile>
-<tile id="7295" terrain="32,30,,30">
-	<properties>
-		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="24,0,12,32" />
-	</properties>
-</tile>
-<tile id="7398" terrain="30,,32,30">
-	<properties>
-		<property name="fence_count" value="2" type="int"/>
-		<property name="fence0" value="0,8,24,32" />
-		<property name="fence1" value="32,12,20,0" />
-	</properties>
-</tile>
-<tile id="7399" terrain=",32,30,30">
-	<properties>
-		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="0,12,32,24" />
-	</properties>
-</tile>
-<tile id="7400" terrain="32,,30,">
-	<properties>
-		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="20,32,0,24" />
-	</properties>
-</tile>
-<tile id="7401" terrain=",30,,32">
-	<properties>
-		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="12,0,32,8" />
-	</properties>
-</tile>
-<tile id="7402" terrain="30,,32,32">
-	<properties>
-		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="0,8,20,0" />
-	</properties>
-</tile>
-<tile id="7403" terrain=",30,32,32">
-	<properties>
-		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="32,8,12,0" />
-	</properties>
-</tile>
-<tile id="7506" terrain="32,30,30,">
-	<properties>
-		<property name="fence_count" value="2" type="int"/>
-		<property name="fence0" value="0,24,24,0" />
-		<property name="fence1" value="32,20,20,32" />
-	</properties>
-</tile>
-<tile id="7507" terrain="30,30,,32">
-	<properties>
-		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="0,20,32,8" />
-	</properties>
-</tile>
-<tile id="7508" terrain="30,,32,">
-	<properties>
-		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="20,0,0,8" />
-	</properties>
-</tile>
-<tile id="7509" terrain=",32,,30">
-	<properties>
-		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="12,32,32,24" />
-	</properties>
-</tile>
-<tile id="7510" terrain="32,32,30,">
-	<properties>
-		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="0,24,20,32" />
-	</properties>
-</tile>
-<tile id="7511" terrain="32,32,,30">
-	<properties>
-		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="32,24,12,32" />
-	</properties>
-</tile>
-<tile id="7614" terrain="30,,30,32">
-	<properties>
-		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="20,0,8,32" />
-	</properties>
-</tile>
-<tile id="7615" terrain=",32,32,30">
-	<properties>
-		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="32,24,24,32" />
-	</properties>
-</tile>
-<tile id="7616" terrain="32,,30,32">
-	<properties>
-		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="0,24,8,32" />
-	</properties>
-</tile>
-<tile id="7617" terrain=",30,32,">
-	<properties>
-		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="32,20,12,0" />
-	</properties>
-</tile>
-<tile id="7618" terrain="30,,,32">
-	<properties>
-		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="0,20,20,0" />
-	</properties>
-</tile>
-<tile id="7619" terrain=",30,32,30">
-	<properties>
-		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="12,0,24,32" />
-	</properties>
-</tile>
-<tile id="7722" terrain="30,32,,">
-	<properties>
-		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="0,20,8,0" />
-	</properties>
-</tile>
-<tile id="7723" terrain="32,30,,">
-	<properties>
-		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="32,20,24,0" />
-	</properties>
-</tile>
-<tile id="7724" terrain="30,32,,30">
-	<properties>
-		<property name="fence_count" value="2" type="int"/>
-		<property name="fence0" value="0,20,12,32" />
-		<property name="fence1" value="32,24,8,0" />
-	</properties>
-</tile>
-<tile id="7725" terrain="32,,30,30">
-	<properties>
-		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="0,24,32,12" />
-	</properties>
-</tile>
-<tile id="7726" terrain=",32,30,32">
-	<properties>
-		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="8,32,0,12" />
-	</properties>
-</tile>
-<tile id="7727" terrain="32,30,32,">
-	<properties>
-		<property name="fence_count" value="1" type="int"/>
-		<property name="fence0" value="24,0,32,20" />
-	</properties>
-</tile>
-<tile id="7188" terrain=",,30,33">
+<tile id="7188" terrain=",,31,33">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,12,12,32" />
 	</properties>
 </tile>
-<tile id="7189" terrain=",,33,30">
+<tile id="7189" terrain=",,33,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="32,12,20,32" />
 	</properties>
 </tile>
-<tile id="7190" terrain=",30,30,33">
+<tile id="7190" terrain=",31,31,33">
 	<properties>
 		<property name="fence_count" value="2" type="int"/>
 		<property name="fence0" value="0,12,12,0" />
 		<property name="fence1" value="32,12,12,32" />
 	</properties>
 </tile>
-<tile id="7191" terrain="30,30,33,">
+<tile id="7191" terrain="31,31,33,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,12,32,20" />
 	</properties>
 </tile>
-<tile id="7192" terrain="30,33,,33">
+<tile id="7192" terrain="31,33,,33">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="12,0,0,20" />
 	</properties>
 </tile>
-<tile id="7193" terrain="33,,33,30">
+<tile id="7193" terrain="33,,33,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="20,32,32,12" />
 	</properties>
 </tile>
-<tile id="7296" terrain="30,33,30,">
+<tile id="7296" terrain="31,33,31,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="12,0,20,32" />
 	</properties>
 </tile>
-<tile id="7297" terrain="33,30,,33">
+<tile id="7297" terrain="33,31,,33">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="32,12,20,0" />
 	</properties>
 </tile>
-<tile id="7298" terrain="30,33,33,">
+<tile id="7298" terrain="31,33,33,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,12,12,0" />
 	</properties>
 </tile>
-<tile id="7299" terrain="33,,,30">
+<tile id="7299" terrain="33,,,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="32,12,12,32" />
 	</properties>
 </tile>
-<tile id="7300" terrain=",33,30,">
+<tile id="7300" terrain=",33,31,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,12,20,32" />
 	</properties>
 </tile>
-<tile id="7301" terrain="33,30,,30">
+<tile id="7301" terrain="33,31,,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="20,0,12,32" />
 	</properties>
 </tile>
-<tile id="7404" terrain="30,,33,30">
+<tile id="7404" terrain="31,,33,31">
 	<properties>
 		<property name="fence_count" value="2" type="int"/>
 		<property name="fence0" value="0,12,20,32" />
 		<property name="fence1" value="32,12,20,0" />
 	</properties>
 </tile>
-<tile id="7405" terrain=",33,30,30">
+<tile id="7405" terrain=",33,31,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,12,32,20" />
 	</properties>
 </tile>
-<tile id="7406" terrain="33,,30,">
+<tile id="7406" terrain="33,,31,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="20,32,0,20" />
 	</properties>
 </tile>
-<tile id="7407" terrain=",30,,33">
+<tile id="7407" terrain=",31,,33">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="12,0,32,12" />
 	</properties>
 </tile>
-<tile id="7408" terrain="30,,33,33">
+<tile id="7408" terrain="31,,33,33">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,12,20,0" />
 	</properties>
 </tile>
-<tile id="7409" terrain=",30,33,33">
+<tile id="7409" terrain=",31,33,33">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="32,12,12,0" />
 	</properties>
 </tile>
-<tile id="7512" terrain="33,30,30,">
+<tile id="7512" terrain="33,31,31,">
 	<properties>
 		<property name="fence_count" value="2" type="int"/>
 		<property name="fence0" value="0,20,20,0" />
 		<property name="fence1" value="32,20,20,32" />
 	</properties>
 </tile>
-<tile id="7513" terrain="30,30,,33">
+<tile id="7513" terrain="31,31,,33">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,20,32,12" />
 	</properties>
 </tile>
-<tile id="7514" terrain="30,,33,">
+<tile id="7514" terrain="31,,33,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="20,0,0,12" />
 	</properties>
 </tile>
-<tile id="7515" terrain=",33,,30">
+<tile id="7515" terrain=",33,,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="12,32,32,20" />
 	</properties>
 </tile>
-<tile id="7516" terrain="33,33,30,">
+<tile id="7516" terrain="33,33,31,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,20,20,32" />
 	</properties>
 </tile>
-<tile id="7517" terrain="33,33,,30">
+<tile id="7517" terrain="33,33,,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="32,20,12,32" />
 	</properties>
 </tile>
-<tile id="7620" terrain="30,,30,33">
+<tile id="7620" terrain="31,,31,33">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="20,0,12,32" />
 	</properties>
 </tile>
-<tile id="7621" terrain=",33,33,30">
+<tile id="7621" terrain=",33,33,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="32,20,20,32" />
 	</properties>
 </tile>
-<tile id="7622" terrain="33,,30,33">
+<tile id="7622" terrain="33,,31,33">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,20,12,32" />
 	</properties>
 </tile>
-<tile id="7623" terrain=",30,33,">
+<tile id="7623" terrain=",31,33,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="32,20,12,0" />
 	</properties>
 </tile>
-<tile id="7624" terrain="30,,,33">
+<tile id="7624" terrain="31,,,33">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,20,20,0" />
 	</properties>
 </tile>
-<tile id="7625" terrain=",30,33,30">
+<tile id="7625" terrain=",31,33,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="12,0,20,32" />
 	</properties>
 </tile>
-<tile id="7728" terrain="30,33,,">
+<tile id="7728" terrain="31,33,,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,20,12,0" />
 	</properties>
 </tile>
-<tile id="7729" terrain="33,30,,">
+<tile id="7729" terrain="33,31,,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="32,20,20,0" />
 	</properties>
 </tile>
-<tile id="7730" terrain="30,33,,30">
+<tile id="7730" terrain="31,33,,31">
 	<properties>
 		<property name="fence_count" value="2" type="int"/>
 		<property name="fence0" value="0,20,12,32" />
 		<property name="fence1" value="32,20,12,0" />
 	</properties>
 </tile>
-<tile id="7731" terrain="33,,30,30">
+<tile id="7731" terrain="33,,31,31">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="0,20,32,12" />
 	</properties>
 </tile>
-<tile id="7732" terrain=",33,30,33">
+<tile id="7732" terrain=",33,31,33">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="12,32,0,12" />
 	</properties>
 </tile>
-<tile id="7733" terrain="33,30,33,">
+<tile id="7733" terrain="33,31,33,">
 	<properties>
 		<property name="fence_count" value="1" type="int"/>
 		<property name="fence0" value="20,0,32,20" />

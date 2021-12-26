@@ -202,15 +202,15 @@ namespace akgr {
     if (m_game.world.scenery.area.current == nullptr || m_game.world.scenery.area.period > AreaUpdatePeriod) {
       m_game.world.scenery.area.period -= AreaUpdatePeriod;
 
-      auto distanceToHero = [&hero](const auto& kv) {
-        return gf::naturalDistance(hero.physics.location.position, kv.second.position.center);
+      auto distanceToHero = [&hero](const auto& area) {
+        return gf::naturalDistance(hero.physics.location.position, area.position.center);
       };
 
       auto it = std::min_element(m_game.world.data.areas.begin(), m_game.world.data.areas.end(), [&](const auto& lhs, const auto& rhs) {
         return distanceToHero(lhs) < distanceToHero(rhs);
       });
 
-      m_game.world.scenery.area.current = &it->second;
+      m_game.world.scenery.area.current = std::addressof(*it);
     }
   } // end of doUpdate
 

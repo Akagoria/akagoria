@@ -55,7 +55,7 @@ namespace akgr {
     unsigned characterSize = coords.getRelativeCharacterSize(AreaCharacterSize);
     float thickness = coords.getRelativeSize({ 0.0f, 0.001f }).height;
 
-    gf::Text text(boost::locale::gettext(m_scenery.area.current->name.c_str()), m_font, characterSize);
+    gf::Text text(boost::locale::gettext(m_scenery.area.current->name.tag.c_str()), m_font, characterSize);
     text.setColor(gf::Color::White);
     text.setOutlineColor(gf::Color::Black);
     text.setOutlineThickness(thickness);

@@ -54,7 +54,7 @@ namespace akgr {
 
       if (dialog.currentLine >= dialog.ref().content.size()) {
         // end of the dialog
-        const std::string& name = dialog.ref().name;
+        const std::string& name = dialog.ref().name.tag;
         dialog.ref.data = nullptr;
         dialog.ref.id = gf::InvalidId;
         dialog.currentLine = 0;

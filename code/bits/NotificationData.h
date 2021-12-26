@@ -24,10 +24,12 @@
 
 #include <gf/Time.h>
 
+#include "SId.h"
+
 namespace akgr {
 
   struct NotificationData {
-    std::string name;
+    SId name;
     std::string message;
     gf::Time duration;
   };

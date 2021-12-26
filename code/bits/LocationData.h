@@ -23,11 +23,12 @@
 #include <string>
 
 #include "LocationTypes.h"
+#include "SId.h"
 
 namespace akgr {
 
   struct LocationData {
-    std::string name;
+    SId name;
     Location location;
   };
 

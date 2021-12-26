@@ -175,23 +175,21 @@ namespace {
     }
   }
 
-  void viewAreaData(const std::map<gf::Id, akgr::AreaData>& data) {
+  void viewAreaData(const akgr::Dict<akgr::AreaData>& data) {
     viewNewSection("Areas");
     fmt::print("Number of areas: {}\n", data.size());
 
-    for (auto& kv : data) {
-      auto& area = kv.second;
-      fmt::print("\t{}: '{}' {} {}\n", Id{kv.first}, area.name, area.position.center, area.position.radius);
+    for (auto & area : data) {
+      fmt::print("\t{}: '{}' {} {}\n", Id{area.name.id}, area.name.tag, area.position.center, area.position.radius);
     }
   }
 
-  void viewLocationData(const std::map<gf::Id, akgr::LocationData>& data) {
+  void viewLocationData(const akgr::Dict<akgr::LocationData>& data) {
     viewNewSection("Locations");
     fmt::print("Number of locations: {}\n", data.size());
 
-    for (auto& kv : data) {
-      auto& loc = kv.second;
-      fmt::print("\t{}: '{}' {}\n", Id{kv.first}, loc.name, loc.location);
+    for (auto & loc : data) {
+      fmt::print("\t{}: '{}' {}\n", Id{loc.name.id}, loc.name.tag, loc.location);
     }
   }
 
@@ -200,47 +198,45 @@ namespace {
 
     fmt::print("Number of animations: {}\n", data.animations.size());
 
-    for (auto& [ id, animation ] : data.animations) {
-      fmt::print("\t{}: '{}' [{}]\n", Id{id}, animation.name, animation.frames.size());
+    for (auto & animation : data.animations) {
+      fmt::print("\t{}: '{}' [{}]\n", Id{animation.name.id}, animation.name.tag, animation.frames.size());
 
-      for (auto& frame : animation.frames) {
-        fmt::print("\t\t{} [{}] {} ms\n", Id{frame.atlas}, frame.index, frame.duration);
+      for (auto & frame : animation.frames) {
+        fmt::print("\t\t{} '{}' [{}] {} ms\n", Id{frame.atlas.id}, frame.atlas.tag, frame.index, frame.duration);
       }
     }
 
   }
 
-  void viewAtlasData(const std::map<gf::Id, akgr::AtlasData>& data) {
+  void viewAtlasData(const akgr::Dict<akgr::AtlasData>& data) {
     viewNewSection("Atlases");
     fmt::print("Number of atlases: {}\n", data.size());
 
-    for (auto& kv : data) {
-      auto& atlas = kv.second;
-      fmt::print("\t{}: '{}' {}\n", Id{kv.first}, atlas.path.string(), atlas.size);
+    for (auto & atlas : data) {
+      fmt::print("\t{}: '{}' '{}' {}\n", Id{atlas.name.id}, atlas.name.tag, atlas.path.string(), atlas.size);
     }
   }
 
 
-  const char *getDialogType(akgr::DialogData::Type type) {
+  const char *getDialogType(akgr::DialogType type) {
     switch (type) {
-      case akgr::DialogData::Simple:
+      case akgr::DialogType::Simple:
         return "Simple";
-      case akgr::DialogData::Quest:
+      case akgr::DialogType::Quest:
         return "Quest";
-      case akgr::DialogData::Story:
+      case akgr::DialogType::Story:
         return "Story";
     }
 
     return "???";
   }
 
-  void viewDialogData(const std::map<gf::Id, akgr::DialogData>& data) {
+  void viewDialogData(const akgr::Dict<akgr::DialogData>& data) {
     viewNewSection("Dialogs");
     fmt::print("Number of dialogs: {}\n", data.size());
 
-    for (auto& kv : data) {
-      auto& dialog = kv.second;
-      fmt::print("\t{}: '{}' [{}]\n", Id{kv.first}, dialog.name, getDialogType(dialog.type));
+    for (auto & dialog : data) {
+      fmt::print("\t{}: '{}' [{}]\n", Id{dialog.name.id}, dialog.name.tag, getDialogType(dialog.type));
 
       for (auto& line : dialog.content) {
         fmt::print("\t\t`{}`:\n\t\t\t\"{}\"\n\t\t\t(\"{}\")\n", line.speaker, gf::escapeString(line.words), gf::escapeString(boost::locale::gettext(line.words.c_str())));
@@ -248,34 +244,31 @@ namespace {
     }
   }
 
-  void viewNotificationData(const std::map<gf::Id, akgr::NotificationData>& data) {
+  void viewNotificationData(const akgr::Dict<akgr::NotificationData>& data) {
     viewNewSection("Notifications");
     fmt::print("Number of notifications: {}\n", data.size());
 
-    for (auto& kv : data) {
-      auto& notification = kv.second;
-      fmt::print("\t{}: '{}' [{:g} s]: \"{}\" (\"{}\")\n", Id{kv.first}, notification.name, notification.duration.asSeconds(), notification.message, gf::escapeString(boost::locale::gettext(notification.message.c_str())));
+    for (auto & notification : data) {
+      fmt::print("\t{}: '{}' [{:g} s]: \"{}\" (\"{}\")\n", Id{notification.name.id}, notification.name.tag, notification.duration.asSeconds(), notification.message, gf::escapeString(boost::locale::gettext(notification.message.c_str())));
     }
   }
 
-  void viewCharacterData(const std::map<gf::Id, akgr::CharacterData>& data) {
+  void viewCharacterData(const akgr::Dict<akgr::CharacterData>& data) {
     viewNewSection("Characters");
     fmt::print("Number of characters: {}\n", data.size());
 
-    for (auto& kv : data) {
-      auto& character = kv.second;
-      fmt::print("\t{}: '{}' {}\n", Id{kv.first}, character.name, character.size);
-      fmt::print("\t\tattribute {}, level {}, weapon: {}\n", character.attribute, character.level, Id{character.weapon});
+    for (auto & character : data) {
+      fmt::print("\t{}: '{}' {}\n", Id{character.name.id}, character.name.tag, character.size);
+      fmt::print("\t\tattribute {}, level {}, weapon: {} '{}'\n", character.attribute, character.level, Id{character.weapon.id}, character.weapon.tag);
     }
   }
 
-  void viewItemData(const std::map<gf::Id, akgr::ItemData>&data) {
+  void viewItemData(const akgr::Dict<akgr::ItemData>&data) {
     viewNewSection("Items");
     fmt::print("Number of items: {}\n", data.size());
 
-    for (auto& kv : data) {
-      auto& item = kv.second;
-      fmt::print("\t{}: '{}', \"{}\", ", Id{kv.first}, item.name, gf::escapeString(item.description));
+    for (auto & item : data) {
+      fmt::print("\t{}: '{}', \"{}\", ", Id{item.name.id}, item.name.tag, gf::escapeString(item.description));
 
       fmt::print("{} ", getShapeType(item.shape.type));
 
@@ -290,18 +283,17 @@ namespace {
           break;
       }
 
-      fmt::print(", {} [{}] x{:g}\n", Id{item.sprite.atlas}, item.sprite.index, item.sprite.scale);
+      fmt::print(", {} '{}' [{}] x{:g}\n", Id{item.sprite.atlas.id}, item.sprite.atlas.tag, item.sprite.index, item.sprite.scale);
     }
   }
 
 
-  void viewWeaponData(const std::map<gf::Id, akgr::WeaponData>& data) {
+  void viewWeaponData(const akgr::Dict<akgr::WeaponData>& data) {
     viewNewSection("Weapons");
     fmt::print("Number of weapons: {}\n", data.size());
 
-    for (auto& kv : data) {
-      auto& weapon = kv.second;
-      fmt::print("\t{}: '{}', {}, \"{}\"\n", Id{kv.first}, weapon.name, getWeaponType(weapon.type), gf::escapeString(weapon.description));
+    for (auto & weapon : data) {
+      fmt::print("\t{}: '{}', {}, \"{}\"\n", Id{weapon.name.id}, weapon.name.tag, getWeaponType(weapon.type), gf::escapeString(weapon.description));
       fmt::print("\t\tattack: {}, attribute: {}, aspect: {} | range: {:g}, angle: {:.0f}°\n", weapon.attack, weapon.attribute, weapon.aspect, weapon.range, weapon.angle);
       fmt::print("\t\twarmup: {} ms | cooldown: {} ms\n", weapon.warmup.asMilliseconds(), weapon.cooldown.asMilliseconds());
     }

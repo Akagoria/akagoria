@@ -25,16 +25,17 @@
 
 #include <gf/Vector.h>
 
+#include "SId.h"
 #include "Value.h"
 
 namespace akgr {
 
   struct CharacterData {
-    std::string name;
+    SId name;
     gf::Vector2f size;
     Value attribute;
     int32_t level = 1;
-    gf::Id weapon;
+    SId weapon;
   };
 
   template<typename Archive>

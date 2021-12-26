@@ -39,13 +39,12 @@ namespace {
     fmt::print("#\n# {}\n#\n", section);
   }
 
-  void viewUIData(const std::map<gf::Id, akgr::UIData>& data) {
+  void viewUIData(const akgr::Dict<akgr::UIData>& data) {
     viewNewSection("UI Messages");
     fmt::print("Number of UI messages: {}\n", data.size());
 
-    for (auto& item : data) {
-      auto& ui = item.second;
-      fmt::print("\t{}: '{}': \"{}\" (\"{}\")\n", Id{item.first}, ui.name, gf::escapeString(ui.message), gf::escapeString(boost::locale::gettext(ui.message.c_str())));
+    for (auto& ui : data) {
+      fmt::print("\t{}: '{}': \"{}\" (\"{}\")\n", Id{ui.name.id}, ui.name.tag, gf::escapeString(ui.message), gf::escapeString(boost::locale::gettext(ui.message.c_str())));
     }
   }
 

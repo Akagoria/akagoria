@@ -1,10 +1,12 @@
-{
-  "Welcome": {
+[
+  {
+    "name": "Welcome",
     "message": "Welcome to Akagoria!",
-    "duration": 3.0
+    "duration": 3000
   },
-  "PonaShrine": {
+  {
+    "name": "PonaShrine",
     "message": "A Pona Shrine gives you some health",
-    "duration": 3.0
+    "duration": 3000
   }
-}
+]

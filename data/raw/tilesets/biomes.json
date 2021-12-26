@@ -449,6 +449,21 @@
 			}
 		},
 		{
+			"id": "Road/Bridge",
+			"color": [
+				128,
+				128,
+				128,
+				255
+			],
+			"pigment": {
+				"style": "randomize",
+				"ratio": 0.2,
+				"deviation": 0.1,
+				"size": 1
+			}
+		},
+		{
 			"id": "Water/River",
 			"color": [
 				92,
@@ -475,22 +490,7 @@
 				"style": "randomize",
 				"ratio": 0.15,
 				"deviation": 0.05,
-				"size": 1
-			}
-		},
-		{
-			"id": "Road/Bridge",
-			"color": [
-				128,
-				128,
-				128,
-				255
-			],
-			"pigment": {
-				"style": "randomize",
-				"ratio": 0.2,
-				"deviation": 0.1,
-				"size": 1
+				"size": 2
 			}
 		},
 		{
@@ -1648,6 +1648,44 @@
 		{
 			"borders": [
 				{
+					"id": "Road/Bridge",
+					"effect": "none"
+				},
+				{
+					"id": "Void",
+					"effect": "none"
+				}
+			],
+			"offset": 0,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
+					"id": "Road/Bridge",
+					"effect": "none"
+				},
+				{
+					"id": "Road/Gravel",
+					"effect": "none"
+				}
+			],
+			"offset": 0,
+			"displacement": {
+				"iterations": 2,
+				"initialFactor": 0.5,
+				"reductionFactor": 0.5
+			},
+			"limit": false
+		},
+		{
+			"borders": [
+				{
 					"id": "Water/River",
 					"effect": "outline",
 					"distance": 5,
@@ -1738,55 +1776,17 @@
 				{
 					"id": "Road/Bridge",
 					"effect": "outline",
-					"distance": 1,
+					"distance": 16,
 					"factor": 0.2
 				}
 			],
-			"offset": -8,
+			"offset": 0,
 			"displacement": {
 				"iterations": 1,
 				"initialFactor": 0.15,
 				"reductionFactor": 0.5
 			},
 			"limit": true
-		},
-		{
-			"borders": [
-				{
-					"id": "Road/Bridge",
-					"effect": "none"
-				},
-				{
-					"id": "Void",
-					"effect": "none"
-				}
-			],
-			"offset": 0,
-			"displacement": {
-				"iterations": 2,
-				"initialFactor": 0.5,
-				"reductionFactor": 0.5
-			},
-			"limit": false
-		},
-		{
-			"borders": [
-				{
-					"id": "Road/Bridge",
-					"effect": "none"
-				},
-				{
-					"id": "Road/Gravel",
-					"effect": "none"
-				}
-			],
-			"offset": 0,
-			"displacement": {
-				"iterations": 2,
-				"initialFactor": 0.5,
-				"reductionFactor": 0.5
-			},
-			"limit": false
 		},
 		{
 			"borders": [
@@ -1961,12 +1961,12 @@
 			"Void"
 		],
 		[
-			"Water/Lake",
+			"Road/Bridge",
 			"Water/River",
 			"Void"
 		],
 		[
-			"Road/Bridge",
+			"Water/Lake",
 			"Water/River",
 			"Void"
 		],

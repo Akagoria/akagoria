@@ -1,38 +1,38 @@
-{
-  "SplashSubTitle": "The revenge of Kalista",
-  "SplashLoading": "Loading...",
+[
+  { "name": "SplashSubTitle", "message": "The revenge of Kalista" },
+  { "name": "SplashLoading", "message": "Loading..." },
 
-  "MenuStart": "Start an adventure",
-  "MenuLoad": "Continue an adventure",
+  { "name": "MenuStart", "message": "Start an adventure" },
+  { "name": "MenuLoad", "message": "Continue an adventure" },
 
-  "MenuInventory": "Inventory",
-  "MenuQuests": "Quests",
-  "MenuSkills": "Skills",
+  { "name": "MenuInventory", "message": "Inventory" },
+  { "name": "MenuQuests", "message": "Quests" },
+  { "name": "MenuSkills", "message": "Skills" },
 
-  "MenuBackToAdventure": "Back to adventure",
-  "MenuBackToRealLife": "Back to real life",
+  { "name": "MenuBackToAdventure", "message": "Back to adventure" },
+  { "name": "MenuBackToRealLife", "message": "Back to real life" },
 
-  "MenuOptions": "Options",
-  "MenuQuit": "Quit",
-  "MenuBack": "Back",
+  { "name": "MenuOptions", "message": "Options" },
+  { "name": "MenuQuit", "message": "Quit" },
+  { "name": "MenuBack", "message": "Back" },
 
-  "MenuOptionsInput": "Input device",
-  "MenuOptionsInputKeyboard": "Keyboard",
-  "MenuOptionsInputGamepad": "Gamepad",
+  { "name": "MenuOptionsInput", "message": "Input device" },
+  { "name": "MenuOptionsInputKeyboard", "message": "Keyboard" },
+  { "name": "MenuOptionsInputGamepad", "message": "Gamepad" },
 
-  "MenuOptionsDisplay": "Display",
-  "MenuOptionsDisplayFullscreen": "Fullscreen",
-  "MenuOptionsDisplayWindow960x540": "Window (960x540)",
-  "MenuOptionsDisplayWindow1024x576": "Window (1024x576)",
-  "MenuOptionsDisplayWindow1152x648": "Window (1152x648)",
-  "MenuOptionsDisplayWindow1280x720": "Window (1280x720)",
+  { "name": "MenuOptionsDisplay", "message": "Display" },
+  { "name": "MenuOptionsDisplayFullscreen", "message": "Fullscreen" },
+  { "name": "MenuOptionsDisplayWindow960x540", "message": "Window (960x540)" },
+  { "name": "MenuOptionsDisplayWindow1024x576", "message": "Window (1024x576)" },
+  { "name": "MenuOptionsDisplayWindow1152x648", "message": "Window (1152x648)" },
+  { "name": "MenuOptionsDisplayWindow1280x720", "message": "Window (1280x720)" },
 
-  "HelperContinue": "Continue",
-  "HelperPick": "Pick",
-  "HelperQuit": "Quit",
-  "HelperSelect": "Select",
-  "HelperTalk": "Talk",
-  "HelperUse": "Use",
+  { "name": "HelperContinue", "message": "Continue" },
+  { "name": "HelperPick", "message": "Pick" },
+  { "name": "HelperQuit", "message": "Quit" },
+  { "name": "HelperSelect", "message": "Select" },
+  { "name": "HelperTalk", "message": "Talk" },
+  { "name": "HelperUse", "message": "Use" },
 
-  "End": "The end"
-}
+  { "name": "End", "message": "The end" }
+]

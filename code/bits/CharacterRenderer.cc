@@ -52,13 +52,13 @@ namespace akgr {
         gf::Color4f color = gf::Color::Opaque(0.5f);
 
         switch (type) {
-          case DialogData::Simple:
+          case DialogType::Simple:
             color *= gf::Color::Red;
             break;
-          case DialogData::Quest:
+          case DialogType::Quest:
             color *= gf::Color::Yellow;
             break;
-          case DialogData::Story:
+          case DialogType::Story:
             color *= gf::Color::Cyan;
             break;
         }

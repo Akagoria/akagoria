@@ -26,6 +26,7 @@
 #include <gf/Time.h>
 
 #include "Value.h"
+#include "SId.h"
 
 namespace akgr {
 
@@ -37,7 +38,7 @@ namespace akgr {
   };
 
   struct WeaponData {
-    std::string name;
+    SId name;
     std::string description;
     WeaponType type;
     Value attack;

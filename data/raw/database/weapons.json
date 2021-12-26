@@ -1,5 +1,6 @@
-{
-  "SmallSword": {
+[
+  {
+    "name": "SmallSword",
     "description": "small sword",
     "type": "melee",
     "attack": 2,
@@ -11,7 +12,8 @@
     "cooldown": 500
   },
 
-  "SmallBow": {
+  {
+    "name": "SmallBow",
     "description": "small bow",
     "type": "ranged",
     "attack": 1,
@@ -23,7 +25,8 @@
     "cooldown": 2000
   },
 
-  "Grenade": {
+  {
+    "name": "Grenade",
     "description": "simple grenade",
     "type": "explosive",
     "attack": 5,
@@ -35,7 +38,8 @@
     "cooldown": 1000
   },
 
-  "SmallFireCone": {
+  {
+    "name": "SmallFireCone",
     "description": "small fire cone",
     "type": "elemental",
     "attack": 10,
@@ -47,4 +51,4 @@
     "cooldown": 0
   }
 
-}
+]

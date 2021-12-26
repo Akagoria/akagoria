@@ -97,7 +97,7 @@ namespace akgr {
 
     // preload atlases
 
-    for (auto & [ id, atlas ] : world.data.atlases) {
+    for (auto & atlas : world.data.atlases) {
       resources.getTexture(atlas.path);
     }
 

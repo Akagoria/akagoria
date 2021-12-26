@@ -30,36 +30,33 @@ namespace akgr {
 
   namespace {
     gf::Animation loadAnimation(const WorldData& data, gf::ResourceManager& resources, std::string name) {
-      gf::Animation animation;
+      gf::Animation result;
 
-      auto it = data.hero.animations.find(gf::hash(name));
+      auto animation = dictFind(data.hero.animations, gf::hash(name));
 
-      if (it == data.hero.animations.end()) {
+      if (animation == nullptr) {
         gf::Log::error("Unkown animation for hero: '%s'\n", name.c_str());
-        return animation;
+        return result;
       }
 
-      const AtlasAnimation& atlasAnimation = it->second;
+      for (auto & frame : animation->frames) {
+        auto atlas = dictFind(data.atlases, frame.atlas.id);
 
-      for (auto & frame : atlasAnimation.frames) {
-        auto it = data.atlases.find(frame.atlas);
-
-        if (it == data.atlases.end()) {
+        if (atlas == nullptr) {
           gf::Log::error("Unknown atlas for animation (hero): '%s'\n", name.c_str());
           continue;
         }
 
-        const AtlasData& atlas = it->second;
-        gf::Texture& texture = resources.getTexture(atlas.path);
+        gf::Texture& texture = resources.getTexture(atlas->path);
         texture.setSmooth(true);
 
-        gf::Vector2f textureSize = 1.0f / atlas.size;
-        gf::Vector2i textureIndex = { frame.index % atlas.size.width, frame.index / atlas.size.width };
+        gf::Vector2f textureSize = 1.0f / atlas->size;
+        gf::Vector2i textureIndex = { frame.index % atlas->size.width, frame.index / atlas->size.width };
 
-        animation.addFrame(texture, gf::RectF::fromPositionSize(textureSize * textureIndex, textureSize), gf::milliseconds(frame.duration));
+        result.addFrame(texture, gf::RectF::fromPositionSize(textureSize * textureIndex, textureSize), gf::milliseconds(frame.duration));
       }
 
-      return animation;
+      return result;
     }
 
 

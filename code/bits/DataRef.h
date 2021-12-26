@@ -38,15 +38,11 @@ namespace akgr {
     const T *data = nullptr;
 
     void bind(const Dict<T>& database) {
-      auto it = database.find(id);
+      data = dictFind(database, id);
 
-      if (it == database.end()) {
+      if (data == nullptr) {
         gf::Log::error("Could not bind reference %" PRIX64 "\n", id);
-        data = nullptr;
-        return;
       }
-
-      data = std::addressof(it->second);
     }
 
     operator bool() const noexcept {
@@ -57,7 +53,6 @@ namespace akgr {
       assert(data != nullptr);
       return *data;
     }
-
   };
 
   template<typename Archive, typename T>

@@ -24,10 +24,12 @@
 
 #include <gf/Circ.h>
 
+#include "SId.h"
+
 namespace akgr {
 
   struct AreaData {
-    std::string name;
+    SId name;
     gf::CircF position;
   };
 

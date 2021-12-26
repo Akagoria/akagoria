@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-23 14:17+0100\n"
+"POT-Creation-Date: 2021-12-26 22:36+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,25 +21,6 @@ msgid "Rocky Moutains"
 msgstr ""
 
 msgid "Plains of the South"
-msgstr ""
-
-msgid "What happened here?"
-msgstr ""
-
-msgid ""
-"It has rained a lot in the last few days.\n"
-"This rock has fallen from the moutain.\n"
-"It's too heavy, nobody can move it."
-msgstr ""
-
-msgid ""
-"Really? I don't want to stay here.\n"
-" Who is in charge here?"
-msgstr ""
-
-msgid ""
-"Nobody, but you can probably ask Grubee, the blacksmith.\n"
-"He lives in the center of the village."
 msgstr ""
 
 msgid ""
@@ -61,7 +42,7 @@ msgid ""
 msgstr ""
 
 msgid ""
-"I don't recognize anything. What happended?\n"
+"I don't recognize anything. What happened?\n"
 "I have been asleep for a very long time.\n"
 "A too long time... But how much?"
 msgstr ""
@@ -92,55 +73,71 @@ msgstr ""
 msgid "Go south, you will find a lovely place called Arabband."
 msgstr ""
 
-msgid "A Pona Shrine gives you some health"
+msgid "What happened here?"
+msgstr ""
+
+msgid ""
+"It has rained a lot in the last few days.\n"
+"This rock has fallen from the moutain.\n"
+"It's too heavy, nobody can move it."
+msgstr ""
+
+msgid ""
+"Really? I don't want to stay here.\n"
+" Who is in charge here?"
+msgstr ""
+
+msgid ""
+"Nobody, but you can probably ask Grubee, the blacksmith.\n"
+"He lives in the center of the village."
 msgstr ""
 
 msgid "Welcome to Akagoria!"
 msgstr ""
 
-msgid "Emerald"
+msgid "A Pona Shrine gives you some health"
 msgstr ""
 
 msgid "Ruby"
 msgstr ""
 
+msgid "Emerald"
+msgstr ""
+
 msgid "Short sword"
-msgstr ""
-
-msgid "simple grenade"
-msgstr ""
-
-msgid "small bow"
-msgstr ""
-
-msgid "small fire cone"
 msgstr ""
 
 msgid "small sword"
 msgstr ""
 
-msgid "The end"
+msgid "small bow"
 msgstr ""
 
-msgid "Continue"
+msgid "simple grenade"
 msgstr ""
 
-msgid "Pick"
+msgid "small fire cone"
 msgstr ""
 
-msgid "Quit"
+msgid "The revenge of Kalista"
 msgstr ""
 
-msgid "Select"
+msgid "Loading..."
 msgstr ""
 
-msgid "Talk"
+msgid "Start an adventure"
 msgstr ""
 
-msgid "Use"
+msgid "Continue an adventure"
 msgstr ""
 
-msgid "Back"
+msgid "Inventory"
+msgstr ""
+
+msgid "Quests"
+msgstr ""
+
+msgid "Skills"
 msgstr ""
 
 msgid "Back to adventure"
@@ -149,19 +146,31 @@ msgstr ""
 msgid "Back to real life"
 msgstr ""
 
-msgid "Inventory"
-msgstr ""
-
-msgid "Continue an adventure"
-msgstr ""
-
 msgid "Options"
+msgstr ""
+
+msgid "Quit"
+msgstr ""
+
+msgid "Back"
+msgstr ""
+
+msgid "Input device"
+msgstr ""
+
+msgid "Keyboard"
+msgstr ""
+
+msgid "Gamepad"
 msgstr ""
 
 msgid "Display"
 msgstr ""
 
 msgid "Fullscreen"
+msgstr ""
+
+msgid "Window (960x540)"
 msgstr ""
 
 msgid "Window (1024x576)"
@@ -173,29 +182,20 @@ msgstr ""
 msgid "Window (1280x720)"
 msgstr ""
 
-msgid "Window (960x540)"
+msgid "Continue"
 msgstr ""
 
-msgid "Input device"
+msgid "Pick"
 msgstr ""
 
-msgid "Gamepad"
+msgid "Select"
 msgstr ""
 
-msgid "Keyboard"
+msgid "Talk"
 msgstr ""
 
-msgid "Quests"
+msgid "Use"
 msgstr ""
 
-msgid "Skills"
-msgstr ""
-
-msgid "Start an adventure"
-msgstr ""
-
-msgid "Loading..."
-msgstr ""
-
-msgid "The revenge of Kalista"
+msgid "The end"
 msgstr ""

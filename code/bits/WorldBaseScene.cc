@@ -154,7 +154,7 @@ namespace akgr {
       m_game.world.state.saveToFile(slot.path);
       slot.active = true;
 
-      slot.meta.area = m_game.world.scenery.area.current->name;
+      slot.meta.area = m_game.world.scenery.area.current->name.tag;
       slot.save();
 
       gf::Log::debug("Quick save\n");
@@ -389,7 +389,7 @@ namespace akgr {
         case WeaponPhase::Launch: {
           // see https://akagoria.github.io/game_system.html#_combat_resolution
 
-          gf::Log::debug("--{ attack from character '%s'\n", character.ref().name.c_str());
+          gf::Log::debug("--{ attack from character '%s'\n", character.ref().name.tag.c_str());
 
           // 1. The attack is always considered valid for a character
 

@@ -1,23 +1,23 @@
-{
-  "GemRuby": {
+[
+  {
+    "name": "GemRuby",
     "description": "Ruby",
     "trait": { "type": "rare" },
     "shape": { "type": "circle", "radius": 10 },
     "sprite": { "atlas": "SmallItems", "index": 0, "scale": 0.25 }
   },
-
-  "GemEmerald": {
+  {
+    "name": "GemEmerald",
     "description": "Emerald",
     "trait": { "type": "rare" },
     "shape": { "type": "circle", "radius": 10 },
     "sprite": { "atlas": "SmallItems", "index": 1, "scale": 0.25 }
   },
-
-  "ShortSword": {
+  {
+    "name": "ShortSword",
     "description": "Short sword",
     "trait": { "type": "weapon", "ref": "SmallSword" },
     "shape": { "type": "rectangle", "width": 10, "height": 10 },
     "sprite": { "atlas": "SmallItems", "index": 2, "scale": 1 }
   }
-
-}
+]

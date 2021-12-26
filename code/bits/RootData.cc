@@ -51,14 +51,14 @@ namespace akgr {
   }
 
   std::string RootData::getUIMessage(gf::Id id) const {
-    auto it = ui.find(id);
+    auto data = dictFind(ui, id);
 
-    if (it == ui.end()) {
+    if (data == nullptr) {
       gf::Log::error("Unknown UI message id: %" PRIX64 "\n", id);
       return "";
     }
 
-    return boost::locale::gettext(it->second.message.c_str());
+    return boost::locale::gettext(data->message.c_str());
   }
 
 }
