@@ -27,6 +27,62 @@
 namespace akgr {
 
   namespace {
+
+    gf::TileLayer bindTextureLayer(const MapData& map, const TextureLayer& textureLayer, gf::ResourceManager& resources) {
+      if (textureLayer.tiles.isEmpty()) {
+        return gf::TileLayer();
+      }
+
+      assert(map.mapSize == textureLayer.tiles.getSize());
+      gf::TileLayer layer = gf::TileLayer::createOrthogonal(map.mapSize, map.tileSize);
+
+      std::set<std::size_t> seen;
+
+      for (auto pos : textureLayer.tiles.getPositionRange()) {
+        auto cell = textureLayer.tiles(pos);
+
+        if (seen.find(cell.tilesetId) == seen.end()) {
+          const Tileset& tileset = map.tilesets[cell.tilesetId];
+          const gf::Texture& texture = resources.getTexture(tileset.path);
+          // texture.setSmooth(false);
+          // texture.generateMipmap();
+
+          auto id = layer.createTilesetId();
+          assert(id == cell.tilesetId);
+          auto& ts = layer.getTileset(id);
+          ts.setTileSize(tileset.tileSize);
+          ts.setMargin(tileset.margin);
+          ts.setSpacing(tileset.spacing);
+          ts.setTexture(texture);
+
+          seen.insert(cell.tilesetId);
+        }
+
+        layer.setTile(pos, cell.tilesetId, cell.gid, cell.flip);
+      }
+
+      return layer;
+    }
+
+    std::vector<gf::Sprite> bindSpriteLayer(const MapData& map, const SpriteLayer& layer, gf::ResourceManager& resources) {
+      std::vector<gf::Sprite> sprites;
+
+      for (auto& raw : layer.sprites) {
+        const Tileset& tileset = map.tilesets[raw.tilesetId];
+        const gf::Texture& texture = resources.getTexture(tileset.path);
+        gf::RectF textureRect = texture.computeTextureCoords(raw.subTexture);
+
+        gf::Sprite sprite(texture, textureRect);
+        sprite.setPosition(raw.position);
+        sprite.setRotation(gf::degreesToRadians(raw.rotation));
+        sprite.setAnchor(gf::Anchor::BottomLeft); // see http://docs.mapeditor.org/en/stable/reference/tmx-map-format/#object
+
+        sprites.push_back(sprite);
+      }
+
+      return sprites;
+    }
+
     int getPriorityFromPlaneForSprites(Plane plane) {
       switch (plane) {
         case Plane::High:
@@ -61,23 +117,34 @@ namespace akgr {
    * MapTileRenderer
    */
 
-  MapTileRenderer::MapTileRenderer(Plane plane, const WorldData& data, MapTileScenery& scenery)
+  MapTileRenderer::MapTileRenderer(Plane plane, const WorldData& data, gf::ResourceManager& resources)
   : FloorRenderer(getPriorityFromPlaneForTiles(plane))
   , m_data(data)
-  , m_scenery(scenery)
   {
-
+    for (auto& floor : data.map.floors) {
+      switch (plane) {
+        case Plane::High:
+          m_layers.push_back(bindTextureLayer(data.map, floor.highTiles, resources));
+          break;
+        case Plane::Low:
+          m_layers.push_back(bindTextureLayer(data.map, floor.lowTiles, resources));
+          break;
+        case Plane::Ground:
+          m_layers.push_back(bindTextureLayer(data.map, floor.groundTiles, resources));
+          break;
+      }
+    }
   }
 
   void MapTileRenderer::renderFloor(gf::RenderTarget& target, const gf::RenderStates& states, int32_t floor) {
     int32_t index = floor - m_data.map.floorMin;
 
-    if (!(0 <= index && static_cast<std::size_t>(index) <= m_scenery.layers.size())) {
+    if (!(0 <= index && static_cast<std::size_t>(index) <= m_layers.size())) {
       gf::Log::debug("Floor: %" PRIi32 ", FloorMin: %" PRIi32 " Index: %" PRIi32 "\n", floor, m_data.map.floorMin, index);
     }
 
-    assert(0 <= index && static_cast<std::size_t>(index) <= m_scenery.layers.size());
-    auto& layer = m_scenery.layers[index];
+    assert(0 <= index && static_cast<std::size_t>(index) <= m_layers.size());
+    auto& layer = m_layers[index];
 
     target.draw(layer, states);
   }
@@ -87,18 +154,30 @@ namespace akgr {
    * MapSpriteRenderer
    */
 
-  MapSpriteRenderer::MapSpriteRenderer(Plane plane, const WorldData& data, MapSpriteScenery& scenery)
+  MapSpriteRenderer::MapSpriteRenderer(Plane plane, const WorldData& data, gf::ResourceManager& resources)
   : FloorRenderer(getPriorityFromPlaneForSprites(plane))
   , m_data(data)
-  , m_scenery(scenery)
   {
+    for (auto& floor : data.map.floors) {
+      switch (plane) {
+        case Plane::High:
+          m_layers.push_back(bindSpriteLayer(data.map, floor.highSprites, resources));
+          break;
+        case Plane::Low:
+          m_layers.push_back(bindSpriteLayer(data.map, floor.lowSprites, resources));
+          break;
+        case Plane::Ground:
+          assert(false);
+          break;
+      }
+    }
   }
 
   void MapSpriteRenderer::renderFloor(gf::RenderTarget& target, const gf::RenderStates& states, int32_t floor) {
     int32_t index = floor - m_data.map.floorMin;
-    assert(0 <= index && static_cast<std::size_t>(index) <= m_scenery.layers.size());
+    assert(0 <= index && static_cast<std::size_t>(index) <= m_layers.size());
 
-    auto& sprites = m_scenery.layers[index];
+    auto& sprites = m_layers[index];
 
     for (auto& sprite : sprites) {
       assert(sprite.hasTexture());

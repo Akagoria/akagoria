@@ -22,6 +22,10 @@
 
 #include <vector>
 
+#include <gf/ResourceManager.h>
+#include <gf/Sprite.h>
+#include <gf/TileLayer.h>
+
 #include "FloorRenderer.h"
 #include "WorldData.h"
 #include "WorldState.h"
@@ -37,25 +41,25 @@ namespace akgr {
 
   class MapTileRenderer : public FloorRenderer {
   public:
-    MapTileRenderer(Plane plane, const WorldData& data, MapTileScenery& scenery);
+    MapTileRenderer(Plane plane, const WorldData& data, gf::ResourceManager& resources);
 
     void renderFloor(gf::RenderTarget& target, const gf::RenderStates& states, int32_t floor) override;
 
   private:
     const WorldData& m_data;
-    MapTileScenery& m_scenery;
+    std::vector<gf::TileLayer> m_layers;
   };
 
 
   class MapSpriteRenderer : public FloorRenderer {
   public:
-    MapSpriteRenderer(Plane plane, const WorldData& data, MapSpriteScenery& scenery);
+    MapSpriteRenderer(Plane plane, const WorldData& data, gf::ResourceManager& resources);
 
     void renderFloor(gf::RenderTarget& target, const gf::RenderStates& states, int32_t floor) override;
 
   private:
     const WorldData& m_data;
-    MapSpriteScenery& m_scenery;
+    std::vector<std::vector<gf::Sprite>> m_layers;
   };
 
 

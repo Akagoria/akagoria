@@ -28,7 +28,6 @@
 #include "AreaScenery.h"
 #include "GameMenuScenery.h"
 #include "InventoryScenery.h"
-#include "MapScenery.h"
 #include "VfxScenery.h"
 
 namespace akgr {
@@ -39,7 +38,6 @@ namespace akgr {
     GameMenuScenery menu;
     InventoryScenery inventory;
 
-    MapScenery map;
     AreaScenery area;
     VfxScenery vfx;
 

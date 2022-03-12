@@ -32,77 +32,12 @@ namespace akgr {
     constexpr std::size_t ShrineParticleCount = 20;
     constexpr float ShrineParticleMinRadius = 30.0f;
 
-    gf::TileLayer bindTextureLayer(const MapData& map, const TextureLayer& textureLayer, gf::ResourceManager& resources) {
-      if (textureLayer.tiles.isEmpty()) {
-        return gf::TileLayer();
-      }
-
-      assert(map.mapSize == textureLayer.tiles.getSize());
-      gf::TileLayer layer = gf::TileLayer::createOrthogonal(map.mapSize, map.tileSize);
-
-      std::set<std::size_t> seen;
-
-      for (auto pos : textureLayer.tiles.getPositionRange()) {
-        auto cell = textureLayer.tiles(pos);
-
-        if (seen.find(cell.tilesetId) == seen.end()) {
-          const Tileset& tileset = map.tilesets[cell.tilesetId];
-          const gf::Texture& texture = resources.getTexture(tileset.path);
-          // texture.setSmooth(false);
-          // texture.generateMipmap();
-
-          auto id = layer.createTilesetId();
-          assert(id == cell.tilesetId);
-          auto& ts = layer.getTileset(id);
-          ts.setTileSize(tileset.tileSize);
-          ts.setMargin(tileset.margin);
-          ts.setSpacing(tileset.spacing);
-          ts.setTexture(texture);
-
-          seen.insert(cell.tilesetId);
-        }
-
-        layer.setTile(pos, cell.tilesetId, cell.gid, cell.flip);
-      }
-
-      return layer;
-    }
-
-    std::vector<gf::Sprite> bindSpriteLayer(const MapData& map, const SpriteLayer& layer, gf::ResourceManager& resources) {
-      std::vector<gf::Sprite> sprites;
-
-      for (auto& raw : layer.sprites) {
-        const Tileset& tileset = map.tilesets[raw.tilesetId];
-        const gf::Texture& texture = resources.getTexture(tileset.path);
-        gf::RectF textureRect = texture.computeTextureCoords(raw.subTexture);
-
-        gf::Sprite sprite(texture, textureRect);
-        sprite.setPosition(raw.position);
-        sprite.setRotation(gf::degreesToRadians(raw.rotation));
-        sprite.setAnchor(gf::Anchor::BottomLeft); // see http://docs.mapeditor.org/en/stable/reference/tmx-map-format/#object
-
-        sprites.push_back(sprite);
-      }
-
-      return sprites;
-    }
-
   }
 
   void WorldScenery::bind(const WorldData& data, const WorldState& state, gf::ResourceManager& resources, gf::Random& random) {
     // inventory
 
     inventory.list.updateCount(state.hero.inventory.items.size());
-
-    // map
-
-    for (auto& floor : data.map.floors) {
-      map.groundTiles.layers.push_back(bindTextureLayer(data.map, floor.groundTiles, resources));
-      map.lowTiles.layers.push_back(bindTextureLayer(data.map, floor.lowTiles, resources));
-      map.lowSprites.layers.push_back(bindSpriteLayer(data.map, floor.lowSprites, resources));
-      map.highTiles.layers.push_back(bindTextureLayer(data.map, floor.highTiles, resources));
-      map.highSprites.layers.push_back(bindSpriteLayer(data.map, floor.highSprites, resources));
-    }
 
     // vfx
 
