@@ -22,10 +22,23 @@
 #include <gf/Serialization.h>
 #include <gf/SerializationOps.h>
 #include <gf/Streams.h>
+#include <gf/VectorOps.h>
 
 #include "Version.h"
 
 namespace akgr {
+
+  const AreaData *WorldData::getAreaFromPosition(gf::Vector2f position) const {
+    auto distanceToHero = [&](const AreaData& area) {
+      return gf::naturalDistance(position, area.position.center);
+    };
+
+    auto it = std::min_element(areas.begin(), areas.end(), [&](const AreaData& lhs, const AreaData& rhs) {
+      return distanceToHero(lhs) < distanceToHero(rhs);
+    });
+
+    return std::addressof(*it);
+  }
 
   bool WorldData::loadFromFile(const gf::Path& filename) {
     gf::FileInputStream file(filename);

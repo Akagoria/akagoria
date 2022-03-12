@@ -25,7 +25,6 @@
 #include <gf/Random.h>
 #include <gf/ResourceManager.h>
 
-#include "AreaScenery.h"
 #include "GameMenuScenery.h"
 #include "InventoryScenery.h"
 #include "VfxScenery.h"
@@ -38,7 +37,6 @@ namespace akgr {
     GameMenuScenery menu;
     InventoryScenery inventory;
 
-    AreaScenery area;
     VfxScenery vfx;
 
     void bind(const WorldData& data, const WorldState& state, gf::ResourceManager& resources, gf::Random& random);

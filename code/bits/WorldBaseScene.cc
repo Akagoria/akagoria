@@ -154,7 +154,9 @@ namespace akgr {
       m_game.world.state.saveToFile(slot.path);
       slot.active = true;
 
-      slot.meta.area = m_game.world.scenery.area.current->name.tag;
+      auto area = m_game.world.data.getAreaFromPosition(m_game.world.state.hero.physics.location.position);
+
+      slot.meta.area = area ? area->name.tag : "???";
       slot.save();
 
       gf::Log::debug("Quick save\n");

@@ -24,6 +24,7 @@
 
 #include <gf/Id.h>
 #include <gf/Path.h>
+#include <gf/Vector.h>
 
 #include "AreaData.h"
 #include "AtlasData.h"
@@ -57,6 +58,8 @@ namespace akgr {
     Dict<CharacterData> characters;
     Dict<ItemData> items;
     Dict<WeaponData> weapons;
+
+    const AreaData *getAreaFromPosition(gf::Vector2f position) const;
 
     bool loadFromFile(const gf::Path& filename);
     bool saveToFile(const gf::Path& filename);

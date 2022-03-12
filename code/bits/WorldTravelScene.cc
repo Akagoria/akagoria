@@ -28,16 +28,10 @@
 
 namespace akgr {
 
-  namespace {
-
-    constexpr gf::Time AreaUpdatePeriod = gf::seconds(1);
-
-  }
-
   WorldTravelScene::WorldTravelScene(Akagoria& game)
   : gf::Scene(game.getRenderer().getSize())
   , m_game(game)
-  , m_area(game.resources, game.world.state, game.world.scenery)
+  , m_area(game.resources, game.world.data, game.world.state)
   , m_aspect(game.world.state, game.resources)
   , m_map(game.world.state)
   , m_notifications(game.world.state, game.theme)
@@ -182,8 +176,6 @@ namespace akgr {
   } // end of doHandleActions
 
   void WorldTravelScene::doUpdate(gf::Time time) {
-    auto &hero = m_game.world.state.hero;
-
     // notifications
 
     if (!m_game.world.state.notifications.empty()) {
@@ -195,23 +187,6 @@ namespace akgr {
       }
     }
 
-    // area
-
-    m_game.world.scenery.area.period += time;
-
-    if (!m_game.world.data.areas.empty() && (m_game.world.scenery.area.current == nullptr || m_game.world.scenery.area.period > AreaUpdatePeriod)) {
-      m_game.world.scenery.area.period -= AreaUpdatePeriod;
-
-      auto distanceToHero = [&hero](const auto& area) {
-        return gf::naturalDistance(hero.physics.location.position, area.position.center);
-      };
-
-      auto it = std::min_element(m_game.world.data.areas.begin(), m_game.world.data.areas.end(), [&](const auto& lhs, const auto& rhs) {
-        return distanceToHero(lhs) < distanceToHero(rhs);
-      });
-
-      m_game.world.scenery.area.current = std::addressof(*it);
-    }
   } // end of doUpdate
 
 }

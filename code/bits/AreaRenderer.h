@@ -23,21 +23,25 @@
 #include <gf/Entity.h>
 #include <gf/ResourceManager.h>
 
-#include "WorldScenery.h"
+#include "WorldData.h"
 #include "WorldState.h"
 
 namespace akgr {
 
   class AreaRenderer : public gf::Entity {
   public:
-    AreaRenderer(gf::ResourceManager& resources, const WorldState& state, const WorldScenery& scenery);
+    AreaRenderer(gf::ResourceManager& resources, const WorldData& data, const WorldState& state);
 
+    virtual void update(gf::Time time) override;
     virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
 
   private:
     gf::Font& m_font;
+    const WorldData& m_data;
     const WorldState& m_state;
-    const WorldScenery& m_scenery;
+
+    const AreaData *m_current = nullptr;
+    gf::Time m_period = gf::Time::zero();
   };
 
 }

@@ -29,6 +29,7 @@
 namespace akgr {
 
   namespace {
+    constexpr gf::Time AreaUpdatePeriod = gf::seconds(1);
 
     constexpr gf::Vector2f AreaPositionBase = { 1.0f - 0.015f, 0.015f + 0.01f };
     constexpr float AreaPositionOffset = 0.25f; // same as MiniMapSize
@@ -36,16 +37,24 @@ namespace akgr {
 
   }
 
-  AreaRenderer::AreaRenderer(gf::ResourceManager& resources, const WorldState& state, const WorldScenery& scenery)
+  AreaRenderer::AreaRenderer(gf::ResourceManager& resources, const WorldData& data, const WorldState& state)
   : m_font(resources.getFont("fonts/Philosopher-Regular.ttf"))
+  , m_data(data)
   , m_state(state)
-  , m_scenery(scenery)
   {
+  }
 
+  void AreaRenderer::update(gf::Time time) {
+    m_period += time;
+
+    if (!m_data.areas.empty() && (m_current == nullptr || m_period > AreaUpdatePeriod)) {
+      m_period -= AreaUpdatePeriod;
+      m_current = m_data.getAreaFromPosition(m_state.hero.physics.location.position);
+    }
   }
 
   void AreaRenderer::render(gf::RenderTarget& target, const gf::RenderStates& states) {
-    if (m_scenery.area.current == nullptr) {
+    if (m_current == nullptr) {
       return;
     }
 
@@ -59,7 +68,7 @@ namespace akgr {
     unsigned characterSize = coords.getRelativeCharacterSize(AreaCharacterSize);
     float thickness = coords.getRelativeSize({ 0.0f, 0.001f }).height;
 
-    gf::Text text(boost::locale::gettext(m_scenery.area.current->name.tag.c_str()), m_font, characterSize);
+    gf::Text text(boost::locale::gettext(m_current->name.tag.c_str()), m_font, characterSize);
     text.setColor(gf::Color::White);
     text.setOutlineColor(gf::Color::Black);
     text.setOutlineThickness(thickness);
