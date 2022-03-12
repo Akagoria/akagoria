@@ -21,7 +21,7 @@
 
 namespace akgr {
 
-  UniverseRenderer::UniverseRenderer(const WorldData& data, const WorldState& state, WorldScenery& scenery, gf::ResourceManager& resources)
+  UniverseRenderer::UniverseRenderer(const WorldData& data, const WorldState& state, gf::ResourceManager& resources, gf::MessageManager& messages, gf::Random& random)
   : m_state(state)
   , m_ground(Plane::Ground, data, resources)
   , m_lowTile(Plane::Low, data, resources)
@@ -31,7 +31,7 @@ namespace akgr {
   , m_hero(data, state, resources)
   , m_character(data, state)
   , m_item(data, state, resources)
-  , m_vfx(scenery, resources)
+  , m_vfx(data, state, resources, messages, random)
   {
     m_renderers.addFloorRenderer(m_ground);
     m_renderers.addFloorRenderer(m_lowTile);

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="2048" height="2048" tilewidth="32" tileheight="32" infinite="0" nextlayerid="14" nextobjectid="277">
+<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="2048" height="2048" tilewidth="32" tileheight="32" infinite="0" nextlayerid="14" nextobjectid="285">
  <tileset firstgid="1" source="tilesets/biomes.tsx"/>
  <tileset firstgid="11665" name="sprites-128" tilewidth="128" tileheight="128" tilecount="64" columns="8">
   <image source="tilesets/sprites-128.png" width="1024" height="1024"/>
@@ -240,6 +240,14 @@
     <property name="kind" value="low_sprites"/>
    </properties>
    <object id="274" gid="11665" x="16248.3" y="50146.3" width="128" height="128" rotation="30.7194"/>
+   <object id="277" gid="11673" x="11524" y="57222" width="128" height="128"/>
+   <object id="278" gid="11674" x="12104" y="56992" width="128" height="128"/>
+   <object id="279" gid="11675" x="12810" y="56860" width="128" height="128"/>
+   <object id="280" gid="11676" x="12968" y="56556" width="128" height="128"/>
+   <object id="281" gid="11669" x="11422" y="56862" width="128" height="128"/>
+   <object id="282" gid="11670" x="11772" y="56806" width="128" height="128"/>
+   <object id="283" gid="11671" x="12072" y="56690" width="128" height="128"/>
+   <object id="284" gid="11672" x="12424" y="56542" width="128" height="128"/>
   </objectgroup>
   <objectgroup id="13" name="High Sprites">
    <properties>

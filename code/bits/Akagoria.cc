@@ -88,7 +88,7 @@ namespace akgr {
     }
 
     world.state.bind(world.data);
-    world.scenery.bind(world.data, world.state, resources, random);
+    world.scenery.bind(world.state);
     world.script.bind();
     world.script.initialize();
 

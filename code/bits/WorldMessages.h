@@ -17,8 +17,41 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "VfxScenery.h"
+#ifndef AKGR_WORLD_MESSAGES_H
+#define AKGR_WORLD_MESSAGES_H
+
+#include <gf/Message.h>
+#include <gf/Time.h>
+
+#include "Aspect.h"
+#include "LandscapeData.h"
+#include "Value.h"
 
 namespace akgr {
 
+  using namespace gf::literals;
+
+  enum class DamageReceiver {
+    Hero,
+    Other,
+  };
+
+  struct DamageGenerationMessage : gf::Message {
+    static constexpr gf::Id type = "DamageGenerationMessage"_id;
+
+    DamageReceiver receiver;
+    Value value;
+    gf::Vector2f position;
+  };
+
+
+  struct AspectChangeMessage : gf::Message {
+    static constexpr gf::Id type = "AspectChangeMessage"_id;
+
+    LandscapeShrineData *shrine;
+    Aspect aspect;
+    gf::Time time;
+  };
 }
+
+#endif // AKGR_WORLD_MESSAGES_H

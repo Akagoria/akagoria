@@ -27,7 +27,6 @@
 
 #include "GameMenuScenery.h"
 #include "InventoryScenery.h"
-#include "VfxScenery.h"
 
 namespace akgr {
   struct WorldData;
@@ -37,9 +36,7 @@ namespace akgr {
     GameMenuScenery menu;
     InventoryScenery inventory;
 
-    VfxScenery vfx;
-
-    void bind(const WorldData& data, const WorldState& state, gf::ResourceManager& resources, gf::Random& random);
+    void bind(const WorldState& state);
   };
 
 }

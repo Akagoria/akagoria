@@ -76,7 +76,6 @@ add_executable(akagoria
   bits/UIData.cc
   bits/UniverseRenderer.cc
   bits/VfxRenderer.cc
-  bits/VfxScenery.cc
   bits/WaitingRenderer.cc
   bits/WeaponState.cc
   bits/World.cc

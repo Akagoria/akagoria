@@ -24,6 +24,7 @@
 
 #include <gf/Gamepad.h>
 #include <gf/Random.h>
+#include <gf/MessageManager.h>
 #include <gf/ResourceManager.h>
 #include <gf/SceneManager.h>
 
@@ -60,6 +61,7 @@ namespace akgr {
 
 
     gf::ResourceManager resources;
+    gf::MessageManager messages;
     gf::Random random;
     gf::GamepadTracker tracker;
 

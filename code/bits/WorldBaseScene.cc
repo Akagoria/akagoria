@@ -34,10 +34,6 @@ namespace akgr {
     constexpr gf::Time MPUpdatePeriod = gf::seconds(29);
     constexpr gf::Time VPUpdatePeriod = gf::seconds(29);
 
-    constexpr gf::Time AspectParticleSpawnPeriod = gf::milliseconds(150);
-    constexpr float AspectParticleFadeoutDistance = 25.0f;
-    constexpr float AspectParticleVelocity = 250.0f;
-
     bool isAspectShrine(ShrineType shrine) {
       switch (shrine) {
         case ShrineType::Pona:
@@ -107,7 +103,7 @@ namespace akgr {
   WorldBaseScene::WorldBaseScene(Akagoria& game)
   : gf::Scene(game.getRenderer().getSize())
   , m_game(game)
-  , m_universe(game.world.data, game.world.state, game.world.scenery, game.resources)
+  , m_universe(game.world.data, game.world.state, game.resources, game.messages, game.random)
   , m_helper(game.root.data, game.root.scenery, game.resources)
   , m_debug(game.world.state.physics.model)
   , m_listener(game.world.script)
@@ -335,12 +331,11 @@ namespace akgr {
         if (def > atk) {
           gf::Log::debug("MISSED!\n");
 
-          VfxDamage damage;
-          damage.receiver = VfxDamageReceiver::Other;
-          damage.message = "0";
-          damage.duration = VfxDamage::Duration;
-          damage.position = computeDamagePosition(hero.physics.location.position, character.physics.location.position);
-          m_game.world.scenery.vfx.damageEmitter.damages.push_back(std::move(damage));
+          DamageGenerationMessage message;
+          message.receiver = DamageReceiver::Other;
+          message.position = computeDamagePosition(hero.physics.location.position, character.physics.location.position);
+          m_game.messages.sendMessage(&message);
+
           continue;
         }
 
@@ -434,12 +429,10 @@ namespace akgr {
             character.weapon.phase = WeaponPhase::CoolDown;
             character.weapon.timer = gf::Time::Zero;
 
-            VfxDamage damage;
-            damage.receiver = VfxDamageReceiver::Hero;
-            damage.message = "0";
-            damage.duration = VfxDamage::Duration;
-            damage.position = computeDamagePosition(character.physics.location.position, hero.physics.location.position);
-            m_game.world.scenery.vfx.damageEmitter.damages.push_back(std::move(damage));
+            DamageGenerationMessage message;
+            message.receiver = DamageReceiver::Hero;
+            message.position = computeDamagePosition(character.physics.location.position, hero.physics.location.position);
+            m_game.messages.sendMessage(&message);
 
             continue;
           }
@@ -449,12 +442,11 @@ namespace akgr {
           gf::Log::debug("--}\n");
           hero.aspects.hp.value -= character.weapon.ref().attack;
 
-          VfxDamage damage;
-          damage.receiver = VfxDamageReceiver::Hero;
-          damage.message = std::to_string(character.weapon.ref().attack.asInt());
-          damage.duration = VfxDamage::Duration;
-          damage.position = computeDamagePosition(character.physics.location.position, hero.physics.location.position);
-          m_game.world.scenery.vfx.damageEmitter.damages.push_back(std::move(damage));
+          DamageGenerationMessage message;
+          message.receiver = DamageReceiver::Hero;
+          message.value = character.weapon.ref().attack;
+          message.position = computeDamagePosition(character.physics.location.position, hero.physics.location.position);
+          m_game.messages.sendMessage(&message);
 
           character.weapon.phase = WeaponPhase::CoolDown;
           character.weapon.timer = gf::Time::Zero;
@@ -470,92 +462,32 @@ namespace akgr {
 
     // shrines
 
-    for (auto& shrine : m_game.world.scenery.vfx.shrineEmitters) {
-      if (!isAspectShrine(shrine.data->type)) {
+    for (auto& shrine : m_game.world.data.landscape.shrines) {
+      if (!isAspectShrine(shrine.type)) {
         continue;
       }
 
-      if (shrine.data->location.floor != floor) {
+      if (shrine.location.floor != floor) {
         continue;
       }
 
-      if (squareDistanceToHero(shrine.data->location.position) > gf::square(ShrineDistance)) {
+      if (squareDistanceToHero(shrine.location.position) > gf::square(ShrineDistance)) {
         continue;
       }
 
-      Aspect aspect = getAspectFromShrine(shrine.data->type);
+      Aspect aspect = getAspectFromShrine(shrine.type);
 
       if (!hero.aspects[aspect].increase(time)) {
         continue;
       }
 
-      shrine.spawnDelay += time;
-
-      while (shrine.spawnDelay > AspectParticleSpawnPeriod) {
-        assert(!shrine.particles.empty());
-        std::size_t index = m_game.random.computeUniformInteger<std::size_t>(0, shrine.particles.size() - 1);
-        auto& spawn = shrine.particles[index];
-
-        VfxAspectParticle particle;
-        particle.position = shrine.data->location.position + spawn.getPosition();
-        particle.color = getAspectColor(aspect);
-        particle.alive = true;
-        m_game.world.scenery.vfx.aspectEmitter.particles.push_back(particle);
-
-        shrine.spawnDelay -= AspectParticleSpawnPeriod;
-      }
+      AspectChangeMessage message;
+      message.shrine = &shrine;
+      message.aspect = aspect;
+      message.time = time;
+      m_game.messages.sendMessage(&message);
     }
 
-
-
-    /*
-     * scenery
-     */
-
-    // vfx
-
-    for (auto& shrine : m_game.world.scenery.vfx.shrineEmitters) {
-      if (shrine.data->location.floor != floor) {
-        continue;
-      }
-
-      for (auto& particle : shrine.particles) {
-        if (particle.clockwise) {
-          particle.theta += particle.velocity * dt;
-        } else {
-          particle.theta -= particle.velocity * dt;
-        }
-      }
-    }
-
-    {
-      auto& particles = m_game.world.scenery.vfx.aspectEmitter.particles;
-
-      for (auto& particle : particles) {
-        gf::Vector2f velocity = hero.physics.location.position - particle.position;
-        float distance = gf::euclideanLength(velocity);
-        particle.position += AspectParticleVelocity * velocity / distance * dt;
-
-        if (distance < AspectParticleFadeoutDistance) {
-          particle.alive = false;
-          continue;
-        }
-      }
-
-      particles.erase(
-          std::remove_if(particles.begin(), particles.end(), [](const auto& particle) { return !particle.alive; }),
-          particles.end()
-      );
-    }
-
-    for (auto& damage : m_game.world.scenery.vfx.damageEmitter.damages) {
-      damage.duration -= time;
-    }
-
-    m_game.world.scenery.vfx.damageEmitter.damages.erase(
-      std::remove_if(m_game.world.scenery.vfx.damageEmitter.damages.begin(), m_game.world.scenery.vfx.damageEmitter.damages.end(), [](const auto& damage) { return damage.duration < gf::Time::zero(); }),
-      m_game.world.scenery.vfx.damageEmitter.damages.end()
-    );
 
     /*
      * root

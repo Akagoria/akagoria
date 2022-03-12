@@ -28,14 +28,13 @@
 #include "ItemRenderer.h"
 #include "MapRenderer.h"
 #include "VfxRenderer.h"
-#include "WorldScenery.h"
 #include "WorldState.h"
 
 namespace akgr {
 
   class UniverseRenderer : public gf::Entity {
   public:
-    UniverseRenderer(const WorldData& data, const WorldState& state, WorldScenery& scenery, gf::ResourceManager& resources);
+    UniverseRenderer(const WorldData& data, const WorldState& state, gf::ResourceManager& resources, gf::MessageManager& messages, gf::Random& random);
 
     void update(gf::Time time) override;
     void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
