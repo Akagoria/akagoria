@@ -1,6 +1,6 @@
 {
 	"settings": {
-		"locked": false,
+		"locked": true,
 		"max_atom_count": 128,
 		"max_wang2_count": 256,
 		"max_wang3_count": 128,

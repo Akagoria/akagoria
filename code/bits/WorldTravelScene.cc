@@ -199,7 +199,7 @@ namespace akgr {
 
     m_game.world.scenery.area.period += time;
 
-    if (m_game.world.scenery.area.current == nullptr || m_game.world.scenery.area.period > AreaUpdatePeriod) {
+    if (!m_game.world.data.areas.empty() && (m_game.world.scenery.area.current == nullptr || m_game.world.scenery.area.period > AreaUpdatePeriod)) {
       m_game.world.scenery.area.period -= AreaUpdatePeriod;
 
       auto distanceToHero = [&hero](const auto& area) {

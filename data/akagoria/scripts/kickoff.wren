@@ -24,17 +24,17 @@ class Kickoff {
   static initialize(W) {
     W.moveHero("Start")
     W.addRequirement("IntroDialogReq")
-    W.addCharacter("Shagir", "Shagir")
-    W.attachDialogToCharacter("ShagirConversation0", "Shagir")
+//     W.addCharacter("Shagir", "Shagir")
+//     W.attachDialogToCharacter("ShagirConversation0", "Shagir")
     // W.postNotification("Welcome")
 
-    W.addCharacter("Ling", "Ling")
-    W.setCharacterMood("Ling", Mood.Angry)
+//     W.addCharacter("Ling", "Ling")
+//     W.setCharacterMood("Ling", Mood.Angry)
 
-    W.addItem("GemRuby", "Ruby #1")
-    W.addItem("GemEmerald", "Emerald #1")
-    W.addItemToInventory("GemEmerald")
-    W.addItemToInventory("GemRuby")
+//     W.addItem("GemRuby", "Ruby #1")
+//     W.addItem("GemEmerald", "Emerald #1")
+//     W.addItemToInventory("GemEmerald")
+//     W.addItemToInventory("GemRuby")
   }
 
 }

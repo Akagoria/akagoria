@@ -20,6 +20,7 @@
 #include "WorldScenery.h"
 
 #include <iostream>
+#include <set>
 
 #include "WorldData.h"
 #include "WorldState.h"
@@ -39,20 +40,29 @@ namespace akgr {
       assert(map.mapSize == textureLayer.tiles.getSize());
       gf::TileLayer layer = gf::TileLayer::createOrthogonal(map.mapSize, map.tileSize);
 
-      const Tileset& tileset = map.tilesets[textureLayer.tilesetId];
-      const gf::Texture& texture = resources.getTexture(tileset.path);
-      // texture.setSmooth(false);
-      // texture.generateMipmap();
-
-      auto id = layer.createTilesetId();
-      auto& ts = layer.getTileset(id);
-      ts.setTileSize(tileset.tileSize);
-      ts.setMargin(tileset.margin);
-      ts.setSpacing(tileset.spacing);
-      ts.setTexture(texture);
+      std::set<std::size_t> seen;
 
       for (auto pos : textureLayer.tiles.getPositionRange()) {
-        layer.setTile(pos, id, textureLayer.tiles(pos));
+        auto cell = textureLayer.tiles(pos);
+
+        if (seen.find(cell.tilesetId) == seen.end()) {
+          const Tileset& tileset = map.tilesets[cell.tilesetId];
+          const gf::Texture& texture = resources.getTexture(tileset.path);
+          // texture.setSmooth(false);
+          // texture.generateMipmap();
+
+          auto id = layer.createTilesetId();
+          assert(id == cell.tilesetId);
+          auto& ts = layer.getTileset(id);
+          ts.setTileSize(tileset.tileSize);
+          ts.setMargin(tileset.margin);
+          ts.setSpacing(tileset.spacing);
+          ts.setTexture(texture);
+
+          seen.insert(cell.tilesetId);
+        }
+
+        layer.setTile(pos, cell.tilesetId, cell.gid, cell.flip);
       }
 
       return layer;

@@ -25,6 +25,8 @@
 #include <vector>
 
 #include <gf/Array2D.h>
+#include <gf/CellTypes.h>
+#include <gf/Flags.h>
 #include <gf/Path.h>
 #include <gf/Rect.h>
 
@@ -34,15 +36,25 @@ namespace akgr {
    * TextureLayer
    */
 
+  struct TextureCell {
+    int16_t gid = -1;
+    uint8_t tilesetId = 0;
+    gf::Flags<gf::Flip> flip = gf::None;
+  };
+
+  template<typename Archive>
+  Archive& operator|(Archive& ar, TextureCell& data) {
+    return ar | data.gid | data.tilesetId | data.flip;
+  }
+
   struct TextureLayer {
     std::string name;
-    uint32_t tilesetId;
-    gf::Array2D<int16_t, int32_t> tiles;
+    gf::Array2D<TextureCell, int32_t> tiles;
   };
 
   template<typename Archive>
   Archive& operator|(Archive& ar, TextureLayer& data) {
-    return ar | data.name | data.tilesetId | data.tiles;
+    return ar | data.name | data.tiles;
   }
 
   /*

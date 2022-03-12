@@ -105,7 +105,7 @@ namespace {
 
   void viewMapTextureLayer(const akgr::TextureLayer& layer) {
     if (!layer.tiles.isEmpty()) {
-      fmt::print("\t\t'{}' {}, tileset #{}\n", layer.name, layer.tiles.getSize(), layer.tilesetId);
+      fmt::print("\t\t'{}' {}\n", layer.name, layer.tiles.getSize());
     }
   }
 

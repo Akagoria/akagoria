@@ -74,6 +74,9 @@ namespace akgr {
       return false;
     }
 
+    auto loadingDataTime = loadingClock.getElapsedTime();
+    gf::Log::info("Data loaded in %d ms\n", loadingDataTime.asMilliseconds());
+
     if (choice == AdventureChoice::Saved) {
       Slot& slot = root.scenery.selector.getSlot();
       assert(slot.active);
@@ -100,8 +103,6 @@ namespace akgr {
     for (auto & atlas : world.data.atlases) {
       resources.getTexture(atlas.path);
     }
-
-    std::this_thread::sleep_for(std::chrono::milliseconds(500)); // TODO: remove this in the future
 
     auto loadingTime = loadingClock.getElapsedTime();
     gf::Log::info("Game loaded in %d ms\n", loadingTime.asMilliseconds());

@@ -9,19 +9,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: akagoria\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-26 22:14+0100\n"
+"POT-Creation-Date: 2022-03-01 19:18+0100\n"
 "PO-Revision-Date: 2018-11-01 12:11+0100\n"
 "Last-Translator: Julien Bernard <julien.bernard@univ-fcomte.fr>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-msgid "Rocky Moutains"
-msgstr "Montagnes Rocheuses"
-
-msgid "Plains of the South"
-msgstr "Plaines du Sud"
 
 msgid ""
 "Ouch! What a terrible headache!\n"
@@ -223,3 +217,9 @@ msgstr "Utiliser"
 
 msgid "The end"
 msgstr "Fin"
+
+#~ msgid "Rocky Moutains"
+#~ msgstr "Montagnes Rocheuses"
+
+#~ msgid "Plains of the South"
+#~ msgstr "Plaines du Sud"

@@ -18,6 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <cassert>
+#include <climits>
 #include <cstdio>
 #include <cstdlib>
 #include <cinttypes>
@@ -323,9 +324,8 @@ namespace {
     void makeTextureLayer(akgr::TextureLayer& textureLayer, const gf::TmxLayers& map, const gf::TmxTileLayer& tileLayer) {
       assert(textureLayer.name.empty());
       textureLayer.name = tileLayer.name;
-      textureLayer.tilesetId = InvalidTilesetId;
 
-      gf::Array2D<int16_t, int32_t> tiles(map.mapSize, -1);
+      gf::Array2D<akgr::TextureCell, int32_t> tiles(map.mapSize, {});
 
       int k = 0;
 
@@ -341,17 +341,13 @@ namespace {
           assert(tileset);
           assert(tileset->image);
 
-          gid = gid - tileset->firstGid;
-          tiles({ i, j }) = static_cast<int16_t>(gid);
-
           auto tilesetId = getTilesetId(tileset->image->source, tileset->tileSize, tileset->spacing, tileset->margin);
+          assert(tilesetId != InvalidTilesetId);
+          assert(tilesetId < UINT8_MAX);
 
-          if (textureLayer.tilesetId == InvalidTilesetId) {
-            assert(tilesetId != InvalidTilesetId);
-            textureLayer.tilesetId = tilesetId;
-          } else {
-            assert(textureLayer.tilesetId == tilesetId);
-          }
+          gid = gid - tileset->firstGid;
+          assert(gid < INT16_MAX);
+          tiles({ i, j }) = { static_cast<int16_t>(gid), static_cast<uint8_t>(tilesetId), cell.flip };
 
 //           gf::Log::debug("debug: %i (%i,%i) [%i]\n", gid, i, j, tileset->firstGid);
 
@@ -372,8 +368,26 @@ namespace {
               assert(coords.size() == 4);
 
               gf::SegmentI segment;
-              segment.p0 = base * map.tileSize + gf::vec(std::stoi(coords[0]), std::stoi(coords[1]));
-              segment.p1 = base * map.tileSize + gf::vec(std::stoi(coords[2]), std::stoi(coords[3]));
+              segment.p0 = gf::vec(std::stoi(coords[0]), std::stoi(coords[1]));
+              segment.p1 = gf::vec(std::stoi(coords[2]), std::stoi(coords[3]));
+
+              if (cell.flip.test(gf::Flip::Diagonally)) {
+                std::swap(segment.p0.x, segment.p0.y);
+                std::swap(segment.p1.x, segment.p1.y);
+              }
+
+              if (cell.flip.test(gf::Flip::Horizontally)) {
+                segment.p0.x = map.tileSize.x - segment.p0.x;
+                segment.p1.x = map.tileSize.x - segment.p1.x;
+              }
+
+              if (cell.flip.test(gf::Flip::Vertically)) {
+                segment.p0.y = map.tileSize.y - segment.p0.y;
+                segment.p1.y = map.tileSize.y - segment.p1.y;
+              }
+
+              segment.p0 += base * map.tileSize;
+              segment.p1 += base * map.tileSize;
 
               fences.push_back(segment);
             }
@@ -383,9 +397,7 @@ namespace {
         k++;
       }
 
-      if (textureLayer.tilesetId != InvalidTilesetId) {
-        textureLayer.tiles = std::move(tiles);
-      }
+      textureLayer.tiles = std::move(tiles);
     }
 
     virtual void visitTileLayer(const gf::TmxLayers& map, const gf::TmxTileLayer& layer) override {
