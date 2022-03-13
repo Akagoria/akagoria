@@ -31,6 +31,7 @@
 #include "Commands.h"
 #include "Opening.h"
 #include "Root.h"
+#include "SlotManager.h"
 #include "World.h"
 
 #include "ui/Theme.h"
@@ -72,6 +73,8 @@ namespace akgr {
     Root root;
     Opening opening;
     World world;
+
+    SlotManager slots;
 
     std::unique_ptr<OpeningAct> openingAct;
     std::unique_ptr<WorldAct> worldAct;

@@ -20,16 +20,10 @@
 #ifndef AKGR_WORLD_SCENERY_H
 #define AKGR_WORLD_SCENERY_H
 
-#include <vector>
-
-#include <gf/Random.h>
-#include <gf/ResourceManager.h>
-
 #include "GameMenuScenery.h"
 #include "InventoryScenery.h"
 
 namespace akgr {
-  struct WorldData;
   struct WorldState;
 
   struct WorldScenery {

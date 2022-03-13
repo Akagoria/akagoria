@@ -24,6 +24,7 @@
 #include <vector>
 
 #include <gf/MessageManager.h>
+#include <gf/Random.h>
 #include <gf/ResourceManager.h>
 #include <gf/Time.h>
 #include <gf/Vector.h>

@@ -69,6 +69,7 @@ add_executable(akagoria
   bits/Root.cc
   bits/RootData.cc
   bits/Script.cc
+  bits/SlotManager.cc
   bits/SlotSelectorRenderer.cc
   bits/SlotSelectorScenery.cc
   bits/StartMenuRenderer.cc

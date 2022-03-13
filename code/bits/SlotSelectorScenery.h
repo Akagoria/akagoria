@@ -20,44 +20,13 @@
 #ifndef AKGR_SLOT_SELECTOR_SCENERY_H
 #define AKGR_SLOT_SELECTOR_SCENERY_H
 
-#include <string>
-#include <filesystem>
-
-#include <gf/Path.h>
-#include <gf/Time.h>
-
+#include "SlotManager.h"
 #include "ui/Scenery.h"
 
 namespace akgr {
 
-  struct SlotMeta {
-    std::string area;
-  };
-
-  template<typename Archive>
-  Archive& operator|(Archive& ar, SlotMeta& meta) {
-    return ar | meta.area;
-  }
-
-  struct Slot {
-    bool active = false;
-    gf::Path path;
-    std::filesystem::file_time_type time;
-    SlotMeta meta;
-
-    void loadFromFile(const gf::Path& path);
-    void save();
-  };
-
   struct SlotSelectorScenery {
-    static constexpr int SlotCount = 5;
-
-    void load();
-    Slot& getSlot();
-
-    Slot games[SlotCount];
-
-    ui::WidgetIndexScenery index = { 0, SlotCount + 1 };
+    ui::WidgetIndexScenery index = { 0, SlotManager::SlotCount + 1 };
 
     static constexpr int Back = 5;
   };

@@ -17,34 +17,44 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_SLOT_SELECTOR_RENDERER_H
-#define AKGR_SLOT_SELECTOR_RENDERER_H
+#ifndef AKGR_SLOT_MANAGER_H
+#define AKGR_SLOT_MANAGER_H
 
-#include <gf/Entity.h>
+#include <string>
+#include <filesystem>
 
-#include "RootData.h"
-#include "RootScenery.h"
-#include "SlotManager.h"
-
-#include "ui/Theme.h"
-#include "ui/Widgets.h"
+#include <gf/Path.h>
 
 namespace akgr {
 
-  class SlotSelectorRenderer : public gf::Entity {
-  public:
-    SlotSelectorRenderer(const RootData& data, const RootScenery& scenery, const SlotManager& slots, ui::Theme& theme);
+  struct SlotMeta {
+    std::string area;
+  };
 
-    virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
+  template<typename Archive>
+  Archive& operator|(Archive& ar, SlotMeta& meta) {
+    return ar | meta.area;
+  }
 
-  private:
-    const RootData& m_data;
-    const RootScenery& m_scenery;
-    const SlotManager& m_slots;
-    ui::Theme& m_theme;
-    ui::FrameWidget m_frame;
+  struct Slot {
+    bool active = false;
+    gf::Path path;
+    std::filesystem::file_time_type time;
+    SlotMeta meta;
+
+    void loadMetaFromFile(const gf::Path& path);
+    void saveMeta();
+  };
+
+  struct SlotManager {
+    static constexpr std::size_t SlotCount = 5;
+
+    Slot data[SlotCount];
+
+    void loadSlotMeta();
   };
 
 }
 
-#endif // AKGR_SLOT_SELECTOR_RENDERER_H
+
+#endif // AKGR_SLOT_MANAGER_H

@@ -29,7 +29,7 @@ namespace akgr {
   WorldSelectorScene::WorldSelectorScene(Akagoria& game)
   : gf::Scene(game.getRenderer().getSize())
   , m_game(game)
-  , m_selector(game.root.data, game.root.scenery, game.theme)
+  , m_selector(game.root.data, game.root.scenery, game.slots, game.theme)
   {
     addHudEntity(m_selector);
 
@@ -63,18 +63,19 @@ namespace akgr {
         gf::Log::info("Game saving...\n");
         gf::Clock savingClock;
 
-        Slot& slot = m_game.root.scenery.selector.getSlot();
+        assert(m_game.root.scenery.selector.index.choice < SlotManager::SlotCount);
+        Slot& slot = m_game.slots.data[m_game.root.scenery.selector.index.choice];
         m_game.world.state.saveToFile(slot.path);
 
         auto area = m_game.world.data.getAreaFromPosition(m_game.world.state.hero.physics.location.position);
 
         slot.meta.area = area ? area->name.tag : "???";
-        slot.save();
+        slot.saveMeta();
 
         auto savingTime = savingClock.getElapsedTime();
         gf::Log::info("Game saved in %d ms\n", savingTime.asMilliseconds());
 
-        m_game.root.scenery.selector.load(); // reload info
+        m_game.slots.loadSlotMeta(); // reload info
         m_game.replaceScene(m_game.worldAct->travel);
       }
     }

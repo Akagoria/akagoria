@@ -29,7 +29,7 @@ namespace akgr {
   OpeningSelectorScene::OpeningSelectorScene(Akagoria& game)
   : gf::Scene(game.getRenderer().getSize())
   , m_game(game)
-  , m_selector(game.root.data, game.root.scenery, game.theme)
+  , m_selector(game.root.data, game.root.scenery, game.slots, game.theme)
   {
     addHudEntity(m_selector);
 
@@ -52,7 +52,7 @@ namespace akgr {
         m_game.root.scenery.selector.index.choice = 0;
         m_game.replaceScene(m_game.openingAct->menu);
       } else {
-        if (m_game.root.scenery.selector.getSlot().active) {
+        if (m_game.slots.data[m_game.root.scenery.selector.index.choice].active) {
           m_game.opening.loading = std::async(std::launch::async, &Akagoria::loadWorld, &m_game, AdventureChoice::Saved);
           m_game.replaceScene(m_game.openingAct->waiting);
         }

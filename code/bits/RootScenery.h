@@ -29,7 +29,6 @@ namespace akgr {
   struct RootScenery {
     RootScenery() {
       options.load();
-      selector.load();
     }
 
     OptionsScenery options;

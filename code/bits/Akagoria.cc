@@ -78,7 +78,8 @@ namespace akgr {
     gf::Log::info("Data loaded in %d ms\n", loadingDataTime.asMilliseconds());
 
     if (choice == AdventureChoice::Saved) {
-      Slot& slot = root.scenery.selector.getSlot();
+      assert(root.scenery.selector.index.choice < SlotManager::SlotCount);
+      Slot& slot = slots.data[root.scenery.selector.index.choice];
       assert(slot.active);
       gf::Log::debug("Loading from slot %i\n", root.scenery.selector.index.choice);
       world.state.loadFromFile(slot.path);
