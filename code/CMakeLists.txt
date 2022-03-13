@@ -54,7 +54,6 @@ add_executable(akagoria
   bits/Menu.cc
   bits/MiniMapRenderer.cc
   bits/NotificationRenderer.cc
-  bits/Opening.cc
   bits/OpeningAct.cc
   bits/OpeningBaseScene.cc
   bits/OpeningMenuScene.cc
