@@ -45,9 +45,7 @@ namespace akgr {
       str += "Slot #" + std::to_string(index + 1) + '\n';
       str += boost::locale::gettext(slot.meta.area.c_str()) + '\n';
 
-      std::time_t time = std::chrono::duration_cast<std::chrono::seconds>(slot.time.time_since_epoch()).count();
-
-//       auto time = std::chrono::system_clock::to_time_t(std::chrono::time_point_cast<std::chrono::system_clock::duration>(slot.time)); // TODO: need std::chrono::time_point_cast?
+      std::time_t time = slot.meta.time;
 
       static constexpr std::size_t TimeInfoSize = 1024;
 
@@ -64,15 +62,15 @@ namespace akgr {
       : ui::TextWidget(parent, getSlotInfo(slot, index))
       , m_slot(slot)
       , m_index(index)
-      , m_last(slot.time)
+      , m_last(slot.meta.time)
       {
         setSize({ 0.30f, ui::Common::DefaultCharacterSize * 1.2 * 3.0f });
       }
 
       virtual void render(gf::RenderTarget& target, const gf::RenderStates& states, ui::Theme& theme) override {
-        if (m_slot.time > m_last) {
+        if (m_slot.meta.time > m_last) {
           setCaption(getSlotInfo(m_slot, m_index));
-          m_last = m_slot.time;
+          m_last = m_slot.meta.time;
         }
 
         TextWidget::render(target, states, theme);
@@ -81,7 +79,7 @@ namespace akgr {
     private:
       const Slot& m_slot;
       std::size_t m_index;
-      std::filesystem::file_time_type m_last;
+      std::time_t m_last;
     };
 
   }
@@ -100,7 +98,7 @@ namespace akgr {
       innerFrame->setPositioning(ui::Positioning::Minimum);
       innerFrame->setMargin({ 0.01f, 0.01f });
 
-      innerFrame->add<SlotWidget>(m_slots.data[i], i);
+      innerFrame->add<SlotWidget>(m_slots.devices[i], i);
     }
 
     auto label = menu->add<ui::LabelWidget>(m_data.getUIMessage("MenuBack"_id));

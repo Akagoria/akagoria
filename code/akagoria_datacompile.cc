@@ -891,33 +891,6 @@ namespace {
     }
   }
 
-  void postProcessCollisions(akgr::PhysicsData& physics, const akgr::Dict<akgr::LocationData>& locations) {
-    auto data = dictFind(locations, "Center of the World"_id);
-
-    if (data == nullptr) {
-      gf::Log::error("No 'Center of the World' found in the map.\n");
-      return;
-    }
-
-    gf::Vector2f cotw = data->location.position;
-
-    for (auto& collision : physics.collisions) {
-      if (collision.line.isChain()) {
-        continue;
-      }
-
-      if (collision.line.contains(cotw)) {
-        if (collision.line.getWinding() == gf::Winding::Clockwise) {
-          collision.line.reverse();
-        }
-      } else {
-        if (collision.line.getWinding() == gf::Winding::Counterclockwise) {
-          collision.line.reverse();
-        }
-      }
-    }
-  }
-
   void generateStrings(const std::vector<std::string>& strings, const gf::Path& filename) {
     std::ofstream out(filename.string());
 
@@ -980,7 +953,6 @@ int main(int argc, char *argv[]) {
   compileJsonWeapons(databaseDirectory / "weapons.json", worldData.weapons, strings);
 
   postProcessAreas(worldData.areas);
-  postProcessCollisions(worldData.physics, worldData.locations);
 
   gf::Path worldOutputFile = outputDirectory / "akagoria.dat";
   worldData.saveToFile(worldOutputFile);

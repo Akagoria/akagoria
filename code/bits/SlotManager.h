@@ -20,26 +20,28 @@
 #ifndef AKGR_SLOT_MANAGER_H
 #define AKGR_SLOT_MANAGER_H
 
+#include <ctime>
 #include <string>
-#include <filesystem>
 
 #include <gf/Path.h>
 
 namespace akgr {
+  struct WorldData;
+  struct WorldState;
 
   struct SlotMeta {
     std::string area;
+    std::time_t time;
   };
 
   template<typename Archive>
   Archive& operator|(Archive& ar, SlotMeta& meta) {
-    return ar | meta.area;
+    return ar | meta.area | meta.time;
   }
 
   struct Slot {
     bool active = false;
     gf::Path path;
-    std::filesystem::file_time_type time;
     SlotMeta meta;
 
     void loadMetaFromFile(const gf::Path& path);
@@ -49,9 +51,14 @@ namespace akgr {
   struct SlotManager {
     static constexpr std::size_t SlotCount = 5;
 
-    Slot data[SlotCount];
+    Slot devices[SlotCount];
 
     void loadSlotMeta();
+
+    void saveInSlot(const WorldData& data, WorldState& state, std::size_t index);
+    void saveInLastSlot(const WorldData& data, WorldState& state) {
+      saveInSlot(data, state, SlotCount - 1);
+    }
   };
 
 }

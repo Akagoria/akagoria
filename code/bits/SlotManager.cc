@@ -19,6 +19,8 @@
  */
 #include "SlotManager.h"
 
+#include <chrono>
+
 #include <gf/Log.h>
 #include <gf/Paths.h>
 #include <gf/Serialization.h>
@@ -26,6 +28,8 @@
 #include <gf/Streams.h>
 
 #include "Version.h"
+#include "WorldData.h"
+#include "WorldState.h"
 
 namespace akgr {
 
@@ -47,8 +51,6 @@ namespace akgr {
     active = std::filesystem::exists(path);
 
     if (active) {
-      time = std::filesystem::last_write_time(path);
-
       gf::Path metaPath = getMetaPath(path);
 
       if (std::filesystem::exists(metaPath)) {
@@ -79,8 +81,21 @@ namespace akgr {
     for (std::size_t i = 0; i < SlotCount; ++i) {
       std::string filename = "slot" + std::to_string(i) + ".dat";
       gf::Path path = saveDirectory / filename;
-      data[i].loadMetaFromFile(path);
+      devices[i].loadMetaFromFile(path);
     }
+  }
+
+  void SlotManager::saveInSlot(const WorldData& data, WorldState& state, std::size_t index) {
+    Slot& slot = devices[index];
+    state.saveToFile(slot.path);
+
+    auto area = data.getAreaFromPosition(state.hero.physics.location.position);
+
+    slot.meta.area = area ? area->name.tag : "???";
+    slot.meta.time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+    slot.saveMeta();
+
+    loadSlotMeta(); // reload info
   }
 
 }

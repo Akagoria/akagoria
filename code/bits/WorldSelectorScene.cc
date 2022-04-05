@@ -64,18 +64,11 @@ namespace akgr {
         gf::Clock savingClock;
 
         assert(m_game.root.scenery.selector.index.choice < SlotManager::SlotCount);
-        Slot& slot = m_game.slots.data[m_game.root.scenery.selector.index.choice];
-        m_game.world.state.saveToFile(slot.path);
-
-        auto area = m_game.world.data.getAreaFromPosition(m_game.world.state.hero.physics.location.position);
-
-        slot.meta.area = area ? area->name.tag : "???";
-        slot.saveMeta();
+        m_game.slots.saveInSlot(m_game.world.data, m_game.world.state, m_game.root.scenery.selector.index.choice);
 
         auto savingTime = savingClock.getElapsedTime();
         gf::Log::info("Game saved in %d ms\n", savingTime.asMilliseconds());
 
-        m_game.slots.loadSlotMeta(); // reload info
         m_game.replaceScene(m_game.worldAct->travel);
       }
     }

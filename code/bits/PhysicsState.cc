@@ -130,7 +130,10 @@ namespace akgr {
     };
 
     for (auto& collision : data.physics.collisions) {
-      createCollisionFixture(collision.location, 0.0f, collision.line);
+      gf::Polyline line = collision.line;
+      createCollisionFixture(collision.location, 0.0f, line);
+      line.reverse();
+      createCollisionFixture(collision.location, 0.0f, line);
     }
 
     for (auto& thing : data.physics.things) {

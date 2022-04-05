@@ -16,7 +16,7 @@ using namespace gf::literals;
 namespace akgr {
 
   namespace {
-    constexpr gf::Vector2i InitialScreenSize(1024, 576);
+    constexpr gf::Vector2i InitialScreenSize(1280, 720);
 
     gf::Vector2i computeScreenSize(OptionsData::Display display) {
       switch (display) {
@@ -54,6 +54,8 @@ namespace akgr {
     } else {
       getWindow().setSize(computeScreenSize(display));
     }
+
+    slots.loadSlotMeta();
   }
 
   Akagoria::~Akagoria() = default; // here because of unique_ptr's of incomplete type
@@ -79,7 +81,7 @@ namespace akgr {
 
     if (choice == AdventureChoice::Saved) {
       assert(root.scenery.selector.index.choice < SlotManager::SlotCount);
-      Slot& slot = slots.data[root.scenery.selector.index.choice];
+      Slot& slot = slots.devices[root.scenery.selector.index.choice];
       assert(slot.active);
       gf::Log::debug("Loading from slot %i\n", root.scenery.selector.index.choice);
       world.state.loadFromFile(slot.path);

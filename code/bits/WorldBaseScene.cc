@@ -146,18 +146,8 @@ namespace akgr {
     }
 
     if (m_game.commands.debugSave.isActive()) {
-      Slot& slot = m_game.slots.data[SlotManager::SlotCount - 1];
-      m_game.world.state.saveToFile(slot.path);
-      slot.active = true;
-
-      auto area = m_game.world.data.getAreaFromPosition(m_game.world.state.hero.physics.location.position);
-
-      slot.meta.area = area ? area->name.tag : "???";
-      slot.saveMeta();
-
+      m_game.slots.saveInLastSlot(m_game.world.data, m_game.world.state);
       gf::Log::debug("Quick save\n");
-
-      m_game.slots.loadSlotMeta();
     }
 
   } // end of doHandleActions
