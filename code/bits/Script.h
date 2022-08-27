@@ -27,7 +27,7 @@
 #include <gf/Path.h>
 #include <gf/ResourceManager.h>
 
-#include <wren.hpp>
+#include <agate.h>
 
 namespace akgr {
   struct Akagoria;
@@ -64,68 +64,68 @@ namespace akgr {
     void handleDeferedMessages();
 
   public:
-    static void notImplemented(WrenVM* vm);
+    static void notImplemented(AgateVM* vm);
 
     /*
      * hero
      */
 
-    static void moveHero(WrenVM* vm);
-    static void moveHeroDown(WrenVM* vm);
-    static void moveHeroUp(WrenVM* vm);
+    static void moveHero(AgateVM* vm);
+    static void moveHeroDown(AgateVM* vm);
+    static void moveHeroUp(AgateVM* vm);
 
 
     /*
      * notifications
      */
 
-    static void postNotification(WrenVM* vm);
+    static void postNotification(AgateVM* vm);
 
     /*
      * requirements
      */
 
-    static void addRequirement(WrenVM* vm);
-    static void removeRequirement(WrenVM* vm);
+    static void addRequirement(AgateVM* vm);
+    static void removeRequirement(AgateVM* vm);
 
     /*
      * items
      */
 
-    static void addItem(WrenVM* vm);
-    static void addItemToInventory(WrenVM* vm);
+    static void addItem(AgateVM* vm);
+    static void addItemToInventory(AgateVM* vm);
 
     /*
      * characters
      */
 
-    static void addCharacter(WrenVM* vm);
-    static void setCharacterMood(WrenVM* vm);
+    static void addCharacter(AgateVM* vm);
+    static void setCharacterMood(AgateVM* vm);
 
     /*
      * dialog
      */
 
-    static void startDialog(WrenVM* vm);
-    static void attachDialogToCharacter(WrenVM* vm);
+    static void startDialog(AgateVM* vm);
+    static void attachDialogToCharacter(AgateVM* vm);
 
   private:
-    static const WorldData& getData(WrenVM* vm);
-    static WorldState& getState(WrenVM* vm);
-    static Akagoria& getGame(WrenVM* vm);
+    static const WorldData& getData(AgateVM* vm);
+    static WorldState& getState(AgateVM* vm);
+    static Akagoria& getGame(AgateVM* vm);
 
-    static CharacterState *getCharacter(WrenVM* vm, gf::Id id);
+    static CharacterState *getCharacter(AgateVM* vm, gf::Id id);
 
   private:
     gf::ResourceManager& m_resources;
     Akagoria& m_game;
 
-    WrenVM *m_vm;
-    WrenHandle *m_classAdventure;
-    WrenHandle *m_methodInitialize;
-    WrenHandle *m_methodStart;
-    WrenHandle *m_methodOnMessage;
-    WrenHandle *m_methodOnDialog;
+    AgateVM *m_vm;
+    AgateHandle *m_classAdventure;
+    AgateHandle *m_methodInitialize;
+    AgateHandle *m_methodStart;
+    AgateHandle *m_methodOnMessage;
+    AgateHandle *m_methodOnDialog;
 
     std::queue<std::string> m_messages;
 

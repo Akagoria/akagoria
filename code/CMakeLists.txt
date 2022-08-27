@@ -1,31 +1,6 @@
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/config.h.in" "${CMAKE_CURRENT_BINARY_DIR}/config.h" @ONLY)
 
 #
-# wren
-#
-
-add_library(wren STATIC
-  vendor/wren/src/vm/wren_compiler.c
-  vendor/wren/src/vm/wren_core.c
-  vendor/wren/src/vm/wren_debug.c
-  vendor/wren/src/vm/wren_primitive.c
-  vendor/wren/src/vm/wren_utils.c
-  vendor/wren/src/vm/wren_value.c
-  vendor/wren/src/vm/wren_vm.c
-)
-
-target_include_directories(wren
-  PUBLIC
-    vendor/wren/src/include
-)
-
-target_compile_definitions(wren
-  PRIVATE
-    WREN_OPT_META=0
-    WREN_OPT_RANDOM=0
-)
-
-#
 # akagoria
 #
 
@@ -99,19 +74,21 @@ add_executable(akagoria
 
   vendor/gf-box2d/gfb2d/PhysicsModel.cc
   vendor/gf-box2d/gfb2d/PhysicsDebugger.cc
+
+  vendor/agate/agate.c
 )
 
 target_include_directories(akagoria
   PRIVATE
     "${CMAKE_CURRENT_BINARY_DIR}"
     "${CMAKE_CURRENT_SOURCE_DIR}/vendor/gf-box2d"
+    "${CMAKE_CURRENT_SOURCE_DIR}/vendor/agate"
 )
 
 target_link_libraries(akagoria
   PRIVATE
     gf::graphics
     Threads::Threads
-    wren
     Boost::boost
     Boost::locale
     box2d::box2d

@@ -39,7 +39,7 @@ using namespace gf::literals;
 namespace akgr {
 
   namespace {
-    constexpr const char *Module = "Adventure";
+    constexpr const char *Unit = "Adventure";
 
     std::string loadFile(const gf::Path& filename) {
       std::ifstream file(filename.string());
@@ -61,61 +61,65 @@ namespace akgr {
       return content;
     }
 
-    WrenLoadModuleResult vmLoadModule(WrenVM* vm, const char* name) {
-      auto script = static_cast<Script *>(wrenGetUserData(vm));
-      WrenLoadModuleResult res;
-      res.source = script->loadModule(name);
-      res.onComplete = nullptr;
-      res.userData = nullptr;
-      return res;
+    const char *vmUnitLoad(const char *name, void *user_data) {
+      auto script = static_cast<Script *>(user_data);
+      return script->loadModule(name);
     }
 
-    WrenForeignMethodFn vmBindForeignMethod([[maybe_unused]] WrenVM* vm, [[maybe_unused]] const char* moduleName, [[maybe_unused]] const char* className, [[maybe_unused]] bool isStatic, const char* signature) {
-      assert(std::strcmp(moduleName, "world") == 0);
-      assert(std::strcmp(className, "World") == 0);
-      assert(isStatic);
+    AgateUnitHandler vmUnitHandler(AgateVM *vm, [[maybe_unused]] const char *name) {
+      AgateUnitHandler handler;
+      handler.load = vmUnitLoad;
+      handler.release = nullptr;
+      handler.user_data = agateGetUserData(vm);
+      return handler;
+    }
+
+    AgateForeignMethodFunc vmForeignMethodHandler([[maybe_unused]] AgateVM *vm, [[maybe_unused]] const char *unit_name, [[maybe_unused]] const char *class_name, [[maybe_unused]] AgateForeignMethodKind kind, const char *signature) {
+      assert(std::strcmp(unit_name, "world") == 0);
+      assert(std::strcmp(class_name, "World") == 0);
+      assert(kind == AGATE_FOREIGN_METHOD_CLASS);
 
       switch (gf::hash(signature)) {
-        case "moveHero(_)"_id:
+        case "move_hero(_)"_id:
           return &Script::moveHero;
-        case "moveHeroDown()"_id:
+        case "move_hero_down()"_id:
           return &Script::moveHeroDown;
-        case "moveHeroUp()"_id:
+        case "move_hero_up()"_id:
           return &Script::moveHeroUp;
-        case "postNotification(_)"_id:
+        case "post_notification(_)"_id:
           return &Script::postNotification;
-        case "addRequirement(_)"_id:
+        case "add_requirement(_)"_id:
           return &Script::addRequirement;
-        case "removeRequirement(_)"_id:
+        case "remove_requirement(_)"_id:
           return &Script::removeRequirement;
-        case "addItem(_,_)"_id:
+        case "add_item(_,_)"_id:
           return &Script::addItem;
-        case "addItemToInventory(_)"_id:
+        case "add_item_to_inventory(_)"_id:
           return &Script::addItemToInventory;
-        case "addCharacter(_,_)"_id:
+        case "add_character(_,_)"_id:
           return &Script::addCharacter;
-        case "setCharacterMood(_,_)"_id:
+        case "set_character_mood(_,_)"_id:
           return &Script::setCharacterMood;
-        case "startDialog(_)"_id:
+        case "start_dialog(_)"_id:
           return &Script::startDialog;
-        case "attachDialogToCharacter(_,_)"_id:
+        case "attach_dialog_to_character(_,_)"_id:
           return &Script::attachDialogToCharacter;
       }
 
       return nullptr;
     }
 
-    void vmWrite([[maybe_unused]] WrenVM* vm, const char* text) {
+    void vmPrint([[maybe_unused]] AgateVM* vm, const char* text) {
       std::printf("%s", text);
     }
 
-    const char *vmErrorToString(WrenErrorType type) {
-      switch (type) {
-        case WREN_ERROR_COMPILE:
+    const char *vmErrorToString(AgateErrorKind kind) {
+      switch (kind) {
+        case AGATE_ERROR_COMPILE:
           return "Compile error";
-        case WREN_ERROR_RUNTIME:
+        case AGATE_ERROR_RUNTIME:
           return "Runtime error";
-        case WREN_ERROR_STACK_TRACE:
+        case AGATE_ERROR_STACKTRACE:
           return "Stack";
       }
 
@@ -123,8 +127,8 @@ namespace akgr {
       return "???";
     }
 
-    void vmError([[maybe_unused]] WrenVM* vm, WrenErrorType type, const char* module, int line, const char* message) {
-      gf::Log::error("%s:%d [%s] %s\n", module, line, vmErrorToString(type), message);
+    void vmError([[maybe_unused]] AgateVM *vm, AgateErrorKind kind, const char *unit_name, int line, const char *message) {
+      gf::Log::error("%s:%d [%s] %s\n", unit_name, line, vmErrorToString(kind), message);
     }
 
     template<typename T>
@@ -153,58 +157,60 @@ namespace akgr {
   Script::~Script() {
     for (auto handle : { m_methodOnDialog, m_methodOnMessage, m_methodStart, m_methodInitialize, m_classAdventure }) {
       if (handle != nullptr) {
-        wrenReleaseHandle(m_vm, handle);
+        agateReleaseHandle(m_vm, handle);
       }
     }
 
     if (m_vm != nullptr) {
-      wrenFreeVM(m_vm);
+      agateDeleteVM(m_vm);
     }
   }
 
   void Script::bind() {
-    gf::Path file = m_resources.getAbsolutePath("scripts/adventure.wren");
+    gf::Path file = m_resources.getAbsolutePath("scripts/adventure.agate");
     std::string script = loadFile(file);
     m_sources.push_back(std::move(script));
 
-    WrenConfiguration configuration;
-    wrenInitConfiguration(&configuration);
+    AgateConfig configuration;
+    agateConfigInitialize(&configuration);
 
-    configuration.loadModuleFn = vmLoadModule;
-    configuration.bindForeignMethodFn = vmBindForeignMethod;
+    configuration.unit_handler = vmUnitHandler;
+    configuration.foreign_method_handler = vmForeignMethodHandler;
 
-    configuration.writeFn = vmWrite;
-    configuration.errorFn = vmError;
+    configuration.print = vmPrint;
+    configuration.error = vmError;
 
-    m_vm = wrenNewVM(&configuration);
+    configuration.user_data = this;
 
-    wrenSetUserData(m_vm, this);
+    m_vm = agateNewVM(&configuration);
 
-    WrenInterpretResult result = wrenInterpret(m_vm, Module, m_sources.back().c_str());
+    AgateStatus status = agateCallString(m_vm, Unit, m_sources.back().c_str());
 
-    if (result != WREN_RESULT_SUCCESS) {
+    if (status != AGATE_STATUS_OK) {
       gf::Log::error("Could not load the main script.\n");
       return;
     }
 
-    wrenEnsureSlots(m_vm, 1);
-    wrenGetVariable(m_vm, Module, "Adventure", 0);
-    m_classAdventure = wrenGetSlotHandle(m_vm, 0);
+    agateStackStart(m_vm);
+    ptrdiff_t adventureSlot = agateSlotAllocate(m_vm);
+    agateGetVariable(m_vm, Unit, "Adventure", adventureSlot);
+    m_classAdventure = agateSlotGetHandle(m_vm, adventureSlot);
+    agateStackFinish(m_vm);
     assert(m_classAdventure);
 
-    m_methodInitialize = wrenMakeCallHandle(m_vm, "initialize()");
+    m_methodInitialize = agateMakeCallHandle(m_vm, "initialize()");
     assert(m_methodInitialize);
-    m_methodStart = wrenMakeCallHandle(m_vm, "start()");
+    m_methodStart = agateMakeCallHandle(m_vm, "start()");
     assert(m_methodStart);
-    m_methodOnMessage = wrenMakeCallHandle(m_vm, "onMessage(_)");
+    m_methodOnMessage = agateMakeCallHandle(m_vm, "on_message(_)");
     assert(m_methodOnMessage);
-    m_methodOnDialog = wrenMakeCallHandle(m_vm, "onDialog(_)");
+    m_methodOnDialog = agateMakeCallHandle(m_vm, "on_dialog(_)");
     assert(m_methodOnDialog);
   }
 
 
   const char *Script::loadModule(gf::Path path) {
-    gf::Path file = m_resources.getAbsolutePath("scripts" / path.replace_extension(".wren"));
+    gf::Path file = m_resources.getAbsolutePath("scripts" / path.replace_extension(".agate"));
     std::string script = loadFile(file);
     m_sources.push_back(std::move(script));
     return m_sources.back().c_str();
@@ -212,44 +218,54 @@ namespace akgr {
 
 
   void Script::initialize() {
-    wrenEnsureSlots(m_vm, 1);
-    wrenSetSlotHandle(m_vm, 0, m_classAdventure);
-    WrenInterpretResult result = wrenCall(m_vm, m_methodInitialize);
+    agateStackStart(m_vm);
+    ptrdiff_t arg0 = agateSlotAllocate(m_vm);
+    agateSlotSetHandle(m_vm, arg0, m_classAdventure);
+    AgateStatus result = agateCallHandle(m_vm, m_methodInitialize);
+    agateStackFinish(m_vm);
 
-    if (result != WREN_RESULT_SUCCESS) {
-      gf::Log::error("Could not execute 'Adventure::initialize()'\n");
+    if (result != AGATE_STATUS_OK) {
+      gf::Log::error("Could not execute 'Adventure.initialize()'\n");
     }
   }
 
   void Script::start() {
-    wrenEnsureSlots(m_vm, 1);
-    wrenSetSlotHandle(m_vm, 0, m_classAdventure);
-    WrenInterpretResult result = wrenCall(m_vm, m_methodStart);
+    agateStackStart(m_vm);
+    ptrdiff_t arg0 = agateSlotAllocate(m_vm);
+    agateSlotSetHandle(m_vm, arg0, m_classAdventure);
+    AgateStatus result = agateCallHandle(m_vm, m_methodStart);
+    agateStackFinish(m_vm);
 
-    if (result != WREN_RESULT_SUCCESS) {
-      gf::Log::error("Could not execute 'Adventure::start()'\n");
+    if (result != AGATE_STATUS_OK) {
+      gf::Log::error("Could not execute 'Adventure.start()'\n");
     }
   }
 
   void Script::onMessage(const std::string& name) {
-    wrenEnsureSlots(m_vm, 2);
-    wrenSetSlotHandle(m_vm, 0, m_classAdventure);
-    wrenSetSlotString(m_vm, 1, name.c_str());
-    WrenInterpretResult result = wrenCall(m_vm, m_methodOnMessage);
+    agateStackStart(m_vm);
+    ptrdiff_t arg0 = agateSlotAllocate(m_vm);
+    agateSlotSetHandle(m_vm, arg0, m_classAdventure);
+    ptrdiff_t arg1 = agateSlotAllocate(m_vm);
+    agateSlotSetString(m_vm, arg1, name.c_str());
+    AgateStatus result = agateCallHandle(m_vm, m_methodOnMessage);
+    agateStackFinish(m_vm);
 
-    if (result != WREN_RESULT_SUCCESS) {
-      gf::Log::error("Could not execute 'Adventure::onMessage(_)'\n");
+    if (result != AGATE_STATUS_OK) {
+      gf::Log::error("Could not execute 'Adventure.on_message(_)'\n");
     }
   }
 
   void Script::onDialog(const std::string& name) {
-    wrenEnsureSlots(m_vm, 2);
-    wrenSetSlotHandle(m_vm, 0, m_classAdventure);
-    wrenSetSlotString(m_vm, 1, name.c_str());
-    WrenInterpretResult result = wrenCall(m_vm, m_methodOnDialog);
+    agateStackStart(m_vm);
+    ptrdiff_t arg0 = agateSlotAllocate(m_vm);
+    agateSlotSetHandle(m_vm, arg0, m_classAdventure);
+    ptrdiff_t arg1 = agateSlotAllocate(m_vm);
+    agateSlotSetString(m_vm, arg1, name.c_str());
+    AgateStatus result = agateCallHandle(m_vm, m_methodOnDialog);
+    agateStackFinish(m_vm);
 
-    if (result != WREN_RESULT_SUCCESS) {
-      gf::Log::error("Could not execute 'Adventure::onDialog(_)'\n");
+    if (result != AGATE_STATUS_OK) {
+      gf::Log::error("Could not execute 'Adventure.on_dialog(_)'\n");
     }
   }
 
@@ -268,13 +284,13 @@ namespace akgr {
    * bindings
    */
 
-  void Script::notImplemented([[maybe_unused]] WrenVM* vm) {
+  void Script::notImplemented([[maybe_unused]] AgateVM* vm) {
     assert(false);
   }
 
-  // moveHero(location)
-  void Script::moveHero(WrenVM* vm) {
-    const char *locationId = wrenGetSlotString(vm, 1);
+  // move_hero(location)
+  void Script::moveHero(AgateVM* vm) {
+    const char *locationId = agateSlotGetString(vm, agateSlotForArg(vm, 1));
 
     DataRef<LocationData> locationRef;
     locationRef.id = gf::hash(locationId);
@@ -284,28 +300,28 @@ namespace akgr {
     getState(vm).hero.physics.location = locationRef.data->location;
     getState(vm).hero.physics.pushLocation();
 
-    wrenSetSlotNull(vm, 0);
+    agateSlotSetNil(vm, agateSlotForReturn(vm));
   }
 
-  // moveHeroDown()
-  void Script::moveHeroDown(WrenVM* vm) {
+  // move_hero_down()
+  void Script::moveHeroDown(AgateVM* vm) {
     getState(vm).hero.physics.location.floor -= 2;
     getState(vm).hero.physics.pushFloor();
 
-    wrenSetSlotNull(vm, 0);
+    agateSlotSetNil(vm, agateSlotForReturn(vm));
   }
 
-  // moveHeroUp()
-  void Script::moveHeroUp(WrenVM* vm) {
+  // move_hero_up()
+  void Script::moveHeroUp(AgateVM* vm) {
     getState(vm).hero.physics.location.floor += 2;
     getState(vm).hero.physics.pushFloor();
 
-    wrenSetSlotNull(vm, 0);
+    agateSlotSetNil(vm, agateSlotForReturn(vm));
   }
 
-  // postNotification(notification)
-  void Script::postNotification(WrenVM* vm) {
-    const char *notificationId = wrenGetSlotString(vm, 1);
+  // post_notification(notification)
+  void Script::postNotification(AgateVM* vm) {
+    const char *notificationId = agateSlotGetString(vm, agateSlotForArg(vm, 1));
 
     NotificationState notification;
     notification.ref.id = gf::hash(notificationId);
@@ -314,29 +330,29 @@ namespace akgr {
 
     getState(vm).notifications.push_back(notification);
 
-    wrenSetSlotNull(vm, 0);
+    agateSlotSetNil(vm, agateSlotForReturn(vm));
   }
 
-  // addRequirement(requirement)
-  void Script::addRequirement(WrenVM* vm) {
-    const char *requirementId = wrenGetSlotString(vm, 1);
+  // add_requirement(requirement)
+  void Script::addRequirement(AgateVM* vm) {
+    const char *requirementId = agateSlotGetString(vm, agateSlotForArg(vm, 1));
     getState(vm).hero.requirements.insert(gf::hash(requirementId));
 
-    wrenSetSlotNull(vm, 0);
+    agateSlotSetNil(vm, agateSlotForReturn(vm));
   }
 
-  // removeRequirement(requirement)
-  void Script::removeRequirement(WrenVM* vm) {
-    const char *requirementId = wrenGetSlotString(vm, 1);
+  // remove_requirement(requirement)
+  void Script::removeRequirement(AgateVM* vm) {
+    const char *requirementId = agateSlotGetString(vm, agateSlotForArg(vm, 1));
     getState(vm).hero.requirements.erase(gf::hash(requirementId));
 
-    wrenSetSlotNull(vm, 0);
+    agateSlotSetNil(vm, agateSlotForReturn(vm));
   }
 
-  // addItem(item, location)
-  void Script::addItem(WrenVM* vm) {
-    const char *itemId = wrenGetSlotString(vm, 1);
-    const char *locationId = wrenGetSlotString(vm, 2);
+  // add_item(item, location)
+  void Script::addItem(AgateVM* vm) {
+    const char *itemId = agateSlotGetString(vm, agateSlotForArg(vm, 1));
+    const char *locationId = agateSlotGetString(vm, agateSlotForArg(vm, 2));
 
     DataRef<LocationData> locationRef;
     locationRef.id = gf::hash(locationId);
@@ -354,12 +370,12 @@ namespace akgr {
 
     getState(vm).items.push_back(std::move(item));
 
-    wrenSetSlotNull(vm, 0);
+    agateSlotSetNil(vm, agateSlotForReturn(vm));
   }
 
-  // addItemToInventory(item)
-  void Script::addItemToInventory(WrenVM* vm) {
-    const char *itemId = wrenGetSlotString(vm, 1);
+  // add_item_to_inventory(item)
+  void Script::addItemToInventory(AgateVM* vm) {
+    const char *itemId = agateSlotGetString(vm, agateSlotForArg(vm, 1));
 
     DataRef<ItemData> ref;
     ref.id = gf::hash(itemId);
@@ -368,13 +384,13 @@ namespace akgr {
 
     getState(vm).hero.inventory.addItem(ref);
 
-    wrenSetSlotNull(vm, 0);
+    agateSlotSetNil(vm, agateSlotForReturn(vm));
   }
 
-  // addCharacter(character, location)
-  void Script::addCharacter(WrenVM* vm) {
-    const char *characterId = wrenGetSlotString(vm, 1);
-    const char *locationId = wrenGetSlotString(vm, 2);
+  // add_character(character, location)
+  void Script::addCharacter(AgateVM* vm) {
+    const char *characterId = agateSlotGetString(vm, agateSlotForArg(vm, 1));
+    const char *locationId = agateSlotGetString(vm, agateSlotForArg(vm, 2));
 
     DataRef<LocationData> locationRef;
     locationRef.id = gf::hash(locationId);
@@ -400,25 +416,25 @@ namespace akgr {
 
     getState(vm).characters.push_back(std::move(character));
 
-    wrenSetSlotNull(vm, 0);
+    agateSlotSetNil(vm, agateSlotForReturn(vm));
   }
 
-  // setCharacterMood(character, mood)
-  void Script::setCharacterMood(WrenVM* vm) {
-    const char *characterId = wrenGetSlotString(vm, 1);
-    int mood = wrenGetSlotDouble(vm, 2);
+  // set_character_mood(character, mood)
+  void Script::setCharacterMood(AgateVM* vm) {
+    const char *characterId = agateSlotGetString(vm, agateSlotForArg(vm, 1));
+    int mood = agateSlotGetInt(vm, agateSlotForArg(vm, 2));
     assert(mood == 0 || mood == 1);
 
     CharacterState *character = getCharacter(vm, gf::hash(characterId));
     assert(character != nullptr);
     character->mood = static_cast<CharacterMood>(mood);
 
-    wrenSetSlotNull(vm, 0);
+    agateSlotSetNil(vm, agateSlotForReturn(vm));
   }
 
-  // startDialog(name)
-  void Script::startDialog(WrenVM* vm) {
-    const char *dialogId = wrenGetSlotString(vm, 1);
+  // start_dialog(name)
+  void Script::startDialog(AgateVM* vm) {
+    const char *dialogId = agateSlotGetString(vm, agateSlotForArg(vm, 1));
 
     auto& dialog = getState(vm).hero.dialog;
     dialog.ref.id = gf::hash(dialogId);
@@ -431,13 +447,13 @@ namespace akgr {
 
     gf::Log::debug("Dialog '%s' started\n", dialogId);
 
-    wrenSetSlotNull(vm, 0);
+    agateSlotSetNil(vm, agateSlotForReturn(vm));
   }
 
-  // attachDialogToCharacter(dialog, name)
-  void Script::attachDialogToCharacter(WrenVM* vm) {
-    const char *dialogId = wrenGetSlotString(vm, 1);
-    const char *characterId = wrenGetSlotString(vm, 2);
+  // attach_dialog_to_character(dialog, name)
+  void Script::attachDialogToCharacter(AgateVM* vm) {
+    const char *dialogId = agateSlotGetString(vm, agateSlotForArg(vm, 1));
+    const char *characterId = agateSlotGetString(vm, agateSlotForArg(vm, 2));
 
     gf::Id id = gf::hash(characterId);
 
@@ -452,7 +468,7 @@ namespace akgr {
       }
     }
 
-    wrenSetSlotNull(vm, 0);
+    agateSlotSetNil(vm, agateSlotForReturn(vm));
   }
 
 
@@ -467,22 +483,22 @@ namespace akgr {
     return m_game.world.state;
   }
 
-  const WorldData& Script::getData(WrenVM* vm) {
-    auto script = static_cast<Script *>(wrenGetUserData(vm));
+  const WorldData& Script::getData(AgateVM* vm) {
+    auto script = static_cast<Script *>(agateGetUserData(vm));
     return script->m_game.world.data;
   }
 
-  WorldState& Script::getState(WrenVM* vm) {
-    auto script = static_cast<Script *>(wrenGetUserData(vm));
+  WorldState& Script::getState(AgateVM* vm) {
+    auto script = static_cast<Script *>(agateGetUserData(vm));
     return script->m_game.world.state;
   }
 
-  Akagoria& Script::getGame(WrenVM* vm) {
-    auto script = static_cast<Script *>(wrenGetUserData(vm));
+  Akagoria& Script::getGame(AgateVM* vm) {
+    auto script = static_cast<Script *>(agateGetUserData(vm));
     return script->m_game;
   }
 
-  CharacterState *Script::getCharacter(WrenVM* vm, gf::Id id) {
+  CharacterState *Script::getCharacter(AgateVM* vm, gf::Id id) {
     auto& state = getState(vm);
 
     for (auto& character : state.characters) {

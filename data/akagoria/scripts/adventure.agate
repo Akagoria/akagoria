@@ -1,0 +1,88 @@
+# Akagoria, the revenge of Kalista
+# a single-player RPG in an open world with a top-down view.
+#
+# Copyright (c) 2013-2018, Julien Bernard
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+import "world" for World
+import "chapter1" for Chapter1
+import "kickoff" for Kickoff
+
+class Adventure {
+
+  #
+  # Interfaces
+  #
+
+  static initialize() {
+    @@messages = { }
+    @@dialogs = { }
+
+    # special messages
+
+    Adventure.add_message_callback("MoveDown") {
+      IO.println("[adventure.wren] Message 'MoveDown' received")
+      World.move_hero_down()
+    }
+
+    Adventure.add_message_callback("MoveUp") {
+      IO.println("[adventure.wren] Message 'MoveUp' received")
+      World.move_hero_up()
+    }
+
+    # chapters initialization
+
+    Chapter1.initialize(Adventure, World)
+  }
+
+  static start() {
+    Kickoff.initialize(World)
+  }
+
+  static on_message(message) {
+    def callback = @@messages[message]
+
+    if (callback) {
+      IO.println("[adventure.wren] Message '%(message)' sent")
+      callback()
+    } else {
+      IO.println("[adventure.wren] No callback for message '%(message)'")
+    }
+  }
+
+  static on_dialog(dialog) {
+    def callback = @@dialogs[dialog]
+
+    if (callback) {
+      IO.println("[adventure.wren] Dialog '%(dialog)' finished")
+      callback()
+    } else {
+      IO.println("[adventure.wren] No callback for dialog '%(dialog)'")
+    }
+  }
+
+  #
+  # Others
+  #
+
+  static add_message_callback(message, fn) {
+    @@messages[message] = fn
+  }
+
+  static add_dialog_callback(dialog, fn) {
+    @@dialogs[dialog] = fn
+  }
+}
