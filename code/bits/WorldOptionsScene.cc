@@ -19,8 +19,6 @@
  */
 #include "WorldOptionsScene.h"
 
-#include <gf/Unused.h>
-
 #include "Akagoria.h"
 #include "WorldAct.h"
 
@@ -40,9 +38,7 @@ namespace akgr {
     addAction(m_game.commands.gameUse);
   }
 
-  void WorldOptionsScene::doHandleActions(gf::Window& window) {
-    gf::unused(window);
-
+  void WorldOptionsScene::doHandleActions([[maybe_unused]] gf::Window& window) {
     m_game.root.scenery.helper.status = HelperStatus::Menu;
 
     if (m_game.commands.menuDown.isActive()) {

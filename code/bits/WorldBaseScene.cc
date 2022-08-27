@@ -118,6 +118,7 @@ namespace akgr {
 
     addAction(m_game.commands.debugPhysics);
     addAction(m_game.commands.debugSave);
+    addAction(m_game.commands.debugWhere);
 
     m_game.world.state.physics.model.world.SetContactListener(&m_listener);
 
@@ -148,6 +149,12 @@ namespace akgr {
     if (m_game.commands.debugSave.isActive()) {
       m_game.slots.saveInLastSlot(m_game.world.data, m_game.world.state);
       gf::Log::debug("Quick save\n");
+    }
+
+    if (m_game.commands.debugWhere.isActive()) {
+      gf::Vector2f position = m_game.world.state.hero.physics.location.position;
+      gf::Vector2i coords = position / m_game.world.data.map.tileSize;
+      gf::Log::debug("Coords: %i,%i\n", coords.x, coords.y);
     }
 
   } // end of doHandleActions

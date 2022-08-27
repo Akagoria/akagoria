@@ -19,8 +19,6 @@
  */
 #include "OpeningMenuScene.h"
 
-#include <gf/Unused.h>
-
 #include "Akagoria.h"
 #include "OpeningAct.h"
 
@@ -38,9 +36,7 @@ namespace akgr {
     addAction(m_game.commands.gameUse);
   }
 
-  void OpeningMenuScene::doHandleActions(gf::Window& window) {
-    gf::unused(window);
-
+  void OpeningMenuScene::doHandleActions([[maybe_unused]]gf::Window& window) {
     if (m_game.commands.menuDown.isActive()) {
       m_game.opening.scenery.menu.index.computeNextChoice();
     } else if (m_game.commands.menuUp.isActive()) {

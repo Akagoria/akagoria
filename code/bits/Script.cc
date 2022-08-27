@@ -28,7 +28,6 @@
 #include <gf/Id.h>
 #include <gf/Log.h>
 #include <gf/Path.h>
-#include <gf/Unused.h>
 
 #include "Akagoria.h"
 #include "WorldAct.h"
@@ -71,9 +70,8 @@ namespace akgr {
       return res;
     }
 
-    WrenForeignMethodFn vmBindForeignMethod(WrenVM* vm, const char* module, const char* className, bool isStatic, const char* signature) {
-      gf::unused(vm, module, className, isStatic);
-      assert(std::strcmp(module, "world") == 0);
+    WrenForeignMethodFn vmBindForeignMethod([[maybe_unused]] WrenVM* vm, [[maybe_unused]] const char* moduleName, [[maybe_unused]] const char* className, [[maybe_unused]] bool isStatic, const char* signature) {
+      assert(std::strcmp(moduleName, "world") == 0);
       assert(std::strcmp(className, "World") == 0);
       assert(isStatic);
 
@@ -107,8 +105,7 @@ namespace akgr {
       return nullptr;
     }
 
-    void vmWrite(WrenVM* vm, const char* text) {
-      gf::unused(vm);
+    void vmWrite([[maybe_unused]] WrenVM* vm, const char* text) {
       std::printf("%s", text);
     }
 
@@ -126,8 +123,7 @@ namespace akgr {
       return "???";
     }
 
-    void vmError(WrenVM* vm, WrenErrorType type, const char* module, int line, const char* message) {
-      gf::unused(vm);
+    void vmError([[maybe_unused]] WrenVM* vm, WrenErrorType type, const char* module, int line, const char* message) {
       gf::Log::error("%s:%d [%s] %s\n", module, line, vmErrorToString(type), message);
     }
 
@@ -272,9 +268,8 @@ namespace akgr {
    * bindings
    */
 
-  void Script::notImplemented(WrenVM* vm) {
+  void Script::notImplemented([[maybe_unused]] WrenVM* vm) {
     assert(false);
-    gf::unused(vm);
   }
 
   // moveHero(location)

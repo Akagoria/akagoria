@@ -34,6 +34,7 @@ namespace akgr {
 
     gf::Action debugPhysics;
     gf::Action debugSave;
+    gf::Action debugWhere;
 
     gf::Action gameUp;
     gf::Action gameDown;

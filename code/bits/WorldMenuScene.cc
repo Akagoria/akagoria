@@ -20,7 +20,6 @@
 #include "WorldMenuScene.h"
 
 #include <gf/Log.h>
-#include <gf/Unused.h>
 
 #include "Akagoria.h"
 #include "WorldAct.h"
@@ -39,9 +38,7 @@ namespace akgr {
     addAction(m_game.commands.gameUse);
   }
 
-  void WorldMenuScene::doHandleActions(gf::Window& window) {
-    gf::unused(window);
-
+  void WorldMenuScene::doHandleActions([[maybe_unused]] gf::Window& window) {
     auto& hero = m_game.world.state.hero;
 
     m_game.root.scenery.helper.status = HelperStatus::Menu;

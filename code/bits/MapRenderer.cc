@@ -43,7 +43,7 @@ namespace akgr {
 
         if (seen.find(cell.tilesetId) == seen.end()) {
           const Tileset& tileset = map.tilesets[cell.tilesetId];
-          const gf::Texture& texture = resources.getTexture(tileset.path);
+          gf::Texture& texture = resources.getTexture(tileset.path);
           // texture.setSmooth(false);
           // texture.generateMipmap();
 

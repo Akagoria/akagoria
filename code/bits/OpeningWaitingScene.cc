@@ -21,8 +21,6 @@
 
 #include <cstdlib>
 
-#include <gf/Unused.h>
-
 #include "Akagoria.h"
 #include "OpeningAct.h"
 
@@ -36,9 +34,7 @@ namespace akgr {
     addHudEntity(m_waiting);
   }
 
-  void OpeningWaitingScene::doUpdate(gf::Time time) {
-    gf::unused(time);
-
+  void OpeningWaitingScene::doUpdate([[maybe_unused]] gf::Time time) {
     if (m_game.opening.loading.valid() && m_game.opening.loading.wait_for(std::chrono::seconds::zero()) == std::future_status::ready) {
 
       if (!m_game.opening.loading.get()) {

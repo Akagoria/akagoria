@@ -1,6 +1,5 @@
 #include "Widget.h"
 
-#include <gf/Unused.h>
 #include <gf/VectorOps.h>
 
 namespace akgr {
@@ -36,8 +35,7 @@ namespace akgr {
       return m_position;
     }
 
-    void Widget::render(gf::RenderTarget& target, const gf::RenderStates& states, Theme& theme) {
-      gf::unused(target, states, theme);
+    void Widget::render([[maybe_unused]] gf::RenderTarget& target, [[maybe_unused]] const gf::RenderStates& states, [[maybe_unused]] Theme& theme) {
     }
 
     void Widget::doLayoutRequest() {

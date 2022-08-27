@@ -20,7 +20,6 @@
 #include "WorldTravelScene.h"
 
 #include <gf/Log.h>
-#include <gf/Unused.h>
 
 #include "Akagoria.h"
 #include "WorldAct.h"
@@ -53,9 +52,7 @@ namespace akgr {
     setClearColor(gf::Color::Black);
   }
 
-  void WorldTravelScene::doHandleActions(gf::Window& window) {
-    gf::unused(window);
-
+  void WorldTravelScene::doHandleActions([[maybe_unused]] gf::Window& window) {
     auto& hero = m_game.world.state.hero;
 
     auto squareDistanceToHero = [&hero](gf::Vector2f other) {

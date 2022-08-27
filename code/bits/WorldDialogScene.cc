@@ -19,8 +19,6 @@
  */
 #include "WorldDialogScene.h"
 
-#include <gf/Unused.h>
-
 #include "Akagoria.h"
 #include "WorldAct.h"
 
@@ -36,9 +34,7 @@ namespace akgr {
     addAction(m_game.commands.gameUse);
   }
 
-  void WorldDialogScene::doHandleActions(gf::Window& window) {
-    gf::unused(window);
-
+  void WorldDialogScene::doHandleActions([[maybe_unused]] gf::Window& window) {
     auto& hero = m_game.world.state.hero;
 
     m_game.root.scenery.helper.status = HelperStatus::Continue;

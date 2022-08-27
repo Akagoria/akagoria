@@ -26,6 +26,7 @@ namespace akgr {
   , windowFullscreen("Fullscreen")
   , debugPhysics("Debug Physics")
   , debugSave("Debug Save")
+  , debugWhere("Debug Where")
   , gameUp("Up")
   , gameDown("Down")
   , gameLeft("Left")
@@ -49,6 +50,8 @@ namespace akgr {
     debugPhysics.addScancodeKeyControl(gf::Scancode::F10);
 
     debugSave.addScancodeKeyControl(gf::Scancode::F11);
+
+    debugWhere.addScancodeKeyControl(gf::Scancode::F9);
 
     gameUp.addScancodeKeyControl(gf::Scancode::W);
     gameUp.addScancodeKeyControl(gf::Scancode::Up);

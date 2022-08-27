@@ -19,8 +19,6 @@
  */
 #include "WorldInventoryScene.h"
 
-#include <gf/Unused.h>
-
 #include "Akagoria.h"
 #include "WorldAct.h"
 
@@ -41,9 +39,7 @@ namespace akgr {
     addAction(m_game.commands.gameUse);
   }
 
-  void WorldInventoryScene::doHandleActions(gf::Window& window) {
-    gf::unused(window);
-
+  void WorldInventoryScene::doHandleActions([[maybe_unused]] gf::Window& window) {
     auto& hero = m_game.world.state.hero;
 
     m_game.root.scenery.helper.status = HelperStatus::Inventory;
