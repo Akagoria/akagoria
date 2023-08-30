@@ -180,7 +180,7 @@ namespace akgr {
     };
 
     // hero (pre-update)
-    static constexpr float Hop = 150.0f;
+    static constexpr float Hop = 200.0f;
     static constexpr float Turn = 3.0f;
 
     if (hero.move.method == HeroMoveMethod::Relative) {

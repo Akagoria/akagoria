@@ -290,7 +290,7 @@ namespace akgr {
 
   // move_hero(location)
   void Script::moveHero(AgateVM* vm) {
-    const char *locationId = agateSlotGetString(vm, agateSlotForArg(vm, 1));
+    const char *locationId = agateSlotGetString(vm, 1);
 
     DataRef<LocationData> locationRef;
     locationRef.id = gf::hash(locationId);
@@ -300,7 +300,7 @@ namespace akgr {
     getState(vm).hero.physics.location = locationRef.data->location;
     getState(vm).hero.physics.pushLocation();
 
-    agateSlotSetNil(vm, agateSlotForReturn(vm));
+    agateSlotSetNil(vm, AGATE_RETURN_SLOT);
   }
 
   // move_hero_down()
@@ -308,7 +308,7 @@ namespace akgr {
     getState(vm).hero.physics.location.floor -= 2;
     getState(vm).hero.physics.pushFloor();
 
-    agateSlotSetNil(vm, agateSlotForReturn(vm));
+    agateSlotSetNil(vm, AGATE_RETURN_SLOT);
   }
 
   // move_hero_up()
@@ -316,12 +316,12 @@ namespace akgr {
     getState(vm).hero.physics.location.floor += 2;
     getState(vm).hero.physics.pushFloor();
 
-    agateSlotSetNil(vm, agateSlotForReturn(vm));
+    agateSlotSetNil(vm, AGATE_RETURN_SLOT);
   }
 
   // post_notification(notification)
   void Script::postNotification(AgateVM* vm) {
-    const char *notificationId = agateSlotGetString(vm, agateSlotForArg(vm, 1));
+    const char *notificationId = agateSlotGetString(vm, 1);
 
     NotificationState notification;
     notification.ref.id = gf::hash(notificationId);
@@ -330,29 +330,29 @@ namespace akgr {
 
     getState(vm).notifications.push_back(notification);
 
-    agateSlotSetNil(vm, agateSlotForReturn(vm));
+    agateSlotSetNil(vm, AGATE_RETURN_SLOT);
   }
 
   // add_requirement(requirement)
   void Script::addRequirement(AgateVM* vm) {
-    const char *requirementId = agateSlotGetString(vm, agateSlotForArg(vm, 1));
+    const char *requirementId = agateSlotGetString(vm, 1);
     getState(vm).hero.requirements.insert(gf::hash(requirementId));
 
-    agateSlotSetNil(vm, agateSlotForReturn(vm));
+    agateSlotSetNil(vm, AGATE_RETURN_SLOT);
   }
 
   // remove_requirement(requirement)
   void Script::removeRequirement(AgateVM* vm) {
-    const char *requirementId = agateSlotGetString(vm, agateSlotForArg(vm, 1));
+    const char *requirementId = agateSlotGetString(vm, 1);
     getState(vm).hero.requirements.erase(gf::hash(requirementId));
 
-    agateSlotSetNil(vm, agateSlotForReturn(vm));
+    agateSlotSetNil(vm, AGATE_RETURN_SLOT);
   }
 
   // add_item(item, location)
   void Script::addItem(AgateVM* vm) {
-    const char *itemId = agateSlotGetString(vm, agateSlotForArg(vm, 1));
-    const char *locationId = agateSlotGetString(vm, agateSlotForArg(vm, 2));
+    const char *itemId = agateSlotGetString(vm, 1);
+    const char *locationId = agateSlotGetString(vm, 2);
 
     DataRef<LocationData> locationRef;
     locationRef.id = gf::hash(locationId);
@@ -370,12 +370,12 @@ namespace akgr {
 
     getState(vm).items.push_back(std::move(item));
 
-    agateSlotSetNil(vm, agateSlotForReturn(vm));
+    agateSlotSetNil(vm, AGATE_RETURN_SLOT);
   }
 
   // add_item_to_inventory(item)
   void Script::addItemToInventory(AgateVM* vm) {
-    const char *itemId = agateSlotGetString(vm, agateSlotForArg(vm, 1));
+    const char *itemId = agateSlotGetString(vm, 1);
 
     DataRef<ItemData> ref;
     ref.id = gf::hash(itemId);
@@ -384,13 +384,13 @@ namespace akgr {
 
     getState(vm).hero.inventory.addItem(ref);
 
-    agateSlotSetNil(vm, agateSlotForReturn(vm));
+    agateSlotSetNil(vm, AGATE_RETURN_SLOT);
   }
 
   // add_character(character, location)
   void Script::addCharacter(AgateVM* vm) {
-    const char *characterId = agateSlotGetString(vm, agateSlotForArg(vm, 1));
-    const char *locationId = agateSlotGetString(vm, agateSlotForArg(vm, 2));
+    const char *characterId = agateSlotGetString(vm, 1);
+    const char *locationId = agateSlotGetString(vm, 2);
 
     DataRef<LocationData> locationRef;
     locationRef.id = gf::hash(locationId);
@@ -416,25 +416,25 @@ namespace akgr {
 
     getState(vm).characters.push_back(std::move(character));
 
-    agateSlotSetNil(vm, agateSlotForReturn(vm));
+    agateSlotSetNil(vm, AGATE_RETURN_SLOT);
   }
 
   // set_character_mood(character, mood)
   void Script::setCharacterMood(AgateVM* vm) {
-    const char *characterId = agateSlotGetString(vm, agateSlotForArg(vm, 1));
-    int mood = agateSlotGetInt(vm, agateSlotForArg(vm, 2));
+    const char *characterId = agateSlotGetString(vm, 1);
+    int mood = agateSlotGetInt(vm, 2);
     assert(mood == 0 || mood == 1);
 
     CharacterState *character = getCharacter(vm, gf::hash(characterId));
     assert(character != nullptr);
     character->mood = static_cast<CharacterMood>(mood);
 
-    agateSlotSetNil(vm, agateSlotForReturn(vm));
+    agateSlotSetNil(vm, AGATE_RETURN_SLOT);
   }
 
   // start_dialog(name)
   void Script::startDialog(AgateVM* vm) {
-    const char *dialogId = agateSlotGetString(vm, agateSlotForArg(vm, 1));
+    const char *dialogId = agateSlotGetString(vm, 1);
 
     auto& dialog = getState(vm).hero.dialog;
     dialog.ref.id = gf::hash(dialogId);
@@ -447,13 +447,13 @@ namespace akgr {
 
     gf::Log::debug("Dialog '%s' started\n", dialogId);
 
-    agateSlotSetNil(vm, agateSlotForReturn(vm));
+    agateSlotSetNil(vm, AGATE_RETURN_SLOT);
   }
 
   // attach_dialog_to_character(dialog, name)
   void Script::attachDialogToCharacter(AgateVM* vm) {
-    const char *dialogId = agateSlotGetString(vm, agateSlotForArg(vm, 1));
-    const char *characterId = agateSlotGetString(vm, agateSlotForArg(vm, 2));
+    const char *dialogId = agateSlotGetString(vm, 1);
+    const char *characterId = agateSlotGetString(vm, 2);
 
     gf::Id id = gf::hash(characterId);
 
@@ -468,7 +468,7 @@ namespace akgr {
       }
     }
 
-    agateSlotSetNil(vm, agateSlotForReturn(vm));
+    agateSlotSetNil(vm, AGATE_RETURN_SLOT);
   }
 
 

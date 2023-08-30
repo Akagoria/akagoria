@@ -22,43 +22,43 @@ class World {
   # hero
   #
 
-  foreign static move_hero(location)
-  foreign static move_hero_down()
-  foreign static move_hero_up()
+  static move_hero(location) foreign
+  static move_hero_down() foreign
+  static move_hero_up() foreign
 
 
   #
   # notifications
   #
 
-  foreign static post_notification(notification)
+  static post_notification(notification) foreign
 
   #
   # requirements
   #
 
-  foreign static add_requirement(requirement)
-  foreign static remove_requirement(requirement)
+  static add_requirement(requirement) foreign
+  static remove_requirement(requirement) foreign
 
   #
   # items
   #
 
-  foreign static add_item(item, location)
-  foreign static add_item_to_inventory(item)
+  static add_item(item, location) foreign
+  static add_item_to_inventory(item) foreign
 
   #
   # characters
   #
 
-  foreign static add_character(character, location)
-  foreign static set_character_mood(character, mood)
+  static add_character(character, location) foreign
+  static set_character_mood(character, mood) foreign
 
   #
   # dialogs
   #
 
-  foreign static start_dialog(dialog)
-  foreign static attach_dialog_to_character(dialog, character)
+  static start_dialog(dialog) foreign
+  static attach_dialog_to_character(dialog, character) foreign
 
 }

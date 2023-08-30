@@ -99,6 +99,7 @@ namespace akgr {
     sprite.setAnimation(*m_currentAnimation);
     sprite.setPosition(m_state.hero.physics.location.position);
     sprite.setRotation(m_state.hero.physics.angle);
+    sprite.setScale(0.5f);
     sprite.setAnchor(gf::Anchor::Center);
     target.draw(sprite, states);
   }

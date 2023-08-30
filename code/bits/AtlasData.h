@@ -21,6 +21,7 @@
 #define AKGR_ATLAS_DATA_H
 
 #include <string>
+#include <vector>
 
 #include <gf/Path.h>
 #include <gf/Vector.h>

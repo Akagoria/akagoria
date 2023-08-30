@@ -24,11 +24,11 @@ class Chapter1 {
       W.start_dialog("Intro")
     }
 
-    A.add_message_callback("Intro") {
+    A.add_dialog_callback("Intro") {
       W.remove_requirement("IntroDialogReq")
     }
 
-    A.add_message_callback("ShagirConversation0") {
+    A.add_dialog_callback("ShagirConversation0") {
       W.attach_dialog_to_character("ShagirConversation1", "Shagir")
     }
 
